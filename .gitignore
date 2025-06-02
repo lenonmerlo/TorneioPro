@@ -1,0 +1,47 @@
+# Node.js
+node_modules/
+dist/
+.env
+.env.local
+.env.development
+.env.production
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Vite
+.vite/
+
+# Editor config
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build outputs
+*.local
+*.log
+*.cache
+
+# Others
+*.zip
+*.tgz
+*.bak
+*.tmp
+
+# Coverage
+coverage/
+
+# Optional: export folders or reports
+/export/
+out/
+
+# Keep public assets
+!public/assets/

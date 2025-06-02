@@ -1,0 +1,33 @@
+// src/data/atletas.js
+
+export const atletas = [
+  { nome: "João", genero: "M", nivel: "iniciante" },
+  { nome: "Maria", genero: "F", nivel: "intermediario" },
+  { nome: "Carlos", genero: "M", nivel: "intermediario" },
+  { nome: "Ana", genero: "F", nivel: "iniciante" },
+  { nome: "Bruno", genero: "M", nivel: "iniciante" },
+  { nome: "Juliana", genero: "F", nivel: "intermediario" },
+  { nome: "Pedro", genero: "M", nivel: "intermediario" },
+  { nome: "Amanda", genero: "F", nivel: "iniciante" },
+  { nome: "João", genero: "M", nivel: "iniciante" },
+  { nome: "Maria", genero: "F", nivel: "intermediario" },
+  { nome: "Carlos", genero: "M", nivel: "intermediario" },
+  { nome: "Ana", genero: "F", nivel: "iniciante" },
+  { nome: "Bruno", genero: "M", nivel: "iniciante" },
+  { nome: "Juliana", genero: "F", nivel: "intermediario" },
+  { nome: "Pedro", genero: "M", nivel: "intermediario" },
+  { nome: "João", genero: "M", nivel: "iniciante" },
+  { nome: "Maria", genero: "F", nivel: "intermediario" },
+  { nome: "Carlos", genero: "M", nivel: "intermediario" },
+  { nome: "Ana", genero: "F", nivel: "iniciante" },
+  { nome: "Bruno", genero: "M", nivel: "iniciante" },
+  { nome: "Juliana", genero: "F", nivel: "intermediario" },
+  { nome: "Pedro", genero: "M", nivel: "intermediario" },
+  { nome: "João", genero: "M", nivel: "iniciante" },
+  { nome: "Maria", genero: "F", nivel: "intermediario" },
+  { nome: "Carlos", genero: "M", nivel: "intermediario" },
+  { nome: "Ana", genero: "F", nivel: "iniciante" },
+  { nome: "Bruno", genero: "M", nivel: "iniciante" },
+  { nome: "Juliana", genero: "F", nivel: "intermediario" },
+  { nome: "Pedro", genero: "M", nivel: "intermediario" }
+];
