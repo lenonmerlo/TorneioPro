@@ -1,4 +1,3 @@
-import AdminToggle from '@/components/AdminToggle';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Home from '@/pages/Home';
@@ -7,6 +6,10 @@ import InscricaoTorneioAmador from '@/pages/InscricaoTorneioAmador';
 import Participar from '@/pages/Participar';
 import TorneioAmador from '@/pages/TorneioAmador';
 import TorneioOficial from '@/pages/TorneioOficial';
+import LoginAluno from '@/pages/login/LoginAluno';
+import CadastroAluno from '@/pages/login/CadastroAluno';
+import LoginProfessor from '@/pages/login/LoginProfessor';
+import CadastroProfessor from '@/pages/login/CadastroProfessor';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 function App() {
@@ -17,6 +20,10 @@ function App() {
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/login-aluno" element={<LoginAluno />} />
+            <Route path="/cadastro-aluno" element={<CadastroAluno />} />
+            <Route path="/login-professor" element={<LoginProfessor />} />
+            <Route path="/cadastro-professor" element={<CadastroProfessor />} />
             <Route path="/participar" element={<Participar />} />
             <Route path="/inscricao" element={<InscricaoTorneioAmador />} />
             <Route path="/sorteio" element={<TorneioAmador />} />
@@ -25,7 +32,6 @@ function App() {
           </Routes>
         </main>
         <Footer />
-        <AdminToggle />
       </div>
     </Router>
   );
