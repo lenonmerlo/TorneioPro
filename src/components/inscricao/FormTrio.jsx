@@ -1,4 +1,4 @@
-// src/components/inscricao/FormTrio.jsx
+import React from "react";
 import { useState } from "react";
 
 const FormTrio = () => {
@@ -11,6 +11,8 @@ const FormTrio = () => {
     atleta3: "",
     generoAtleta3: "",
   });
+
+  const [mensagemSucesso, setMensagemSucesso] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -50,16 +52,38 @@ const FormTrio = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Dados do Trio:", formData);
-    alert("Inscrição enviada com sucesso!");
+
+    const inscricoes = JSON.parse(localStorage.getItem("inscricoesTrio")) || [];
+    localStorage.setItem("inscricoesTrio", JSON.stringify([...inscricoes, formData]));
+
+    setMensagemSucesso("✅ Inscrição enviada com sucesso!");
+    setTimeout(() => setMensagemSucesso(""), 5000);
+
+    setFormData({
+      nomeEquipe: "",
+      atleta1: "",
+      generoAtleta1: "",
+      atleta2: "",
+      generoAtleta2: "",
+      atleta3: "",
+      generoAtleta3: "",
+    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
     <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-xl p-6 space-y-4 w-full max-w-xl mx-auto">
       <h2 className="text-2xl font-semibold text-center text-blue-600">Inscrição - Trio</h2>
 
+      {mensagemSucesso && (
+        <div className="text-green-700 bg-green-100 border border-green-300 px-4 py-3 rounded-lg text-center font-medium shadow">
+          {mensagemSucesso}
+        </div>
+      )}
+
       <div>
-        <label htmlFor="nomeEquipe" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="nomeEquipe" className="block text-sm font-medium text-gray-700 mb-1">
           Nome da Equipe (opcional)
         </label>
         <input
@@ -69,34 +93,36 @@ const FormTrio = () => {
           placeholder="Ex: Areia Brava"
           value={formData.nomeEquipe}
           onChange={handleChange}
-          className="mt-1 block w-full rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300 shadow-sm"
+          className="block w-full h-10 px-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300 shadow-sm"
         />
       </div>
 
       {[1, 2, 3].map((num) => (
-        <div key={num}>
-          <label htmlFor={`atleta${num}`} className="block text-sm font-medium text-gray-700">
-            Nome do(a) Atleta {num}
-          </label>
-          <input
-            type="text"
-            id={`atleta${num}`}
-            name={`atleta${num}`}
-            placeholder="Digite o nome completo"
-            value={formData[`atleta${num}`]}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300 shadow-sm"
-          />
+        <div key={num} className="space-y-2 mb-4">
+          <div>
+            <label htmlFor={`atleta${num}`} className="block text-sm font-medium text-gray-700 mb-1">
+              Nome do(a) Atleta {num}
+            </label>
+            <input
+              type="text"
+              id={`atleta${num}`}
+              name={`atleta${num}`}
+              placeholder="Digite o nome completo"
+              value={formData[`atleta${num}`]}
+              onChange={handleChange}
+              required
+              className="block w-full h-10 px-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300 shadow-sm"
+            />
+          </div>
 
-          <label className="block text-sm font-medium text-gray-700 mt-2">Gênero do(a) Atleta {num}</label>
+          <label className="block text-sm font-medium text-gray-700">Gênero do(a) Atleta {num}</label>
           {renderGeneroButtons(`generoAtleta${num}`, formData[`generoAtleta${num}`])}
         </div>
       ))}
 
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
+        className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200 font-semibold"
       >
         Enviar Inscrição
       </button>

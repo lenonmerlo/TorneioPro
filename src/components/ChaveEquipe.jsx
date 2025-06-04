@@ -1,3 +1,5 @@
+import React from "react";
+
 function ChaveEquipe({ chave, grupos }) {
   return (
     <div className="border border-yellow-500 rounded-xl p-4 bg-white/80 shadow">

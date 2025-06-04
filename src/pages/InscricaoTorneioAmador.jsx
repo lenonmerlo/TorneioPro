@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import Footer from '../components/Footer';
 
-function InscricaoJogador() {
+function InscricaoTorneioAmador() {
   const [nome, setNome] = useState('');
   const [genero, setGenero] = useState('');
   const [nivel, setNivel] = useState('');
@@ -86,4 +85,4 @@ function InscricaoJogador() {
   );
 }
 
-export default InscricaoJogador;
+export default InscricaoTorneioAmador;

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Header() {
@@ -27,12 +28,12 @@ function Header() {
             <>
               <li>
                 <Link to="/inscricao" className="hover:text-yellow-400 transition duration-200">
-                  Inscrição
+                  Inscrição Amador
                 </Link>
               </li>
               <li>
                 <Link to="/sorteio" className="hover:text-yellow-400 transition duration-200">
-                  Sorteio
+                  Torneio Amador
                 </Link>
               </li>
               <li>

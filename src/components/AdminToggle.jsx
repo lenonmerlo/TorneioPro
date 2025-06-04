@@ -1,4 +1,5 @@
 // src/components/AdminToggle.jsx
+import React from "react";
 import { useState, useEffect } from "react";
 
 const AdminToggle = () => {

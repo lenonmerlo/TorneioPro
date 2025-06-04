@@ -1,6 +1,7 @@
 // src/pages/Home.jsx
 import { Link } from 'react-router-dom';
 import LogoEVPC from '/assets/logo-evpc.png';
+import React from 'react';
 
 const Home = () => {
   return (

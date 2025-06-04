@@ -1,3 +1,5 @@
+// src/utils/sortearQuartetoMisto.js
+
 export function sortearQuartetoMisto(atletas, { flexivel = false } = {}) {
   const homensIniciantes = [];
   const homensIntermediarios = [];
@@ -56,7 +58,7 @@ export function sortearQuartetoMisto(atletas, { flexivel = false } = {}) {
   }
 
   // 🔄 Alocar reservas nos times
-  const reservas = {}; // { "q0": [], "f2": [] }
+  const reservas = {};
   const todosTimes = [...quartetos, ...flexibilizados];
   const aindaSobrando = [];
 
@@ -69,12 +71,11 @@ export function sortearQuartetoMisto(atletas, { flexivel = false } = {}) {
       const id = idx < quartetos.length ? `q${idx}` : `f${idx - quartetos.length}`;
       const reservasDoTime = reservas[id] || [];
 
-      // Perfil do time base
       const countIniciantes = time.filter((a) => a.nivel === 'iniciante').length;
       const countIntermediarios = time.length - countIniciantes;
 
       const alvo = reserva.nivel === 'iniciante' ? countIntermediarios : countIniciantes;
-      const diff = Math.abs(alvo - 2); // ideal seria 2x2
+      const diff = Math.abs(alvo - 2);
 
       if (
         diff < melhorDiferenca ||

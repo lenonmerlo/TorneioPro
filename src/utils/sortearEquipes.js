@@ -1,4 +1,4 @@
-// src/utils/sorteio.js
+// src/utils/sortearEquipes.js
 
 export function sortearEquipes(atletas) {
   const embaralhar = (arr) => [...arr].sort(() => Math.random() - 0.5);
