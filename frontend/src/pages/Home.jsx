@@ -20,7 +20,7 @@ const Home = () => {
           </Link>
           <Link
             to="/login-professor"
-            className="bg-purple-700 text-white py-3 rounded-xl font-semibold hover:bg-purple-800"
+            className="bg-blue-700 text-white py-3 rounded-xl font-semibold hover:bg-blue-800"
           >
             🧑‍🏫 Sou Treinador
           </Link>
