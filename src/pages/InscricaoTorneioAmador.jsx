@@ -19,6 +19,7 @@ function InscricaoTorneioAmador() {
       nome,
       genero,
       nivel,
+      email: localStorage.getItem('emailUsuario'),
     };
 
     const atletasSalvos = JSON.parse(localStorage.getItem('atletas')) || [];

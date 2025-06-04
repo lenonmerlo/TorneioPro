@@ -14,8 +14,9 @@ function LoginAluno() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // TODO: fazer login real com API
-    navigate('/participar');
+    localStorage.setItem('tipoUsuario', 'atleta');
+    localStorage.setItem('emailUsuario', form.email)
+    window.location.href = '/participar'; // ← força recarregamento com Header atualizado
   };
 
   return (

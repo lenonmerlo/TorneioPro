@@ -13,8 +13,11 @@ function LoginProfessor() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // TODO: fazer login real com API
-    navigate('/dashboard'); // ou qualquer rota protegida que você criar
+
+    // Simula login bem-sucedido
+    localStorage.setItem('tipoUsuario', 'treinador'); // ✅ define tipo de usuário no localStorage
+
+    navigate('/'); // ou /dashboard se quiser uma rota exclusiva do treinador
   };
 
   return (

@@ -9,6 +9,10 @@ function TorneioAmador() {
   const [usarFlexivel, setUsarFlexivel] = useState(false);
   const [chaves, setChaves] = useState(null);
   const [atletas, setAtletas] = useState([]);
+  const [mostrarAtletas, setMostrarAtletas] = useState(false);
+
+  const tipoUsuario = localStorage.getItem('tipoUsuario');
+  const emailUsuario = localStorage.getItem('emailUsuario');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +21,7 @@ function TorneioAmador() {
 
     if (dados.length < 4) {
       alert('Cadastre pelo menos 4 atletas para realizar o sorteio.');
-      navigate('/inscricao-amador');
+      navigate('/participar');
     }
   }, [navigate]);
 
@@ -45,60 +49,103 @@ function TorneioAmador() {
     setChaves(chavesSorteadas);
   };
 
+  const handleCancelarParticipacao = () => {
+    if (!emailUsuario) {
+      alert('Usuário não identificado.');
+      return;
+    }
+
+    const atualizados = atletas.filter((a) => a.email !== emailUsuario);
+
+    localStorage.setItem('atletas', JSON.stringify(atualizados));
+    setAtletas(atualizados);
+    setResultado(null);
+    setChaves(null);
+    alert('Sua participação foi cancelada com sucesso.');
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-grow p-4 md:p-8 bg-white/70 backdrop-blur-sm mx-4 my-6 rounded-xl shadow-lg">
         <h1 className="text-3xl font-bold text-blue-800 text-center mb-6">Torneio Amador – Sorteio de Equipes</h1>
 
         <div className="flex flex-col md:flex-row flex-wrap justify-center items-center gap-4 mb-6">
-          <button
-            onClick={handleSortear}
-            className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-semibold py-2 px-6 rounded-xl shadow"
-          >
-            Sortear Equipes
-          </button>
+          {tipoUsuario === 'treinador' && (
+            <>
+              <button
+                onClick={handleSortear}
+                className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-semibold py-2 px-6 rounded-xl shadow"
+              >
+                Sortear Equipes
+              </button>
 
-          <label className="flex items-center gap-2 text-blue-900 font-medium">
-            <input
-              type="checkbox"
-              checked={usarFlexivel}
-              onChange={(e) => setUsarFlexivel(e.target.checked)}
-              className="w-4 h-4"
-            />
-            Flexibilizar sorteio
-          </label>
+              <label className="flex items-center gap-2 text-blue-900 font-medium">
+                <input
+                  type="checkbox"
+                  checked={usarFlexivel}
+                  onChange={(e) => setUsarFlexivel(e.target.checked)}
+                  className="w-4 h-4"
+                />
+                Flexibilizar sorteio
+              </label>
 
-          {resultado && (
-            <button
-              onClick={handleSortearChaves}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-xl shadow"
-            >
-              Sortear Chaves
-            </button>
+              {resultado && (
+                <button
+                  onClick={handleSortearChaves}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-xl shadow"
+                >
+                  Sortear Chaves
+                </button>
+              )}
+            </>
           )}
 
           <button
-            onClick={() => alert(JSON.stringify(atletas, null, 2))}
+            onClick={() => setMostrarAtletas((prev) => !prev)}
             className="text-sm text-blue-700 underline"
           >
-            Visualizar atletas inscritos
+            {mostrarAtletas ? 'Ocultar atletas inscritos' : 'Visualizar atletas inscritos'}
           </button>
 
-          <button
-            onClick={() => {
-              if (confirm('Deseja realmente limpar os atletas cadastrados?')) {
-                localStorage.removeItem('atletas');
-                window.location.reload();
-              }
-            }}
-            className="text-sm text-red-600 underline"
-          >
-            Limpar atletas
-          </button>
+          {tipoUsuario === 'treinador' && (
+            <button
+              onClick={() => {
+                if (confirm('Deseja realmente limpar os atletas cadastrados?')) {
+                  localStorage.removeItem('atletas');
+                  window.location.reload();
+                }
+              }}
+              className="text-sm text-red-600 underline"
+            >
+              Limpar atletas
+            </button>
+          )}
+
+          {tipoUsuario === 'atleta' && (
+            <button
+              onClick={handleCancelarParticipacao}
+              className="text-sm text-red-700 underline"
+            >
+              Cancelar minha participação
+            </button>
+          )}
         </div>
 
+        {mostrarAtletas && (
+          <div className="mt-6 bg-white rounded-xl shadow p-4 border text-blue-900 max-w-3xl mx-auto">
+            <h2 className="text-lg font-bold mb-2">Atletas Inscritos</h2>
+            <ul className="list-disc list-inside space-y-1">
+              {atletas.map((a) => (
+                <li key={a.id}>
+                  {a.nome} ({a.genero}, {a.nivel})
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         {resultado && (
-          <div className="space-y-8">
+          <div className="space-y-8 mt-8">
             <section>
               <h2 className="text-xl font-bold text-green-700 mb-2">Quartetos Perfeitos</h2>
               {resultado.quartetos.length === 0 ? (
@@ -178,7 +225,7 @@ function TorneioAmador() {
           </div>
         )}
 
-   {chaves && (
+        {chaves && (
           <>
             <section className="mt-10">
               <h2 className="text-2xl font-bold text-purple-700 mb-4 text-center">Chaves Sorteadas</h2>
@@ -213,6 +260,15 @@ function TorneioAmador() {
             </div>
           </>
         )}
+        <div className="text-center mt-8">
+        <button
+          onClick={() => navigate(-1)}
+          className="bg-gray-300 hover:bg-gray-400 text-blue-900 font-semibold py-2 px-6 rounded-xl shadow transition duration-200"
+        >
+          ← Voltar
+        </button>
+      </div>
+
       </main>
     </div>
   );
