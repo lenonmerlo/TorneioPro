@@ -25,3 +25,12 @@ model Atleta {
   equipeId Int?
   equipe   Equipe? @relation(fields: [equipeId], references: [id])
 }
+
+model Usuario {
+  id       Int      @id @default(autoincrement())
+  nome     String
+  email    String   @unique
+  senha    String
+  perfil   String // "aluno" ou "professor"
+  criadoEm DateTime @default(now())
+}

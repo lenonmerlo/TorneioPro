@@ -134,6 +134,15 @@ exports.Prisma.AtletaScalarFieldEnum = {
   equipeId: 'equipeId'
 };
 
+exports.Prisma.UsuarioScalarFieldEnum = {
+  id: 'id',
+  nome: 'nome',
+  email: 'email',
+  senha: 'senha',
+  perfil: 'perfil',
+  criadoEm: 'criadoEm'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -152,7 +161,8 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   Equipe: 'Equipe',
-  Atleta: 'Atleta'
+  Atleta: 'Atleta',
+  Usuario: 'Usuario'
 };
 
 /**
