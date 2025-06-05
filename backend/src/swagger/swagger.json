@@ -5,20 +5,324 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api": {
+    "/api/atletas": {
       "get": {
-        "summary": "Status da API",
+        "summary": "Listar todos os atletas",
+        "tags": [
+          "Atletas"
+        ],
         "responses": {
           "200": {
-            "description": "API funcionando corretamente",
+            "description": "Lista de atletas",
             "content": {
               "application/json": {
-                "example": {
-                  "status": "ok",
-                  "message": "EVPC Torneio API está ativa"
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Atleta"
+                  }
                 }
               }
             }
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar um novo atleta",
+        "tags": [
+          "Atletas"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NovoAtleta"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Atleta criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Atleta"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao criar atleta"
+          }
+        }
+      }
+    },
+    "/api/atletas/{id}": {
+      "put": {
+        "summary": "Atualizar um atleta existente",
+        "tags": [
+          "Atletas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NovoAtleta"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Atleta atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Atleta"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar um atleta",
+        "tags": [
+          "Atletas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Atleta deletado com sucesso"
+          },
+          "500": {
+            "description": "Erro ao deletar atleta"
+          }
+        }
+      }
+    },
+    "/api/equipes/{id}": {
+      "put": {
+        "summary": "Atualizar uma equipe existente",
+        "tags": [
+          "Equipes"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NovaEquipe"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Equipe atualizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Equipe"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar uma equipe",
+        "tags": [
+          "Equipes"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Equipe deletada com sucesso"
+          },
+          "500": {
+            "description": "Erro ao deletar equipe"
+          }
+        }
+      }
+    },
+    "/api/equipes": {
+      "get": {
+        "summary": "Listar todas as equipes",
+        "tags": [
+          "Equipes"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de equipes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Equipe"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar uma nova equipe",
+        "tags": [
+          "Equipes"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NovaEquipe"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Equipe criada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Equipe"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao criar equipe"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "NovoAtleta": {
+        "type": "object",
+        "required": [
+          "nome",
+          "genero"
+        ],
+        "properties": {
+          "nome": {
+            "type": "string",
+            "example": "Ana Clara"
+          },
+          "genero": {
+            "type": "string",
+            "example": "feminino"
+          },
+          "nivel": {
+            "type": "string",
+            "example": "iniciante"
+          },
+          "equipeId": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "Atleta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "genero": {
+            "type": "string"
+          },
+          "nivel": {
+            "type": "string"
+          },
+          "equipe": {
+            "$ref": "#/components/schemas/Equipe"
+          }
+        }
+      },
+      "Equipe": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "tipo": {
+            "type": "string"
+          },
+          "atletas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Atleta"
+            }
+          }
+        }
+      },
+      "NovaEquipe": {
+        "type": "object",
+        "required": [
+          "nome",
+          "tipo"
+        ],
+        "properties": {
+          "nome": {
+            "type": "string",
+            "example": "Equipe Azul"
+          },
+          "tipo": {
+            "type": "string",
+            "example": "trio"
           }
         }
       }

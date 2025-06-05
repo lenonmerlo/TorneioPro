@@ -1,0 +1,27 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Equipe {
+  id      Int      @id @default(autoincrement())
+  nome    String
+  tipo    String // "dupla", "trio", "quarteto"
+  atletas Atleta[]
+}
+
+model Atleta {
+  id       Int     @id @default(autoincrement())
+  nome     String
+  genero   String
+  nivel    String?
+  equipeId Int?
+  equipe   Equipe? @relation(fields: [equipeId], references: [id])
+}
