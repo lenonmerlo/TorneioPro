@@ -4,6 +4,7 @@ import atletaRoutes from './atletaRoutes';
 import authRoutes from './authRoutes';
 import treinadorRoutes from './treinadorRoutes';
 import torneioRoutes from './torneioRoutes';
+import sorteioRoutes from './sorteioRoutes';
 
 const router = Router();
 
@@ -12,5 +13,6 @@ router.use('/equipes', equipeRoutes);
 router.use('/atletas', atletaRoutes);
 router.use('/treinadores', treinadorRoutes);
 router.use('/torneios', torneioRoutes);
+router.use('/sorteios', sorteioRoutes);
 
 export default router;
