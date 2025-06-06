@@ -28,6 +28,41 @@ export type Atleta = $Result.DefaultSelection<Prisma.$AtletaPayload>
  * 
  */
 export type Usuario = $Result.DefaultSelection<Prisma.$UsuarioPayload>
+/**
+ * Model Torneio
+ * 
+ */
+export type Torneio = $Result.DefaultSelection<Prisma.$TorneioPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const StatusTorneio: {
+  aberto: 'aberto',
+  fechado: 'fechado',
+  encerrado: 'encerrado'
+};
+
+export type StatusTorneio = (typeof StatusTorneio)[keyof typeof StatusTorneio]
+
+
+export const TipoTorneio: {
+  amador: 'amador',
+  oficial: 'oficial'
+};
+
+export type TipoTorneio = (typeof TipoTorneio)[keyof typeof TipoTorneio]
+
+}
+
+export type StatusTorneio = $Enums.StatusTorneio
+
+export const StatusTorneio: typeof $Enums.StatusTorneio
+
+export type TipoTorneio = $Enums.TipoTorneio
+
+export const TipoTorneio: typeof $Enums.TipoTorneio
 
 /**
  * ##  Prisma Client ʲˢ
@@ -48,7 +83,6 @@ export class PrismaClient<
   U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
   ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
-  treinador: any;
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
 
     /**
@@ -184,6 +218,16 @@ export class PrismaClient<
     * ```
     */
   get usuario(): Prisma.UsuarioDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.torneio`: Exposes CRUD operations for the **Torneio** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Torneios
+    * const torneios = await prisma.torneio.findMany()
+    * ```
+    */
+  get torneio(): Prisma.TorneioDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -626,7 +670,8 @@ export namespace Prisma {
   export const ModelName: {
     Equipe: 'Equipe',
     Atleta: 'Atleta',
-    Usuario: 'Usuario'
+    Usuario: 'Usuario',
+    Torneio: 'Torneio'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -645,7 +690,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "equipe" | "atleta" | "usuario"
+      modelProps: "equipe" | "atleta" | "usuario" | "torneio"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -871,6 +916,80 @@ export namespace Prisma {
           }
         }
       }
+      Torneio: {
+        payload: Prisma.$TorneioPayload<ExtArgs>
+        fields: Prisma.TorneioFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TorneioFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TorneioPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TorneioFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TorneioPayload>
+          }
+          findFirst: {
+            args: Prisma.TorneioFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TorneioPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TorneioFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TorneioPayload>
+          }
+          findMany: {
+            args: Prisma.TorneioFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TorneioPayload>[]
+          }
+          create: {
+            args: Prisma.TorneioCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TorneioPayload>
+          }
+          createMany: {
+            args: Prisma.TorneioCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TorneioCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TorneioPayload>[]
+          }
+          delete: {
+            args: Prisma.TorneioDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TorneioPayload>
+          }
+          update: {
+            args: Prisma.TorneioUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TorneioPayload>
+          }
+          deleteMany: {
+            args: Prisma.TorneioDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TorneioUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TorneioUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TorneioPayload>[]
+          }
+          upsert: {
+            args: Prisma.TorneioUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TorneioPayload>
+          }
+          aggregate: {
+            args: Prisma.TorneioAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTorneio>
+          }
+          groupBy: {
+            args: Prisma.TorneioGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TorneioGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TorneioCountArgs<ExtArgs>
+            result: $Utils.Optional<TorneioCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -958,6 +1077,7 @@ export namespace Prisma {
     equipe?: EquipeOmit
     atleta?: AtletaOmit
     usuario?: UsuarioOmit
+    torneio?: TorneioOmit
   }
 
   /* Types for Logging */
@@ -1075,6 +1195,37 @@ export namespace Prisma {
    */
   export type EquipeCountOutputTypeCountAtletasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AtletaWhereInput
+  }
+
+
+  /**
+   * Count Type UsuarioCountOutputType
+   */
+
+  export type UsuarioCountOutputType = {
+    Torneio: number
+  }
+
+  export type UsuarioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Torneio?: boolean | UsuarioCountOutputTypeCountTorneioArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UsuarioCountOutputType without action
+   */
+  export type UsuarioCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UsuarioCountOutputType
+     */
+    select?: UsuarioCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UsuarioCountOutputType without action
+   */
+  export type UsuarioCountOutputTypeCountTorneioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TorneioWhereInput
   }
 
 
@@ -3481,6 +3632,8 @@ export namespace Prisma {
     senha?: boolean
     perfil?: boolean
     criadoEm?: boolean
+    Torneio?: boolean | Usuario$TorneioArgs<ExtArgs>
+    _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["usuario"]>
 
   export type UsuarioSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3511,10 +3664,18 @@ export namespace Prisma {
   }
 
   export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "email" | "senha" | "perfil" | "criadoEm", ExtArgs["result"]["usuario"]>
+  export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Torneio?: boolean | Usuario$TorneioArgs<ExtArgs>
+    _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type UsuarioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UsuarioIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $UsuarioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Usuario"
-    objects: {}
+    objects: {
+      Torneio: Prisma.$TorneioPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       nome: string
@@ -3916,6 +4077,7 @@ export namespace Prisma {
    */
   export interface Prisma__UsuarioClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    Torneio<T extends Usuario$TorneioArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$TorneioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3968,6 +4130,10 @@ export namespace Prisma {
      */
     omit?: UsuarioOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    /**
      * Filter, which Usuario to fetch.
      */
     where: UsuarioWhereUniqueInput
@@ -3986,6 +4152,10 @@ export namespace Prisma {
      */
     omit?: UsuarioOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    /**
      * Filter, which Usuario to fetch.
      */
     where: UsuarioWhereUniqueInput
@@ -4003,6 +4173,10 @@ export namespace Prisma {
      * Omit specific fields from the Usuario
      */
     omit?: UsuarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
     /**
      * Filter, which Usuario to fetch.
      */
@@ -4052,6 +4226,10 @@ export namespace Prisma {
      */
     omit?: UsuarioOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    /**
      * Filter, which Usuario to fetch.
      */
     where?: UsuarioWhereInput
@@ -4100,6 +4278,10 @@ export namespace Prisma {
      */
     omit?: UsuarioOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    /**
      * Filter, which Usuarios to fetch.
      */
     where?: UsuarioWhereInput
@@ -4142,6 +4324,10 @@ export namespace Prisma {
      * Omit specific fields from the Usuario
      */
     omit?: UsuarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
     /**
      * The data needed to create a Usuario.
      */
@@ -4190,6 +4376,10 @@ export namespace Prisma {
      * Omit specific fields from the Usuario
      */
     omit?: UsuarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
     /**
      * The data needed to update a Usuario.
      */
@@ -4257,6 +4447,10 @@ export namespace Prisma {
      */
     omit?: UsuarioOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    /**
      * The filter to search for the Usuario to update in case it exists.
      */
     where: UsuarioWhereUniqueInput
@@ -4283,6 +4477,10 @@ export namespace Prisma {
      */
     omit?: UsuarioOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    /**
      * Filter which Usuario to delete.
      */
     where: UsuarioWhereUniqueInput
@@ -4303,6 +4501,30 @@ export namespace Prisma {
   }
 
   /**
+   * Usuario.Torneio
+   */
+  export type Usuario$TorneioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Torneio
+     */
+    select?: TorneioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Torneio
+     */
+    omit?: TorneioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TorneioInclude<ExtArgs> | null
+    where?: TorneioWhereInput
+    orderBy?: TorneioOrderByWithRelationInput | TorneioOrderByWithRelationInput[]
+    cursor?: TorneioWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TorneioScalarFieldEnum | TorneioScalarFieldEnum[]
+  }
+
+  /**
    * Usuario without action
    */
   export type UsuarioDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4314,6 +4536,1158 @@ export namespace Prisma {
      * Omit specific fields from the Usuario
      */
     omit?: UsuarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Torneio
+   */
+
+  export type AggregateTorneio = {
+    _count: TorneioCountAggregateOutputType | null
+    _avg: TorneioAvgAggregateOutputType | null
+    _sum: TorneioSumAggregateOutputType | null
+    _min: TorneioMinAggregateOutputType | null
+    _max: TorneioMaxAggregateOutputType | null
+  }
+
+  export type TorneioAvgAggregateOutputType = {
+    id: number | null
+    criadoPorId: number | null
+  }
+
+  export type TorneioSumAggregateOutputType = {
+    id: number | null
+    criadoPorId: number | null
+  }
+
+  export type TorneioMinAggregateOutputType = {
+    id: number | null
+    nome: string | null
+    tipo: $Enums.TipoTorneio | null
+    data: Date | null
+    local: string | null
+    status: $Enums.StatusTorneio | null
+    criadoPorId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TorneioMaxAggregateOutputType = {
+    id: number | null
+    nome: string | null
+    tipo: $Enums.TipoTorneio | null
+    data: Date | null
+    local: string | null
+    status: $Enums.StatusTorneio | null
+    criadoPorId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TorneioCountAggregateOutputType = {
+    id: number
+    nome: number
+    tipo: number
+    data: number
+    local: number
+    status: number
+    criadoPorId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TorneioAvgAggregateInputType = {
+    id?: true
+    criadoPorId?: true
+  }
+
+  export type TorneioSumAggregateInputType = {
+    id?: true
+    criadoPorId?: true
+  }
+
+  export type TorneioMinAggregateInputType = {
+    id?: true
+    nome?: true
+    tipo?: true
+    data?: true
+    local?: true
+    status?: true
+    criadoPorId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TorneioMaxAggregateInputType = {
+    id?: true
+    nome?: true
+    tipo?: true
+    data?: true
+    local?: true
+    status?: true
+    criadoPorId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TorneioCountAggregateInputType = {
+    id?: true
+    nome?: true
+    tipo?: true
+    data?: true
+    local?: true
+    status?: true
+    criadoPorId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TorneioAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Torneio to aggregate.
+     */
+    where?: TorneioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Torneios to fetch.
+     */
+    orderBy?: TorneioOrderByWithRelationInput | TorneioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TorneioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Torneios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Torneios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Torneios
+    **/
+    _count?: true | TorneioCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TorneioAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TorneioSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TorneioMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TorneioMaxAggregateInputType
+  }
+
+  export type GetTorneioAggregateType<T extends TorneioAggregateArgs> = {
+        [P in keyof T & keyof AggregateTorneio]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTorneio[P]>
+      : GetScalarType<T[P], AggregateTorneio[P]>
+  }
+
+
+
+
+  export type TorneioGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TorneioWhereInput
+    orderBy?: TorneioOrderByWithAggregationInput | TorneioOrderByWithAggregationInput[]
+    by: TorneioScalarFieldEnum[] | TorneioScalarFieldEnum
+    having?: TorneioScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TorneioCountAggregateInputType | true
+    _avg?: TorneioAvgAggregateInputType
+    _sum?: TorneioSumAggregateInputType
+    _min?: TorneioMinAggregateInputType
+    _max?: TorneioMaxAggregateInputType
+  }
+
+  export type TorneioGroupByOutputType = {
+    id: number
+    nome: string
+    tipo: $Enums.TipoTorneio
+    data: Date
+    local: string | null
+    status: $Enums.StatusTorneio
+    criadoPorId: number
+    createdAt: Date
+    updatedAt: Date
+    _count: TorneioCountAggregateOutputType | null
+    _avg: TorneioAvgAggregateOutputType | null
+    _sum: TorneioSumAggregateOutputType | null
+    _min: TorneioMinAggregateOutputType | null
+    _max: TorneioMaxAggregateOutputType | null
+  }
+
+  type GetTorneioGroupByPayload<T extends TorneioGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TorneioGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TorneioGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TorneioGroupByOutputType[P]>
+            : GetScalarType<T[P], TorneioGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TorneioSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nome?: boolean
+    tipo?: boolean
+    data?: boolean
+    local?: boolean
+    status?: boolean
+    criadoPorId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    criadoPor?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["torneio"]>
+
+  export type TorneioSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nome?: boolean
+    tipo?: boolean
+    data?: boolean
+    local?: boolean
+    status?: boolean
+    criadoPorId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    criadoPor?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["torneio"]>
+
+  export type TorneioSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nome?: boolean
+    tipo?: boolean
+    data?: boolean
+    local?: boolean
+    status?: boolean
+    criadoPorId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    criadoPor?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["torneio"]>
+
+  export type TorneioSelectScalar = {
+    id?: boolean
+    nome?: boolean
+    tipo?: boolean
+    data?: boolean
+    local?: boolean
+    status?: boolean
+    criadoPorId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TorneioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "tipo" | "data" | "local" | "status" | "criadoPorId" | "createdAt" | "updatedAt", ExtArgs["result"]["torneio"]>
+  export type TorneioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    criadoPor?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+  export type TorneioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    criadoPor?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+  export type TorneioIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    criadoPor?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+
+  export type $TorneioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Torneio"
+    objects: {
+      criadoPor: Prisma.$UsuarioPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      nome: string
+      tipo: $Enums.TipoTorneio
+      data: Date
+      local: string | null
+      status: $Enums.StatusTorneio
+      criadoPorId: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["torneio"]>
+    composites: {}
+  }
+
+  type TorneioGetPayload<S extends boolean | null | undefined | TorneioDefaultArgs> = $Result.GetResult<Prisma.$TorneioPayload, S>
+
+  type TorneioCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TorneioFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TorneioCountAggregateInputType | true
+    }
+
+  export interface TorneioDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Torneio'], meta: { name: 'Torneio' } }
+    /**
+     * Find zero or one Torneio that matches the filter.
+     * @param {TorneioFindUniqueArgs} args - Arguments to find a Torneio
+     * @example
+     * // Get one Torneio
+     * const torneio = await prisma.torneio.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TorneioFindUniqueArgs>(args: SelectSubset<T, TorneioFindUniqueArgs<ExtArgs>>): Prisma__TorneioClient<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Torneio that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TorneioFindUniqueOrThrowArgs} args - Arguments to find a Torneio
+     * @example
+     * // Get one Torneio
+     * const torneio = await prisma.torneio.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TorneioFindUniqueOrThrowArgs>(args: SelectSubset<T, TorneioFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TorneioClient<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Torneio that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TorneioFindFirstArgs} args - Arguments to find a Torneio
+     * @example
+     * // Get one Torneio
+     * const torneio = await prisma.torneio.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TorneioFindFirstArgs>(args?: SelectSubset<T, TorneioFindFirstArgs<ExtArgs>>): Prisma__TorneioClient<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Torneio that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TorneioFindFirstOrThrowArgs} args - Arguments to find a Torneio
+     * @example
+     * // Get one Torneio
+     * const torneio = await prisma.torneio.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TorneioFindFirstOrThrowArgs>(args?: SelectSubset<T, TorneioFindFirstOrThrowArgs<ExtArgs>>): Prisma__TorneioClient<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Torneios that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TorneioFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Torneios
+     * const torneios = await prisma.torneio.findMany()
+     * 
+     * // Get first 10 Torneios
+     * const torneios = await prisma.torneio.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const torneioWithIdOnly = await prisma.torneio.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TorneioFindManyArgs>(args?: SelectSubset<T, TorneioFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Torneio.
+     * @param {TorneioCreateArgs} args - Arguments to create a Torneio.
+     * @example
+     * // Create one Torneio
+     * const Torneio = await prisma.torneio.create({
+     *   data: {
+     *     // ... data to create a Torneio
+     *   }
+     * })
+     * 
+     */
+    create<T extends TorneioCreateArgs>(args: SelectSubset<T, TorneioCreateArgs<ExtArgs>>): Prisma__TorneioClient<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Torneios.
+     * @param {TorneioCreateManyArgs} args - Arguments to create many Torneios.
+     * @example
+     * // Create many Torneios
+     * const torneio = await prisma.torneio.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TorneioCreateManyArgs>(args?: SelectSubset<T, TorneioCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Torneios and returns the data saved in the database.
+     * @param {TorneioCreateManyAndReturnArgs} args - Arguments to create many Torneios.
+     * @example
+     * // Create many Torneios
+     * const torneio = await prisma.torneio.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Torneios and only return the `id`
+     * const torneioWithIdOnly = await prisma.torneio.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TorneioCreateManyAndReturnArgs>(args?: SelectSubset<T, TorneioCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Torneio.
+     * @param {TorneioDeleteArgs} args - Arguments to delete one Torneio.
+     * @example
+     * // Delete one Torneio
+     * const Torneio = await prisma.torneio.delete({
+     *   where: {
+     *     // ... filter to delete one Torneio
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TorneioDeleteArgs>(args: SelectSubset<T, TorneioDeleteArgs<ExtArgs>>): Prisma__TorneioClient<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Torneio.
+     * @param {TorneioUpdateArgs} args - Arguments to update one Torneio.
+     * @example
+     * // Update one Torneio
+     * const torneio = await prisma.torneio.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TorneioUpdateArgs>(args: SelectSubset<T, TorneioUpdateArgs<ExtArgs>>): Prisma__TorneioClient<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Torneios.
+     * @param {TorneioDeleteManyArgs} args - Arguments to filter Torneios to delete.
+     * @example
+     * // Delete a few Torneios
+     * const { count } = await prisma.torneio.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TorneioDeleteManyArgs>(args?: SelectSubset<T, TorneioDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Torneios.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TorneioUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Torneios
+     * const torneio = await prisma.torneio.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TorneioUpdateManyArgs>(args: SelectSubset<T, TorneioUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Torneios and returns the data updated in the database.
+     * @param {TorneioUpdateManyAndReturnArgs} args - Arguments to update many Torneios.
+     * @example
+     * // Update many Torneios
+     * const torneio = await prisma.torneio.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Torneios and only return the `id`
+     * const torneioWithIdOnly = await prisma.torneio.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TorneioUpdateManyAndReturnArgs>(args: SelectSubset<T, TorneioUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Torneio.
+     * @param {TorneioUpsertArgs} args - Arguments to update or create a Torneio.
+     * @example
+     * // Update or create a Torneio
+     * const torneio = await prisma.torneio.upsert({
+     *   create: {
+     *     // ... data to create a Torneio
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Torneio we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TorneioUpsertArgs>(args: SelectSubset<T, TorneioUpsertArgs<ExtArgs>>): Prisma__TorneioClient<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Torneios.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TorneioCountArgs} args - Arguments to filter Torneios to count.
+     * @example
+     * // Count the number of Torneios
+     * const count = await prisma.torneio.count({
+     *   where: {
+     *     // ... the filter for the Torneios we want to count
+     *   }
+     * })
+    **/
+    count<T extends TorneioCountArgs>(
+      args?: Subset<T, TorneioCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TorneioCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Torneio.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TorneioAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TorneioAggregateArgs>(args: Subset<T, TorneioAggregateArgs>): Prisma.PrismaPromise<GetTorneioAggregateType<T>>
+
+    /**
+     * Group by Torneio.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TorneioGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TorneioGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TorneioGroupByArgs['orderBy'] }
+        : { orderBy?: TorneioGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TorneioGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTorneioGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Torneio model
+   */
+  readonly fields: TorneioFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Torneio.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TorneioClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    criadoPor<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Torneio model
+   */
+  interface TorneioFieldRefs {
+    readonly id: FieldRef<"Torneio", 'Int'>
+    readonly nome: FieldRef<"Torneio", 'String'>
+    readonly tipo: FieldRef<"Torneio", 'TipoTorneio'>
+    readonly data: FieldRef<"Torneio", 'DateTime'>
+    readonly local: FieldRef<"Torneio", 'String'>
+    readonly status: FieldRef<"Torneio", 'StatusTorneio'>
+    readonly criadoPorId: FieldRef<"Torneio", 'Int'>
+    readonly createdAt: FieldRef<"Torneio", 'DateTime'>
+    readonly updatedAt: FieldRef<"Torneio", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Torneio findUnique
+   */
+  export type TorneioFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Torneio
+     */
+    select?: TorneioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Torneio
+     */
+    omit?: TorneioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TorneioInclude<ExtArgs> | null
+    /**
+     * Filter, which Torneio to fetch.
+     */
+    where: TorneioWhereUniqueInput
+  }
+
+  /**
+   * Torneio findUniqueOrThrow
+   */
+  export type TorneioFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Torneio
+     */
+    select?: TorneioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Torneio
+     */
+    omit?: TorneioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TorneioInclude<ExtArgs> | null
+    /**
+     * Filter, which Torneio to fetch.
+     */
+    where: TorneioWhereUniqueInput
+  }
+
+  /**
+   * Torneio findFirst
+   */
+  export type TorneioFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Torneio
+     */
+    select?: TorneioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Torneio
+     */
+    omit?: TorneioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TorneioInclude<ExtArgs> | null
+    /**
+     * Filter, which Torneio to fetch.
+     */
+    where?: TorneioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Torneios to fetch.
+     */
+    orderBy?: TorneioOrderByWithRelationInput | TorneioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Torneios.
+     */
+    cursor?: TorneioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Torneios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Torneios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Torneios.
+     */
+    distinct?: TorneioScalarFieldEnum | TorneioScalarFieldEnum[]
+  }
+
+  /**
+   * Torneio findFirstOrThrow
+   */
+  export type TorneioFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Torneio
+     */
+    select?: TorneioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Torneio
+     */
+    omit?: TorneioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TorneioInclude<ExtArgs> | null
+    /**
+     * Filter, which Torneio to fetch.
+     */
+    where?: TorneioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Torneios to fetch.
+     */
+    orderBy?: TorneioOrderByWithRelationInput | TorneioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Torneios.
+     */
+    cursor?: TorneioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Torneios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Torneios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Torneios.
+     */
+    distinct?: TorneioScalarFieldEnum | TorneioScalarFieldEnum[]
+  }
+
+  /**
+   * Torneio findMany
+   */
+  export type TorneioFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Torneio
+     */
+    select?: TorneioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Torneio
+     */
+    omit?: TorneioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TorneioInclude<ExtArgs> | null
+    /**
+     * Filter, which Torneios to fetch.
+     */
+    where?: TorneioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Torneios to fetch.
+     */
+    orderBy?: TorneioOrderByWithRelationInput | TorneioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Torneios.
+     */
+    cursor?: TorneioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Torneios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Torneios.
+     */
+    skip?: number
+    distinct?: TorneioScalarFieldEnum | TorneioScalarFieldEnum[]
+  }
+
+  /**
+   * Torneio create
+   */
+  export type TorneioCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Torneio
+     */
+    select?: TorneioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Torneio
+     */
+    omit?: TorneioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TorneioInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Torneio.
+     */
+    data: XOR<TorneioCreateInput, TorneioUncheckedCreateInput>
+  }
+
+  /**
+   * Torneio createMany
+   */
+  export type TorneioCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Torneios.
+     */
+    data: TorneioCreateManyInput | TorneioCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Torneio createManyAndReturn
+   */
+  export type TorneioCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Torneio
+     */
+    select?: TorneioSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Torneio
+     */
+    omit?: TorneioOmit<ExtArgs> | null
+    /**
+     * The data used to create many Torneios.
+     */
+    data: TorneioCreateManyInput | TorneioCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TorneioIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Torneio update
+   */
+  export type TorneioUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Torneio
+     */
+    select?: TorneioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Torneio
+     */
+    omit?: TorneioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TorneioInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Torneio.
+     */
+    data: XOR<TorneioUpdateInput, TorneioUncheckedUpdateInput>
+    /**
+     * Choose, which Torneio to update.
+     */
+    where: TorneioWhereUniqueInput
+  }
+
+  /**
+   * Torneio updateMany
+   */
+  export type TorneioUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Torneios.
+     */
+    data: XOR<TorneioUpdateManyMutationInput, TorneioUncheckedUpdateManyInput>
+    /**
+     * Filter which Torneios to update
+     */
+    where?: TorneioWhereInput
+    /**
+     * Limit how many Torneios to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Torneio updateManyAndReturn
+   */
+  export type TorneioUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Torneio
+     */
+    select?: TorneioSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Torneio
+     */
+    omit?: TorneioOmit<ExtArgs> | null
+    /**
+     * The data used to update Torneios.
+     */
+    data: XOR<TorneioUpdateManyMutationInput, TorneioUncheckedUpdateManyInput>
+    /**
+     * Filter which Torneios to update
+     */
+    where?: TorneioWhereInput
+    /**
+     * Limit how many Torneios to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TorneioIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Torneio upsert
+   */
+  export type TorneioUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Torneio
+     */
+    select?: TorneioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Torneio
+     */
+    omit?: TorneioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TorneioInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Torneio to update in case it exists.
+     */
+    where: TorneioWhereUniqueInput
+    /**
+     * In case the Torneio found by the `where` argument doesn't exist, create a new Torneio with this data.
+     */
+    create: XOR<TorneioCreateInput, TorneioUncheckedCreateInput>
+    /**
+     * In case the Torneio was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TorneioUpdateInput, TorneioUncheckedUpdateInput>
+  }
+
+  /**
+   * Torneio delete
+   */
+  export type TorneioDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Torneio
+     */
+    select?: TorneioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Torneio
+     */
+    omit?: TorneioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TorneioInclude<ExtArgs> | null
+    /**
+     * Filter which Torneio to delete.
+     */
+    where: TorneioWhereUniqueInput
+  }
+
+  /**
+   * Torneio deleteMany
+   */
+  export type TorneioDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Torneios to delete
+     */
+    where?: TorneioWhereInput
+    /**
+     * Limit how many Torneios to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Torneio without action
+   */
+  export type TorneioDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Torneio
+     */
+    select?: TorneioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Torneio
+     */
+    omit?: TorneioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TorneioInclude<ExtArgs> | null
   }
 
 
@@ -4361,6 +5735,21 @@ export namespace Prisma {
   };
 
   export type UsuarioScalarFieldEnum = (typeof UsuarioScalarFieldEnum)[keyof typeof UsuarioScalarFieldEnum]
+
+
+  export const TorneioScalarFieldEnum: {
+    id: 'id',
+    nome: 'nome',
+    tipo: 'tipo',
+    data: 'data',
+    local: 'local',
+    status: 'status',
+    criadoPorId: 'criadoPorId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TorneioScalarFieldEnum = (typeof TorneioScalarFieldEnum)[keyof typeof TorneioScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -4431,6 +5820,34 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TipoTorneio'
+   */
+  export type EnumTipoTorneioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoTorneio'>
+    
+
+
+  /**
+   * Reference to a field of type 'TipoTorneio[]'
+   */
+  export type ListEnumTipoTorneioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoTorneio[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'StatusTorneio'
+   */
+  export type EnumStatusTorneioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusTorneio'>
+    
+
+
+  /**
+   * Reference to a field of type 'StatusTorneio[]'
+   */
+  export type ListEnumStatusTorneioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusTorneio[]'>
     
 
 
@@ -4565,6 +5982,7 @@ export namespace Prisma {
     senha?: StringFilter<"Usuario"> | string
     perfil?: StringFilter<"Usuario"> | string
     criadoEm?: DateTimeFilter<"Usuario"> | Date | string
+    Torneio?: TorneioListRelationFilter
   }
 
   export type UsuarioOrderByWithRelationInput = {
@@ -4574,6 +5992,7 @@ export namespace Prisma {
     senha?: SortOrder
     perfil?: SortOrder
     criadoEm?: SortOrder
+    Torneio?: TorneioOrderByRelationAggregateInput
   }
 
   export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
@@ -4586,6 +6005,7 @@ export namespace Prisma {
     senha?: StringFilter<"Usuario"> | string
     perfil?: StringFilter<"Usuario"> | string
     criadoEm?: DateTimeFilter<"Usuario"> | Date | string
+    Torneio?: TorneioListRelationFilter
   }, "id" | "email">
 
   export type UsuarioOrderByWithAggregationInput = {
@@ -4612,6 +6032,83 @@ export namespace Prisma {
     senha?: StringWithAggregatesFilter<"Usuario"> | string
     perfil?: StringWithAggregatesFilter<"Usuario"> | string
     criadoEm?: DateTimeWithAggregatesFilter<"Usuario"> | Date | string
+  }
+
+  export type TorneioWhereInput = {
+    AND?: TorneioWhereInput | TorneioWhereInput[]
+    OR?: TorneioWhereInput[]
+    NOT?: TorneioWhereInput | TorneioWhereInput[]
+    id?: IntFilter<"Torneio"> | number
+    nome?: StringFilter<"Torneio"> | string
+    tipo?: EnumTipoTorneioFilter<"Torneio"> | $Enums.TipoTorneio
+    data?: DateTimeFilter<"Torneio"> | Date | string
+    local?: StringNullableFilter<"Torneio"> | string | null
+    status?: EnumStatusTorneioFilter<"Torneio"> | $Enums.StatusTorneio
+    criadoPorId?: IntFilter<"Torneio"> | number
+    createdAt?: DateTimeFilter<"Torneio"> | Date | string
+    updatedAt?: DateTimeFilter<"Torneio"> | Date | string
+    criadoPor?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+  }
+
+  export type TorneioOrderByWithRelationInput = {
+    id?: SortOrder
+    nome?: SortOrder
+    tipo?: SortOrder
+    data?: SortOrder
+    local?: SortOrderInput | SortOrder
+    status?: SortOrder
+    criadoPorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    criadoPor?: UsuarioOrderByWithRelationInput
+  }
+
+  export type TorneioWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: TorneioWhereInput | TorneioWhereInput[]
+    OR?: TorneioWhereInput[]
+    NOT?: TorneioWhereInput | TorneioWhereInput[]
+    nome?: StringFilter<"Torneio"> | string
+    tipo?: EnumTipoTorneioFilter<"Torneio"> | $Enums.TipoTorneio
+    data?: DateTimeFilter<"Torneio"> | Date | string
+    local?: StringNullableFilter<"Torneio"> | string | null
+    status?: EnumStatusTorneioFilter<"Torneio"> | $Enums.StatusTorneio
+    criadoPorId?: IntFilter<"Torneio"> | number
+    createdAt?: DateTimeFilter<"Torneio"> | Date | string
+    updatedAt?: DateTimeFilter<"Torneio"> | Date | string
+    criadoPor?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+  }, "id">
+
+  export type TorneioOrderByWithAggregationInput = {
+    id?: SortOrder
+    nome?: SortOrder
+    tipo?: SortOrder
+    data?: SortOrder
+    local?: SortOrderInput | SortOrder
+    status?: SortOrder
+    criadoPorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TorneioCountOrderByAggregateInput
+    _avg?: TorneioAvgOrderByAggregateInput
+    _max?: TorneioMaxOrderByAggregateInput
+    _min?: TorneioMinOrderByAggregateInput
+    _sum?: TorneioSumOrderByAggregateInput
+  }
+
+  export type TorneioScalarWhereWithAggregatesInput = {
+    AND?: TorneioScalarWhereWithAggregatesInput | TorneioScalarWhereWithAggregatesInput[]
+    OR?: TorneioScalarWhereWithAggregatesInput[]
+    NOT?: TorneioScalarWhereWithAggregatesInput | TorneioScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Torneio"> | number
+    nome?: StringWithAggregatesFilter<"Torneio"> | string
+    tipo?: EnumTipoTorneioWithAggregatesFilter<"Torneio"> | $Enums.TipoTorneio
+    data?: DateTimeWithAggregatesFilter<"Torneio"> | Date | string
+    local?: StringNullableWithAggregatesFilter<"Torneio"> | string | null
+    status?: EnumStatusTorneioWithAggregatesFilter<"Torneio"> | $Enums.StatusTorneio
+    criadoPorId?: IntWithAggregatesFilter<"Torneio"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Torneio"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Torneio"> | Date | string
   }
 
   export type EquipeCreateInput = {
@@ -4715,6 +6212,7 @@ export namespace Prisma {
     senha: string
     perfil: string
     criadoEm?: Date | string
+    Torneio?: TorneioCreateNestedManyWithoutCriadoPorInput
   }
 
   export type UsuarioUncheckedCreateInput = {
@@ -4724,6 +6222,7 @@ export namespace Prisma {
     senha: string
     perfil: string
     criadoEm?: Date | string
+    Torneio?: TorneioUncheckedCreateNestedManyWithoutCriadoPorInput
   }
 
   export type UsuarioUpdateInput = {
@@ -4732,6 +6231,7 @@ export namespace Prisma {
     senha?: StringFieldUpdateOperationsInput | string
     perfil?: StringFieldUpdateOperationsInput | string
     criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+    Torneio?: TorneioUpdateManyWithoutCriadoPorNestedInput
   }
 
   export type UsuarioUncheckedUpdateInput = {
@@ -4741,6 +6241,7 @@ export namespace Prisma {
     senha?: StringFieldUpdateOperationsInput | string
     perfil?: StringFieldUpdateOperationsInput | string
     criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+    Torneio?: TorneioUncheckedUpdateManyWithoutCriadoPorNestedInput
   }
 
   export type UsuarioCreateManyInput = {
@@ -4767,6 +6268,86 @@ export namespace Prisma {
     senha?: StringFieldUpdateOperationsInput | string
     perfil?: StringFieldUpdateOperationsInput | string
     criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TorneioCreateInput = {
+    nome: string
+    tipo: $Enums.TipoTorneio
+    data: Date | string
+    local?: string | null
+    status?: $Enums.StatusTorneio
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    criadoPor: UsuarioCreateNestedOneWithoutTorneioInput
+  }
+
+  export type TorneioUncheckedCreateInput = {
+    id?: number
+    nome: string
+    tipo: $Enums.TipoTorneio
+    data: Date | string
+    local?: string | null
+    status?: $Enums.StatusTorneio
+    criadoPorId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TorneioUpdateInput = {
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
+    data?: DateTimeFieldUpdateOperationsInput | Date | string
+    local?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    criadoPor?: UsuarioUpdateOneRequiredWithoutTorneioNestedInput
+  }
+
+  export type TorneioUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
+    data?: DateTimeFieldUpdateOperationsInput | Date | string
+    local?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
+    criadoPorId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TorneioCreateManyInput = {
+    id?: number
+    nome: string
+    tipo: $Enums.TipoTorneio
+    data: Date | string
+    local?: string | null
+    status?: $Enums.StatusTorneio
+    criadoPorId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TorneioUpdateManyMutationInput = {
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
+    data?: DateTimeFieldUpdateOperationsInput | Date | string
+    local?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TorneioUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
+    data?: DateTimeFieldUpdateOperationsInput | Date | string
+    local?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
+    criadoPorId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -4980,6 +6561,16 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type TorneioListRelationFilter = {
+    every?: TorneioWhereInput
+    some?: TorneioWhereInput
+    none?: TorneioWhereInput
+  }
+
+  export type TorneioOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UsuarioCountOrderByAggregateInput = {
     id?: SortOrder
     nome?: SortOrder
@@ -5027,6 +6618,91 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type EnumTipoTorneioFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoTorneio | EnumTipoTorneioFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoTorneio[] | ListEnumTipoTorneioFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoTorneio[] | ListEnumTipoTorneioFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoTorneioFilter<$PrismaModel> | $Enums.TipoTorneio
+  }
+
+  export type EnumStatusTorneioFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusTorneio | EnumStatusTorneioFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusTorneio[] | ListEnumStatusTorneioFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusTorneio[] | ListEnumStatusTorneioFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusTorneioFilter<$PrismaModel> | $Enums.StatusTorneio
+  }
+
+  export type UsuarioScalarRelationFilter = {
+    is?: UsuarioWhereInput
+    isNot?: UsuarioWhereInput
+  }
+
+  export type TorneioCountOrderByAggregateInput = {
+    id?: SortOrder
+    nome?: SortOrder
+    tipo?: SortOrder
+    data?: SortOrder
+    local?: SortOrder
+    status?: SortOrder
+    criadoPorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TorneioAvgOrderByAggregateInput = {
+    id?: SortOrder
+    criadoPorId?: SortOrder
+  }
+
+  export type TorneioMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nome?: SortOrder
+    tipo?: SortOrder
+    data?: SortOrder
+    local?: SortOrder
+    status?: SortOrder
+    criadoPorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TorneioMinOrderByAggregateInput = {
+    id?: SortOrder
+    nome?: SortOrder
+    tipo?: SortOrder
+    data?: SortOrder
+    local?: SortOrder
+    status?: SortOrder
+    criadoPorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TorneioSumOrderByAggregateInput = {
+    id?: SortOrder
+    criadoPorId?: SortOrder
+  }
+
+  export type EnumTipoTorneioWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoTorneio | EnumTipoTorneioFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoTorneio[] | ListEnumTipoTorneioFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoTorneio[] | ListEnumTipoTorneioFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoTorneioWithAggregatesFilter<$PrismaModel> | $Enums.TipoTorneio
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTipoTorneioFilter<$PrismaModel>
+    _max?: NestedEnumTipoTorneioFilter<$PrismaModel>
+  }
+
+  export type EnumStatusTorneioWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusTorneio | EnumStatusTorneioFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusTorneio[] | ListEnumStatusTorneioFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusTorneio[] | ListEnumStatusTorneioFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusTorneioWithAggregatesFilter<$PrismaModel> | $Enums.StatusTorneio
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusTorneioFilter<$PrismaModel>
+    _max?: NestedEnumStatusTorneioFilter<$PrismaModel>
   }
 
   export type AtletaCreateNestedManyWithoutEquipeInput = {
@@ -5111,8 +6787,72 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type TorneioCreateNestedManyWithoutCriadoPorInput = {
+    create?: XOR<TorneioCreateWithoutCriadoPorInput, TorneioUncheckedCreateWithoutCriadoPorInput> | TorneioCreateWithoutCriadoPorInput[] | TorneioUncheckedCreateWithoutCriadoPorInput[]
+    connectOrCreate?: TorneioCreateOrConnectWithoutCriadoPorInput | TorneioCreateOrConnectWithoutCriadoPorInput[]
+    createMany?: TorneioCreateManyCriadoPorInputEnvelope
+    connect?: TorneioWhereUniqueInput | TorneioWhereUniqueInput[]
+  }
+
+  export type TorneioUncheckedCreateNestedManyWithoutCriadoPorInput = {
+    create?: XOR<TorneioCreateWithoutCriadoPorInput, TorneioUncheckedCreateWithoutCriadoPorInput> | TorneioCreateWithoutCriadoPorInput[] | TorneioUncheckedCreateWithoutCriadoPorInput[]
+    connectOrCreate?: TorneioCreateOrConnectWithoutCriadoPorInput | TorneioCreateOrConnectWithoutCriadoPorInput[]
+    createMany?: TorneioCreateManyCriadoPorInputEnvelope
+    connect?: TorneioWhereUniqueInput | TorneioWhereUniqueInput[]
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type TorneioUpdateManyWithoutCriadoPorNestedInput = {
+    create?: XOR<TorneioCreateWithoutCriadoPorInput, TorneioUncheckedCreateWithoutCriadoPorInput> | TorneioCreateWithoutCriadoPorInput[] | TorneioUncheckedCreateWithoutCriadoPorInput[]
+    connectOrCreate?: TorneioCreateOrConnectWithoutCriadoPorInput | TorneioCreateOrConnectWithoutCriadoPorInput[]
+    upsert?: TorneioUpsertWithWhereUniqueWithoutCriadoPorInput | TorneioUpsertWithWhereUniqueWithoutCriadoPorInput[]
+    createMany?: TorneioCreateManyCriadoPorInputEnvelope
+    set?: TorneioWhereUniqueInput | TorneioWhereUniqueInput[]
+    disconnect?: TorneioWhereUniqueInput | TorneioWhereUniqueInput[]
+    delete?: TorneioWhereUniqueInput | TorneioWhereUniqueInput[]
+    connect?: TorneioWhereUniqueInput | TorneioWhereUniqueInput[]
+    update?: TorneioUpdateWithWhereUniqueWithoutCriadoPorInput | TorneioUpdateWithWhereUniqueWithoutCriadoPorInput[]
+    updateMany?: TorneioUpdateManyWithWhereWithoutCriadoPorInput | TorneioUpdateManyWithWhereWithoutCriadoPorInput[]
+    deleteMany?: TorneioScalarWhereInput | TorneioScalarWhereInput[]
+  }
+
+  export type TorneioUncheckedUpdateManyWithoutCriadoPorNestedInput = {
+    create?: XOR<TorneioCreateWithoutCriadoPorInput, TorneioUncheckedCreateWithoutCriadoPorInput> | TorneioCreateWithoutCriadoPorInput[] | TorneioUncheckedCreateWithoutCriadoPorInput[]
+    connectOrCreate?: TorneioCreateOrConnectWithoutCriadoPorInput | TorneioCreateOrConnectWithoutCriadoPorInput[]
+    upsert?: TorneioUpsertWithWhereUniqueWithoutCriadoPorInput | TorneioUpsertWithWhereUniqueWithoutCriadoPorInput[]
+    createMany?: TorneioCreateManyCriadoPorInputEnvelope
+    set?: TorneioWhereUniqueInput | TorneioWhereUniqueInput[]
+    disconnect?: TorneioWhereUniqueInput | TorneioWhereUniqueInput[]
+    delete?: TorneioWhereUniqueInput | TorneioWhereUniqueInput[]
+    connect?: TorneioWhereUniqueInput | TorneioWhereUniqueInput[]
+    update?: TorneioUpdateWithWhereUniqueWithoutCriadoPorInput | TorneioUpdateWithWhereUniqueWithoutCriadoPorInput[]
+    updateMany?: TorneioUpdateManyWithWhereWithoutCriadoPorInput | TorneioUpdateManyWithWhereWithoutCriadoPorInput[]
+    deleteMany?: TorneioScalarWhereInput | TorneioScalarWhereInput[]
+  }
+
+  export type UsuarioCreateNestedOneWithoutTorneioInput = {
+    create?: XOR<UsuarioCreateWithoutTorneioInput, UsuarioUncheckedCreateWithoutTorneioInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutTorneioInput
+    connect?: UsuarioWhereUniqueInput
+  }
+
+  export type EnumTipoTorneioFieldUpdateOperationsInput = {
+    set?: $Enums.TipoTorneio
+  }
+
+  export type EnumStatusTorneioFieldUpdateOperationsInput = {
+    set?: $Enums.StatusTorneio
+  }
+
+  export type UsuarioUpdateOneRequiredWithoutTorneioNestedInput = {
+    create?: XOR<UsuarioCreateWithoutTorneioInput, UsuarioUncheckedCreateWithoutTorneioInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutTorneioInput
+    upsert?: UsuarioUpsertWithoutTorneioInput
+    connect?: UsuarioWhereUniqueInput
+    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutTorneioInput, UsuarioUpdateWithoutTorneioInput>, UsuarioUncheckedUpdateWithoutTorneioInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -5278,6 +7018,40 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumTipoTorneioFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoTorneio | EnumTipoTorneioFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoTorneio[] | ListEnumTipoTorneioFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoTorneio[] | ListEnumTipoTorneioFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoTorneioFilter<$PrismaModel> | $Enums.TipoTorneio
+  }
+
+  export type NestedEnumStatusTorneioFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusTorneio | EnumStatusTorneioFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusTorneio[] | ListEnumStatusTorneioFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusTorneio[] | ListEnumStatusTorneioFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusTorneioFilter<$PrismaModel> | $Enums.StatusTorneio
+  }
+
+  export type NestedEnumTipoTorneioWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoTorneio | EnumTipoTorneioFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoTorneio[] | ListEnumTipoTorneioFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoTorneio[] | ListEnumTipoTorneioFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoTorneioWithAggregatesFilter<$PrismaModel> | $Enums.TipoTorneio
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTipoTorneioFilter<$PrismaModel>
+    _max?: NestedEnumTipoTorneioFilter<$PrismaModel>
+  }
+
+  export type NestedEnumStatusTorneioWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StatusTorneio | EnumStatusTorneioFieldRefInput<$PrismaModel>
+    in?: $Enums.StatusTorneio[] | ListEnumStatusTorneioFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StatusTorneio[] | ListEnumStatusTorneioFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusTorneioWithAggregatesFilter<$PrismaModel> | $Enums.StatusTorneio
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusTorneioFilter<$PrismaModel>
+    _max?: NestedEnumStatusTorneioFilter<$PrismaModel>
+  }
+
   export type AtletaCreateWithoutEquipeInput = {
     nome: string
     genero: string
@@ -5366,6 +7140,118 @@ export namespace Prisma {
     tipo?: StringFieldUpdateOperationsInput | string
   }
 
+  export type TorneioCreateWithoutCriadoPorInput = {
+    nome: string
+    tipo: $Enums.TipoTorneio
+    data: Date | string
+    local?: string | null
+    status?: $Enums.StatusTorneio
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TorneioUncheckedCreateWithoutCriadoPorInput = {
+    id?: number
+    nome: string
+    tipo: $Enums.TipoTorneio
+    data: Date | string
+    local?: string | null
+    status?: $Enums.StatusTorneio
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TorneioCreateOrConnectWithoutCriadoPorInput = {
+    where: TorneioWhereUniqueInput
+    create: XOR<TorneioCreateWithoutCriadoPorInput, TorneioUncheckedCreateWithoutCriadoPorInput>
+  }
+
+  export type TorneioCreateManyCriadoPorInputEnvelope = {
+    data: TorneioCreateManyCriadoPorInput | TorneioCreateManyCriadoPorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TorneioUpsertWithWhereUniqueWithoutCriadoPorInput = {
+    where: TorneioWhereUniqueInput
+    update: XOR<TorneioUpdateWithoutCriadoPorInput, TorneioUncheckedUpdateWithoutCriadoPorInput>
+    create: XOR<TorneioCreateWithoutCriadoPorInput, TorneioUncheckedCreateWithoutCriadoPorInput>
+  }
+
+  export type TorneioUpdateWithWhereUniqueWithoutCriadoPorInput = {
+    where: TorneioWhereUniqueInput
+    data: XOR<TorneioUpdateWithoutCriadoPorInput, TorneioUncheckedUpdateWithoutCriadoPorInput>
+  }
+
+  export type TorneioUpdateManyWithWhereWithoutCriadoPorInput = {
+    where: TorneioScalarWhereInput
+    data: XOR<TorneioUpdateManyMutationInput, TorneioUncheckedUpdateManyWithoutCriadoPorInput>
+  }
+
+  export type TorneioScalarWhereInput = {
+    AND?: TorneioScalarWhereInput | TorneioScalarWhereInput[]
+    OR?: TorneioScalarWhereInput[]
+    NOT?: TorneioScalarWhereInput | TorneioScalarWhereInput[]
+    id?: IntFilter<"Torneio"> | number
+    nome?: StringFilter<"Torneio"> | string
+    tipo?: EnumTipoTorneioFilter<"Torneio"> | $Enums.TipoTorneio
+    data?: DateTimeFilter<"Torneio"> | Date | string
+    local?: StringNullableFilter<"Torneio"> | string | null
+    status?: EnumStatusTorneioFilter<"Torneio"> | $Enums.StatusTorneio
+    criadoPorId?: IntFilter<"Torneio"> | number
+    createdAt?: DateTimeFilter<"Torneio"> | Date | string
+    updatedAt?: DateTimeFilter<"Torneio"> | Date | string
+  }
+
+  export type UsuarioCreateWithoutTorneioInput = {
+    nome: string
+    email: string
+    senha: string
+    perfil: string
+    criadoEm?: Date | string
+  }
+
+  export type UsuarioUncheckedCreateWithoutTorneioInput = {
+    id?: number
+    nome: string
+    email: string
+    senha: string
+    perfil: string
+    criadoEm?: Date | string
+  }
+
+  export type UsuarioCreateOrConnectWithoutTorneioInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutTorneioInput, UsuarioUncheckedCreateWithoutTorneioInput>
+  }
+
+  export type UsuarioUpsertWithoutTorneioInput = {
+    update: XOR<UsuarioUpdateWithoutTorneioInput, UsuarioUncheckedUpdateWithoutTorneioInput>
+    create: XOR<UsuarioCreateWithoutTorneioInput, UsuarioUncheckedCreateWithoutTorneioInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutTorneioInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutTorneioInput, UsuarioUncheckedUpdateWithoutTorneioInput>
+  }
+
+  export type UsuarioUpdateWithoutTorneioInput = {
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    perfil?: StringFieldUpdateOperationsInput | string
+    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UsuarioUncheckedUpdateWithoutTorneioInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    perfil?: StringFieldUpdateOperationsInput | string
+    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AtletaCreateManyEquipeInput = {
     id?: number
     nome: string
@@ -5391,6 +7277,49 @@ export namespace Prisma {
     nome?: StringFieldUpdateOperationsInput | string
     genero?: StringFieldUpdateOperationsInput | string
     nivel?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TorneioCreateManyCriadoPorInput = {
+    id?: number
+    nome: string
+    tipo: $Enums.TipoTorneio
+    data: Date | string
+    local?: string | null
+    status?: $Enums.StatusTorneio
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TorneioUpdateWithoutCriadoPorInput = {
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
+    data?: DateTimeFieldUpdateOperationsInput | Date | string
+    local?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TorneioUncheckedUpdateWithoutCriadoPorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
+    data?: DateTimeFieldUpdateOperationsInput | Date | string
+    local?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TorneioUncheckedUpdateManyWithoutCriadoPorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
+    data?: DateTimeFieldUpdateOperationsInput | Date | string
+    local?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

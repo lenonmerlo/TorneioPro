@@ -33,6 +33,30 @@ model Usuario {
   senha    String
   perfil   String // "aluno" ou "professor"
   criadoEm DateTime @default(now())
+
+  Torneio Torneio[]
+}
+
+model Torneio {
+  id           Int      @id @default(autoincrement())
+  nome         String
+  tipo         TipoTorneio
+  data         DateTime
+  local        String?
+  status       StatusTorneio @default(aberto)
+  criadoPor    Usuario       @relation(fields: [criadoPorId], references: [id])
+  criadoPorId  Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+enum StatusTorneio {
+  aberto
+  fechado
+  encerrado
+}
+enum TipoTorneio {
+  amador
+  oficial
 }
 
 

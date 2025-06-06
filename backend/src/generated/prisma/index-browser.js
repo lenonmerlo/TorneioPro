@@ -143,6 +143,18 @@ exports.Prisma.UsuarioScalarFieldEnum = {
   criadoEm: 'criadoEm'
 };
 
+exports.Prisma.TorneioScalarFieldEnum = {
+  id: 'id',
+  nome: 'nome',
+  tipo: 'tipo',
+  data: 'data',
+  local: 'local',
+  status: 'status',
+  criadoPorId: 'criadoPorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -157,12 +169,22 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.TipoTorneio = exports.$Enums.TipoTorneio = {
+  amador: 'amador',
+  oficial: 'oficial'
+};
 
+exports.StatusTorneio = exports.$Enums.StatusTorneio = {
+  aberto: 'aberto',
+  fechado: 'fechado',
+  encerrado: 'encerrado'
+};
 
 exports.Prisma.ModelName = {
   Equipe: 'Equipe',
   Atleta: 'Atleta',
-  Usuario: 'Usuario'
+  Usuario: 'Usuario',
+  Torneio: 'Torneio'
 };
 
 /**
