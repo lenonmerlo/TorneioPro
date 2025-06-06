@@ -45,3 +45,9 @@ out/
 
 # Keep public assets
 !public/assets/
+
+# Prisma generated client (não precisa ir pro Git)
+src/generated/
+
+# Postman files (opcional)
+*.postman_collection.json

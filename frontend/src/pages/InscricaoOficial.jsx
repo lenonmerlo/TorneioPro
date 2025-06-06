@@ -1,20 +1,41 @@
-// src/pages/InscricaoOficial.jsx
 import { useState } from "react";
 import FormDupla from "../components/inscricao/FormDupla";
 import FormTrio from "../components/inscricao/FormTrio";
 import FormQuarteto from "../components/inscricao/FormQuarteto";
+import api from "../services/api";
 
 const InscricaoOficial = () => {
   const [tipoEquipe, setTipoEquipe] = useState("dupla");
+  const [mensagem, setMensagem] = useState("");
+
+  const handleSubmit = async (formData) => {
+    try {
+      await api.post("/equipe-oficial", {
+        nome: formData.nomeEquipe,
+        tipo: tipoEquipe,
+        atletas: [
+          { nome: formData.atleta1, genero: formData.generoAtleta1 },
+          { nome: formData.atleta2, genero: formData.generoAtleta2 },
+          formData.atleta3 && { nome: formData.atleta3, genero: formData.generoAtleta3 },
+          formData.atleta4 && { nome: formData.atleta4, genero: formData.generoAtleta4 },
+        ].filter(Boolean)
+      });
+
+      setMensagem("Equipe cadastrada com sucesso!");
+    } catch (error) {
+      console.error("Erro ao cadastrar equipe:", error);
+      setMensagem("Erro ao cadastrar equipe. Tente novamente.");
+    }
+  };
 
   const renderFormulario = () => {
     switch (tipoEquipe) {
       case "dupla":
-        return <FormDupla />;
+        return <FormDupla onSubmit={handleSubmit} />;
       case "trio":
-        return <FormTrio />;
+        return <FormTrio onSubmit={handleSubmit} />;
       case "quarteto":
-        return <FormQuarteto />;
+        return <FormQuarteto onSubmit={handleSubmit} />;
       default:
         return null;
     }
@@ -43,7 +64,8 @@ const InscricaoOficial = () => {
         </div>
       </div>
 
-      <div className="mt-6">{renderFormulario()}</div>
+      <div className="mt-6">{mensagem && <p className="text-center text-green-600 font-semibold">{mensagem}</p>}</div>
+      <div className="mt-2">{renderFormulario()}</div>
     </div>
   );
 };
