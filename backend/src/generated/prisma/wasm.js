@@ -155,6 +155,31 @@ exports.Prisma.TorneioScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.EquipeOficialScalarFieldEnum = {
+  id: 'id',
+  nome: 'nome',
+  tipo: 'tipo',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AtletaOficialScalarFieldEnum = {
+  id: 'id',
+  nome: 'nome',
+  genero: 'genero',
+  equipeId: 'equipeId'
+};
+
+exports.Prisma.PartidaScalarFieldEnum = {
+  id: 'id',
+  torneioId: 'torneioId',
+  equipe1Id: 'equipe1Id',
+  equipe2Id: 'equipe2Id',
+  pontosEquipe1: 'pontosEquipe1',
+  pontosEquipe2: 'pontosEquipe2',
+  fase: 'fase',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -184,7 +209,10 @@ exports.Prisma.ModelName = {
   Equipe: 'Equipe',
   Atleta: 'Atleta',
   Usuario: 'Usuario',
-  Torneio: 'Torneio'
+  Torneio: 'Torneio',
+  EquipeOficial: 'EquipeOficial',
+  AtletaOficial: 'AtletaOficial',
+  Partida: 'Partida'
 };
 
 /**

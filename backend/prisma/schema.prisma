@@ -15,7 +15,11 @@ model Equipe {
   nome    String
   tipo    String   // "dupla", "trio", "quarteto"
   atletas Atleta[]
+
+  partidasComoEquipe1 Partida[] @relation("Equipe1")
+  partidasComoEquipe2 Partida[] @relation("Equipe2")
 }
+
 
 model Atleta {
   id       Int     @id @default(autoincrement())
@@ -48,6 +52,8 @@ model Torneio {
   criadoPorId  Int
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  Partida Partida[]
 }
 enum StatusTorneio {
   aberto
@@ -59,4 +65,33 @@ enum TipoTorneio {
   oficial
 }
 
+model EquipeOficial {
+  id        Int              @id @default(autoincrement())
+  nome      String
+  tipo      String           // 'dupla', 'trio', 'quarteto'
+  atletas   AtletaOficial[]
+  createdAt DateTime         @default(now())
+}
 
+model AtletaOficial {
+  id        Int              @id @default(autoincrement())
+  nome      String
+  genero    String
+  equipeId  Int
+  equipe    EquipeOficial    @relation(fields: [equipeId], references: [id], onDelete: Cascade)
+}
+
+model Partida {
+  id             Int       @id @default(autoincrement())
+  torneioId      Int
+  equipe1Id      Int
+  equipe2Id      Int
+  pontosEquipe1  Int
+  pontosEquipe2  Int
+  fase           String
+  createdAt      DateTime  @default(now())
+
+  torneio        Torneio   @relation(fields: [torneioId], references: [id])
+  equipe1        Equipe    @relation("Equipe1", fields: [equipe1Id], references: [id])
+  equipe2        Equipe    @relation("Equipe2", fields: [equipe2Id], references: [id])
+}
