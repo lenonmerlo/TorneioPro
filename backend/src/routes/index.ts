@@ -18,7 +18,7 @@ router.use('/treinadores', treinadorRoutes);
 router.use('/torneios', torneioRoutes);
 router.use('/sorteios', sorteioRoutes);
 router.use('/sorteio', chavesAmadorRoutes);
-router.use('/sorteios', equipeOficialRoutes);
+router.use('/equipe-oficial', equipeOficialRoutes);
 router.use('/partidas', partidaRoutes);
 
 export default router;

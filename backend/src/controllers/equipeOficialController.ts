@@ -29,16 +29,22 @@ export const criarEquipeOficial = async (req: Request, res: Response): Promise<v
 };
 
 // Listar equipes oficiais
-export const listarEquipesOficiais = async (_req: Request, res: Response): Promise<void> => {
+export const listarEquipesOficiais = async (req: Request, res: Response): Promise<void> => {
   try {
+    const { tipo } = req.query;
+
     const equipes = await prisma.equipeOficial.findMany({
-      include: { atletas: true }
+      where: tipo ? { tipo: String(tipo) } : {},
+      include: { atletas: true },
+      orderBy: { id: 'asc' }
     });
+
     res.json(equipes);
   } catch (error: any) {
     res.status(500).json({ erro: 'Erro ao listar equipes oficiais', detalhe: error.message });
   }
 };
+
 
 // Deletar equipe oficial por ID
 export const deletarEquipeOficial = async (req: Request, res: Response): Promise<void> => {

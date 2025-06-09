@@ -7,8 +7,8 @@ import {
 
 const router = Router();
 
-router.post('/oficial/equipe', criarEquipeOficial);
-router.get('/oficial/equipes', listarEquipesOficiais);
-router.delete('/oficial/equipe/:id', deletarEquipeOficial);
+router.get('/', listarEquipesOficiais); 
+router.post('/', criarEquipeOficial);
+router.delete('/:id', deletarEquipeOficial);
 
 export default router;
