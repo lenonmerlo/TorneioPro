@@ -53,6 +53,7 @@ const FormQuarteto = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+     console.log("Enviando inscrição...");
 
     try {
       await api.post("/equipe-oficial", {
