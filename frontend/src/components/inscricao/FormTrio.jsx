@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import api from "@/services/api";
+import { useState } from "react";
 
 const FormTrio = () => {
   const [formData, setFormData] = useState({
@@ -53,10 +53,10 @@ const FormTrio = () => {
     e.preventDefault();
 
     try {
-      await api.post("/equipes", {
+      await api.post("/equipe-oficial", {
         nome: formData.nomeEquipe || null,
         tipo: "trio",
-        integrantes: [
+        atletas: [
           { nome: formData.atleta1, genero: formData.generoAtleta1 },
           { nome: formData.atleta2, genero: formData.generoAtleta2 },
           { nome: formData.atleta3, genero: formData.generoAtleta3 },
