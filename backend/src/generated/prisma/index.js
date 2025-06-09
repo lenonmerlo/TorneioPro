@@ -209,6 +209,10 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -226,6 +230,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -234,8 +239,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// schema.prisma\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Equipe {\n  id      Int      @id @default(autoincrement())\n  nome    String\n  tipo    String // \"dupla\", \"trio\", \"quarteto\"\n  atletas Atleta[]\n\n  partidasComoEquipe1 Partida[] @relation(\"Equipe1\")\n  partidasComoEquipe2 Partida[] @relation(\"Equipe2\")\n}\n\nmodel Atleta {\n  id       Int     @id @default(autoincrement())\n  nome     String\n  genero   String\n  nivel    String?\n  equipeId Int?\n  equipe   Equipe? @relation(fields: [equipeId], references: [id])\n}\n\nmodel Usuario {\n  id       Int      @id @default(autoincrement())\n  nome     String\n  email    String   @unique\n  senha    String\n  perfil   String // \"aluno\" ou \"professor\"\n  criadoEm DateTime @default(now())\n\n  Torneio Torneio[]\n}\n\nmodel Torneio {\n  id          Int           @id @default(autoincrement())\n  nome        String\n  tipo        TipoTorneio\n  data        DateTime\n  local       String?\n  status      StatusTorneio @default(aberto)\n  criadoPor   Usuario       @relation(fields: [criadoPorId], references: [id])\n  criadoPorId Int\n  createdAt   DateTime      @default(now())\n  updatedAt   DateTime      @updatedAt\n\n  Partida Partida[]\n}\n\nenum StatusTorneio {\n  aberto\n  fechado\n  encerrado\n}\n\nenum TipoTorneio {\n  amador\n  oficial\n}\n\nmodel EquipeOficial {\n  id        Int             @id @default(autoincrement())\n  nome      String\n  tipo      String // 'dupla', 'trio', 'quarteto'\n  atletas   AtletaOficial[]\n  createdAt DateTime        @default(now())\n}\n\nmodel AtletaOficial {\n  id       Int           @id @default(autoincrement())\n  nome     String\n  genero   String\n  equipeId Int\n  equipe   EquipeOficial @relation(fields: [equipeId], references: [id], onDelete: Cascade)\n}\n\nmodel Partida {\n  id            Int      @id @default(autoincrement())\n  torneioId     Int\n  equipe1Id     Int\n  equipe2Id     Int\n  pontosEquipe1 Int\n  pontosEquipe2 Int\n  fase          String\n  createdAt     DateTime @default(now())\n\n  torneio Torneio @relation(fields: [torneioId], references: [id])\n  equipe1 Equipe  @relation(\"Equipe1\", fields: [equipe1Id], references: [id])\n  equipe2 Equipe  @relation(\"Equipe2\", fields: [equipe2Id], references: [id])\n}\n",
-  "inlineSchemaHash": "500dd3da59067d0a83304f760230652585e906c3a375c4094fddde1d69948eb9",
+  "inlineSchema": "// schema.prisma\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  binaryTargets = [\"native\", \"debian-openssl-3.0.x\"]\n  output        = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Equipe {\n  id      Int      @id @default(autoincrement())\n  nome    String\n  tipo    String // \"dupla\", \"trio\", \"quarteto\"\n  atletas Atleta[]\n\n  partidasComoEquipe1 Partida[] @relation(\"Equipe1\")\n  partidasComoEquipe2 Partida[] @relation(\"Equipe2\")\n}\n\nmodel Atleta {\n  id       Int     @id @default(autoincrement())\n  nome     String\n  genero   String\n  nivel    String?\n  equipeId Int?\n  equipe   Equipe? @relation(fields: [equipeId], references: [id])\n}\n\nmodel Usuario {\n  id       Int      @id @default(autoincrement())\n  nome     String\n  email    String   @unique\n  senha    String\n  perfil   String // \"aluno\" ou \"professor\"\n  criadoEm DateTime @default(now())\n\n  Torneio Torneio[]\n}\n\nmodel Torneio {\n  id          Int           @id @default(autoincrement())\n  nome        String\n  tipo        TipoTorneio\n  data        DateTime\n  local       String?\n  status      StatusTorneio @default(aberto)\n  criadoPor   Usuario       @relation(fields: [criadoPorId], references: [id])\n  criadoPorId Int\n  createdAt   DateTime      @default(now())\n  updatedAt   DateTime      @updatedAt\n\n  Partida Partida[]\n}\n\nenum StatusTorneio {\n  aberto\n  fechado\n  encerrado\n}\n\nenum TipoTorneio {\n  amador\n  oficial\n}\n\nmodel EquipeOficial {\n  id        Int             @id @default(autoincrement())\n  nome      String\n  tipo      String // 'dupla', 'trio', 'quarteto'\n  atletas   AtletaOficial[]\n  createdAt DateTime        @default(now())\n}\n\nmodel AtletaOficial {\n  id       Int           @id @default(autoincrement())\n  nome     String\n  genero   String\n  equipeId Int\n  equipe   EquipeOficial @relation(fields: [equipeId], references: [id], onDelete: Cascade)\n}\n\nmodel Partida {\n  id            Int      @id @default(autoincrement())\n  torneioId     Int\n  equipe1Id     Int\n  equipe2Id     Int\n  pontosEquipe1 Int\n  pontosEquipe2 Int\n  fase          String\n  createdAt     DateTime @default(now())\n\n  torneio Torneio @relation(fields: [torneioId], references: [id])\n  equipe1 Equipe  @relation(\"Equipe1\", fields: [equipe1Id], references: [id])\n  equipe2 Equipe  @relation(\"Equipe2\", fields: [equipe2Id], references: [id])\n}\n",
+  "inlineSchemaHash": "4ffa750126fde87db9c900add7d8d77f65785aec7f72489f1f54a9bbfff80d70",
   "copyEngine": true
 }
 
@@ -276,6 +281,10 @@ Object.assign(exports, Prisma)
 // file annotations for bundling tools to include these files
 path.join(__dirname, "query_engine-windows.dll.node");
 path.join(process.cwd(), "src/generated/prisma/query_engine-windows.dll.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
+path.join(process.cwd(), "src/generated/prisma/libquery_engine-debian-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "src/generated/prisma/schema.prisma")
