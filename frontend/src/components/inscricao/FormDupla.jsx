@@ -1,5 +1,5 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import api from "@/services/api";
 
 const FormDupla = () => {
   const [formData, setFormData] = useState({
@@ -28,7 +28,7 @@ const FormDupla = () => {
         <label
           key={opt.value}
           className={`flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer text-sm font-medium
-          ${selectedValue === opt.value
+            ${selectedValue === opt.value
               ? "bg-blue-600 text-white border-blue-600"
               : "bg-white text-gray-700 border-gray-300 hover:border-blue-400"
             }`}
@@ -47,28 +47,35 @@ const FormDupla = () => {
     </div>
   );
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Salvar no localStorage
-    const inscricoes = JSON.parse(localStorage.getItem("inscricoesDupla")) || [];
-    localStorage.setItem("inscricoesDupla", JSON.stringify([...inscricoes, formData]));
+    try {
+      await api.post("/equipes", {
+        nome: formData.nomeEquipe || null,
+        tipo: "dupla",
+        integrantes: [
+          { nome: formData.atleta1, genero: formData.generoAtleta1 },
+          { nome: formData.atleta2, genero: formData.generoAtleta2 },
+        ],
+      });
 
-    // Mostrar mensagem
-    setMensagemSucesso("✅ Inscrição enviada com sucesso!");
-    setTimeout(() => setMensagemSucesso(""), 5000);
+      setMensagemSucesso("✅ Inscrição enviada com sucesso!");
+      setTimeout(() => setMensagemSucesso(""), 5000);
 
-    // Limpar formulário
-    setFormData({
-      nomeEquipe: "",
-      atleta1: "",
-      generoAtleta1: "",
-      atleta2: "",
-      generoAtleta2: "",
-    });
+      setFormData({
+        nomeEquipe: "",
+        atleta1: "",
+        generoAtleta1: "",
+        atleta2: "",
+        generoAtleta2: "",
+      });
 
-    // Scroll para o topo (opcional)
-    window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (error) {
+      console.error("Erro ao enviar inscrição:", error);
+      alert("Erro ao enviar inscrição. Tente novamente.");
+    }
   };
 
   return (
@@ -101,22 +108,19 @@ const FormDupla = () => {
 
       {[1, 2].map((num) => (
         <div key={num} className="space-y-2 mb-4">
-          <div className="space-y-1">
-            <label htmlFor={`atleta${num}`} className="block text-sm font-medium text-gray-700 ml-1">
-              Nome do(a) Atleta {num}
-            </label>
-            <input
-              type="text"
-              id={`atleta${num}`}
-              name={`atleta${num}`}
-              placeholder="Digite o nome completo"
-              value={formData[`atleta${num}`]}
-              onChange={handleChange}
-              required
-              className="block w-full h-10 px-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300 shadow-sm"
-            />
-
-          </div>
+          <label htmlFor={`atleta${num}`} className="block text-sm font-medium text-gray-700 ml-1">
+            Nome do(a) Atleta {num}
+          </label>
+          <input
+            type="text"
+            id={`atleta${num}`}
+            name={`atleta${num}`}
+            placeholder="Digite o nome completo"
+            value={formData[`atleta${num}`]}
+            onChange={handleChange}
+            required
+            className="block w-full h-10 px-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300 shadow-sm"
+          />
 
           <label className="block text-sm font-medium text-gray-700">
             Gênero do(a) Atleta {num}
@@ -124,7 +128,6 @@ const FormDupla = () => {
           {renderGeneroButtons(`generoAtleta${num}`, formData[`generoAtleta${num}`])}
         </div>
       ))}
-
 
       <button
         type="submit"

@@ -1,5 +1,5 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import api from "@/services/api";
 
 const FormQuarteto = () => {
   const [formData, setFormData] = useState({
@@ -32,11 +32,10 @@ const FormQuarteto = () => {
         <label
           key={opt.value}
           className={`flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer text-sm font-medium
-          ${
-            selectedValue === opt.value
+            ${selectedValue === opt.value
               ? "bg-blue-600 text-white border-blue-600"
               : "bg-white text-gray-700 border-gray-300 hover:border-blue-400"
-          }`}
+            }`}
         >
           <input
             type="radio"
@@ -52,28 +51,41 @@ const FormQuarteto = () => {
     </div>
   );
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const inscricoes = JSON.parse(localStorage.getItem("inscricoesQuarteto")) || [];
-    localStorage.setItem("inscricoesQuarteto", JSON.stringify([...inscricoes, formData]));
+    try {
+      await api.post("/equipes", {
+        nome: formData.nomeEquipe || null,
+        tipo: "quarteto",
+        integrantes: [
+          { nome: formData.atleta1, genero: formData.generoAtleta1 },
+          { nome: formData.atleta2, genero: formData.generoAtleta2 },
+          { nome: formData.atleta3, genero: formData.generoAtleta3 },
+          { nome: formData.atleta4, genero: formData.generoAtleta4 },
+        ],
+      });
 
-    setMensagemSucesso("✅ Inscrição enviada com sucesso!");
-    setTimeout(() => setMensagemSucesso(""), 5000);
+      setMensagemSucesso("✅ Inscrição enviada com sucesso!");
+      setTimeout(() => setMensagemSucesso(""), 5000);
 
-    setFormData({
-      nomeEquipe: "",
-      atleta1: "",
-      generoAtleta1: "",
-      atleta2: "",
-      generoAtleta2: "",
-      atleta3: "",
-      generoAtleta3: "",
-      atleta4: "",
-      generoAtleta4: "",
-    });
+      setFormData({
+        nomeEquipe: "",
+        atleta1: "",
+        generoAtleta1: "",
+        atleta2: "",
+        generoAtleta2: "",
+        atleta3: "",
+        generoAtleta3: "",
+        atleta4: "",
+        generoAtleta4: "",
+      });
 
-    window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (error) {
+      console.error("Erro ao enviar inscrição:", error);
+      alert("Erro ao enviar inscrição. Tente novamente.");
+    }
   };
 
   return (

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { gerarChavesPorGrupos } from '@/utils/gerarChavesPorGrupos';
 import ButtonExportPDF from '@/components/ButtonExportPDF';
+import api from "@/services/api";
+
 
 
 const TABS = ['Duplas', 'Trios', 'Quartetos'];
@@ -18,25 +20,33 @@ function TorneioOficial() {
     carregarInscricoes();
   }, []);
 
-  const carregarInscricoes = () => {
-    const duplasBrutas = JSON.parse(localStorage.getItem('inscricoesDupla')) || [];
-    const triosBrutos = JSON.parse(localStorage.getItem('inscricoesTrio')) || [];
-    const quartetosBrutos = JSON.parse(localStorage.getItem('inscricoesQuarteto')) || [];
+const carregarInscricoes = async () => {
+  try {
+    const [resDuplas, resTrios, resQuartetos] = await Promise.all([
+      api.get('/equipe-oficial?tipo=dupla'),
+      api.get('/equipe-oficial?tipo=trio'),
+      api.get('/equipe-oficial?tipo=quarteto'),
+    ]);
 
-    const formatar = (dados, qtd) =>
-      dados.map((d, i) => ({
-        id: i + 1,
-        nome: d.nomeEquipe?.trim() || Object.values(d).slice(1, qtd + 1).join(' & '),
-        atletas: Array.from({ length: qtd }, (_, idx) => ({
-          id: `${i + 1}-${idx + 1}`,
-          nome: d[`atleta${idx + 1}`],
+    const formatar = (dados) =>
+      dados.map((equipe) => ({
+        id: equipe.id,
+        nome: equipe.nome || equipe.integrantes.map((i) => i.nome).join(" & "),
+        atletas: equipe.integrantes.map((i, idx) => ({
+          id: `${equipe.id}-${idx + 1}`,
+          nome: i.nome,
         })),
       }));
 
-    setDuplas(formatar(duplasBrutas, 2));
-    setTrios(formatar(triosBrutos, 3));
-    setQuartetos(formatar(quartetosBrutos, 4));
-  };
+    setDuplas(formatar(resDuplas.data));
+    setTrios(formatar(resTrios.data));
+    setQuartetos(formatar(resQuartetos.data));
+  } catch (error) {
+    console.error("Erro ao carregar equipes:", error);
+    alert("Erro ao carregar inscrições oficiais.");
+  }
+};
+
 
   const sortear = (equipes, tamanho, setResultado) => {
     if (!equipes.length) return;
