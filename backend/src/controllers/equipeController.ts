@@ -3,17 +3,31 @@ import prisma from '@/lib/prismaClient';
 
 export const criarEquipe = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { nome, tipo } = req.body;
+    const { nome, tipo, integrantes } = req.body;
 
     const novaEquipe = await prisma.equipe.create({
-      data: { nome, tipo }
+      data: {
+        nome,
+        tipo,
+        atletas: {
+          create: integrantes.map((a: any) => ({
+            nome: a.nome,
+            genero: a.genero,
+          })),
+        },
+      },
+      include: {
+        atletas: true,
+      },
     });
 
     res.status(201).json(novaEquipe);
   } catch (error: any) {
-    res.status(500).json({ erro: 'Erro ao criar equipe', detalhe: error.message });
+    console.error("Erro ao criar equipe:", error);
+    res.status(500).json({ erro: "Erro ao criar equipe", detalhe: error.message });
   }
 };
+
 
 export const listarEquipes = async (_req: Request, res: Response): Promise<void> => {
   try {
