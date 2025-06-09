@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { gerarChavesPorGrupos } from '@/utils/gerarChavesPorGrupos';
 import { sortearQuartetoMisto } from '@/utils/sortearQuartetoMisto';
 import ButtonExportPDF from '@/components/ButtonExportPDF';
+import api from '@/services/api';
 
 function TorneioAmador() {
   const [resultado, setResultado] = useState(null);
@@ -16,13 +17,23 @@ function TorneioAmador() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const dados = JSON.parse(localStorage.getItem('atletas')) || [];
-    setAtletas(dados);
+    async function carregarAtletas() {
+      try {
+        const response = await api.get('/atletas');
+        const dados = response.data;
+        setAtletas(dados);
 
-    if (dados.length < 4) {
-      alert('Cadastre pelo menos 4 atletas para realizar o sorteio.');
-      navigate('/participar');
+        if (dados.length < 4) {
+          alert('Cadastre pelo menos 4 atletas para realizar o sorteio.');
+          navigate('/participar');
+        }
+      } catch (error) {
+        console.error('Erro ao buscar atletas:', error);
+        alert('Erro ao carregar atletas. Tente novamente mais tarde.');
+      }
     }
+
+    carregarAtletas();
   }, [navigate]);
 
   const handleSortear = () => {
@@ -49,19 +60,29 @@ function TorneioAmador() {
     setChaves(chavesSorteadas);
   };
 
-  const handleCancelarParticipacao = () => {
+  const handleCancelarParticipacao = async () => {
     if (!emailUsuario) {
       alert('Usuário não identificado.');
       return;
     }
 
-    const atualizados = atletas.filter((a) => a.email !== emailUsuario);
+    try {
+      const atleta = atletas.find((a) => a.email === emailUsuario);
+      if (!atleta) {
+        alert('Atleta não encontrado.');
+        return;
+      }
 
-    localStorage.setItem('atletas', JSON.stringify(atualizados));
-    setAtletas(atualizados);
-    setResultado(null);
-    setChaves(null);
-    alert('Sua participação foi cancelada com sucesso.');
+      await api.delete(`/atletas/${atleta.id}`);
+      const atualizados = atletas.filter((a) => a.id !== atleta.id);
+      setAtletas(atualizados);
+      setResultado(null);
+      setChaves(null);
+      alert('Sua participação foi cancelada com sucesso.');
+    } catch (error) {
+      console.error('Erro ao cancelar participação:', error);
+      alert('Erro ao cancelar. Tente novamente.');
+    }
   };
 
   return (

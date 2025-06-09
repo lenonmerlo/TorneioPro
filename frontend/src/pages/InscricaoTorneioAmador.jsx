@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import api from '@/services/api'; // já configurado com baseURL
 
 function InscricaoTorneioAmador() {
   const [nome, setNome] = useState('');
@@ -6,7 +7,7 @@ function InscricaoTorneioAmador() {
   const [nivel, setNivel] = useState('');
   const [mensagem, setMensagem] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!nome || !genero || !nivel) {
@@ -14,21 +15,24 @@ function InscricaoTorneioAmador() {
       return;
     }
 
-    const novoAtleta = {
-      id: crypto.randomUUID(),
-      nome,
-      genero,
-      nivel,
-      email: localStorage.getItem('emailUsuario'),
-    };
+    try {
+      const email = localStorage.getItem('emailUsuario'); // ainda vamos usar para associar
 
-    const atletasSalvos = JSON.parse(localStorage.getItem('atletas')) || [];
-    localStorage.setItem('atletas', JSON.stringify([...atletasSalvos, novoAtleta]));
+      await api.post('/atletas', {
+        nome,
+        genero,
+        nivel,
+        email,
+      });
 
-    setMensagem('Inscrição enviada com sucesso!');
-    setNome('');
-    setGenero('');
-    setNivel('');
+      setMensagem('Inscrição enviada com sucesso!');
+      setNome('');
+      setGenero('');
+      setNivel('');
+    } catch (error) {
+      console.error('Erro ao enviar inscrição:', error);
+      setMensagem('Erro ao enviar inscrição. Tente novamente.');
+    }
   };
 
   return (
@@ -81,7 +85,6 @@ function InscricaoTorneioAmador() {
           </form>
         </div>
       </div>
-
     </div>
   );
 }
