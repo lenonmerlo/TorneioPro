@@ -1,7 +1,7 @@
 generator client {
-  provider      = "prisma-client-js"
-  output        = "../src/generated/prisma"
-  binaryTargets = ["native", "debian-openssl-3.0.x"]
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  binaryTargets   = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -19,26 +19,32 @@ model Equipe {
 }
 
 model Atleta {
-  id      Int     @id @default(autoincrement())
-  nome    String
-  email   String  @unique 
-  genero  String
-  equipeId Int?
-  nivel   String?
+  id                 Int                  @id @default(autoincrement())
+  nome               String
+  email              String               @unique // Mantém o email único, mas agora vinculado ao Usuario também
+  genero             String
+  equipeId           Int?
+  nivel              String?
 
-  equipe  Equipe? @relation(fields: [equipeId], references: [id])
+  equipe             Equipe?              @relation(fields: [equipeId], references: [id])
+
+  // NOVAS LINHAS: Relacionamento com o modelo Usuario
+  usuarioId          Int                  @unique // Um atleta pertence a um Usuario, e este Usuario tem apenas este perfil de Atleta
+  usuario            Usuario              @relation(fields: [usuarioId], references: [id])
+
   ParticipacaoAmador ParticipacaoAmador[]
 }
 
 
 model Usuario {
-  id       Int       @id @default(autoincrement())
-  nome     String
-  email    String    @unique
-  senha    String
-  perfil   String
-  criadoEm DateTime  @default(now())
-  Torneio  Torneio[]
+  id         Int       @id @default(autoincrement())
+  nome       String
+  email      String    @unique
+  senha      String
+  perfil     String
+  criadoEm   DateTime  @default(now())
+  Torneio    Torneio[]
+  atleta     Atleta?   // NOVA LINHA: Um usuário pode ter um perfil de atleta (opcional)
 }
 
 model Torneio {
@@ -56,12 +62,12 @@ model Torneio {
 }
 
 model ParticipacaoAmador {
-  id        Int      @id @default(autoincrement())
-  atletaId  Int
-  atleta    Atleta   @relation(fields: [atletaId], references: [id])
-  criadoEm  DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  atletaId   Int
+  atleta     Atleta   @relation(fields: [atletaId], references: [id])
+  criadoEm   DateTime @default(now())
 
-  @@unique([atletaId]) // Garante que o mesmo atleta não se inscreva 2x
+  @@unique([atletaId]) // Garante que o mesmo atleta não se inscreva 2x no torneio amador
 }
 
 
@@ -82,17 +88,17 @@ model AtletaOficial {
 }
 
 model Partida {
-  id            Int      @id @default(autoincrement())
-  torneioId     Int
-  equipe1Id     Int
-  equipe2Id     Int
+  id          Int      @id @default(autoincrement())
+  torneioId   Int
+  equipe1Id   Int
+  equipe2Id   Int
   pontosEquipe1 Int
   pontosEquipe2 Int
-  fase          String
-  createdAt     DateTime @default(now())
-  equipe1       Equipe   @relation("Equipe1", fields: [equipe1Id], references: [id])
-  equipe2       Equipe   @relation("Equipe2", fields: [equipe2Id], references: [id])
-  torneio       Torneio  @relation(fields: [torneioId], references: [id])
+  fase        String
+  createdAt   DateTime @default(now())
+  equipe1     Equipe   @relation("Equipe1", fields: [equipe1Id], references: [id])
+  equipe2     Equipe   @relation("Equipe2", fields: [equipe2Id], references: [id])
+  torneio     Torneio  @relation(fields: [torneioId], references: [id])
 }
 
 enum StatusTorneio {

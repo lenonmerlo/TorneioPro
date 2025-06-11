@@ -132,7 +132,8 @@ exports.Prisma.AtletaScalarFieldEnum = {
   email: 'email',
   genero: 'genero',
   equipeId: 'equipeId',
-  nivel: 'nivel'
+  nivel: 'nivel',
+  usuarioId: 'usuarioId'
 };
 
 exports.Prisma.UsuarioScalarFieldEnum = {

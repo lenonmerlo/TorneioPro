@@ -21,12 +21,17 @@ model Equipe {
 model Atleta {
   id       Int     @id @default(autoincrement())
   nome     String
-  email    String  @unique
+  email    String  @unique // Mantém o email único, mas agora vinculado ao Usuario também
   genero   String
   equipeId Int?
   nivel    String?
 
-  equipe             Equipe?              @relation(fields: [equipeId], references: [id])
+  equipe Equipe? @relation(fields: [equipeId], references: [id])
+
+  // NOVAS LINHAS: Relacionamento com o modelo Usuario
+  usuarioId Int     @unique // Um atleta pertence a um Usuario, e este Usuario tem apenas este perfil de Atleta
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+
   ParticipacaoAmador ParticipacaoAmador[]
 }
 
@@ -38,6 +43,7 @@ model Usuario {
   perfil   String
   criadoEm DateTime  @default(now())
   Torneio  Torneio[]
+  atleta   Atleta? // NOVA LINHA: Um usuário pode ter um perfil de atleta (opcional)
 }
 
 model Torneio {
@@ -60,7 +66,7 @@ model ParticipacaoAmador {
   atleta   Atleta   @relation(fields: [atletaId], references: [id])
   criadoEm DateTime @default(now())
 
-  @@unique([atletaId]) // Garante que o mesmo atleta não se inscreva 2x
+  @@unique([atletaId]) // Garante que o mesmo atleta não se inscreva 2x no torneio amador
 }
 
 model EquipeOficial {
