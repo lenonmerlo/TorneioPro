@@ -1,9 +1,7 @@
-// schema.prisma
-
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-3.0.x"]
   output        = "../src/generated/prisma"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -12,11 +10,10 @@ datasource db {
 }
 
 model Equipe {
-  id      Int      @id @default(autoincrement())
-  nome    String
-  tipo    String // "dupla", "trio", "quarteto"
-  atletas Atleta[]
-
+  id                  Int       @id @default(autoincrement())
+  nome                String
+  tipo                String
+  atletas             Atleta[]
   partidasComoEquipe1 Partida[] @relation("Equipe1")
   partidasComoEquipe2 Partida[] @relation("Equipe2")
 }
@@ -24,21 +21,23 @@ model Equipe {
 model Atleta {
   id       Int     @id @default(autoincrement())
   nome     String
+  email    String  @unique
   genero   String
-  nivel    String?
   equipeId Int?
-  equipe   Equipe? @relation(fields: [equipeId], references: [id])
+  nivel    String?
+
+  equipe             Equipe?              @relation(fields: [equipeId], references: [id])
+  ParticipacaoAmador ParticipacaoAmador[]
 }
 
 model Usuario {
-  id       Int      @id @default(autoincrement())
+  id       Int       @id @default(autoincrement())
   nome     String
-  email    String   @unique
+  email    String    @unique
   senha    String
-  perfil   String // "aluno" ou "professor"
-  criadoEm DateTime @default(now())
-
-  Torneio Torneio[]
+  perfil   String
+  criadoEm DateTime  @default(now())
+  Torneio  Torneio[]
 }
 
 model Torneio {
@@ -48,31 +47,28 @@ model Torneio {
   data        DateTime
   local       String?
   status      StatusTorneio @default(aberto)
-  criadoPor   Usuario       @relation(fields: [criadoPorId], references: [id])
   criadoPorId Int
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
-
-  Partida Partida[]
+  Partida     Partida[]
+  criadoPor   Usuario       @relation(fields: [criadoPorId], references: [id])
 }
 
-enum StatusTorneio {
-  aberto
-  fechado
-  encerrado
-}
+model ParticipacaoAmador {
+  id       Int      @id @default(autoincrement())
+  atletaId Int
+  atleta   Atleta   @relation(fields: [atletaId], references: [id])
+  criadoEm DateTime @default(now())
 
-enum TipoTorneio {
-  amador
-  oficial
+  @@unique([atletaId]) // Garante que o mesmo atleta não se inscreva 2x
 }
 
 model EquipeOficial {
   id        Int             @id @default(autoincrement())
   nome      String
-  tipo      String // 'dupla', 'trio', 'quarteto'
-  atletas   AtletaOficial[]
+  tipo      String
   createdAt DateTime        @default(now())
+  atletas   AtletaOficial[]
 }
 
 model AtletaOficial {
@@ -92,8 +88,18 @@ model Partida {
   pontosEquipe2 Int
   fase          String
   createdAt     DateTime @default(now())
+  equipe1       Equipe   @relation("Equipe1", fields: [equipe1Id], references: [id])
+  equipe2       Equipe   @relation("Equipe2", fields: [equipe2Id], references: [id])
+  torneio       Torneio  @relation(fields: [torneioId], references: [id])
+}
 
-  torneio Torneio @relation(fields: [torneioId], references: [id])
-  equipe1 Equipe  @relation("Equipe1", fields: [equipe1Id], references: [id])
-  equipe2 Equipe  @relation("Equipe2", fields: [equipe2Id], references: [id])
+enum StatusTorneio {
+  aberto
+  fechado
+  encerrado
+}
+
+enum TipoTorneio {
+  amador
+  oficial
 }

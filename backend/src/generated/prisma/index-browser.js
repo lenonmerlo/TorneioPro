@@ -129,9 +129,10 @@ exports.Prisma.EquipeScalarFieldEnum = {
 exports.Prisma.AtletaScalarFieldEnum = {
   id: 'id',
   nome: 'nome',
+  email: 'email',
   genero: 'genero',
-  nivel: 'nivel',
-  equipeId: 'equipeId'
+  equipeId: 'equipeId',
+  nivel: 'nivel'
 };
 
 exports.Prisma.UsuarioScalarFieldEnum = {
@@ -153,6 +154,12 @@ exports.Prisma.TorneioScalarFieldEnum = {
   criadoPorId: 'criadoPorId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ParticipacaoAmadorScalarFieldEnum = {
+  id: 'id',
+  atletaId: 'atletaId',
+  criadoEm: 'criadoEm'
 };
 
 exports.Prisma.EquipeOficialScalarFieldEnum = {
@@ -210,6 +217,7 @@ exports.Prisma.ModelName = {
   Atleta: 'Atleta',
   Usuario: 'Usuario',
   Torneio: 'Torneio',
+  ParticipacaoAmador: 'ParticipacaoAmador',
   EquipeOficial: 'EquipeOficial',
   AtletaOficial: 'AtletaOficial',
   Partida: 'Partida'

@@ -19,13 +19,17 @@ model Equipe {
 }
 
 model Atleta {
-  id       Int     @id @default(autoincrement())
-  nome     String
-  genero   String
+  id      Int     @id @default(autoincrement())
+  nome    String
+  email   String  @unique 
+  genero  String
   equipeId Int?
-  nivel    String?
-  equipe   Equipe? @relation(fields: [equipeId], references: [id])
+  nivel   String?
+
+  equipe  Equipe? @relation(fields: [equipeId], references: [id])
+  ParticipacaoAmador ParticipacaoAmador[]
 }
+
 
 model Usuario {
   id       Int       @id @default(autoincrement())
@@ -50,6 +54,16 @@ model Torneio {
   Partida     Partida[]
   criadoPor   Usuario       @relation(fields: [criadoPorId], references: [id])
 }
+
+model ParticipacaoAmador {
+  id        Int      @id @default(autoincrement())
+  atletaId  Int
+  atleta    Atleta   @relation(fields: [atletaId], references: [id])
+  criadoEm  DateTime @default(now())
+
+  @@unique([atletaId]) // Garante que o mesmo atleta não se inscreva 2x
+}
+
 
 model EquipeOficial {
   id        Int             @id @default(autoincrement())
