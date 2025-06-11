@@ -3,11 +3,12 @@ import prisma from '@/lib/prismaClient';
 
 export const criarAtleta = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { nome, genero, nivel, equipeId } = req.body;
+    const { nome, email, genero, nivel, equipeId } = req.body;
 
     const atleta = await prisma.atleta.create({
       data: {
         nome,
+        email,
         genero,
         nivel,
         equipe: equipeId ? { connect: { id: equipeId } } : undefined
