@@ -6,11 +6,21 @@ import {
   deletarAtleta
 } from '@/controllers/atletaController';
 
+import { authMiddleware } from '@/middlewares/authMiddleware';
+
+
 const router = Router();
 
-router.get('/', listarAtletas);
-router.post('/', criarAtleta);
-router.put('/:id', atualizarAtleta);    
-router.delete('/:id', deletarAtleta);  
+
+router.get('/', authMiddleware, listarAtletas);
+
+
+router.post('/', authMiddleware, criarAtleta);
+
+
+router.put('/:id', authMiddleware, atualizarAtleta);
+
+
+router.delete('/:id', authMiddleware, deletarAtleta);
 
 export default router;
