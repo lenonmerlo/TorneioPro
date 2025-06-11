@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon",
     "build": "tsc",
-    "start": "npx prisma migrate deploy && tsx src/server.ts",
+    "start": "tsx src/server.ts",                            // ⬅️ SOMENTE inicia o servidor
+    "postinstall": "prisma generate && prisma migrate deploy",  // ⬅️ Agora as migrations rodam AQUI
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio"
