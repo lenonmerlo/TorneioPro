@@ -1,10 +1,10 @@
-// C:\Users\lenon\Development\evpc-torneio\frontend\src\pages\login\CadastroAluno.jsx
+// C:\Users\lenon\Development\evpc-torneio\frontend\src\pages\login\CadastroProfessor.jsx
 import { useState } from 'react';
-import Input from '@/components/form/Input';
+import Input from '@/components/usuario/Input';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '@/services/api';
 
-function CadastroAluno() {
+function CadastroProfessor() {
   const [form, setForm] = useState({
     nome: '',
     email: '',
@@ -35,16 +35,16 @@ function CadastroAluno() {
         nome: form.nome,
         email: form.email,
         senha: form.senha,
-        perfil: 'aluno'
+        perfil: 'treinador'
       });
 
-      console.log('Cadastro de atleta bem-sucedido:', response.data);
+      console.log('Cadastro de treinador bem-sucedido:', response.data);
       setMensagem('Cadastro realizado com sucesso! Redirecionando para login...');
       setTipoMensagem('sucesso');
 
-      setTimeout(() => navigate('/login-aluno'), 2000);
+      setTimeout(() => navigate('/login-professor'), 2000);
     } catch (error) {
-      console.error('Erro no cadastro de atleta:', error.response?.data || error.message);
+      console.error('Erro no cadastro de treinador:', error.response?.data || error.message);
       setMensagem('Erro ao cadastrar. Verifique seus dados ou tente novamente mais tarde.');
       setTipoMensagem('erro');
     }
@@ -53,7 +53,7 @@ function CadastroAluno() {
   return (
     <div className="min-h-screen bg-[url('/assets/bg-praia.png')] bg-cover bg-center bg-no-repeat flex items-center justify-center px-4">
       <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8 w-full max-w-md">
-        <h1 className="text-2xl font-bold text-blue-800 mb-4 text-center">Cadastro de Atleta</h1>
+        <h1 className="text-2xl font-bold text-blue-800 mb-4 text-center">Cadastro de Treinador</h1>
 
         {mensagem && (
           <div
@@ -80,7 +80,7 @@ function CadastroAluno() {
           />
           <button
             type="submit"
-            className="w-full bg-yellow-400 hover:bg-yellow-500 text-blue-900 py-3 rounded-lg font-semibold mt-4"
+            className="w-full bg-purple-700 hover:bg-purple-800 text-white py-3 rounded-lg font-semibold mt-4"
           >
             Cadastrar
           </button>
@@ -88,7 +88,7 @@ function CadastroAluno() {
 
         <p className="text-sm text-blue-800 mt-4 text-center">
           Já tem uma conta?
-          <Link to="/login-aluno" className="text-yellow-600 font-semibold hover:underline ml-1">
+          <Link to="/login-professor" className="text-purple-700 font-semibold hover:underline ml-1">
             Faça login
           </Link>
         </p>
@@ -97,4 +97,4 @@ function CadastroAluno() {
   );
 }
 
-export default CadastroAluno;
+export default CadastroProfessor;

@@ -1,4 +1,4 @@
-// src/data/atletas.js
+// src/data/atletasAmador.js
 
 export const atletas = [
   { nome: "João", genero: "M", nivel: "iniciante" },

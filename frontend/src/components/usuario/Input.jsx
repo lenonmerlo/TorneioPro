@@ -1,4 +1,4 @@
-// src/components/form/Input.jsx
+// src/components/usuario/Input.jsx
 function Input({ label, type = "text", name, value, onChange }) {
   return (
     <div className="mb-4">

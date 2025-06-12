@@ -1,15 +1,15 @@
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import Footer from '@/components/layout/Footer';
+import Header from '@/components/layout/Header';
 import Home from '@/pages/Home';
-import InscricaoOficial from '@/pages/InscricaoOficial';
-import InscricaoTorneioAmador from '@/pages/InscricaoTorneioAmador';
+import InscricaoOficial from '@/pages/oficial/InscricaoOficial';
+import InscricaoTorneioAmador from '@/pages/amador/InscricaoTorneioAmador';
 import Participar from '@/pages/Participar';
-import TorneioAmador from '@/pages/TorneioAmador';
-import TorneioOficial from '@/pages/TorneioOficial';
-import LoginAluno from '@/pages/login/LoginAluno';
-import CadastroAluno from '@/pages/login/CadastroAluno';
-import LoginProfessor from '@/pages/login/LoginProfessor';
-import CadastroProfessor from '@/pages/login/CadastroProfessor';
+import TorneioAmador from '@/pages/amador/TorneioAmador';
+import TorneioOficial from '@/pages/oficial/TorneioOficial';
+import LoginAluno from '@/pages/usuario/LoginAluno';
+import CadastroAluno from '@/pages/usuario/CadastroAluno';
+import LoginProfessor from '@/pages/usuario/LoginProfessor';
+import CadastroProfessor from '@/pages/usuario/CadastroProfessor';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 function App() {

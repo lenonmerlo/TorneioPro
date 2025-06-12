@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { gerarChavesPorGrupos } from '@/utils/gerarChavesPorGrupos';
 import { sortearQuartetoMisto } from '@/utils/sortearQuartetoMisto';
-import ButtonExportPDF from '@/components/ButtonExportPDF';
+import ButtonExportPDF from '@/components/amador/ButtonExportPDF';
 import api from '@/services/api';
 
 function TorneioAmador() {

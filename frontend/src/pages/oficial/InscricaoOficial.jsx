@@ -1,8 +1,9 @@
 import { useState } from "react";
-import FormDupla from "../components/inscricao/FormDupla";
-import FormTrio from "../components/inscricao/FormTrio";
-import FormQuarteto from "../components/inscricao/FormQuarteto";
-import api from "../services/api";
+import api from "../../services/api";
+import FormDupla from "../../components/oficial/FormDupla";
+import FormTrio from "../../components/oficial/FormTrio";
+import FormQuarteto from "../../components/oficial/FormQuarteto";
+
 
 const InscricaoOficial = () => {
   const [tipoEquipe, setTipoEquipe] = useState("dupla");

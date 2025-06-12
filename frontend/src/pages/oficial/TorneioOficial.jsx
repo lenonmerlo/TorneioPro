@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { gerarChavesPorGrupos } from '@/utils/gerarChavesPorGrupos';
-import ButtonExportPDF from '@/components/ButtonExportPDF';
+import ButtonExportPDF from '@/components/amador/ButtonExportPDF';
 import api from "@/services/api";
 
 
