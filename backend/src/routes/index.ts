@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import equipeRoutes from './equipeRoutes';
-import atletaRoutes from './atletaRoutes';
-import authRoutes from './authRoutes';
-import treinadorRoutes from './treinadorRoutes';
+import equipeRoutes from './amador/equipeRoutes';
+import atletaRoutes from './amador/atletaRoutes';
+import authRoutes from './usuario/authRoutes';
+import treinadorRoutes from './usuario/treinadorRoutes';
 import torneioRoutes from './torneioRoutes';
-import sorteioRoutes from './sorteioRoutes';
-import chavesAmadorRoutes from './sorteio/chavesAmadorRoutes';
-import equipeOficialRoutes from './sorteio/equipeOficialRoutes';
-import partidaRoutes from './partidaRoutes';
-import participacaoAmadorRoutes from './torneioAmador/participacaoAmadorRoutes';
+import sorteioRoutes from './amador/sorteioRoutes';
+import chavesAmadorRoutes from './amador/chavesAmadorRoutes';
+import equipeOficialRoutes from './oficial/equipeOficialRoutes';
+import partidaRoutes from './oficial/partidaRoutes';
+import participacaoAmadorRoutes from './amador/participacaoAmadorRoutes';
 
 
 const router = Router();
