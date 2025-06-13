@@ -1,75 +1,134 @@
+// ROTA: /api/oficial/partidas
+
 import { Request, Response } from 'express';
-import prisma from '@/lib/prismaClient';
+import prisma from '../../lib/prismaClient';
 
-export const criarPartida = async (req: Request, res: Response) => {
+// [POST] Criar nova partida oficial
+export const criarPartidaOficial = async (req: Request, res: Response) => {
+  const { torneioId, equipeOficial1Id, equipeOficial2Id, pontosEquipe1, pontosEquipe2, fase } = req.body;
+
+  if (!torneioId || !equipeOficial1Id || !equipeOficial2Id || !fase) {
+    return res.status(400).json({ message: 'Campos obrigatórios ausentes.' });
+  }
+
   try {
-    const { torneioId, equipe1Id, equipe2Id, pontosEquipe1, pontosEquipe2, fase } = req.body;
     const novaPartida = await prisma.partida.create({
-      data: { torneioId, equipe1Id, equipe2Id, pontosEquipe1, pontosEquipe2, fase }
+      data: {
+        torneioId,
+        equipeOficial1Id,
+        equipeOficial2Id,
+        pontosEquipe1,
+        pontosEquipe2,
+        fase,
+      },
     });
-    res.status(201).json(novaPartida);
+
+    return res.status(201).json(novaPartida);
   } catch (error) {
-    res.status(500).json({ erro: 'Erro ao criar partida', detalhe: error });
+    console.error('Erro ao criar partida oficial:', error);
+    return res.status(500).json({ message: 'Erro interno ao criar partida.' });
   }
 };
 
-export const listarPartidas = async (_: Request, res: Response) => {
+// [GET] Listar todas as partidas de um torneio oficial
+export const listarPartidasOficiais = async (req: Request, res: Response) => {
+  const { torneioId } = req.params;
+
   try {
     const partidas = await prisma.partida.findMany({
+      where: {
+        torneioId: Number(torneioId),
+        equipeOficial1Id: { not: null },
+      },
       include: {
-        equipe1: true,
-        equipe2: true,
-        torneio: true
-      }
+        equipeOficial1: {
+          include: { membros: { include: { atleta: true } } },
+        },
+        equipeOficial2: {
+          include: { membros: { include: { atleta: true } } },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
-    res.json(partidas);
+
+    return res.status(200).json(partidas);
   } catch (error) {
-    res.status(500).json({ erro: 'Erro ao listar partidas' });
+    console.error('Erro ao listar partidas oficiais:', error);
+    return res.status(500).json({ message: 'Erro interno ao buscar partidas.' });
   }
 };
 
-export const deletarPartida = async (req: Request, res: Response) => {
+// [PUT] Atualizar placar de uma partida oficial
+export const atualizarPlacarPartidaOficial = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { pontosEquipe1, pontosEquipe2 } = req.body;
+
   try {
-    const id = Number(req.params.id);
-    await prisma.partida.delete({ where: { id } });
-    res.status(204).send();
+    const partidaAtualizada = await prisma.partida.update({
+      where: { id: Number(id) },
+      data: {
+        pontosEquipe1,
+        pontosEquipe2,
+      },
+    });
+
+    return res.status(200).json(partidaAtualizada);
   } catch (error) {
-    res.status(500).json({ erro: 'Erro ao deletar partida' });
+    console.error('Erro ao atualizar placar da partida oficial:', error);
+    return res.status(500).json({ message: 'Erro ao atualizar partida.' });
   }
 };
 
-export const gerarRanking = async (req: Request, res: Response) => {
+// [DELETE] Remover uma partida oficial
+export const deletarPartidaOficial = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
   try {
-    const { torneioId } = req.query;
+    await prisma.partida.delete({
+      where: { id: Number(id) },
+    });
+
+    return res.status(200).json({ message: 'Partida deletada com sucesso.' });
+  } catch (error) {
+    console.error('Erro ao deletar partida oficial:', error);
+    return res.status(500).json({ message: 'Erro ao deletar partida.' });
+  }
+};
+
+// [GET] Definir vencedores automaticamente com base no placar
+export const definirVencedoresPartidasOficiais = async (_req: Request, res: Response) => {
+  try {
     const partidas = await prisma.partida.findMany({
-      where: { torneioId: Number(torneioId) }
+      where: {
+        equipeOficial1Id: { not: null },
+        equipeOficial2Id: { not: null },
+        vencedorId: null,
+        pontosEquipe1: { not: null },
+        pontosEquipe2: { not: null },
+      },
     });
 
-    const ranking: Record<string, { pontos: number, vitorias: number }> = {};
+    for (const partida of partidas) {
+      const { id, pontosEquipe1, pontosEquipe2, equipeOficial1Id, equipeOficial2Id } = partida;
 
-    partidas.forEach(({ equipe1Id, equipe2Id, pontosEquipe1, pontosEquipe2 }) => {
-      if (!ranking[equipe1Id]) ranking[equipe1Id] = { pontos: 0, vitorias: 0 };
-      if (!ranking[equipe2Id]) ranking[equipe2Id] = { pontos: 0, vitorias: 0 };
-
-      if (pontosEquipe1 > pontosEquipe2) {
-        ranking[equipe1Id].pontos += 3;
-        ranking[equipe1Id].vitorias += 1;
-      } else if (pontosEquipe2 > pontosEquipe1) {
-        ranking[equipe2Id].pontos += 3;
-        ranking[equipe2Id].vitorias += 1;
-      } else {
-        ranking[equipe1Id].pontos += 1;
-        ranking[equipe2Id].pontos += 1;
+      if (pontosEquipe1! > pontosEquipe2!) {
+        await prisma.partida.update({
+          where: { id },
+          data: { vencedorId: equipeOficial1Id! },
+        });
+      } else if (pontosEquipe2! > pontosEquipe1!) {
+        await prisma.partida.update({
+          where: { id },
+          data: { vencedorId: equipeOficial2Id! },
+        });
       }
-    });
+    }
 
-    const resultado = Object.entries(ranking).map(([equipeId, dados]) => ({
-      equipeId: Number(equipeId),
-      ...dados
-    }));
-
-    res.json(resultado.sort((a, b) => b.pontos - a.pontos));
+    return res.status(200).json({ message: 'Vencedores definidos com sucesso.' });
   } catch (error) {
-    res.status(500).json({ erro: 'Erro ao gerar ranking' });
+    console.error('Erro ao definir vencedores:', error);
+    return res.status(500).json({ message: 'Erro ao processar vencedores.' });
   }
 };

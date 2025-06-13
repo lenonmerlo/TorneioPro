@@ -1,92 +1,98 @@
-import { Request, Response } from 'express';
-import prisma from '@/lib/prismaClient';
-import bcrypt from 'bcrypt';
+// 📁 backend/src/controllers/usuario/treinadorController.ts
+// Rotas para gerenciar usuários com perfil 'treinador'
 
-// Listar todos os treinadores
-export const listarTreinadores = async (req: Request, res: Response): Promise<void> => {
+import { Request, Response } from 'express';
+import bcrypt from 'bcrypt';
+import prisma from '../../lib/prismaClient';
+
+// GET /treinadores
+export const getTreinadores = async (_req: Request, res: Response) => {
   try {
     const treinadores = await prisma.usuario.findMany({
-      where: { perfil: 'professor' }
+      where: { perfil: 'treinador' },
+      select: {
+        id: true,
+        nome: true,
+        email: true,
+        criadoEm: true
+      }
     });
     res.json(treinadores);
-  } catch (error: any) {
-    res.status(500).json({ erro: 'Erro ao listar treinadores', detalhe: error.message });
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao listar treinadores.' });
   }
 };
 
-// Buscar treinador por ID
-export const buscarTreinadorPorId = async (req: Request, res: Response): Promise<void> => {
-  const id = Number(req.params.id);
+// GET /treinadores/:id
+export const getTreinadorById = async (req: Request, res: Response) => {
+  const { id } = req.params;
   try {
-    const treinador = await prisma.usuario.findUnique({ where: { id } });
-    if (!treinador || treinador.perfil !== 'professor') {
-        res.status(404).json({ erro: "Treinador não encontrado ou perfil incorreto." }); // Melhorar a mensagem de erro
-        return; // Adicionar um return aqui para garantir que a execução pare
-    }
+    const treinador = await prisma.usuario.findFirst({
+      where: { id: Number(id), perfil: 'treinador' },
+      select: {
+        id: true,
+        nome: true,
+        email: true,
+        criadoEm: true
+      }
+    });
+    if (!treinador) return res.status(404).json({ message: 'Treinador não encontrado.' });
     res.json(treinador);
-  } catch (error: any) {
-    res.status(500).json({ erro: 'Erro ao buscar treinador', detalhe: error.message });
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao buscar treinador.' });
   }
 };
 
-// Criar treinador
-export const criarTreinador = async (req: Request, res: Response): Promise<void> => { // Alterado para Promise<void>
+// POST /treinadores
+export const createTreinador = async (req: Request, res: Response) => {
+  const { nome, email, senha } = req.body;
+  if (!nome || !email || !senha) {
+    return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
+  }
+
   try {
-    const { nome, email, senha } = req.body;
-
-    if (!nome || !email || !senha) {
-      res.status(400).json({ erro: 'Nome, email e senha são obrigatórios.' });
-      return; // Adicionar um return aqui para garantir que a execução pare
-    }
-
-    const senhaHash = await bcrypt.hash(senha, 10);
-
+    const hashed = await bcrypt.hash(senha, 10);
     const novoTreinador = await prisma.usuario.create({
       data: {
         nome,
         email,
-        senha: senhaHash,
-        perfil: 'professor',
-      },
-    });
-
-    res.status(201).json(novoTreinador);
-  } catch (error: unknown) {
-    const e = error as Error;
-    res.status(500).json({ // Remover o `return` aqui, pois a resposta é enviada e não é um retorno de função para ser usado
-      erro: "Erro ao criar treinador",
-      detalhe: e.message,
-    });
-  }
-};
-
-// Atualizar treinador
-export const atualizarTreinador = async (req: Request, res: Response): Promise<void> => { // Alterado para Promise<void>
-  const id = Number(req.params.id);
-  const { nome, email, senha } = req.body;
-  try {
-    const senhaHash = senha ? await bcrypt.hash(senha, 10) : undefined;
-    const treinadorAtualizado = await prisma.usuario.update({
-      where: { id },
-      data: {
-        nome,
-        email,
-        ...(senhaHash && { senha: senhaHash })
+        senha: hashed,
+        perfil: 'treinador'
       }
     });
-    res.json(treinadorAtualizado);
-  } catch (error: any) {
-    res.status(500).json({ erro: 'Erro ao atualizar treinador', detalhe: error.message });
+    res.status(201).json(novoTreinador);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao criar treinador.' });
   }
 };
 
-// Deletar treinador
-export const deletarTreinador = async (req: Request, res: Response): Promise<void> => { // Alterado para Promise<void>
-  const id = Number(req.params.id);
+// PUT /treinadores/:id
+export const updateTreinador = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { nome, email } = req.body;
+
   try {
-    await prisma.usuario.delete({ where: { id } });
+    const atualizado = await prisma.usuario.update({
+      where: { id: Number(id) },
+      data: {
+        nome,
+        email
+      }
+    });
+    res.json(atualizado);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao atualizar treinador.' });
+  }
+};
+
+// DELETE /treinadores/:id
+export const deleteTreinador = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    await prisma.usuario.delete({ where: { id: Number(id) } });
     res.status(204).send();
-  } catch (error: any) {
-    res.status(500).json({ erro: 'Erro ao deletar treinador', detalhe: error.message });
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao deletar treinador.' });
   }
 };

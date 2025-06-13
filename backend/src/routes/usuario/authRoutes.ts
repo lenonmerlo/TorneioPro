@@ -1,9 +1,10 @@
-import { Router } from 'express';
-import { login, registrar } from '@/controllers/usuario/authController';
+// 📁 backend/src/routes/usuario/authRoutes.ts
+import { RequestHandler, Router } from 'express';
+import { createLogin, createRegister } from '../../controllers/usuario/authController';
 
 const router = Router();
 
-router.post('/login', login);
-router.post('/register', registrar);
+router.post('/login', createLogin as unknown as RequestHandler);
+router.post('/register', createRegister as unknown as RequestHandler);
 
 export default router;

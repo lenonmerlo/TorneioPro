@@ -1,0 +1,55 @@
+backend/
+├── prisma/                             # Pasta padrão do Prisma
+│   ├── migrations/                     # Migrações automáticas (npx prisma migrate dev)
+│   └── schema.prisma                   # Modelo de dados principal do sistema
+│
+├── src/
+│   ├── controllers/                    # Funções que lidam com a lógica de cada rota
+│   │   ├── amador/                     # Torneio Amador - Inscrição, Sorteio, Equipes
+│   │   │   ├── atletaController.ts     # (Opcional) Criar/editar perfil do atleta (conectado a Usuario)
+│   │   │   ├── participacaoAmadorController.ts  # Inscrição do atleta no Torneio Amador
+│   │   │   ├── sorteioController.ts   # Sorteio dos quartetos, reservas, criação de partidas
+│   │   │
+│   │   ├── oficial/                   # Torneio Oficial - Equipes formadas pelos atletas
+│   │   │   ├── equipeOficialController.ts   # Cadastrar duplas/trios/quartetos definidos pelos atletas
+│   │   │   └── partidaController.ts         # Registrar, listar e atualizar partidas do Torneio Oficial
+│   │   │
+│   │   ├── usuario/                   # Tudo que envolve usuários (login, cadastro, perfil)
+│   │       ├── authController.ts           # Login e registro (JWT)
+│   │       ├── treinadorController.ts      # CRUD para usuários com perfil 'treinador'
+│   │       └── torneioController.ts        # Criar/editar torneios (restrito a treinadores)
+│
+│   ├── routes/                        # Define as rotas (endpoints) expostas pela API
+│   │   ├── amador/
+│   │   │   ├── participacaoAmadorRoutes.ts  # POST /participacoes-amador
+│   │   │   ├── sorteioRoutes.ts            # POST /sorteio/amador/:torneioId
+│   │   │   └── atletaRoutes.ts (opcional)  # Se quiser rota para editar perfil de atleta
+│   │   │
+│   │   ├── oficial/
+│   │   │   ├── equipeOficialRoutes.ts      # POST /equipes-oficial
+│   │   │   └── partidaRoutes.ts            # POST /partidas, PUT /partidas/:id
+│   │   │
+│   │   ├── usuario/
+│   │   │   ├── authRoutes.ts               # /auth/login, /auth/register
+│   │   │   ├── treinadorRoutes.ts          # GET /treinadores
+│   │   │   └── torneioRoutes.ts            # CRUD para torneios
+│   │   │
+│   │   └── index.ts                        # Arquivo principal que conecta todas as rotas
+│
+│   ├── utils/
+│   │   └── amador/
+│   │       └── sortearQuartetoMistoBackend.ts  # Lógica de sorteio (quartetos, flexibilizados, reservas)
+│
+│   ├── lib/
+│   │   └── prismaClient.ts                # Prisma client configurado com `export default prisma`
+│
+│   ├── middlewares/
+│   │   ├── authMiddleware.ts              # Verifica se usuário está autenticado via JWT
+│   │   └── authorizeRole.ts               # Verifica se o usuário é 'treinador' ou 'atleta'
+│
+│   └── server.ts                          # Ponto de entrada do servidor Express
+
+
+equipeController.ts e chavesAmadorController.ts:
+
+São obsoletos com base no novo schema.prisma, e podem ser totalmente substituídos pela lógica dentro de sorteioController.ts.

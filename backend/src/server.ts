@@ -1,9 +1,9 @@
-import express, { Application } from 'express';
-import cors from 'cors';
 import bodyParser from 'body-parser';
+import cors from 'cors';
+import express, { Application } from 'express';
 import swaggerUi from 'swagger-ui-express';
-import routes from '@/routes';
-import swaggerDocument from '@/swagger/swagger.json';
+import routes from './routes';
+import swaggerDocument from './swagger/swagger.json';
 
 const app: Application = express();
 const PORT = process.env.PORT || 3333;

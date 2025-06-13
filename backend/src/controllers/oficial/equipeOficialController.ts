@@ -1,58 +1,83 @@
+// src/controllers/oficial/equipeOficialController.ts
+
+// ROTA: /api/oficial/equipes
+
 import { Request, Response } from 'express';
-import prisma from '@/lib/prismaClient';
+import prisma from '../../lib/prismaClient';
 
-// Criar equipe oficial (dupla, trio, quarteto)
-export const criarEquipeOficial = async (req: Request, res: Response): Promise<void> => {
+// Criar nova equipe oficial com membros
+export const criarEquipeOficial = async (req: Request, res: Response) => {
+  const { nome, tipo, torneioId, atletaIds } = req.body;
+
+  if (!nome || !tipo || !torneioId || !Array.isArray(atletaIds)) {
+    return res.status(400).json({ message: 'Dados obrigatórios ausentes ou inválidos.' });
+  }
+
   try {
-    const { nome, tipo, atletas } = req.body;
-
-    if (!nome || !tipo || !Array.isArray(atletas) || atletas.length === 0) {
-      res.status(400).json({ erro: 'Nome, tipo e atletas são obrigatórios.' });
-      return;
-    }
-
-    const equipe = await prisma.equipeOficial.create({
+    const novaEquipe = await prisma.equipeOficial.create({
       data: {
         nome,
         tipo,
-        atletas: {
-          create: atletas
-        }
+        torneio: { connect: { id: torneioId } },
+        membros: {
+          create: atletaIds.map((atletaId: number) => ({
+            atleta: { connect: { id: atletaId } },
+          })),
+        },
       },
-      include: { atletas: true }
+      include: {
+        membros: {
+          include: {
+            atleta: true, // para trazer dados do atleta na resposta
+          },
+        },
+      },
     });
 
-    res.status(201).json(equipe);
-  } catch (error: any) {
-    res.status(500).json({ erro: 'Erro ao criar equipe oficial', detalhe: error.message });
+    return res.status(201).json(novaEquipe);
+  } catch (error) {
+    console.error('Erro ao criar equipe oficial:', error);
+    return res.status(500).json({ message: 'Erro interno ao criar equipe oficial.' });
   }
 };
 
-// Listar equipes oficiais
-export const listarEquipesOficiais = async (req: Request, res: Response): Promise<void> => {
+// Listar todas as equipes oficiais de um torneio
+export const listarEquipesOficiais = async (req: Request, res: Response) => {
+  const { torneioId } = req.params;
+
   try {
-    const { tipo } = req.query;
-
     const equipes = await prisma.equipeOficial.findMany({
-      where: tipo ? { tipo: String(tipo) } : {},
-      include: { atletas: true },
-      orderBy: { id: 'asc' }
+      where: {
+        torneioId: parseInt(torneioId),
+      },
+      include: {
+        membros: {
+          include: {
+            atleta: true,
+          },
+        },
+      },
     });
 
-    res.json(equipes);
-  } catch (error: any) {
-    res.status(500).json({ erro: 'Erro ao listar equipes oficiais', detalhe: error.message });
+    return res.status(200).json(equipes);
+  } catch (error) {
+    console.error('Erro ao listar equipes oficiais:', error);
+    return res.status(500).json({ message: 'Erro ao buscar equipes.' });
   }
 };
-
 
 // Deletar equipe oficial por ID
-export const deletarEquipeOficial = async (req: Request, res: Response): Promise<void> => {
-  const id = Number(req.params.id);
+export const deletarEquipeOficial = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
   try {
-    await prisma.equipeOficial.delete({ where: { id } });
-    res.status(204).send();
-  } catch (error: any) {
-    res.status(500).json({ erro: 'Erro ao deletar equipe oficial', detalhe: error.message });
+    await prisma.equipeOficial.delete({
+      where: { id: parseInt(id) },
+    });
+
+    return res.status(200).json({ message: 'Equipe oficial deletada com sucesso.' });
+  } catch (error) {
+    console.error('Erro ao deletar equipe oficial:', error);
+    return res.status(500).json({ message: 'Erro ao deletar equipe.' });
   }
 };

@@ -120,22 +120,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.EquipeScalarFieldEnum = {
-  id: 'id',
-  nome: 'nome',
-  tipo: 'tipo'
-};
-
-exports.Prisma.AtletaScalarFieldEnum = {
-  id: 'id',
-  nome: 'nome',
-  email: 'email',
-  genero: 'genero',
-  equipeId: 'equipeId',
-  nivel: 'nivel',
-  usuarioId: 'usuarioId'
-};
-
 exports.Prisma.UsuarioScalarFieldEnum = {
   id: 'id',
   nome: 'nome',
@@ -143,6 +127,15 @@ exports.Prisma.UsuarioScalarFieldEnum = {
   senha: 'senha',
   perfil: 'perfil',
   criadoEm: 'criadoEm'
+};
+
+exports.Prisma.AtletaScalarFieldEnum = {
+  id: 'id',
+  nome: 'nome',
+  email: 'email',
+  genero: 'genero',
+  nivel: 'nivel',
+  usuarioId: 'usuarioId'
 };
 
 exports.Prisma.TorneioScalarFieldEnum = {
@@ -160,32 +153,43 @@ exports.Prisma.TorneioScalarFieldEnum = {
 exports.Prisma.ParticipacaoAmadorScalarFieldEnum = {
   id: 'id',
   atletaId: 'atletaId',
+  torneioId: 'torneioId',
   criadoEm: 'criadoEm'
+};
+
+exports.Prisma.EquipeAmadorScalarFieldEnum = {
+  id: 'id',
+  nome: 'nome',
+  tipo: 'tipo',
+  torneioId: 'torneioId'
 };
 
 exports.Prisma.EquipeOficialScalarFieldEnum = {
   id: 'id',
   nome: 'nome',
   tipo: 'tipo',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  torneioId: 'torneioId'
 };
 
-exports.Prisma.AtletaOficialScalarFieldEnum = {
-  id: 'id',
-  nome: 'nome',
-  genero: 'genero',
-  equipeId: 'equipeId'
+exports.Prisma.AtletaEquipeOficialScalarFieldEnum = {
+  atletaId: 'atletaId',
+  equipeOficialId: 'equipeOficialId'
 };
 
 exports.Prisma.PartidaScalarFieldEnum = {
   id: 'id',
   torneioId: 'torneioId',
-  equipe1Id: 'equipe1Id',
-  equipe2Id: 'equipe2Id',
+  fase: 'fase',
+  equipeAmador1Id: 'equipeAmador1Id',
+  equipeAmador2Id: 'equipeAmador2Id',
+  equipeOficial1Id: 'equipeOficial1Id',
+  equipeOficial2Id: 'equipeOficial2Id',
   pontosEquipe1: 'pontosEquipe1',
   pontosEquipe2: 'pontosEquipe2',
-  fase: 'fase',
-  createdAt: 'createdAt'
+  vencedorId: 'vencedorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -214,13 +218,13 @@ exports.StatusTorneio = exports.$Enums.StatusTorneio = {
 };
 
 exports.Prisma.ModelName = {
-  Equipe: 'Equipe',
-  Atleta: 'Atleta',
   Usuario: 'Usuario',
+  Atleta: 'Atleta',
   Torneio: 'Torneio',
   ParticipacaoAmador: 'ParticipacaoAmador',
+  EquipeAmador: 'EquipeAmador',
   EquipeOficial: 'EquipeOficial',
-  AtletaOficial: 'AtletaOficial',
+  AtletaEquipeOficial: 'AtletaEquipeOficial',
   Partida: 'Partida'
 };
 
