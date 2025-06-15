@@ -5,7 +5,8 @@ import prisma from '../../lib/prismaClient';
 
 // [POST] Criar novo atleta
 export const createAtleta = async (req: Request, res: Response) => {
-  const { nome, email, genero, nivel, usuarioId } = req.body;
+  const { nome, email, genero, nivel } = req.body;
+  const usuarioId = req.user?.id; // vindo do token JWT
 
   if (!nome || !email || !genero || !usuarioId) {
     return res.status(400).json({ message: 'Dados obrigatórios faltando.' });

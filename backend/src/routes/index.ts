@@ -1,43 +1,39 @@
-import express from 'express';
+import { Router } from 'express';
 
-// 🔐 Usuários
+// Rotas de Usuário/Autenticação
 import authRoutes from './usuario/authRoutes';
 import treinadorRoutes from './usuario/treinadorRoutes';
 import torneioRoutes from './usuario/torneioRoutes';
 
-// 🏐 Amador
+// Rotas do Módulo Amador
 import atletaRoutes from './amador/atletaRoutes';
 import equipeAmadorRoutes from './amador/equipeAmadorRoutes';
 import participacaoAmadorRoutes from './amador/participacaoAmadorRoutes';
-import partidaAmadorRoutes from './amador/partidaAmadorRoutes';
+import partidaAmadorRoutes from './amador/partidaAmadorRoutes'; // Adicionado
 import sorteioRoutes from './amador/sorteioRoutes';
 
-// 🏆 Oficial
+// Rotas do Módulo Oficial
 import equipeOficialRoutes from './oficial/equipeOficialRoutes';
-import partidaOficialRoutes from './oficial/partidaRoutes';
+import partidaOficialRoutes from './oficial/partidaRoutes'; // Renomeado para clareza
 
-const router = express.Router();
+const router = Router();
 
-// ===========================
-// 🔐 Rotas de Usuário
-// ===========================
-router.use('/api/usuarios', authRoutes);
-router.use('/api/treinadores', treinadorRoutes);
-router.use('/api/torneios', torneioRoutes);
+// Rotas de Autenticação
+router.use('/auth', authRoutes);
 
-// ===========================
-// 🏐 Torneio Amador
-// ===========================
-router.use('/api/amador/atletas', atletaRoutes);
-router.use('/api/amador/equipes', equipeAmadorRoutes);
-router.use('/api/amador', participacaoAmadorRoutes); // inclui /inscricao e /inscritos
-router.use('/api/amador/partidas', partidaAmadorRoutes);
-router.use('/api', sorteioRoutes); // rota POST /sorteio/amador/:torneioId
+// Rotas de Usuários (Treinadores e Torneios)
+router.use('/usuarios/treinadores', treinadorRoutes);
+router.use('/usuarios/torneios', torneioRoutes);
 
-// ===========================
-// 🏆 Torneio Oficial
-// ===========================
-router.use('/api/oficial/equipes', equipeOficialRoutes);
-router.use('/api/oficial/partidas', partidaOficialRoutes);
+// Rotas do Módulo Amador
+router.use('/amador/atletas', atletaRoutes);
+router.use('/amador/equipes', equipeAmadorRoutes);
+router.use('/amador/participacoes', participacaoAmadorRoutes);
+router.use('/amador/partidas', partidaAmadorRoutes);
+router.use('/amador/sorteios', sorteioRoutes);
+
+// Rotas do Módulo Oficial
+router.use('/oficial/equipes', equipeOficialRoutes);
+router.use('/oficial/partidas', partidaOficialRoutes);
 
 export default router;

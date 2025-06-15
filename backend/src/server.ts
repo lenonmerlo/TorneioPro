@@ -1,3 +1,5 @@
+/// <reference path="./types/index.d.ts" />
+
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express, { Application } from 'express';
