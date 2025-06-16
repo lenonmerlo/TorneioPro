@@ -6,6 +6,40 @@ import { Request, Response } from 'express';
 import prisma from '../../lib/prismaClient';
 import { sortearQuartetoMistoBackend } from '../../utils/amador/sortearQuartetoMistoBackend'
 
+export const getResultadoSorteioAmador = async (req: Request, res: Response) => {
+  const { torneioId } = req.params;
+
+  try {
+    const equipes = await prisma.equipeAmador.findMany({
+      where: { torneioId: Number(torneioId) },
+      include: {
+        membros: {
+          select: { id: true, nome: true, genero: true, nivel: true }
+        }
+      },
+      orderBy: { nome: 'asc' }
+    });
+
+    const partidas = await prisma.partida.findMany({
+      where: { torneioId: Number(torneioId) },
+      include: {
+        equipeAmador1: true,
+        equipeAmador2: true
+      }
+    });
+
+    return res.status(200).json({
+      totalEquipes: equipes.length,
+      totalPartidas: partidas.length,
+      equipes,
+      partidas
+    });
+  } catch (error) {
+    return res.status(500).json({ message: 'Erro ao buscar resultado do sorteio.' });
+  }
+};
+
+
 export const dispararSorteioAmador = async (req: Request, res: Response) => {
 
   const { torneioId } = req.params;
