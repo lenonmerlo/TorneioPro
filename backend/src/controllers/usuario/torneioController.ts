@@ -14,13 +14,17 @@ export const getTorneios = async (req: Request, res: Response): Promise<void> =>
 };
 
 // Criar torneio
-export const createTorneio = async (req: Request, res: Response): Promise<void> => { // <-- Mudei aqui
+export const createTorneio = async (req: Request, res: Response): Promise<void> => {
+  console.log('BODY:', req.body);
+  console.log('USER:', req.user);
+
   try {
-    const { nome, tipo, data, local, criadoPorId } = req.body;
+    const { nome, tipo, data, local } = req.body;
+    const criadoPorId = req.user?.id;
 
     if (!nome || !tipo || !data || !criadoPorId) {
-      res.status(400).json({ erro: 'Campos obrigatórios: nome, tipo, data, criadoPorId' });
-      return; // Adicionei 'return' para parar a execução após enviar a resposta
+      res.status(400).json({ erro: 'Campos obrigatórios: nome, tipo, data' });
+      return;
     }
 
     const novoTorneio = await prisma.torneio.create({
@@ -38,6 +42,8 @@ export const createTorneio = async (req: Request, res: Response): Promise<void> 
     res.status(500).json({ erro: 'Erro ao criar torneio', detalhe: error.message });
   }
 };
+
+
 
 // Atualizar torneio
 export const updateTorneio = async (req: Request, res: Response): Promise<void> => { // <-- Mudei aqui

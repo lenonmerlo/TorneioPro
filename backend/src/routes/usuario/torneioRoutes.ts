@@ -5,11 +5,12 @@ import {
   updateTorneio,
   deleteTorneio,
 } from '../../controllers/usuario/torneioController';
+import { authMiddleware } from '../../middlewares/authMiddleware';
 
 const router = express.Router();
 
 router.get('/', getTorneios);
-router.post('/', createTorneio);
+router.post('/', authMiddleware, createTorneio);
 router.put('/:id', updateTorneio);
 router.delete('/:id', deleteTorneio);
 

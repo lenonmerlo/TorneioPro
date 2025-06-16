@@ -1,8 +1,7 @@
 /// <reference path="./types/index.d.ts" />
 
-import bodyParser from 'body-parser';
-import cors from 'cors';
 import express, { Application } from 'express';
+import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import routes from './routes';
 import swaggerDocument from './swagger/swagger.json';
@@ -12,7 +11,7 @@ const PORT = process.env.PORT || 3333;
 
 // Middlewares
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json()); // ✅ substitui body-parser
 
 // Swagger - documentação
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
