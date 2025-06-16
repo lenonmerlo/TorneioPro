@@ -3092,7 +3092,7 @@ export namespace Prisma {
     email: string
     genero: string
     nivel: string | null
-    usuarioId: number
+    usuarioId: number | null
     _count: AtletaCountAggregateOutputType | null
     _avg: AtletaAvgAggregateOutputType | null
     _sum: AtletaSumAggregateOutputType | null
@@ -3121,7 +3121,7 @@ export namespace Prisma {
     genero?: boolean
     nivel?: boolean
     usuarioId?: boolean
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    usuario?: boolean | Atleta$usuarioArgs<ExtArgs>
     participacoesAmador?: boolean | Atleta$participacoesAmadorArgs<ExtArgs>
     equipesOficiais?: boolean | Atleta$equipesOficiaisArgs<ExtArgs>
     EquipeAmador?: boolean | Atleta$EquipeAmadorArgs<ExtArgs>
@@ -3135,7 +3135,7 @@ export namespace Prisma {
     genero?: boolean
     nivel?: boolean
     usuarioId?: boolean
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    usuario?: boolean | Atleta$usuarioArgs<ExtArgs>
   }, ExtArgs["result"]["atleta"]>
 
   export type AtletaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3145,7 +3145,7 @@ export namespace Prisma {
     genero?: boolean
     nivel?: boolean
     usuarioId?: boolean
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    usuario?: boolean | Atleta$usuarioArgs<ExtArgs>
   }, ExtArgs["result"]["atleta"]>
 
   export type AtletaSelectScalar = {
@@ -3159,23 +3159,23 @@ export namespace Prisma {
 
   export type AtletaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "email" | "genero" | "nivel" | "usuarioId", ExtArgs["result"]["atleta"]>
   export type AtletaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    usuario?: boolean | Atleta$usuarioArgs<ExtArgs>
     participacoesAmador?: boolean | Atleta$participacoesAmadorArgs<ExtArgs>
     equipesOficiais?: boolean | Atleta$equipesOficiaisArgs<ExtArgs>
     EquipeAmador?: boolean | Atleta$EquipeAmadorArgs<ExtArgs>
     _count?: boolean | AtletaCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AtletaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    usuario?: boolean | Atleta$usuarioArgs<ExtArgs>
   }
   export type AtletaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    usuario?: boolean | Atleta$usuarioArgs<ExtArgs>
   }
 
   export type $AtletaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Atleta"
     objects: {
-      usuario: Prisma.$UsuarioPayload<ExtArgs>
+      usuario: Prisma.$UsuarioPayload<ExtArgs> | null
       participacoesAmador: Prisma.$ParticipacaoAmadorPayload<ExtArgs>[]
       equipesOficiais: Prisma.$AtletaEquipeOficialPayload<ExtArgs>[]
       EquipeAmador: Prisma.$EquipeAmadorPayload<ExtArgs>[]
@@ -3186,7 +3186,7 @@ export namespace Prisma {
       email: string
       genero: string
       nivel: string | null
-      usuarioId: number
+      usuarioId: number | null
     }, ExtArgs["result"]["atleta"]>
     composites: {}
   }
@@ -3581,7 +3581,7 @@ export namespace Prisma {
    */
   export interface Prisma__AtletaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    usuario<T extends Atleta$usuarioArgs<ExtArgs> = {}>(args?: Subset<T, Atleta$usuarioArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     participacoesAmador<T extends Atleta$participacoesAmadorArgs<ExtArgs> = {}>(args?: Subset<T, Atleta$participacoesAmadorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipacaoAmadorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     equipesOficiais<T extends Atleta$equipesOficiaisArgs<ExtArgs> = {}>(args?: Subset<T, Atleta$equipesOficiaisArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AtletaEquipeOficialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     EquipeAmador<T extends Atleta$EquipeAmadorArgs<ExtArgs> = {}>(args?: Subset<T, Atleta$EquipeAmadorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipeAmadorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4013,6 +4013,25 @@ export namespace Prisma {
      * Limit how many Atletas to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Atleta.usuario
+   */
+  export type Atleta$usuarioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Usuario
+     */
+    select?: UsuarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Usuario
+     */
+    omit?: UsuarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    where?: UsuarioWhereInput
   }
 
   /**
@@ -11502,8 +11521,8 @@ export namespace Prisma {
     email?: StringFilter<"Atleta"> | string
     genero?: StringFilter<"Atleta"> | string
     nivel?: StringNullableFilter<"Atleta"> | string | null
-    usuarioId?: IntFilter<"Atleta"> | number
-    usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+    usuarioId?: IntNullableFilter<"Atleta"> | number | null
+    usuario?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
     participacoesAmador?: ParticipacaoAmadorListRelationFilter
     equipesOficiais?: AtletaEquipeOficialListRelationFilter
     EquipeAmador?: EquipeAmadorListRelationFilter
@@ -11515,7 +11534,7 @@ export namespace Prisma {
     email?: SortOrder
     genero?: SortOrder
     nivel?: SortOrderInput | SortOrder
-    usuarioId?: SortOrder
+    usuarioId?: SortOrderInput | SortOrder
     usuario?: UsuarioOrderByWithRelationInput
     participacoesAmador?: ParticipacaoAmadorOrderByRelationAggregateInput
     equipesOficiais?: AtletaEquipeOficialOrderByRelationAggregateInput
@@ -11532,7 +11551,7 @@ export namespace Prisma {
     nome?: StringFilter<"Atleta"> | string
     genero?: StringFilter<"Atleta"> | string
     nivel?: StringNullableFilter<"Atleta"> | string | null
-    usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+    usuario?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
     participacoesAmador?: ParticipacaoAmadorListRelationFilter
     equipesOficiais?: AtletaEquipeOficialListRelationFilter
     EquipeAmador?: EquipeAmadorListRelationFilter
@@ -11544,7 +11563,7 @@ export namespace Prisma {
     email?: SortOrder
     genero?: SortOrder
     nivel?: SortOrderInput | SortOrder
-    usuarioId?: SortOrder
+    usuarioId?: SortOrderInput | SortOrder
     _count?: AtletaCountOrderByAggregateInput
     _avg?: AtletaAvgOrderByAggregateInput
     _max?: AtletaMaxOrderByAggregateInput
@@ -11561,7 +11580,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"Atleta"> | string
     genero?: StringWithAggregatesFilter<"Atleta"> | string
     nivel?: StringNullableWithAggregatesFilter<"Atleta"> | string | null
-    usuarioId?: IntWithAggregatesFilter<"Atleta"> | number
+    usuarioId?: IntNullableWithAggregatesFilter<"Atleta"> | number | null
   }
 
   export type TorneioWhereInput = {
@@ -12059,7 +12078,7 @@ export namespace Prisma {
     email: string
     genero: string
     nivel?: string | null
-    usuario: UsuarioCreateNestedOneWithoutAtletaInput
+    usuario?: UsuarioCreateNestedOneWithoutAtletaInput
     participacoesAmador?: ParticipacaoAmadorCreateNestedManyWithoutAtletaInput
     equipesOficiais?: AtletaEquipeOficialCreateNestedManyWithoutAtletaInput
     EquipeAmador?: EquipeAmadorCreateNestedManyWithoutMembrosInput
@@ -12071,7 +12090,7 @@ export namespace Prisma {
     email: string
     genero: string
     nivel?: string | null
-    usuarioId: number
+    usuarioId?: number | null
     participacoesAmador?: ParticipacaoAmadorUncheckedCreateNestedManyWithoutAtletaInput
     equipesOficiais?: AtletaEquipeOficialUncheckedCreateNestedManyWithoutAtletaInput
     EquipeAmador?: EquipeAmadorUncheckedCreateNestedManyWithoutMembrosInput
@@ -12082,7 +12101,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     genero?: StringFieldUpdateOperationsInput | string
     nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    usuario?: UsuarioUpdateOneRequiredWithoutAtletaNestedInput
+    usuario?: UsuarioUpdateOneWithoutAtletaNestedInput
     participacoesAmador?: ParticipacaoAmadorUpdateManyWithoutAtletaNestedInput
     equipesOficiais?: AtletaEquipeOficialUpdateManyWithoutAtletaNestedInput
     EquipeAmador?: EquipeAmadorUpdateManyWithoutMembrosNestedInput
@@ -12094,7 +12113,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     genero?: StringFieldUpdateOperationsInput | string
     nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioId?: IntFieldUpdateOperationsInput | number
+    usuarioId?: NullableIntFieldUpdateOperationsInput | number | null
     participacoesAmador?: ParticipacaoAmadorUncheckedUpdateManyWithoutAtletaNestedInput
     equipesOficiais?: AtletaEquipeOficialUncheckedUpdateManyWithoutAtletaNestedInput
     EquipeAmador?: EquipeAmadorUncheckedUpdateManyWithoutMembrosNestedInput
@@ -12106,7 +12125,7 @@ export namespace Prisma {
     email: string
     genero: string
     nivel?: string | null
-    usuarioId: number
+    usuarioId?: number | null
   }
 
   export type AtletaUpdateManyMutationInput = {
@@ -12122,7 +12141,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     genero?: StringFieldUpdateOperationsInput | string
     nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioId?: IntFieldUpdateOperationsInput | number
+    usuarioId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type TorneioCreateInput = {
@@ -12667,9 +12686,20 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type UsuarioScalarRelationFilter = {
-    is?: UsuarioWhereInput
-    isNot?: UsuarioWhereInput
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type UsuarioNullableScalarRelationFilter = {
+    is?: UsuarioWhereInput | null
+    isNot?: UsuarioWhereInput | null
   }
 
   export type ParticipacaoAmadorListRelationFilter = {
@@ -12762,6 +12792,22 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
   export type EnumTipoTorneioFilter<$PrismaModel = never> = {
     equals?: $Enums.TipoTorneio | EnumTipoTorneioFieldRefInput<$PrismaModel>
     in?: $Enums.TipoTorneio[] | ListEnumTipoTorneioFieldRefInput<$PrismaModel>
@@ -12774,6 +12820,11 @@ export namespace Prisma {
     in?: $Enums.StatusTorneio[] | ListEnumStatusTorneioFieldRefInput<$PrismaModel>
     notIn?: $Enums.StatusTorneio[] | ListEnumStatusTorneioFieldRefInput<$PrismaModel>
     not?: NestedEnumStatusTorneioFilter<$PrismaModel> | $Enums.StatusTorneio
+  }
+
+  export type UsuarioScalarRelationFilter = {
+    is?: UsuarioWhereInput
+    isNot?: UsuarioWhereInput
   }
 
   export type PartidaListRelationFilter = {
@@ -13020,17 +13071,6 @@ export namespace Prisma {
     equipeOficialId?: SortOrder
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type EquipeAmadorNullableScalarRelationFilter = {
     is?: EquipeAmadorWhereInput | null
     isNot?: EquipeAmadorWhereInput | null
@@ -13108,22 +13148,6 @@ export namespace Prisma {
     pontosEquipe1?: SortOrder
     pontosEquipe2?: SortOrder
     vencedorId?: SortOrder
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type TorneioCreateNestedManyWithoutCriadoPorInput = {
@@ -13266,10 +13290,12 @@ export namespace Prisma {
     set?: string | null
   }
 
-  export type UsuarioUpdateOneRequiredWithoutAtletaNestedInput = {
+  export type UsuarioUpdateOneWithoutAtletaNestedInput = {
     create?: XOR<UsuarioCreateWithoutAtletaInput, UsuarioUncheckedCreateWithoutAtletaInput>
     connectOrCreate?: UsuarioCreateOrConnectWithoutAtletaInput
     upsert?: UsuarioUpsertWithoutAtletaInput
+    disconnect?: UsuarioWhereInput | boolean
+    delete?: UsuarioWhereInput | boolean
     connect?: UsuarioWhereUniqueInput
     update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutAtletaInput, UsuarioUpdateWithoutAtletaInput>, UsuarioUncheckedUpdateWithoutAtletaInput>
   }
@@ -13313,6 +13339,14 @@ export namespace Prisma {
     update?: EquipeAmadorUpdateWithWhereUniqueWithoutMembrosInput | EquipeAmadorUpdateWithWhereUniqueWithoutMembrosInput[]
     updateMany?: EquipeAmadorUpdateManyWithWhereWithoutMembrosInput | EquipeAmadorUpdateManyWithWhereWithoutMembrosInput[]
     deleteMany?: EquipeAmadorScalarWhereInput | EquipeAmadorScalarWhereInput[]
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type ParticipacaoAmadorUncheckedUpdateManyWithoutAtletaNestedInput = {
@@ -13908,14 +13942,6 @@ export namespace Prisma {
     connect?: EquipeOficialWhereUniqueInput
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type TorneioUpdateOneRequiredWithoutPartidaNestedInput = {
     create?: XOR<TorneioCreateWithoutPartidaInput, TorneioUncheckedCreateWithoutPartidaInput>
     connectOrCreate?: TorneioCreateOrConnectWithoutPartidaInput
@@ -14072,6 +14098,17 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -14089,7 +14126,7 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -14097,7 +14134,23 @@ export namespace Prisma {
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedEnumTipoTorneioFilter<$PrismaModel = never> = {
@@ -14132,33 +14185,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumStatusTorneioFilter<$PrismaModel>
     _max?: NestedEnumStatusTorneioFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type TorneioCreateWithoutCriadoPorInput = {
@@ -14746,7 +14772,7 @@ export namespace Prisma {
     email: string
     genero: string
     nivel?: string | null
-    usuario: UsuarioCreateNestedOneWithoutAtletaInput
+    usuario?: UsuarioCreateNestedOneWithoutAtletaInput
     equipesOficiais?: AtletaEquipeOficialCreateNestedManyWithoutAtletaInput
     EquipeAmador?: EquipeAmadorCreateNestedManyWithoutMembrosInput
   }
@@ -14757,7 +14783,7 @@ export namespace Prisma {
     email: string
     genero: string
     nivel?: string | null
-    usuarioId: number
+    usuarioId?: number | null
     equipesOficiais?: AtletaEquipeOficialUncheckedCreateNestedManyWithoutAtletaInput
     EquipeAmador?: EquipeAmadorUncheckedCreateNestedManyWithoutMembrosInput
   }
@@ -14817,7 +14843,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     genero?: StringFieldUpdateOperationsInput | string
     nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    usuario?: UsuarioUpdateOneRequiredWithoutAtletaNestedInput
+    usuario?: UsuarioUpdateOneWithoutAtletaNestedInput
     equipesOficiais?: AtletaEquipeOficialUpdateManyWithoutAtletaNestedInput
     EquipeAmador?: EquipeAmadorUpdateManyWithoutMembrosNestedInput
   }
@@ -14828,7 +14854,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     genero?: StringFieldUpdateOperationsInput | string
     nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioId?: IntFieldUpdateOperationsInput | number
+    usuarioId?: NullableIntFieldUpdateOperationsInput | number | null
     equipesOficiais?: AtletaEquipeOficialUncheckedUpdateManyWithoutAtletaNestedInput
     EquipeAmador?: EquipeAmadorUncheckedUpdateManyWithoutMembrosNestedInput
   }
@@ -14912,7 +14938,7 @@ export namespace Prisma {
     email: string
     genero: string
     nivel?: string | null
-    usuario: UsuarioCreateNestedOneWithoutAtletaInput
+    usuario?: UsuarioCreateNestedOneWithoutAtletaInput
     participacoesAmador?: ParticipacaoAmadorCreateNestedManyWithoutAtletaInput
     equipesOficiais?: AtletaEquipeOficialCreateNestedManyWithoutAtletaInput
   }
@@ -14923,7 +14949,7 @@ export namespace Prisma {
     email: string
     genero: string
     nivel?: string | null
-    usuarioId: number
+    usuarioId?: number | null
     participacoesAmador?: ParticipacaoAmadorUncheckedCreateNestedManyWithoutAtletaInput
     equipesOficiais?: AtletaEquipeOficialUncheckedCreateNestedManyWithoutAtletaInput
   }
@@ -15072,7 +15098,7 @@ export namespace Prisma {
     email?: StringFilter<"Atleta"> | string
     genero?: StringFilter<"Atleta"> | string
     nivel?: StringNullableFilter<"Atleta"> | string | null
-    usuarioId?: IntFilter<"Atleta"> | number
+    usuarioId?: IntNullableFilter<"Atleta"> | number | null
   }
 
   export type PartidaUpsertWithWhereUniqueWithoutEquipeAmador1Input = {
@@ -15326,7 +15352,7 @@ export namespace Prisma {
     email: string
     genero: string
     nivel?: string | null
-    usuario: UsuarioCreateNestedOneWithoutAtletaInput
+    usuario?: UsuarioCreateNestedOneWithoutAtletaInput
     participacoesAmador?: ParticipacaoAmadorCreateNestedManyWithoutAtletaInput
     EquipeAmador?: EquipeAmadorCreateNestedManyWithoutMembrosInput
   }
@@ -15337,7 +15363,7 @@ export namespace Prisma {
     email: string
     genero: string
     nivel?: string | null
-    usuarioId: number
+    usuarioId?: number | null
     participacoesAmador?: ParticipacaoAmadorUncheckedCreateNestedManyWithoutAtletaInput
     EquipeAmador?: EquipeAmadorUncheckedCreateNestedManyWithoutMembrosInput
   }
@@ -15387,7 +15413,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     genero?: StringFieldUpdateOperationsInput | string
     nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    usuario?: UsuarioUpdateOneRequiredWithoutAtletaNestedInput
+    usuario?: UsuarioUpdateOneWithoutAtletaNestedInput
     participacoesAmador?: ParticipacaoAmadorUpdateManyWithoutAtletaNestedInput
     EquipeAmador?: EquipeAmadorUpdateManyWithoutMembrosNestedInput
   }
@@ -15398,7 +15424,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     genero?: StringFieldUpdateOperationsInput | string
     nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioId?: IntFieldUpdateOperationsInput | number
+    usuarioId?: NullableIntFieldUpdateOperationsInput | number | null
     participacoesAmador?: ParticipacaoAmadorUncheckedUpdateManyWithoutAtletaNestedInput
     EquipeAmador?: EquipeAmadorUncheckedUpdateManyWithoutMembrosNestedInput
   }
@@ -16002,7 +16028,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     genero?: StringFieldUpdateOperationsInput | string
     nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    usuario?: UsuarioUpdateOneRequiredWithoutAtletaNestedInput
+    usuario?: UsuarioUpdateOneWithoutAtletaNestedInput
     participacoesAmador?: ParticipacaoAmadorUpdateManyWithoutAtletaNestedInput
     equipesOficiais?: AtletaEquipeOficialUpdateManyWithoutAtletaNestedInput
   }
@@ -16013,7 +16039,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     genero?: StringFieldUpdateOperationsInput | string
     nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioId?: IntFieldUpdateOperationsInput | number
+    usuarioId?: NullableIntFieldUpdateOperationsInput | number | null
     participacoesAmador?: ParticipacaoAmadorUncheckedUpdateManyWithoutAtletaNestedInput
     equipesOficiais?: AtletaEquipeOficialUncheckedUpdateManyWithoutAtletaNestedInput
   }
@@ -16024,7 +16050,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     genero?: StringFieldUpdateOperationsInput | string
     nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioId?: IntFieldUpdateOperationsInput | number
+    usuarioId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type PartidaUpdateWithoutEquipeAmador1Input = {

@@ -6,21 +6,14 @@ import prisma from '../../lib/prismaClient';
 // [POST] Criar novo atleta
 export const createAtleta = async (req: Request, res: Response) => {
   const { nome, email, genero, nivel } = req.body;
-  const usuarioId = req.user?.id; // vindo do token JWT
 
-  if (!nome || !email || !genero || !usuarioId) {
+  if (!nome || !email || !genero || !nivel) {
     return res.status(400).json({ message: 'Dados obrigatórios faltando.' });
   }
 
   try {
     const novoAtleta = await prisma.atleta.create({
-      data: {
-        nome,
-        email,
-        genero,
-        nivel,
-        usuario: { connect: { id: usuarioId } },
-      },
+      data: { nome, email, genero, nivel },
     });
 
     return res.status(201).json(novoAtleta);
@@ -29,6 +22,7 @@ export const createAtleta = async (req: Request, res: Response) => {
     return res.status(500).json({ message: 'Erro interno ao criar atleta.' });
   }
 };
+
 
 // [GET] Listar todos os atletas
 export const listarAtletas = async (_req: Request, res: Response) => {

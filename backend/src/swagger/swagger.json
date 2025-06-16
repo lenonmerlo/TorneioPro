@@ -2,18 +2,451 @@
   "openapi": "3.0.0",
   "info": {
     "title": "EVPC Torneio API",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "description": "Documentação da API do sistema EVPC Torneio, incluindo rotas para autenticação, usuários, e módulos amador e oficial."
   },
+  "servers": [
+    {
+      "url": "http://localhost:3333/api",
+      "description": "Servidor Local"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Operações de Autenticação de Usuários"
+    },
+    {
+      "name": "Usuarios",
+      "description": "Operações relacionadas a Usuários, Treinadores e Torneios"
+    },
+    {
+      "name": "Amador",
+      "description": "Operações do Módulo Amador (Atletas, Equipes, Participações, Partidas, Sorteios)"
+    },
+    {
+      "name": "Oficial",
+      "description": "Operações do Módulo Oficial (Equipes, Partidas)"
+    }
+  ],
   "paths": {
-    "/api/atletas": {
-      "get": {
-        "summary": "Listar todos os atletas",
+    "/auth/register": {
+      "post": {
+        "summary": "Registra um novo usuário no sistema.",
         "tags": [
-          "Atletas"
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "nome",
+                  "email",
+                  "senha",
+                  "perfil"
+                ],
+                "properties": {
+                  "nome": {
+                    "type": "string",
+                    "example": "Novo Usuário"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "novo.usuario@example.com"
+                  },
+                  "senha": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "senha123"
+                  },
+                  "perfil": {
+                    "type": "string",
+                    "enum": ["treinador", "arbitro"],
+                    "example": "treinador"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário registrado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos."
+          },
+          "500": {
+            "description": "Erro interno do servidor."
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Realiza o login de um usuário e retorna um token JWT.",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login bem-sucedido.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    },
+                    "usuario": {
+                      "$ref": "#/components/schemas/UsuarioResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciais inválidas."
+          }
+        }
+      }
+    },
+    "/usuarios/treinadores": {
+      "get": {
+        "summary": "Lista todos os treinadores.",
+        "tags": [
+          "Usuarios"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ],
         "responses": {
           "200": {
-            "description": "Lista de atletas",
+            "description": "Lista de treinadores.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UsuarioResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Cria um novo treinador.",
+        "tags": [
+          "Usuarios"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NovoTreinador"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Treinador criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos."
+          }
+        }
+      }
+    },
+    "/usuarios/treinadores/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0o"
+          },
+          "description": "ID do treinador."
+        }
+      ],
+      "get": {
+        "summary": "Busca um treinador pelo ID.",
+        "tags": [
+          "Usuarios"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Treinador encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Treinador não encontrado."
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualiza um treinador pelo ID.",
+        "tags": [
+          "Usuarios"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTreinador"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Treinador atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos."
+          },
+          "404": {
+            "description": "Treinador não encontrado."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deleta um treinador pelo ID.",
+        "tags": [
+          "Usuarios"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Treinador deletado com sucesso."
+          },
+          "404": {
+            "description": "Treinador não encontrado."
+          }
+        }
+      }
+    },
+    "/usuarios/torneios": {
+      "get": {
+        "summary": "Lista todos os torneios.",
+        "tags": [
+          "Usuarios"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de torneios.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Torneio"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Cria um novo torneio.",
+        "tags": [
+          "Usuarios"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NovoTorneio"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Torneio criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Torneio"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos."
+          }
+        }
+      }
+    },
+    "/usuarios/torneios/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p"
+          },
+          "description": "ID do torneio."
+        }
+      ],
+      "put": {
+        "summary": "Atualiza um torneio pelo ID.",
+        "tags": [
+          "Usuarios"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NovoTorneio"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Torneio atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Torneio"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos."
+          },
+          "404": {
+            "description": "Torneio não encontrado."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deleta um torneio pelo ID.",
+        "tags": [
+          "Usuarios"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Torneio deletado com sucesso."
+          },
+          "404": {
+            "description": "Torneio não encontrado."
+          }
+        }
+      }
+    },
+    "/amador/atletas": {
+      "get": {
+        "summary": "Lista todos os atletas amadores.",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de atletas.",
             "content": {
               "application/json": {
                 "schema": {
@@ -28,9 +461,14 @@
         }
       },
       "post": {
-        "summary": "Criar um novo atleta",
+        "summary": "Cria um novo atleta amador.",
         "tags": [
-          "Atletas"
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ],
         "requestBody": {
           "required": true,
@@ -44,7 +482,7 @@
         },
         "responses": {
           "201": {
-            "description": "Atleta criado com sucesso",
+            "description": "Atleta criado com sucesso.",
             "content": {
               "application/json": {
                 "schema": {
@@ -53,41 +491,38 @@
               }
             }
           },
-          "500": {
-            "description": "Erro ao criar atleta"
+          "400": {
+            "description": "Dados inválidos."
           }
         }
       }
     },
-    "/api/atletas/{id}": {
-      "put": {
-        "summary": "Atualizar um atleta existente",
-        "tags": [
-          "Atletas"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "requestBody": {
+    "/amador/atletas/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
           "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NovoAtleta"
-              }
-            }
+          "schema": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0q"
+          },
+          "description": "ID do atleta."
+        }
+      ],
+      "get": {
+        "summary": "Busca um atleta amador pelo ID.",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
-        },
+        ],
         "responses": {
           "200": {
-            "description": "Atleta atualizado com sucesso",
+            "description": "Atleta encontrado.",
             "content": {
               "application/json": {
                 "schema": {
@@ -95,49 +530,579 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Atleta não encontrado."
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualiza um atleta amador pelo ID.",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAtleta"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Atleta atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Atleta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos."
+          },
+          "404": {
+            "description": "Atleta não encontrado."
           }
         }
       },
       "delete": {
-        "summary": "Deletar um atleta",
+        "summary": "Deleta um atleta amador pelo ID.",
         "tags": [
-          "Atletas"
+          "Amador"
         ],
-        "parameters": [
+        "security": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
+            "bearerAuth": []
           }
         ],
         "responses": {
-          "204": {
-            "description": "Atleta deletado com sucesso"
+          "200": {
+            "description": "Atleta deletado com sucesso."
           },
-          "500": {
-            "description": "Erro ao deletar atleta"
+          "404": {
+            "description": "Atleta não encontrado."
           }
         }
       }
     },
-    "/api/equipes": {
-      "get": {
-        "summary": "Listar todas as equipes",
+    "/amador/equipes": {
+      "post": {
+        "summary": "Cria uma nova equipe amadora.",
         "tags": [
-          "Equipes"
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NovaEquipeAmador"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Equipe criada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EquipeAmador"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos."
+          }
+        }
+      }
+    },
+    "/amador/equipes/{torneioId}": {
+      "parameters": [
+        {
+          "name": "torneioId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p"
+          },
+          "description": "ID do torneio para filtrar equipes."
+        }
+      ],
+      "get": {
+        "summary": "Lista equipes amadoras de um torneio específico.",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ],
         "responses": {
           "200": {
-            "description": "Lista de equipes",
+            "description": "Lista de equipes amadoras.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Equipe"
+                    "$ref": "#/components/schemas/EquipeAmador"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/amador/equipes/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0r"
+          },
+          "description": "ID da equipe amadora."
+        }
+      ],
+      "put": {
+        "summary": "Atualiza uma equipe amadora pelo ID.",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEquipeAmador"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Equipe atualizada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EquipeAmador"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos."
+          },
+          "404": {
+            "description": "Equipe não encontrada."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deleta uma equipe amadora pelo ID.",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Equipe deletada com sucesso."
+          },
+          "404": {
+            "description": "Equipe não encontrada."
+          }
+        }
+      }
+    },
+    "/amador/participacoes/inscricao": {
+      "post": {
+        "summary": "Cria uma nova participação (inscrição de atleta em equipe/torneio).",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NovaParticipacaoAmador"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Participação criada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParticipacaoAmador"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos."
+          }
+        }
+      }
+    },
+    "/amador/participacoes/inscricao/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0s"
+          },
+          "description": "ID da participação (inscrição)."
+        }
+      ],
+      "put": {
+        "summary": "Atualiza uma participação (inscrição) pelo ID.",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateParticipacaoAmador"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Participação atualizada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParticipacaoAmador"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos."
+          },
+          "404": {
+            "description": "Participação não encontrada."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deleta uma participação (inscrição) pelo ID.",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Participação deletada com sucesso."
+          },
+          "404": {
+            "description": "Participação não encontrada."
+          }
+        }
+      }
+    },
+    "/amador/participacoes/inscritos/{torneioId}": {
+      "parameters": [
+        {
+          "name": "torneioId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p"
+          },
+          "description": "ID do torneio para listar os inscritos."
+        }
+      ],
+      "get": {
+        "summary": "Lista atletas inscritos em um torneio amador específico.",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de inscritos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ParticipacaoAmador"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/amador/partidas": {
+      "post": {
+        "summary": "Cria uma nova partida para o torneio amador.",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NovaPartidaAmador"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Partida criada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Partida"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos."
+          }
+        }
+      }
+    },
+    "/amador/partidas/{torneioId}": {
+      "parameters": [
+        {
+          "name": "torneioId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p"
+          },
+          "description": "ID do torneio para listar as partidas."
+        }
+      ],
+      "get": {
+        "summary": "Lista partidas de um torneio amador específico.",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de partidas.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Partida"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/amador/partidas/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0t"
+          },
+          "description": "ID da partida amadora."
+        }
+      ],
+      "put": {
+        "summary": "Atualiza o placar de uma partida amadora.",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePlacarPartida"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Placar da partida atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Partida"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos."
+          },
+          "404": {
+            "description": "Partida não encontrada."
+          }
+        }
+      }
+    },
+    "/amador/partidas/vencedores/definir": {
+      "get": {
+        "summary": "Define automaticamente os vencedores das partidas amadoras com base no placar.",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vencedores definidos com sucesso."
+          },
+          "500": {
+            "description": "Erro interno ao definir vencedores."
+          }
+        }
+      }
+    },
+    "/amador/sorteios/amador/{torneioId}": {
+      "parameters": [
+        {
+          "name": "torneioId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p"
+          },
+          "description": "ID do torneio para disparar o sorteio."
+        }
+      ],
+      "post": {
+        "summary": "Dispara o sorteio para o torneio amador.",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sorteio disparado com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos ou sorteio já realizado."
+          },
+          "404": {
+            "description": "Torneio não encontrado."
+          }
+        }
+      }
+    },
+    "/oficial/equipes": {
+      "get": {
+        "summary": "Lista todas as equipes oficiais.",
+        "tags": [
+          "Oficial"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de equipes oficiais.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EquipeOficial"
                   }
                 }
               }
@@ -146,51 +1111,84 @@
         }
       },
       "post": {
-        "summary": "Criar uma nova equipe",
+        "summary": "Cria uma nova equipe oficial.",
         "tags": [
-          "Equipes"
+          "Oficial"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NovaEquipe"
+                "$ref": "#/components/schemas/NovaEquipeOficial"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Equipe criada com sucesso",
+            "description": "Equipe oficial criada com sucesso.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Equipe"
+                  "$ref": "#/components/schemas/EquipeOficial"
                 }
               }
             }
           },
-          "500": {
-            "description": "Erro ao criar equipe"
+          "400": {
+            "description": "Dados inválidos."
           }
         }
       }
     },
-    "/api/equipes/{id}": {
-      "put": {
-        "summary": "Atualizar uma equipe existente",
+    "/oficial/equipes/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0u"
+          },
+          "description": "ID da equipe oficial."
+        }
+      ],
+      "delete": {
+        "summary": "Deleta uma equipe oficial pelo ID.",
         "tags": [
-          "Equipes"
+          "Oficial"
         ],
-        "parameters": [
+        "security": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Equipe oficial deletada com sucesso."
+          },
+          "404": {
+            "description": "Equipe oficial não encontrada."
+          }
+        }
+      }
+    },
+    "/oficial/partidas": {
+      "post": {
+        "summary": "Cria uma nova partida para o torneio oficial.",
+        "tags": [
+          "Oficial"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "requestBody": {
@@ -198,117 +1196,89 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NovaEquipe"
+                "$ref": "#/components/schemas/NovaPartidaOficial"
               }
             }
           }
         },
         "responses": {
-          "200": {
-            "description": "Equipe atualizada com sucesso",
+          "201": {
+            "description": "Partida oficial criada com sucesso.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Equipe"
+                  "$ref": "#/components/schemas/Partida"
                 }
               }
             }
-          }
-        }
-      },
-      "delete": {
-        "summary": "Deletar uma equipe",
-        "tags": [
-          "Equipes"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Equipe deletada com sucesso"
           },
-          "500": {
-            "description": "Erro ao deletar equipe"
+          "400": {
+            "description": "Dados inválidos."
           }
         }
       }
     },
-    "/api/treinadores": {
+    "/oficial/partidas/{torneioId}": {
+      "parameters": [
+        {
+          "name": "torneioId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p"
+          },
+          "description": "ID do torneio para listar as partidas oficiais."
+        }
+      ],
       "get": {
-        "summary": "Listar todos os treinadores",
+        "summary": "Lista partidas de um torneio oficial específico.",
         "tags": [
-          "Treinadores"
+          "Oficial"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
         ],
         "responses": {
           "200": {
-            "description": "Lista de treinadores",
+            "description": "Lista de partidas oficiais.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Treinador"
+                    "$ref": "#/components/schemas/Partida"
                   }
                 }
               }
             }
           }
         }
-      },
-      "post": {
-        "summary": "Criar um novo treinador",
-        "tags": [
-          "Treinadores"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NovoTreinador"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Treinador criado com sucesso",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Treinador"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Erro ao criar treinador"
-          }
-        }
       }
     },
-    "/api/treinadores/{id}": {
+    "/oficial/partidas/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0v"
+          },
+          "description": "ID da partida oficial."
+        }
+      ],
       "put": {
-        "summary": "Atualizar um treinador existente",
+        "summary": "Atualiza o placar de uma partida oficial.",
         "tags": [
-          "Treinadores"
+          "Oficial"
         ],
-        "parameters": [
+        "security": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
+            "bearerAuth": []
           }
         ],
         "requestBody": {
@@ -316,45 +1286,67 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NovoTreinador"
+                "$ref": "#/components/schemas/UpdatePlacarPartida"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Treinador atualizado com sucesso",
+            "description": "Placar da partida oficial atualizado com sucesso.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Treinador"
+                  "$ref": "#/components/schemas/Partida"
                 }
               }
             }
+          },
+          "400": {
+            "description": "Dados inválidos."
+          },
+          "404": {
+            "description": "Partida oficial não encontrada."
           }
         }
       },
       "delete": {
-        "summary": "Deletar um treinador",
+        "summary": "Deleta uma partida oficial pelo ID.",
         "tags": [
-          "Treinadores"
+          "Oficial"
         ],
-        "parameters": [
+        "security": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
+            "bearerAuth": []
           }
         ],
         "responses": {
-          "204": {
-            "description": "Treinador deletado com sucesso"
+          "200": {
+            "description": "Partida oficial deletada com sucesso."
+          },
+          "404": {
+            "description": "Partida oficial não encontrada."
+          }
+        }
+      }
+    },
+    "/oficial/partidas/vencedores/definir": {
+      "get": {
+        "summary": "Define automaticamente os vencedores das partidas oficiais com base no placar.",
+        "tags": [
+          "Oficial"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vencedores definidos com sucesso."
           },
           "500": {
-            "description": "Erro ao deletar treinador"
+            "description": "Erro interno ao definir vencedores."
           }
         }
       }
@@ -362,99 +1354,86 @@
   },
   "components": {
     "schemas": {
-      "NovoAtleta": {
+      "Usuario": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0o"
+          },
+          "nome": {
+            "type": "string",
+            "example": "João da Silva"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "joao.silva@example.com"
+          },
+          "perfil": {
+            "type": "string",
+            "enum": [
+              "treinador",
+              "arbitro",
+              "jogador",
+              "admin"
+            ],
+            "example": "treinador"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UsuarioResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0o"
+          },
+          "nome": {
+            "type": "string",
+            "example": "João da Silva"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "joao.silva@example.com"
+          },
+          "perfil": {
+            "type": "string",
+            "enum": [
+              "treinador",
+              "arbitro",
+              "jogador",
+              "admin"
+            ],
+            "example": "treinador"
+          }
+        }
+      },
+      "AuthPayload": {
         "type": "object",
         "required": [
-          "nome",
-          "genero"
+          "email",
+          "senha"
         ],
         "properties": {
-          "nome": {
+          "email": {
             "type": "string",
-            "example": "Ana Clara"
+            "format": "email",
+            "example": "treinador@example.com"
           },
-          "genero": {
+          "senha": {
             "type": "string",
-            "example": "feminino"
-          },
-          "nivel": {
-            "type": "string",
-            "example": "iniciante"
-          },
-          "equipeId": {
-            "type": "integer",
-            "example": 1
-          }
-        }
-      },
-      "Atleta": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "nome": {
-            "type": "string"
-          },
-          "genero": {
-            "type": "string"
-          },
-          "nivel": {
-            "type": "string"
-          },
-          "equipe": {
-            "$ref": "#/components/schemas/Equipe"
-          }
-        }
-      },
-      "Equipe": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "nome": {
-            "type": "string"
-          },
-          "tipo": {
-            "type": "string"
-          },
-          "atletas": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Atleta"
-            }
-          }
-        }
-      },
-      "NovaEquipe": {
-        "type": "object",
-        "required": [
-          "nome",
-          "tipo"
-        ],
-        "properties": {
-          "nome": {
-            "type": "string",
-            "example": "Equipe Azul"
-          },
-          "tipo": {
-            "type": "string",
-            "example": "trio"
-          }
-        }
-      },
-      "Treinador": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "nome": {
-            "type": "string"
-          },
-          "especialidade": {
-            "type": "string"
+            "format": "password",
+            "example": "senha123"
           }
         }
       },
@@ -462,18 +1441,524 @@
         "type": "object",
         "required": [
           "nome",
-          "especialidade"
+          "email",
+          "senha"
         ],
         "properties": {
           "nome": {
             "type": "string",
-            "example": "Marcos"
+            "example": "Carlos Treinador"
           },
-          "especialidade": {
+          "email": {
             "type": "string",
-            "example": "vôlei de praia"
+            "format": "email",
+            "example": "carlos.treinador@example.com"
+          },
+          "senha": {
+            "type": "string",
+            "format": "password",
+            "example": "treinadorpass"
           }
         }
+      },
+      "UpdateTreinador": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "example": "Carlos Treinador Atualizado"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "carlos.treinador.novo@example.com"
+          }
+        }
+      },
+      "Torneio": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p"
+          },
+          "nome": {
+            "type": "string",
+            "example": "Torneio de Verão 2025"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "amador",
+              "oficial"
+            ],
+            "example": "amador"
+          },
+          "usuarioId": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0o"
+          },
+          "dataInicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataFim": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "NovoTorneio": {
+        "type": "object",
+        "required": [
+          "nome",
+          "tipo",
+          "dataInicio"
+        ],
+        "properties": {
+          "nome": {
+            "type": "string",
+            "example": "Torneio de Inverno 2025"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "amador",
+              "oficial"
+            ],
+            "example": "oficial"
+          },
+          "dataInicio": {
+            "type": "string",
+            "format": "date",
+            "example": "2025-07-01"
+          },
+          "dataFim": {
+            "type": "string",
+            "format": "date",
+            "example": "2025-07-15",
+            "nullable": true
+          }
+        }
+      },
+      "Atleta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0q"
+          },
+          "nome": {
+            "type": "string",
+            "example": "Ana Atleta"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "ana.atleta@example.com"
+          },
+          "genero": {
+            "type": "string",
+            "enum": [
+              "Masculino",
+              "Feminino",
+              "Outro"
+            ],
+            "example": "Feminino"
+          },
+          "nivel": {
+            "type": "string",
+            "enum": [
+              "Iniciante",
+              "Intermediário",
+              "Avançado"
+            ],
+            "example": "Intermediário"
+          },
+          "usuarioId": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0o"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "NovoAtleta": {
+        "type": "object",
+        "required": [
+          "nome",
+          "email",
+          "genero",
+          "nivel"
+        ],
+        "properties": {
+          "nome": {
+            "type": "string",
+            "example": "Novo Atleta Teste"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "novo.atleta@example.com"
+          },
+          "genero": {
+            "type": "string",
+            "enum": [
+              "Masculino",
+              "Feminino",
+              "Outro"
+            ],
+            "example": "Masculino"
+          },
+          "nivel": {
+            "type": "string",
+            "enum": [
+              "Iniciante",
+              "Intermediário",
+              "Avançado"
+            ],
+            "example": "Iniciante"
+          }
+        }
+      },
+      "UpdateAtleta": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "example": "Atleta Teste Atualizado"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "atleta.atualizado@example.com"
+          },
+          "genero": {
+            "type": "string",
+            "enum": [
+              "Masculino",
+              "Feminino",
+              "Outro"
+            ],
+            "example": "Feminino"
+          },
+          "nivel": {
+            "type": "string",
+            "enum": [
+              "Iniciante",
+              "Intermediário",
+              "Avançado"
+            ],
+            "example": "Avançado"
+          }
+        }
+      },
+      "EquipeAmador": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0r"
+          },
+          "nome": {
+            "type": "string",
+            "example": "Time Amador Alpha"
+          },
+          "torneioId": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "NovaEquipeAmador": {
+        "type": "object",
+        "required": [
+          "nome",
+          "torneioId"
+        ],
+        "properties": {
+          "nome": {
+            "type": "string",
+            "example": "Time Amador Beta"
+          },
+          "torneioId": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p",
+            "description": "ID do torneio ao qual a equipe pertence."
+          }
+        }
+      },
+      "UpdateEquipeAmador": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "example": "Time Amador Gamma Atualizado"
+          }
+        }
+      },
+      "ParticipacaoAmador": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0s"
+          },
+          "atletaId": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0q"
+          },
+          "equipeAmadorId": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0r"
+          },
+          "torneioId": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p"
+          },
+          "dataInscricao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "NovaParticipacaoAmador": {
+        "type": "object",
+        "required": [
+          "atletaId",
+          "equipeAmadorId",
+          "torneioId"
+        ],
+        "properties": {
+          "atletaId": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0q",
+            "description": "ID do atleta que está se inscrevendo."
+          },
+          "equipeAmadorId": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0r",
+            "description": "ID da equipe amadora na qual o atleta está se inscrevendo."
+          },
+          "torneioId": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p",
+            "description": "ID do torneio ao qual a inscrição se refere."
+          }
+        }
+      },
+      "UpdateParticipacaoAmador": {
+        "type": "object",
+        "properties": {
+          "equipeAmadorId": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0x",
+            "description": "Novo ID da equipe amadora, se a inscrição for alterada de equipe."
+          }
+        }
+      },
+      "Partida": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0t"
+          },
+          "torneioId": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p"
+          },
+          "equipe1Id": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0r"
+          },
+          "equipe2Id": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0z"
+          },
+          "placarEquipe1": {
+            "type": "integer",
+            "example": 2,
+            "nullable": true
+          },
+          "placarEquipe2": {
+            "type": "integer",
+            "example": 1,
+            "nullable": true
+          },
+          "vencedorId": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0r",
+            "nullable": true
+          },
+          "dataHora": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-06-20T10:00:00Z"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "NovaPartidaAmador": {
+        "type": "object",
+        "required": [
+          "torneioId",
+          "equipe1Id",
+          "equipe2Id",
+          "dataHora"
+        ],
+        "properties": {
+          "torneioId": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p",
+            "description": "ID do torneio ao qual a partida pertence."
+          },
+          "equipe1Id": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0r",
+            "description": "ID da primeira equipe."
+          },
+          "equipe2Id": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0z",
+            "description": "ID da segunda equipe."
+          },
+          "dataHora": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-06-20T10:00:00Z",
+            "description": "Data e hora da partida no formato ISO 8601."
+          }
+        }
+      },
+      "UpdatePlacarPartida": {
+        "type": "object",
+        "required": [
+          "placarEquipe1",
+          "placarEquipe2"
+        ],
+        "properties": {
+          "placarEquipe1": {
+            "type": "integer",
+            "example": 2,
+            "description": "Placar da primeira equipe."
+          },
+          "placarEquipe2": {
+            "type": "integer",
+            "example": 1,
+            "description": "Placar da segunda equipe."
+          }
+        }
+      },
+      "EquipeOficial": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0u"
+          },
+          "nome": {
+            "type": "string",
+            "example": "Time Oficial Gamma"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "NovaEquipeOficial": {
+        "type": "object",
+        "required": [
+          "nome"
+        ],
+        "properties": {
+          "nome": {
+            "type": "string",
+            "example": "Time Oficial Delta"
+          }
+        }
+      },
+      "NovaPartidaOficial": {
+        "type": "object",
+        "required": [
+          "torneioId",
+          "equipe1Id",
+          "equipe2Id",
+          "dataHora"
+        ],
+        "properties": {
+          "torneioId": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p",
+            "description": "ID do torneio ao qual a partida pertence."
+          },
+          "equipe1Id": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0u",
+            "description": "ID da primeira equipe oficial."
+          },
+          "equipe2Id": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0w",
+            "description": "ID da segunda equipe oficial."
+          },
+          "dataHora": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-06-25T15:30:00Z",
+            "description": "Data e hora da partida no formato ISO 8601."
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Token JWT de autenticação (Ex: Bearer seu_token_jwt_aqui)"
       }
     }
   }

@@ -31,8 +31,8 @@ model Atleta {
   nivel  String? // 'iniciante' ou 'intermediario' para o torneio amador
 
   // Relação 1:1 com Usuario (um Usuario do tipo 'atleta' tem um registro aqui)
-  usuarioId Int     @unique
-  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId Int?     @unique
+  usuario   Usuario? @relation(fields: [usuarioId], references: [id])
 
   // Relação com as participações em Torneios Amadores
   participacoesAmador ParticipacaoAmador[]
