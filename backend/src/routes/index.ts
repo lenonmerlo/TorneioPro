@@ -15,8 +15,12 @@ import sorteioRoutes from './amador/sorteioRoutes';
 // Rotas do Módulo Oficial
 import equipeOficialRoutes from './oficial/equipeOficialRoutes';
 import partidaOficialRoutes from './oficial/partidaRoutes'; // Renomeado para clareza
+import adminRoutes from './admin/adminRoutes';
 
 const router = Router();
+
+//Rota Admin
+router.use('/admin', adminRoutes);
 
 // Rotas de Autenticação
 router.use('/auth', authRoutes);
