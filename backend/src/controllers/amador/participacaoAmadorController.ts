@@ -32,6 +32,25 @@ export const createParticipacaoAmador = async (req: Request, res: Response) => {
   }
 };
 
+//GET /torneio-amador/inscritos
+export const getTodosInscritosAmador = async (_req: Request, res: Response) => {
+  try {
+    const inscritos = await prisma.participacaoAmador.findMany({
+      include: {
+        atleta: true,
+        torneio: {
+          select: { id: true, nome: true, tipo: true }
+        }
+      }
+    });
+
+    return res.status(200).json(inscritos);
+  } catch (error) {
+    return res.status(500).json({ message: 'Erro ao listar todos os inscritos.' });
+  }
+};
+
+
 // GET /torneio-amador/inscritos/:torneioId
 export const getInscritosAmador = async (req: Request, res: Response) => {
   const { torneioId } = req.params;

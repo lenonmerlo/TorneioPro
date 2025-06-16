@@ -5,9 +5,12 @@ import {
   createParticipacaoAmador,
   updateInscricaoAmador,
   deleteInscricaoAmador,
+  getTodosInscritosAmador,
 } from '../../controllers/amador/participacaoAmadorController';
 
 const router = Router();
+
+router.get('/inscritos', getTodosInscritosAmador as unknown as RequestHandler)
 
 // GET /torneio-amador/inscritos/:torneioId
 router.get('/inscritos/:torneioId', getInscritosAmador as unknown as RequestHandler);
