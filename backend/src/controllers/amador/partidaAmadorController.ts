@@ -34,6 +34,28 @@ export const criarPartidaAmador = async (req: Request, res: Response) => {
   }
 };
 
+// [GET] /api/amador/partidas
+export const listarTodasPartidasAmadoras = async (_req: Request, res: Response) => {
+  try {
+    const partidas = await prisma.partida.findMany({
+      where: {
+        equipeAmador1Id: { not: null }
+      },
+      include: {
+        equipeAmador1: { include: { membros: true } },
+        equipeAmador2: { include: { membros: true } }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+
+    return res.status(200).json(partidas);
+  } catch (error) {
+    console.error('Erro ao listar todas as partidas:', error);
+    return res.status(500).json({ message: 'Erro interno ao buscar partidas.' });
+  }
+};
+
+
 /**
  * [GET] /api/amador/partidas/:torneioId
  * Listar partidas de um torneio amador

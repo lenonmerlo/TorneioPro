@@ -5,7 +5,8 @@ import {
   criarPartidaAmador,
   listarPartidasAmadoras,
   atualizarPlacarPartidaAmador,
-  definirVencedoresPartidasAmadoras
+  definirVencedoresPartidasAmadoras,
+  listarTodasPartidasAmadoras
 } from '../../controllers/amador/partidaAmadorController';
 
 const router = Router();
@@ -13,7 +14,10 @@ const router = Router();
 // [POST] Criar nova partida do torneio amador
 router.post('/', criarPartidaAmador as unknown as RequestHandler);
 
-// [GET] Listar partidas de um torneio amador
+// [GET] Listar todas as partidas de um torneio amador
+router.get('/', listarTodasPartidasAmadoras as unknown as RequestHandler);
+
+// [GET] Listar partidas por id de um torneio amador
 router.get('/:torneioId', listarPartidasAmadoras as unknown as RequestHandler);
 
 // [PUT] Atualizar placar de uma partida amadora
