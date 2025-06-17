@@ -1,8 +1,21 @@
 // src/pages/Participar.jsx
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import LogoEVPC from '/assets/logo-evpc.png';
+import { getUsuarioLogado } from '@/utils/auth';
+
 
 const Participar = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const usuario = getUsuarioLogado();
+
+    if (!usuario || usuario.perfil !== 'aluno') {
+      navigate('/');
+    }
+  }, []);
+
   return (
     <section className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] text-center px-4">
       <div className="bg-white/90 rounded-xl p-8 shadow-xl max-w-md w-full space-y-6">

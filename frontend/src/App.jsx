@@ -12,6 +12,7 @@ import LoginProfessor from '@/pages/usuario/LoginProfessor';
 import CadastroProfessor from '@/pages/usuario/CadastroProfessor';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
+
 function App() {
   return (
     <Router>
