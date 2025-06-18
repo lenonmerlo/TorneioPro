@@ -76,7 +76,12 @@ export const createLogin = async (req: Request, res: Response) => {
       { expiresIn: '2h' }
     );
 
-    res.status(200).json({ token, usuario: { id: usuario.id, nome: usuario.nome, perfil: usuario.perfil } });
+    res.status(200).json({
+      token,
+      nome: usuario.nome,
+      perfil: usuario.perfil
+      });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erro ao realizar login.' });
