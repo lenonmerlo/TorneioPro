@@ -1,3 +1,5 @@
+// src/app.jsx
+
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import Home from '@/pages/Home';
@@ -10,6 +12,7 @@ import LoginAluno from '@/pages/usuario/LoginAluno';
 import CadastroAluno from '@/pages/usuario/CadastroAluno';
 import LoginProfessor from '@/pages/usuario/LoginProfessor';
 import CadastroProfessor from '@/pages/usuario/CadastroProfessor';
+import HomeAluno from '@/pages/HomeAluno';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 
@@ -23,6 +26,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login-aluno" element={<LoginAluno />} />
             <Route path="/cadastro-aluno" element={<CadastroAluno />} />
+            <Route path="/home-aluno" element={<HomeAluno />} />
             <Route path="/login-professor" element={<LoginProfessor />} />
             <Route path="/cadastro-professor" element={<CadastroProfessor />} />
             <Route path="/participar" element={<Participar />} />

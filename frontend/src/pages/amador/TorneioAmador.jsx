@@ -4,6 +4,7 @@ import { gerarChavesPorGrupos } from '@/utils/gerarChavesPorGrupos';
 import { sortearQuartetoMisto } from '@/utils/sortearQuartetoMisto';
 import ButtonExportPDF from '@/components/amador/ButtonExportPDF';
 import api from '@/services/api';
+import { getUsuarioLogado } from '@/utils/auth';
 
 function TorneioAmador() {
   const [resultado, setResultado] = useState(null);
@@ -12,9 +13,12 @@ function TorneioAmador() {
   const [atletas, setAtletas] = useState([]);
   const [mostrarAtletas, setMostrarAtletas] = useState(false);
 
-  const tipoUsuario = localStorage.getItem('tipoUsuario');
-  const emailUsuario = localStorage.getItem('emailUsuario');
   const navigate = useNavigate();
+
+  const usuario = getUsuarioLogado();
+  const tipoUsuario = usuario?.perfil;
+  const emailUsuario = usuario?.email;
+
 
   useEffect(() => {
     async function carregarAtletas() {

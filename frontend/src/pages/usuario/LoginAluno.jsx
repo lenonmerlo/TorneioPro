@@ -1,4 +1,4 @@
-// C:\Users\lenon\Development\evpc-torneio\frontend\src\pages\login\LoginAluno.jsx
+// src\pages\login\LoginAluno.jsx
 import { useState } from 'react';
 import Input from '@/components/usuario/Input';
 import { useNavigate, Link } from 'react-router-dom';
@@ -36,7 +36,7 @@ function LoginAluno() {
       setMensagem('Login realizado com sucesso! Redirecionando...');
       setTipoMensagem('sucesso');
 
-      setTimeout(() => navigate('/participar'), 2000);
+      setTimeout(() => navigate('/home-aluno'), 2000);
     } catch (error) {
       console.error('Erro no login de atleta:', error.response?.data || error.message);
       setMensagem('Erro ao fazer login. Verifique suas credenciais.');

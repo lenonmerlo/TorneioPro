@@ -8,3 +8,8 @@
     @apply m-0 p-0 font-sans;
   }
 }
+
+.glass-button {
+  @apply py-3 px-4 rounded-xl font-semibold shadow-lg transition duration-200 text-center;
+}
+

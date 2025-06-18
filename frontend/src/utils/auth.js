@@ -1,4 +1,5 @@
 // src/utils/auth.js
+import api from '@/services/api';
 
 export function getUsuarioLogado() {
   const token = localStorage.getItem('authToken');
@@ -10,4 +11,9 @@ export function getUsuarioLogado() {
   }
 
   return null;
+}
+
+export function logout() {
+  localStorage.clear();
+  delete api.defaults.headers.common['Authorization'];
 }
