@@ -26,25 +26,25 @@ export const createRegister = async (req: Request, res: Response) => {
       },
     });
 
-    // Se perfil for atleta, criar Atleta vinculado
     if (perfil === 'atleta') {
       await prisma.atleta.create({
         data: {
           nome,
           email,
-          genero: '', // preencher no front depois
-          nivel: '',  // preencher no front depois
+          genero: '',
+          nivel: '',
           usuario: { connect: { id: novoUsuario.id } }
         }
       });
     }
 
-    res.status(201).json({ message: 'Usuário criado com sucesso.' });
+    return res.status(201).json({ message: 'Usuário criado com sucesso.' }); 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Erro ao registrar usuário.' });
+    return res.status(500).json({ message: 'Erro ao registrar usuário.' });
   }
 };
+
 
 // POST /auth/login
 export const createLogin = async (req: Request, res: Response) => {
