@@ -10,7 +10,7 @@ function Header() {
   useEffect(() => {
     const perfil = localStorage.getItem('perfil');
     const nome = localStorage.getItem('nomeUsuario');
-    if (tipo) setTipoUsuario(tipo);
+    if (perfil) setTipoUsuario(perfil);
     if (nome) setNomeUsuario(nome);
   }, []);
 

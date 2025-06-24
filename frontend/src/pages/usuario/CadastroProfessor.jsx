@@ -31,23 +31,29 @@ function CadastroProfessor() {
     }
 
     try {
-      const response = await api.post('/auth/register', {
-        nome: form.nome,
-        email: form.email,
-        senha: form.senha,
-        perfil: 'treinador'
-      });
+  const response = await api.post('/auth/register', {
+    nome: form.nome,
+    email: form.email,
+    senha: form.senha,
+    perfil: 'treinador'
+  });
 
-      console.log('Cadastro de treinador bem-sucedido:', response.data);
-      setMensagem('Cadastro realizado com sucesso! Redirecionando para login...');
-      setTipoMensagem('sucesso');
+  if (response.status === 201) {
+    console.log('Cadastro de treinador bem-sucedido:', response.data);
+    setMensagem('Cadastro realizado com sucesso! Redirecionando para login...');
+    setTipoMensagem('sucesso');
+    setTimeout(() => navigate('/login-professor'), 2000);
+  } else {
+    // Isso é raro, mas cobre outros códigos não esperados
+    setMensagem('Erro inesperado ao cadastrar. Tente novamente.');
+    setTipoMensagem('erro');
+  }
+} catch (error) {
+  console.error('Erro no cadastro de treinador:', error.response?.data || error.message);
+  setMensagem('Erro ao cadastrar. Verifique seus dados ou tente novamente mais tarde.');
+  setTipoMensagem('erro');
+}
 
-      setTimeout(() => navigate('/login-professor'), 2000);
-    } catch (error) {
-      console.error('Erro no cadastro de treinador:', error.response?.data || error.message);
-      setMensagem('Erro ao cadastrar. Verifique seus dados ou tente novamente mais tarde.');
-      setTipoMensagem('erro');
-    }
   };
 
   return (
