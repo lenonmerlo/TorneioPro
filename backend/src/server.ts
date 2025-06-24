@@ -6,6 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 import routes from './routes';
 import swaggerDocument from './swagger/swagger.json';
 
+
 const app: Application = express();
 const PORT = process.env.PORT || 3333;
 
