@@ -35,7 +35,7 @@ function CadastroAluno() {
         nome: form.nome,
         email: form.email,
         senha: form.senha,
-        perfil: 'aluno'
+        perfil: 'atleta'
       });
 
       console.log('Cadastro de atleta bem-sucedido:', response.data);

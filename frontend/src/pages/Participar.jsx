@@ -5,6 +5,7 @@ import LogoEVPC from '/assets/logo-evpc.png';
 import { getUsuarioLogado } from '@/utils/auth';
 
 
+
 const Participar = () => {
   const navigate = useNavigate();
 

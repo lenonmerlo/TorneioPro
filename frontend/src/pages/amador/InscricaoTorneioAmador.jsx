@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '@/services/api'; // já configurado com baseURL
 
 function InscricaoTorneioAmador() {
@@ -6,6 +7,8 @@ function InscricaoTorneioAmador() {
   const [genero, setGenero] = useState('');
   const [nivel, setNivel] = useState('');
   const [mensagem, setMensagem] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +21,7 @@ function InscricaoTorneioAmador() {
     try {
       const email = localStorage.getItem('emailUsuario'); // ainda vamos usar para associar
 
-      await api.post('/atletas', {
+      await api.post('/amador/atletas', {
         nome,
         genero,
         nivel,
@@ -31,8 +34,19 @@ function InscricaoTorneioAmador() {
       setNivel('');
     } catch (error) {
       console.error('Erro ao enviar inscrição:', error);
-      setMensagem('Erro ao enviar inscrição. Tente novamente.');
+
+      if (error.response?.status === 409) {
+        setMensagem('Você já se inscreveu neste torneio.');
+      } else if (error.response?.status === 400) {
+        setMensagem('Preencha todos os campos corretamente.');
+      } else {
+        setMensagem('Erro ao enviar inscrição. Tente novamente.');
+      }
     }
+
+    setTimeout(() => {
+      navigate('/home-aluno');
+    }, 1500); // espera 1.5 segundos antes de redirecionar
   };
 
   return (
@@ -80,7 +94,11 @@ function InscricaoTorneioAmador() {
             </button>
 
             {mensagem && (
-              <p className="mt-4 text-sm font-medium text-blue-800 text-center">{mensagem}</p>
+              <p className={`mt-4 text-sm font-medium text-center ${
+                mensagem.includes('sucesso') ? 'text-green-600' : 'text-red-600'
+              }`}>
+                {mensagem}
+              </p>
             )}
           </form>
         </div>

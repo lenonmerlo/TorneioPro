@@ -1,10 +1,12 @@
+// src/pages/amador/TorneioAmador.jsx
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { gerarChavesPorGrupos } from '@/utils/gerarChavesPorGrupos';
-import { sortearQuartetoMisto } from '@/utils/sortearQuartetoMisto';
 import ButtonExportPDF from '@/components/amador/ButtonExportPDF';
 import api from '@/services/api';
 import { getUsuarioLogado } from '@/utils/auth';
+import { dispararSorteioAmador, buscarResultadoSorteioAmador } from '@/services/sorteioService';
 
 function TorneioAmador() {
   const [resultado, setResultado] = useState(null);
@@ -18,7 +20,7 @@ function TorneioAmador() {
   const usuario = getUsuarioLogado();
   const tipoUsuario = usuario?.perfil;
   const emailUsuario = usuario?.email;
-
+  const torneioId = 1; // ajustar dinamicamente se necessário
 
   useEffect(() => {
     async function carregarAtletas() {
@@ -37,13 +39,47 @@ function TorneioAmador() {
       }
     }
 
+    async function carregarResultado() {
+      try {
+        const dados = await buscarResultadoSorteioAmador(torneioId);
+        setResultado({
+          quartetos: dados.equipes.filter(e => e.tipo === 'Quarteto'),
+          flexibilizados: dados.equipes.filter(e => e.tipo === 'Flexibilizado'),
+          reservas: dados.equipes.filter(e => e.tipo === 'Reserva').reduce((acc, e, i) => {
+            acc[`r${i}`] = e.membros;
+            return acc;
+          }, {}),
+          sobraram: dados.equipes.find(e => e.tipo === 'Sobrante')?.membros || []
+        });
+        setChaves(null);
+      } catch (error) {
+        console.error('Erro ao carregar resultado do sorteio:', error);
+      }
+    }
+
     carregarAtletas();
+    carregarResultado();
   }, [navigate]);
 
-  const handleSortear = () => {
-    const resultadoSorteio = sortearQuartetoMisto(atletas, { flexivel: usarFlexivel });
-    setResultado(resultadoSorteio);
-    setChaves(null);
+  const handleSortear = async () => {
+    try {
+      await dispararSorteioAmador(torneioId, usarFlexivel);
+      alert('Sorteio realizado com sucesso!');
+      const dados = await buscarResultadoSorteioAmador(torneioId);
+      setResultado({
+        quartetos: dados.equipes.filter(e => e.tipo === 'Quarteto'),
+        flexibilizados: dados.equipes.filter(e => e.tipo === 'Flexibilizado'),
+        reservas: dados.equipes.filter(e => e.tipo === 'Reserva').reduce((acc, e, i) => {
+          acc[`r${i}`] = e.membros;
+          return acc;
+        }, {}),
+        sobraram: dados.equipes.find(e => e.tipo === 'Sobrante')?.membros || []
+      });
+      setChaves(null);
+    } catch (error) {
+      console.error('Erro ao sortear equipes:', error);
+      alert('Erro ao sortear. Verifique os dados.');
+    }
   };
 
   const handleSortearChaves = () => {
