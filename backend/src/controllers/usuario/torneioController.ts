@@ -13,6 +13,26 @@ export const getTorneios = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
+// [GET] Buscar torneio com status "aberto"
+export const getTorneioAtivo = async (req: Request, res: Response) => {
+  try {
+    const torneio = await prisma.torneio.findFirst({
+      where: { status: 'aberto' },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    if (!torneio) {
+      return res.status(404).json({ message: 'Nenhum torneio ativo encontrado' });
+    }
+
+    return res.status(200).json(torneio);
+  } catch (error) {
+    console.error('Erro ao buscar torneio ativo:', error);
+    return res.status(500).json({ message: 'Erro ao buscar torneio ativo' });
+  }
+};
+
+
 // Criar torneio
 export const createTorneio = async (req: Request, res: Response): Promise<void> => {
   console.log('BODY:', req.body);
