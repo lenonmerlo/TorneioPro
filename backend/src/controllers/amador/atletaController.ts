@@ -55,6 +55,31 @@ export const getAtletaById = async (req: Request, res: Response) => {
   }
 };
 
+// [GET] Buscar atleta vinculado ao usuário logado
+export const getAtletaByUser = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user?.id; // Vem do middleware de autenticação
+
+    if (!userId) {
+      return res.status(401).json({ message: 'Usuário não autenticado.' });
+    }
+
+    const atleta = await prisma.atleta.findUnique({
+      where: { usuarioId: userId }
+    });
+
+    if (!atleta) {
+      return res.status(404).json({ message: 'Atleta não encontrado.' });
+    }
+
+    return res.status(200).json(atleta);
+  } catch (error) {
+    console.error('Erro ao buscar atleta do usuário:', error);
+    return res.status(500).json({ message: 'Erro ao buscar atleta.' });
+  }
+};
+
+
 // [PUT] Atualizar atleta
 export const updateAtleta = async (req: Request, res: Response) => {
   const { id } = req.params;

@@ -6,8 +6,11 @@ import {
   listarAtletas,
   getAtletaById,
   updateAtleta,
-  deleteAtleta
+  deleteAtleta,
+  getAtletaByUser
 } from '../../controllers/amador/atletaController';
+
+import { authMiddleware  } from '../../middlewares/authMiddleware';
 
 const router = Router();
 
@@ -19,6 +22,8 @@ router.get('/', listarAtletas as unknown as RequestHandler);
 
 // [GET] Buscar atleta por ID
 router.get('/:id', getAtletaById as unknown as RequestHandler);
+
+router.get('/atletas/by-user', authMiddleware , getAtletaByUser as unknown as RequestHandler);
 
 // [PUT] Atualizar atleta por ID
 router.put('/:id', updateAtleta as unknown as RequestHandler);
