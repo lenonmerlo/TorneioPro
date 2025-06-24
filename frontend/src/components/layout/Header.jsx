@@ -1,6 +1,6 @@
 // src/components/layout/Header.jsx
-import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Header() {
   const navigate = useNavigate();
@@ -8,7 +8,7 @@ function Header() {
   const [nomeUsuario, setNomeUsuario] = useState('');
 
   useEffect(() => {
-    const tipo = localStorage.getItem('tipoUsuario');
+    const perfil = localStorage.getItem('perfil');
     const nome = localStorage.getItem('nomeUsuario');
     if (tipo) setTipoUsuario(tipo);
     if (nome) setNomeUsuario(nome);

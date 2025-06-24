@@ -1,4 +1,4 @@
-// src\pages\login\LoginAluno.jsx
+// C:\Users\lenon\Development\evpc-torneio\frontend\src\pages\login\LoginAluno.jsx
 import { useState } from 'react';
 import Input from '@/components/usuario/Input';
 import { useNavigate, Link } from 'react-router-dom';
@@ -26,7 +26,7 @@ function LoginAluno() {
       const { token, perfil, nome } = response.data;
 
       localStorage.setItem('authToken', token);
-      localStorage.setItem('tipoUsuario', perfil);
+      localStorage.setItem('perfil', perfil);
       localStorage.setItem('emailUsuario', form.email);
       localStorage.setItem('nomeUsuario', nome);
 

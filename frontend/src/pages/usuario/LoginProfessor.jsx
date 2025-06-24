@@ -26,7 +26,7 @@ function LoginProfessor() {
       const { token, perfil, nome } = response.data;
 
       localStorage.setItem('authToken', token);
-      localStorage.setItem('tipoUsuario', perfil);
+      localStorage.setItem('perfil', perfil);
       localStorage.setItem('emailUsuario', form.email);
       localStorage.setItem('nomeUsuario', nome);
 
