@@ -7,13 +7,16 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const usuario = getUsuarioLogado();
-    if (usuario?.perfil === 'aluno') {
-      navigate('/participar');
-    } else if (usuario?.perfil === 'treinador') {
-      navigate('/'); // ou /painel-professor depois
-    }
-  }, []);
+  const perfil = localStorage.getItem('perfil');
+  const token = localStorage.getItem('authToken');
+
+  if (token && perfil === 'atleta') {
+    navigate('/home-aluno');
+  } else if (token && perfil === 'treinador') {
+    navigate('/home-treinador');
+  }
+}, []);
+
 
   return (
     <section className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] text-center px-4">

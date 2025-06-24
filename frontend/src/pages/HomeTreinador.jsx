@@ -3,12 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getUsuarioLogado } from '@/utils/auth';
 import LogoEVPC from '/assets/logo-evpc.png';
-
 import DashboardResumoTreinador from '@/components/admin/DashboardResumoTreinador';
+import api from '@/services/api'; // certifique-se de importar
 
 const HomeTreinador = () => {
   const navigate = useNavigate();
   const [nome, setNome] = useState('');
+  const [torneios, setTorneios] = useState([]);
 
   useEffect(() => {
     const usuario = getUsuarioLogado();
@@ -16,8 +17,19 @@ const HomeTreinador = () => {
       navigate('/');
     } else {
       setNome(usuario.nome);
+      buscarTorneios();
     }
   }, [navigate]);
+
+  const buscarTorneios = async () => {
+    try {
+      const res = await api.get('/admin/torneios');
+      setTorneios(res.data);
+    } catch (error) {
+      console.error('Erro ao buscar torneios:', error);
+      setTorneios([]); // garante que pelo menos setamos um array vazio
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[url('/assets/bg-praia.png')] bg-cover bg-center flex flex-col items-center justify-center px-4">
@@ -27,6 +39,16 @@ const HomeTreinador = () => {
           Bem-vindo, {nome?.split(' ')[0]} 👋
         </h2>
         <p className="text-blue-900 font-medium">Escolha uma das opções abaixo:</p>
+
+        {/* Mostrar botão se não houver torneios */}
+        {torneios.length === 0 && (
+          <div className="text-center mt-4">
+            <p className="text-sm text-gray-600 mb-2">Nenhum torneio cadastrado ainda.</p>
+            <Link to="/criar-torneio" className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition">
+              Criar Novo Torneio
+            </Link>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
           <Link to="/sorteio" className="glass-button bg-yellow-400 hover:bg-yellow-300 text-blue-900">

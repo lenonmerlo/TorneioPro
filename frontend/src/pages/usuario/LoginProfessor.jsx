@@ -36,7 +36,16 @@ function LoginProfessor() {
       setMensagem('Login realizado com sucesso! Redirecionando...');
       setTipoMensagem('sucesso');
 
-      setTimeout(() => navigate('/home-treinador'), 2000); // Redireciona para a home ou dashboard
+      setTimeout(() => {
+        if (perfil === 'treinador') {
+          navigate('/home-treinador');
+        } else if (perfil === 'atleta') {
+          navigate('/home-aluno');
+        } else {
+          navigate('/');
+        }
+      }, 2000);
+
     } catch (error) {
       console.error('Erro no login de treinador:', error.response?.data || error.message);
       setMensagem('Erro ao fazer login. Verifique suas credenciais.');

@@ -25,9 +25,14 @@ function TorneioAmador() {
   useEffect(() => {
     async function carregarAtletas() {
       try {
-        const response = await api.get('/atletas');
+        const response = await api.get('/amador/atletas/amador');
         const dados = response.data;
         setAtletas(dados);
+
+        if (dados.length === 0) {
+          alert('Ainda não há atletas inscritos para o Torneio Amador.');
+          return;
+        }
 
         if (dados.length < 4) {
           alert('Cadastre pelo menos 4 atletas para realizar o sorteio.');
@@ -38,6 +43,7 @@ function TorneioAmador() {
         alert('Erro ao carregar atletas. Tente novamente mais tarde.');
       }
     }
+
 
     async function carregarResultado() {
       try {
