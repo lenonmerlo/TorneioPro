@@ -3,11 +3,11 @@
 import { Router, RequestHandler } from 'express';
 import {
   createAtleta,
-  listarAtletas,
   getAtletaById,
   updateAtleta,
   deleteAtleta,
-  getAtletaByUser
+  getAtletaByUser,
+  listarAtletasAmador
 } from '../../controllers/amador/atletaController';
 
 import { authMiddleware  } from '../../middlewares/authMiddleware';
@@ -18,7 +18,7 @@ const router = Router();
 router.post('/', createAtleta as unknown as RequestHandler);
 
 // [GET] Listar todos os atletas
-router.get('/', listarAtletas as unknown as RequestHandler);
+router.get('/atletas/amador', listarAtletasAmador as unknown as RequestHandler);
 
 // [GET] Buscar atleta por ID
 router.get('/:id', getAtletaById as unknown as RequestHandler);

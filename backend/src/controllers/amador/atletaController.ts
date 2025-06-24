@@ -24,16 +24,28 @@ export const createAtleta = async (req: Request, res: Response) => {
 };
 
 
-// [GET] Listar todos os atletas
-export const listarAtletas = async (_req: Request, res: Response) => {
+// [GET] Listar atletas participantes do Torneio Amador
+export const listarAtletasAmador = async (_req: Request, res: Response) => {
   try {
-    const atletas = await prisma.atleta.findMany();
+    const atletas = await prisma.atleta.findMany({
+      where: {
+        participacoesAmador: {
+          some: {}, // pelo menos uma participação
+        },
+      },
+      include: {
+        participacoesAmador: true,
+      },
+    });
+
+    // Sempre retorna array, mesmo que vazio
     return res.status(200).json(atletas);
   } catch (error) {
-    console.error('Erro ao listar atletas:', error);
+    console.error('Erro ao listar atletas do torneio amador:', error);
     return res.status(500).json({ message: 'Erro ao buscar atletas.' });
   }
 };
+
 
 // [GET] Buscar atleta por ID
 export const getAtletaById = async (req: Request, res: Response) => {
