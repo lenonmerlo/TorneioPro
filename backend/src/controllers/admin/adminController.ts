@@ -59,3 +59,23 @@ export const getDashboardResumo = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Erro ao gerar dados do dashboard.' });
   }
 };
+
+export const getTorneios = async (req: Request, res: Response) => {
+  try {
+    const torneios = await prisma.torneio.findMany({
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        nome: true,
+        tipo: true,
+        status: true,
+        data: true,
+        createdAt: true
+      }
+    });
+    res.status(200).json(torneios);
+  } catch (error) {
+    console.error('Erro ao buscar torneios:', error);
+    res.status(500).json({ message: 'Erro ao buscar torneios.' });
+  }
+};
