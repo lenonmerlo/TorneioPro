@@ -1,3 +1,5 @@
+// 📁 backend/src/controllers/admin/adminController.ts
+
 import { Request, Response } from 'express';
 import prisma from '../../lib/prismaClient';
 
@@ -18,15 +20,27 @@ export const getDashboardResumo = async (req: Request, res: Response) => {
       prisma.torneio.findMany({
         orderBy: { createdAt: 'desc' },
         take: 5,
-        select: { id: true, nome: true, tipo: true, status: true, data: true }
+        select: {
+          id: true,
+          nome: true,
+          tipo: true,
+          status: true,
+          data: true
+        }
       }),
       prisma.partida.findMany({
         where: { equipeAmador1Id: { not: null } },
         orderBy: { createdAt: 'desc' },
         take: 5,
-        include: {
-          equipeAmador1: true,
-          equipeAmador2: true
+        select: {
+          id: true,
+          equipeAmador1Id: true,
+          equipeAmador2Id: true,
+          pontosEquipe1: true,
+          pontosEquipe2: true,
+          vencedorId: true,
+          equipeAmador1: { select: { nome: true } },
+          equipeAmador2: { select: { nome: true } }
         }
       })
     ]);
@@ -46,7 +60,7 @@ export const getDashboardResumo = async (req: Request, res: Response) => {
           : null
     }));
 
-    res.status(200).json({
+    return res.status(200).json({
       totalAtletasAmador,
       totalEquipesOficial,
       totalPartidasAmador,
@@ -56,26 +70,6 @@ export const getDashboardResumo = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error('Erro ao gerar dashboard:', error);
-    res.status(500).json({ message: 'Erro ao gerar dados do dashboard.' });
-  }
-};
-
-export const getTorneios = async (req: Request, res: Response) => {
-  try {
-    const torneios = await prisma.torneio.findMany({
-      orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        nome: true,
-        tipo: true,
-        status: true,
-        data: true,
-        createdAt: true
-      }
-    });
-    res.status(200).json(torneios);
-  } catch (error) {
-    console.error('Erro ao buscar torneios:', error);
-    res.status(500).json({ message: 'Erro ao buscar torneios.' });
+    return res.status(500).json({ message: 'Erro ao gerar dados do dashboard.' });
   }
 };
