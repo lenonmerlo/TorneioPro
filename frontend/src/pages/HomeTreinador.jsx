@@ -13,11 +13,11 @@ const HomeTreinador = () => {
 
   useEffect(() => {
     const usuario = getUsuarioLogado();
-    if (!usuario || usuario.perfil !== 'treinador') {
-      navigate('/');
-    } else {
+    if (usuario?.perfil === 'treinador') {
       setNome(usuario.nome);
       buscarTorneios();
+    } else {
+      navigate('/', { replace: true }); // impede que entre em loop
     }
   }, [navigate]);
 

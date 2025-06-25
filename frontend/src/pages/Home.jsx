@@ -7,15 +7,17 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-  const perfil = localStorage.getItem('perfil');
-  const token = localStorage.getItem('authToken');
+    const usuario = getUsuarioLogado(); // ← aqui
+    const perfil = usuario?.perfil;
+    const token = usuario?.token;
 
-  if (token && perfil === 'atleta') {
-    navigate('/home-aluno');
-  } else if (token && perfil === 'treinador') {
-    navigate('/home-treinador');
-  }
+    if (token && perfil === 'atleta') {
+      navigate('/home-aluno');
+    } else if (token && perfil === 'treinador') {
+      navigate('/home-treinador');
+    }
 }, []);
+
 
 
   return (

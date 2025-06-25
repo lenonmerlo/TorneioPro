@@ -14,6 +14,7 @@ import LoginProfessor from '@/pages/usuario/LoginProfessor';
 import CadastroProfessor from '@/pages/usuario/CadastroProfessor';
 import HomeAluno from '@/pages/HomeAluno';
 import HomeTreinador from '@/pages/HomeTreinador';
+import CriarTorneio from '@/pages/CriarTorneio';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 
@@ -29,6 +30,7 @@ function App() {
             <Route path="/cadastro-aluno" element={<CadastroAluno />} />
             <Route path="/home-aluno" element={<HomeAluno />} />
             <Route path="/home-treinador" element={<HomeTreinador />} />
+            <Route path="/criar-torneio" element={<CriarTorneio />} />
             <Route path="/login-professor" element={<LoginProfessor />} />
             <Route path="/cadastro-professor" element={<CadastroProfessor />} />
             <Route path="/participar" element={<Participar />} />
