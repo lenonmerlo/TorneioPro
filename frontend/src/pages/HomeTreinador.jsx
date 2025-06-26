@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { getUsuarioLogado } from '@/utils/auth';
 import LogoEVPC from '/assets/logo-evpc.png';
 import DashboardResumoTreinador from '@/components/admin/DashboardResumoTreinador';
-import api from '@/services/api'; // certifique-se de importar
+import api from '@/services/api'; 
 
 const HomeTreinador = () => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const HomeTreinador = () => {
       setTorneios(res.data);
     } catch (error) {
       console.error('Erro ao buscar torneios:', error);
-      setTorneios([]); // garante que pelo menos setamos um array vazio
+      setTorneios([]); 
     }
   };
 

@@ -4,10 +4,10 @@ import api from '@/services/api';
 export function getUsuarioLogado() {
   const token = localStorage.getItem('authToken');
   const nome = localStorage.getItem('nomeUsuario');
-  const tipo = localStorage.getItem('perfil');
+  const perfil = localStorage.getItem('perfil');
 
-  if (token && tipo) {
-    return { token, nome, tipo };
+  if (token && perfil) {
+    return { token, nome, perfil };
   }
 
   return null;

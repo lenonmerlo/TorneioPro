@@ -5,7 +5,7 @@ import Header from '@/components/layout/Header';
 import InscricaoTorneioAmador from '@/pages/amador/InscricaoTorneioAmador';
 import TorneioAmador from '@/pages/amador/TorneioAmador';
 import CriarTorneio from '@/pages/CriarTorneio';
-import Home from '@/pages/Home';
+import LandingPage from '@/pages/LandingPage';
 import Homeatleta from '@/pages/Homeatleta';
 import HomeTreinador from '@/pages/HomeTreinador';
 import InscricaoOficial from '@/pages/oficial/InscricaoOficial';
@@ -24,7 +24,7 @@ function App() {
         <Header />
         <main className='flex-grow'>
           <Routes>
-            <Route path='/' element={<Home />} />
+            <Route path='/' element={<LandingPage />} />
             <Route path='/login-atleta' element={<Loginatleta />} />
             <Route path='/cadastro-atleta' element={<Cadastroatleta />} />
             <Route path='/home-atleta' element={<Homeatleta />} />

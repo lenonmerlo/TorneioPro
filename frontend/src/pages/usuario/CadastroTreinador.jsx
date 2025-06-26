@@ -1,4 +1,4 @@
-// C:\Users\lenon\Development\evpc-torneio\frontend\src\pages\login\Cadastrotreinador.jsx
+// \src\pages\login\Cadastrotreinador.jsx
 import Input from '@/components/usuario/Input';
 import api from '@/services/api';
 import { useState } from 'react';
