@@ -1,7 +1,12 @@
 // src/components/ButtonExportPDF.jsx
 import { exportarChavesParaPDF } from '@/utils/exportarChavesParaPDF';
 
-function ButtonExportPDF({ chavesDupla, chavesTrio, chavesQuarteto, titulo = 'Chaves Sorteadas - Torneio Oficial' }) {
+function ButtonExportPDF({
+  chavesDupla,
+  chavesTrio,
+  chavesQuarteto,
+  titulo = 'Chaves Sorteadas - Torneio Oficial',
+}) {
   const handleExport = () => {
     const temChaves = chavesDupla || chavesTrio || chavesQuarteto;
 
@@ -21,7 +26,7 @@ function ButtonExportPDF({ chavesDupla, chavesTrio, chavesQuarteto, titulo = 'Ch
   return (
     <button
       onClick={handleExport}
-      className="bg-purple-700 hover:bg-purple-800 text-white font-semibold py-2 px-6 rounded-xl shadow"
+      className='bg-purple-700 hover:bg-purple-800 text-white font-semibold py-2 px-6 rounded-xl shadow'
     >
       Exportar Chaves em PDF
     </button>

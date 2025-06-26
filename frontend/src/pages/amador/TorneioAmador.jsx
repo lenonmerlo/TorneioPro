@@ -44,18 +44,19 @@ function TorneioAmador() {
       }
     }
 
-
     async function carregarResultado() {
       try {
         const dados = await buscarResultadoSorteioAmador(torneioId);
         setResultado({
-          quartetos: dados.equipes.filter(e => e.tipo === 'Quarteto'),
-          flexibilizados: dados.equipes.filter(e => e.tipo === 'Flexibilizado'),
-          reservas: dados.equipes.filter(e => e.tipo === 'Reserva').reduce((acc, e, i) => {
-            acc[`r${i}`] = e.membros;
-            return acc;
-          }, {}),
-          sobraram: dados.equipes.find(e => e.tipo === 'Sobrante')?.membros || []
+          quartetos: dados.equipes.filter((e) => e.tipo === 'Quarteto'),
+          flexibilizados: dados.equipes.filter((e) => e.tipo === 'Flexibilizado'),
+          reservas: dados.equipes
+            .filter((e) => e.tipo === 'Reserva')
+            .reduce((acc, e, i) => {
+              acc[`r${i}`] = e.membros;
+              return acc;
+            }, {}),
+          sobraram: dados.equipes.find((e) => e.tipo === 'Sobrante')?.membros || [],
         });
         setChaves(null);
       } catch (error) {
@@ -73,13 +74,15 @@ function TorneioAmador() {
       alert('Sorteio realizado com sucesso!');
       const dados = await buscarResultadoSorteioAmador(torneioId);
       setResultado({
-        quartetos: dados.equipes.filter(e => e.tipo === 'Quarteto'),
-        flexibilizados: dados.equipes.filter(e => e.tipo === 'Flexibilizado'),
-        reservas: dados.equipes.filter(e => e.tipo === 'Reserva').reduce((acc, e, i) => {
-          acc[`r${i}`] = e.membros;
-          return acc;
-        }, {}),
-        sobraram: dados.equipes.find(e => e.tipo === 'Sobrante')?.membros || []
+        quartetos: dados.equipes.filter((e) => e.tipo === 'Quarteto'),
+        flexibilizados: dados.equipes.filter((e) => e.tipo === 'Flexibilizado'),
+        reservas: dados.equipes
+          .filter((e) => e.tipo === 'Reserva')
+          .reduce((acc, e, i) => {
+            acc[`r${i}`] = e.membros;
+            return acc;
+          }, {}),
+        sobraram: dados.equipes.find((e) => e.tipo === 'Sobrante')?.membros || [],
       });
       setChaves(null);
     } catch (error) {
@@ -132,26 +135,28 @@ function TorneioAmador() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-grow p-4 md:p-8 bg-white/70 backdrop-blur-sm mx-4 my-6 rounded-xl shadow-lg">
-        <h1 className="text-3xl font-bold text-blue-800 text-center mb-6">Torneio Amador – Sorteio de Equipes</h1>
+    <div className='min-h-screen flex flex-col'>
+      <main className='flex-grow p-4 md:p-8 bg-white/70 backdrop-blur-sm mx-4 my-6 rounded-xl shadow-lg'>
+        <h1 className='text-3xl font-bold text-blue-800 text-center mb-6'>
+          Torneio Amador – Sorteio de Equipes
+        </h1>
 
-        <div className="flex flex-col md:flex-row flex-wrap justify-center items-center gap-4 mb-6">
+        <div className='flex flex-col md:flex-row flex-wrap justify-center items-center gap-4 mb-6'>
           {tipoUsuario === 'treinador' && (
             <>
               <button
                 onClick={handleSortear}
-                className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-semibold py-2 px-6 rounded-xl shadow"
+                className='bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-semibold py-2 px-6 rounded-xl shadow'
               >
                 Sortear Equipes
               </button>
 
-              <label className="flex items-center gap-2 text-blue-900 font-medium">
+              <label className='flex items-center gap-2 text-blue-900 font-medium'>
                 <input
-                  type="checkbox"
+                  type='checkbox'
                   checked={usarFlexivel}
                   onChange={(e) => setUsarFlexivel(e.target.checked)}
-                  className="w-4 h-4"
+                  className='w-4 h-4'
                 />
                 Flexibilizar sorteio
               </label>
@@ -159,7 +164,7 @@ function TorneioAmador() {
               {resultado && (
                 <button
                   onClick={handleSortearChaves}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-xl shadow"
+                  className='bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-xl shadow'
                 >
                   Sortear Chaves
                 </button>
@@ -169,7 +174,7 @@ function TorneioAmador() {
 
           <button
             onClick={() => setMostrarAtletas((prev) => !prev)}
-            className="text-sm text-blue-700 underline"
+            className='text-sm text-blue-700 underline'
           >
             {mostrarAtletas ? 'Ocultar atletas inscritos' : 'Visualizar atletas inscritos'}
           </button>
@@ -182,26 +187,23 @@ function TorneioAmador() {
                   window.location.reload();
                 }
               }}
-              className="text-sm text-red-600 underline"
+              className='text-sm text-red-600 underline'
             >
               Limpar atletas
             </button>
           )}
 
           {tipoUsuario === 'atleta' && (
-            <button
-              onClick={handleCancelarParticipacao}
-              className="text-sm text-red-700 underline"
-            >
+            <button onClick={handleCancelarParticipacao} className='text-sm text-red-700 underline'>
               Cancelar minha participação
             </button>
           )}
         </div>
 
         {mostrarAtletas && (
-          <div className="mt-6 bg-white rounded-xl shadow p-4 border text-blue-900 max-w-3xl mx-auto">
-            <h2 className="text-lg font-bold mb-2">Atletas Inscritos</h2>
-            <ul className="list-disc list-inside space-y-1">
+          <div className='mt-6 bg-white rounded-xl shadow p-4 border text-blue-900 max-w-3xl mx-auto'>
+            <h2 className='text-lg font-bold mb-2'>Atletas Inscritos</h2>
+            <ul className='list-disc list-inside space-y-1'>
               {atletas.map((a) => (
                 <li key={a.id}>
                   {a.nome} ({a.genero}, {a.nivel})
@@ -212,30 +214,34 @@ function TorneioAmador() {
         )}
 
         {resultado && (
-          <div className="space-y-8 mt-8">
+          <div className='space-y-8 mt-8'>
             <section>
-              <h2 className="text-xl font-bold text-green-700 mb-2">Quartetos Perfeitos</h2>
+              <h2 className='text-xl font-bold text-green-700 mb-2'>Quartetos Perfeitos</h2>
               {resultado.quartetos.length === 0 ? (
-                <p className="text-gray-600">Nenhum quarteto foi formado com as regras exatas.</p>
+                <p className='text-gray-600'>Nenhum quarteto foi formado com as regras exatas.</p>
               ) : (
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
                   {resultado.quartetos.map((time, idx) => {
                     const reservas = resultado.reservas[`q${idx}`] || [];
                     const label = String.fromCharCode(65 + idx);
                     return (
-                      <div key={idx} className="p-4 bg-white rounded-xl border shadow">
-                        <h3 className="font-semibold text-blue-800 mb-2">Time {label}</h3>
-                        <ul className="text-blue-900 space-y-1">
+                      <div key={idx} className='p-4 bg-white rounded-xl border shadow'>
+                        <h3 className='font-semibold text-blue-800 mb-2'>Time {label}</h3>
+                        <ul className='text-blue-900 space-y-1'>
                           {time.map((atleta) => (
-                            <li key={atleta.id}>• {atleta.nome} ({atleta.genero}, {atleta.nivel})</li>
+                            <li key={atleta.id}>
+                              • {atleta.nome} ({atleta.genero}, {atleta.nivel})
+                            </li>
                           ))}
                         </ul>
                         {reservas.length > 0 && (
-                          <div className="mt-3">
-                            <p className="text-sm font-semibold text-gray-600">Reservas:</p>
-                            <ul className="text-gray-700 text-sm list-disc list-inside">
+                          <div className='mt-3'>
+                            <p className='text-sm font-semibold text-gray-600'>Reservas:</p>
+                            <ul className='text-gray-700 text-sm list-disc list-inside'>
                               {reservas.map((res) => (
-                                <li key={res.id}>{res.nome} ({res.genero}, {res.nivel})</li>
+                                <li key={res.id}>
+                                  {res.nome} ({res.genero}, {res.nivel})
+                                </li>
                               ))}
                             </ul>
                           </div>
@@ -249,25 +255,32 @@ function TorneioAmador() {
 
             {usarFlexivel && resultado.flexibilizados.length > 0 && (
               <section>
-                <h2 className="text-xl font-bold text-yellow-700 mb-2">Quartetos Flexibilizados</h2>
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <h2 className='text-xl font-bold text-yellow-700 mb-2'>Quartetos Flexibilizados</h2>
+                <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
                   {resultado.flexibilizados.map((time, idx) => {
                     const reservas = resultado.reservas[`f${idx}`] || [];
                     const label = String.fromCharCode(65 + resultado.quartetos.length + idx);
                     return (
-                      <div key={idx} className="p-4 bg-yellow-50 rounded-xl border border-yellow-400 shadow">
-                        <h3 className="font-semibold text-yellow-800 mb-2">Time {label}</h3>
-                        <ul className="text-yellow-900 space-y-1">
+                      <div
+                        key={idx}
+                        className='p-4 bg-yellow-50 rounded-xl border border-yellow-400 shadow'
+                      >
+                        <h3 className='font-semibold text-yellow-800 mb-2'>Time {label}</h3>
+                        <ul className='text-yellow-900 space-y-1'>
                           {time.map((atleta) => (
-                            <li key={atleta.id}>• {atleta.nome} ({atleta.genero}, {atleta.nivel})</li>
+                            <li key={atleta.id}>
+                              • {atleta.nome} ({atleta.genero}, {atleta.nivel})
+                            </li>
                           ))}
                         </ul>
                         {reservas.length > 0 && (
-                          <div className="mt-3">
-                            <p className="text-sm font-semibold text-yellow-700">Reservas:</p>
-                            <ul className="text-yellow-800 text-sm list-disc list-inside">
+                          <div className='mt-3'>
+                            <p className='text-sm font-semibold text-yellow-700'>Reservas:</p>
+                            <ul className='text-yellow-800 text-sm list-disc list-inside'>
                               {reservas.map((res) => (
-                                <li key={res.id}>{res.nome} ({res.genero}, {res.nivel})</li>
+                                <li key={res.id}>
+                                  {res.nome} ({res.genero}, {res.nivel})
+                                </li>
                               ))}
                             </ul>
                           </div>
@@ -281,10 +294,12 @@ function TorneioAmador() {
 
             {resultado.sobraram.length > 0 && (
               <section>
-                <h2 className="text-xl font-bold text-red-700 mb-2">Atletas que sobraram</h2>
-                <ul className="text-red-800 space-y-1">
+                <h2 className='text-xl font-bold text-red-700 mb-2'>Atletas que sobraram</h2>
+                <ul className='text-red-800 space-y-1'>
                   {resultado.sobraram.map((atleta) => (
-                    <li key={atleta.id}>• {atleta.nome} ({atleta.genero}, {atleta.nivel})</li>
+                    <li key={atleta.id}>
+                      • {atleta.nome} ({atleta.genero}, {atleta.nivel})
+                    </li>
                   ))}
                 </ul>
               </section>
@@ -294,19 +309,26 @@ function TorneioAmador() {
 
         {chaves && (
           <>
-            <section className="mt-10">
-              <h2 className="text-2xl font-bold text-purple-700 mb-4 text-center">Chaves Sorteadas</h2>
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <section className='mt-10'>
+              <h2 className='text-2xl font-bold text-purple-700 mb-4 text-center'>
+                Chaves Sorteadas
+              </h2>
+              <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
                 {Object.entries(chaves).map(([chave, times]) => (
-                  <div key={chave} className="p-4 bg-purple-50 rounded-xl border border-purple-300 shadow">
-                    <h3 className="text-lg font-semibold text-purple-800 mb-2">Chave {chave}</h3>
-                    <ul className="text-purple-900 space-y-1">
+                  <div
+                    key={chave}
+                    className='p-4 bg-purple-50 rounded-xl border border-purple-300 shadow'
+                  >
+                    <h3 className='text-lg font-semibold text-purple-800 mb-2'>Chave {chave}</h3>
+                    <ul className='text-purple-900 space-y-1'>
                       {times.map((time, idx) => (
                         <li key={idx}>
                           <strong>{time.nome}</strong>
-                          <ul className="pl-4 list-disc text-sm text-purple-700">
+                          <ul className='pl-4 list-disc text-sm text-purple-700'>
                             {time.atletas.map((a) => (
-                              <li key={a.id}>{a.nome} ({a.genero}, {a.nivel})</li>
+                              <li key={a.id}>
+                                {a.nome} ({a.genero}, {a.nivel})
+                              </li>
                             ))}
                           </ul>
                         </li>
@@ -317,25 +339,24 @@ function TorneioAmador() {
               </div>
             </section>
 
-            <div className="text-center mt-8">
+            <div className='text-center mt-8'>
               <ButtonExportPDF
                 chavesDupla={null}
                 chavesTrio={null}
                 chavesQuarteto={chaves}
-                titulo="Chaves Sorteadas - Torneio Amador"
+                titulo='Chaves Sorteadas - Torneio Amador'
               />
             </div>
           </>
         )}
-        <div className="text-center mt-8">
-        <button
-          onClick={() => navigate(-1)}
-          className="bg-gray-300 hover:bg-gray-400 text-blue-900 font-semibold py-2 px-6 rounded-xl shadow transition duration-200"
-        >
-          ← Voltar
-        </button>
-      </div>
-
+        <div className='text-center mt-8'>
+          <button
+            onClick={() => navigate(-1)}
+            className='bg-gray-300 hover:bg-gray-400 text-blue-900 font-semibold py-2 px-6 rounded-xl shadow transition duration-200'
+          >
+            ← Voltar
+          </button>
+        </div>
       </main>
     </div>
   );

@@ -6,7 +6,7 @@ export function getUsuarioLogado() {
   const nome = localStorage.getItem('nomeUsuario');
   const tipo = localStorage.getItem('perfil');
 
-  if (token && perfil) {
+  if (token && tipo) {
     return { token, nome, tipo };
   }
 

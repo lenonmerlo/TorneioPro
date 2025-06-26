@@ -1,13 +1,13 @@
-// C:\Users\lenon\Development\evpc-torneio\frontend\src\pages\login\LoginAluno.jsx
-import { useState } from 'react';
+// src/pages/login/Logintreinador.jsx
 import Input from '@/components/usuario/Input';
-import { useNavigate, Link } from 'react-router-dom';
 import api from '@/services/api';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-function LoginAluno() {
+function Logintreinador() {
   const [form, setForm] = useState({ email: '', senha: '' });
   const [mensagem, setMensagem] = useState('');
-  const [tipoMensagem, setTipoMensagem] = useState('sucesso'); // 'sucesso' ou 'erro'
+  const [tipoMensagem, setTipoMensagem] = useState('sucesso');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,7 +20,7 @@ function LoginAluno() {
     try {
       const response = await api.post('/auth/login', {
         email: form.email,
-        senha: form.senha
+        senha: form.senha,
       });
 
       const { token, perfil, nome } = response.data;
@@ -32,13 +32,20 @@ function LoginAluno() {
 
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-      console.log('Login de atleta bem-sucedido:', response.data);
-      setMensagem('Login realizado com sucesso! Redirecionando...');
+      console.log('Login de treinador bem-sucedido:', response.data);
+      setMensagem('Login realizado com sucesso!');
       setTipoMensagem('sucesso');
 
-      setTimeout(() => navigate('/home-aluno'), 2000);
+      // Redirecionamento imediato, sem setTimeout
+      if (perfil === 'treinador') {
+        navigate('/home-treinador');
+      } else if (perfil === 'atleta') {
+        navigate('/home-atleta');
+      } else {
+        navigate('/');
+      }
     } catch (error) {
-      console.error('Erro no login de atleta:', error.response?.data || error.message);
+      console.error('Erro no login de treinador:', error.response?.data || error.message);
       setMensagem('Erro ao fazer login. Verifique suas credenciais.');
       setTipoMensagem('erro');
     }
@@ -46,8 +53,8 @@ function LoginAluno() {
 
   return (
     <div className="min-h-screen bg-[url('/assets/bg-praia.png')] bg-cover bg-center bg-no-repeat flex items-center justify-center px-4">
-      <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8 w-full max-w-md">
-        <h1 className="text-2xl font-bold text-blue-800 mb-4 text-center">Login do Atleta</h1>
+      <div className='bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8 w-full max-w-md'>
+        <h1 className='text-2xl font-bold text-blue-800 mb-4 text-center'>Login do Treinador</h1>
 
         {mensagem && (
           <div
@@ -63,28 +70,31 @@ function LoginAluno() {
 
         <form onSubmit={handleLogin}>
           <Input
-            label="Email"
-            name="email"
-            type="email"
+            label='Email'
+            name='email'
+            type='email'
             value={form.email}
             onChange={handleChange}
           />
           <Input
-            label="Senha"
-            name="senha"
-            type="password"
+            label='Senha'
+            name='senha'
+            type='password'
             value={form.senha}
             onChange={handleChange}
           />
           <button
-            type="submit"
-            className="w-full bg-blue-700 hover:bg-blue-800 text-white py-3 rounded-lg font-semibold mt-4"
+            type='submit'
+            className='w-full bg-purple-700 hover:bg-purple-800 text-white py-3 rounded-lg font-semibold mt-4'
           >
             Entrar
           </button>
-          <p className="text-sm text-blue-800 mt-4 text-center">
+          <p className='text-sm text-blue-800 mt-4 text-center'>
             Ainda não tem conta?
-            <Link to="/cadastro-aluno" className="text-yellow-600 font-semibold hover:underline ml-1">
+            <Link
+              to='/cadastro-treinador'
+              className='text-purple-700 font-semibold hover:underline ml-1'
+            >
               Cadastre-se
             </Link>
           </p>
@@ -94,4 +104,4 @@ function LoginAluno() {
   );
 }
 
-export default LoginAluno;
+export default Logintreinador;

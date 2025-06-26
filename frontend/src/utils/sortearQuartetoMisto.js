@@ -88,9 +88,10 @@ export function sortearQuartetoMisto(atletas, { flexivel = false } = {}) {
     });
 
     if (melhorIndice >= 0) {
-      const id = melhorIndice < quartetos.length
-        ? `q${melhorIndice}`
-        : `f${melhorIndice - quartetos.length}`;
+      const id =
+        melhorIndice < quartetos.length
+          ? `q${melhorIndice}`
+          : `f${melhorIndice - quartetos.length}`;
 
       if (!reservas[id]) reservas[id] = [];
       reservas[id].push(reserva);

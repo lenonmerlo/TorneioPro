@@ -52,13 +52,13 @@ npm run dev
 ## 🔐 Fluxo de Acesso
 
 - **Atleta**:
-  - Acessa `/login-aluno` e realiza login.
+  - Acessa `/login-atleta` e realiza login.
   - Pode se inscrever no Torneio Amador ou Oficial.
   - Pode visualizar as chaves, mas não editá-las.
   - Pode cancelar sua inscrição.
 
 - **Treinador**:
-  - Acessa `/login-professor` e realiza login.
+  - Acessa `/login-treinador` e realiza login.
   - Tem acesso total: sorteios, visualização, exclusão e exportação das chaves.
   - Pode cadastrar atletas manualmente.
 
