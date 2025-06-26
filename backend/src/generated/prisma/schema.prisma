@@ -19,6 +19,16 @@ model Usuario {
   criadoEm DateTime  @default(now())
   Torneio  Torneio[] // Torneios criados por este usuário (se for 'treinador')
   atleta   Atleta? // Um usuário pode ter um perfil de atleta (se perfil='atleta')
+
+  Treinador Treinador[]
+}
+
+model Treinador {
+  id        Int     @id @default(autoincrement())
+  nome      String
+  email     String  @unique
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId Int     @unique
 }
 
 // Modelo para atletas que participam do Torneio Amador (individualmente)

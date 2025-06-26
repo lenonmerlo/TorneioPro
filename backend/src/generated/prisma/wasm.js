@@ -129,6 +129,13 @@ exports.Prisma.UsuarioScalarFieldEnum = {
   criadoEm: 'criadoEm'
 };
 
+exports.Prisma.TreinadorScalarFieldEnum = {
+  id: 'id',
+  nome: 'nome',
+  email: 'email',
+  usuarioId: 'usuarioId'
+};
+
 exports.Prisma.AtletaScalarFieldEnum = {
   id: 'id',
   nome: 'nome',
@@ -219,6 +226,7 @@ exports.StatusTorneio = exports.$Enums.StatusTorneio = {
 
 exports.Prisma.ModelName = {
   Usuario: 'Usuario',
+  Treinador: 'Treinador',
   Atleta: 'Atleta',
   Torneio: 'Torneio',
   ParticipacaoAmador: 'ParticipacaoAmador',
