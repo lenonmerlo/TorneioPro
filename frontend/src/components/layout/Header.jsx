@@ -112,7 +112,7 @@ function Header() {
                 onClick={toggleDropdown}
                 className='bg-yellow-400 text-blue-800 font-semibold py-1 px-4 rounded hover:bg-yellow-500'
               >
-                Entrar
+                Acesse o Sistema
               </button>
               {showDropdown && (
                 <div className='absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md text-black z-50'>
