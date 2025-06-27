@@ -7,6 +7,7 @@ import HeroSection from '@/components/layout/HeroSection';
 import SobreEVPC from '@/components/layout/SobreEVPC';
 import EventoCard from '@/components/layout/EventoCard';
 import ContatoEVPC from '../components/layout/ContatoEVPC';
+import OndasAnimadas from '../components/layout/OndasAnimadas';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -52,6 +53,7 @@ const LandingPage = () => {
         </div>
       </section>
       <ContatoEVPC />
+      <OndasAnimadas />
 
       <div className="h-20" />
     </main>
