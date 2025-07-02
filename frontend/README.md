@@ -1,6 +1,6 @@
-# 🎯 EVPC Torneio – Frontend
+# 🎯 TorneioPro – Frontend
 
-Interface web do sistema de gerenciamento de torneios de vôlei da Escola de Vôlei Praia da Costa (EVPC). Desenvolvido com **React + Vite** e estilizado com **TailwindCSS**, o sistema permite inscrições de atletas, sorteio de equipes, visualização de chaves e acesso segmentado por tipo de usuário (atleta ou treinador).
+Interface web do sistema **TorneioPro – Seu gerenciador de torneios de Vôlei de Praia**. Desenvolvido com **React + Vite** e estilizado com **TailwindCSS**, o sistema permite inscrições de atletas, sorteio de equipes, visualização de chaves e acesso segmentado por tipo de usuário (atleta ou treinador).
 
 ---
 
@@ -79,7 +79,7 @@ npm run dev
 ## 🏖️ Estilo e Identidade
 
 - Background com imagem de praia e quadra de vôlei
-- Paleta de cores azul, amarelo e branco (tema EVPC)
+- Paleta de cores azul e neutras (personalizável)
 - Ícones visuais nos botões e seções
 - Layout responsivo e agradável
 
@@ -94,7 +94,7 @@ npm run dev
 
 ## 📄 Licença
 
-Projeto desenvolvido para fins educacionais e uso interno da EVPC. Não possui licença comercial.
+Projeto desenvolvido para fins educacionais e demonstração comercial. Uso autorizado com fins não comerciais, salvo acordo específico.
 
 ---
 
