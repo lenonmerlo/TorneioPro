@@ -31,9 +31,6 @@ model Treinador {
   usuarioId Int      @unique
 }
 
-
-// Modelo para atletas que participam do Torneio Amador (individualmente)
-// E também são os "membros" que formam as EquipesOficiais
 model Atleta {
   id                  Int                    @id @default(autoincrement())
   nome                String

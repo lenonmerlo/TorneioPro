@@ -1,6 +1,6 @@
-# 🏐 EVPC Torneio - Backend
+# 🏐 TorneioPro - Backend
 
-Este é o backend oficial do sistema de gerenciamento de torneios de vôlei da EVPC, desenvolvido em **Node.js + Express + Prisma ORM** com banco de dados **PostgreSQL**.
+Este é o backend oficial do sistema **TorneioPro – Seu gerenciador de torneios de Vôlei de Praia**, desenvolvido em **Node.js + Express + Prisma ORM** com banco de dados **PostgreSQL**.
 
 ## 🚀 Funcionalidades
 
@@ -27,7 +27,7 @@ Este é o backend oficial do sistema de gerenciamento de torneios de vôlei da E
 
 ## 📁 Estrutura de Pastas
 
-\`\`\`
+```
 src/
 ├── controllers/       # Lógica de negócio e CRUDs
 ├── routes/            # Rotas organizadas por entidade
@@ -36,42 +36,41 @@ src/
 ├── lib/               # Prisma Client
 ├── swagger/           # Documentação da API
 ├── server.ts          # Inicialização do servidor
-\`\`\`
+```
 
 ---
 
 ## 🔧 Como rodar localmente
 
 ### 1. Clone o projeto
-\`\`\`bash
-git clone https://github.com/seuusuario/evpc-torneio.git
-cd evpc-torneio/backend
-\`\`\`
+```bash
+git clone https://github.com/seuusuario/torneiopro.git
+cd torneiopro/backend
+```
 
 ### 2. Instale as dependências
-\`\`\`bash
+```bash
 npm install
-\`\`\`
+```
 
 ### 3. Configure o arquivo .env
 Crie um `.env` com as seguintes variáveis:
-\`\`\`
-DATABASE_URL=postgresql://usuario:senha@localhost:5432/evpc_torneio
+```
+DATABASE_URL=postgresql://usuario:senha@localhost:5432/torneiopro
 JWT_SECRET=sua_chave_secreta
-\`\`\`
+```
 
 ### 4. Execute as migrations
-\`\`\`bash
+```bash
 npx prisma migrate dev
-\`\`\`
+```
 
 ### 5. Inicie o servidor
-\`\`\`bash
+```bash
 npx tsx src/server.ts
-\`\`\`
+```
 
-A API estará disponível em: [http://localhost:3333/api](http://localhost:3333/api)
-
+A API estará disponível em: [http://localhost:3333/api](http://localhost:3333/api)  
 Swagger: [http://localhost:3333/api-docs](http://localhost:3333/api-docs)
 
 ---
@@ -94,4 +93,4 @@ Swagger: [http://localhost:3333/api-docs](http://localhost:3333/api-docs)
 ## 👨‍💻 Desenvolvido por
 
 Lenon Merlo – Full Stack Developer  
-FIAP | UVV | EVPC
+FIAP | UVV
