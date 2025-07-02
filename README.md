@@ -1,13 +1,13 @@
-# 🏐 Torneio EVPC
+# 🏐 TorneioPro
 
-Sistema completo para gerenciamento de torneios de vôlei — desenvolvido com foco em interatividade, sorteios automáticos, controle de equipes e resultados.
+**Seu gerenciador de torneios de Vôlei de Praia** – Um sistema completo para organização de torneios, com sorteio de equipes, controle de partidas, rankings e muito mais.
 
 ---
 
 ## 🧱 Estrutura do Projeto
 
 ```
-torneio-evpc/
+torneiopro/
 ├── backend/   # API REST com Node.js, Express, Prisma e PostgreSQL
 ├── frontend/  # Interface web com React + Vite + TailwindCSS
 ```
@@ -19,8 +19,8 @@ torneio-evpc/
 ### 1. Clone o projeto
 
 ```bash
-git clone https://github.com/seu-usuario/torneio-evpc.git
-cd torneio-evpc
+git clone https://github.com/seu-usuario/torneiopro.git
+cd torneiopro
 ```
 
 ---
@@ -40,7 +40,7 @@ npm install
 ### Configurar `.env`:
 
 ```
-DATABASE_URL=postgresql://usuario:senha@localhost:5432/evpc_torneio
+DATABASE_URL=postgresql://usuario:senha@localhost:5432/torneiopro
 JWT_SECRET=seu_token_secreto
 ```
 
@@ -89,11 +89,11 @@ Aplicação disponível em:
 - Registro de partidas e pontuação
 - Ranking por torneio
 - Exportação para PDF
-- Painel administrativo (professor)
+- Painel administrativo (treinador)
 
 ---
 
 ## 👨‍💻 Desenvolvedor
 
 **Lenon Merlo**  
-Full Stack Developer — FIAP | UVV | EVPC
+Full Stack Developer — FIAP | UVV
