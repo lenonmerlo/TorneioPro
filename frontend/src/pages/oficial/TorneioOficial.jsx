@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { gerarChavesPorGrupos } from '@/utils/gerarChavesPorGrupos';
 import ButtonExportPDF from '@/components/amador/ButtonExportPDF';
 import api from '@/services/api';
+import { gerarChavesPorGrupos } from '@/utils/gerarChavesPorGrupos';
+import { useEffect, useState } from 'react';
 
 const TABS = ['Duplas', 'Trios', 'Quartetos'];
 
@@ -112,7 +112,7 @@ function TorneioOficial() {
     <div className='min-h-screen flex flex-col'>
       <main className='flex-grow p-4 md:p-8 bg-white/70 backdrop-blur-sm mx-4 my-6 rounded-xl shadow-lg'>
         <div id='logo-pdf' className='flex items-center justify-center mb-6'>
-          <img src='/assets/logo-evpc.png' alt='Logo EVPC' className='h-10' />
+          <img src='/assets/logo-torneiopro.png' alt='Logo EVPC' className='h-10' />
         </div>
 
         <h1 className='text-3xl font-bold text-blue-800 text-center mb-8'>Torneio Oficial</h1>

@@ -1,10 +1,10 @@
 // src/pages/HomeTreinador.jsx
-import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { getUsuarioLogado } from '@/utils/auth';
-import LogoEVPC from '/assets/logo-evpc.png';
 import DashboardResumoTreinador from '@/components/admin/DashboardResumoTreinador';
-import api from '@/services/api'; 
+import api from '@/services/api';
+import { getUsuarioLogado } from '@/utils/auth';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import LogoEVPC from '/assets/logo-torneiopro.png';
 
 const HomeTreinador = () => {
   const navigate = useNavigate();

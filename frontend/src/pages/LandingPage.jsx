@@ -4,9 +4,9 @@ import { getUsuarioLogado } from '@/utils/auth';
 import fundo from '/assets/bg-praia.png?url';
 
 import HeroSection from '@/components/layout/HeroSection';
-import SobreEVPC from '@/components/layout/SobreEVPC';
+import Sobre from '@/components/layout/Sobre';
 import EventoCard from '@/components/layout/EventoCard';
-import ContatoEVPC from '../components/layout/ContatoEVPC';
+import ContatoTorneioPro from '../components/layout/Contato';
 import OndasAnimadas from '../components/layout/OndasAnimadas';
 
 const LandingPage = () => {
@@ -25,7 +25,7 @@ const LandingPage = () => {
       style={{ backgroundImage: `url(${fundo})` }}
     >
       <HeroSection />
-      <SobreEVPC />
+      <Sobre />
 
       <section className="py-16 px-6 bg-gradient-to-b from-yellow-50 via-blue-50 to-white">
         <div className="max-w-6xl mx-auto">
@@ -52,7 +52,7 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
-      <ContatoEVPC />
+      <ContatoTorneioPro />
       <OndasAnimadas />
 
       <div className="h-20" />

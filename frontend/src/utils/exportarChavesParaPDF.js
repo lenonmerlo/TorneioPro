@@ -4,7 +4,7 @@ export function exportarChavesParaPDF({ titulo = 'Chaves Sorteadas - Torneio Ofi
   const doc = new jsPDF();
 
   const logo = new Image();
-  logo.src = '/assets/logo-evpc.png';
+  logo.src = '/assets/logo-torneiopro.png';
   doc.addImage(logo, 'PNG', 10, 10, 20, 20); // (img, type, x, y, w, h)
 
   let y = 22;

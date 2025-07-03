@@ -1,9 +1,8 @@
 // src/services/api.js
-
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://torneio-evpc.onrender.com/api',
+  baseURL: 'http://localhost:3333/api',
 });
 
 export default api;

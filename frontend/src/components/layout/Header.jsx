@@ -55,7 +55,7 @@ function Header() {
   return (
     <header className="bg-blue-800 border-b-4 border-yellow-400">
       <nav className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center text-white">
-        <h1 className="text-xl font-bold text-yellow-400">EVPC Torneio</h1>
+        <h1 className="text-xl font-bold text-yellow-400">TorneioPro - Gerenciador de Torneios</h1>
 
         <ul className="flex gap-6 text-sm md:text-base items-center">
           {/* Menu do Treinador */}

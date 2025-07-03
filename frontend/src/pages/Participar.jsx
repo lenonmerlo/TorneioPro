@@ -1,8 +1,8 @@
 // src/pages/Participar.jsx
-import { useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import LogoEVPC from '/assets/logo-evpc.png';
 import { getUsuarioLogado } from '@/utils/auth';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import LogoEVPC from '/assets/logo-torneiopro.png';
 
 const Participar = () => {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ const Participar = () => {
   useEffect(() => {
     const usuario = getUsuarioLogado();
 
-    if (!usuario || usuario.perfil !== 'aluno') {
+    if (!usuario || usuario.perfil !== 'atleta') {
       navigate('/');
     }
   }, []);
@@ -20,7 +20,7 @@ const Participar = () => {
       <div className='bg-white/90 rounded-xl p-8 shadow-xl max-w-md w-full space-y-6'>
         <img src={LogoEVPC} alt='Logo EVPC' className='w-20 h-20 mx-auto' />
         <h3 className='text-xl font-bold text-blue-800'>
-          Bem-vindo(a). Participe do Torneio EVPC{' '}
+          Bem-vindo(a). Participe do TorneioPro{' '}
         </h3>
         <p className='text-sm text-gray-600'>Escolha seu tipo de inscrição abaixo:</p>
 
