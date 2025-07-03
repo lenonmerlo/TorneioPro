@@ -26,22 +26,12 @@ export const createRegister = async (req: Request, res: Response) => {
       },
     });
 
-    if (perfil === 'atleta') {
-      await prisma.atleta.create({
-        data: {
-          nome,
-          email,
-          genero: '',
-          nivel: '',
-          usuario: { connect: { id: novoUsuario.id } }
-        }
-      });
-    } else if (perfil === 'treinador') { // <-- ADICIONE ESTE BLOCO
+    if (perfil === 'treinador') {
       await prisma.treinador.create({
         data: {
           nome,
           email,
-          usuario: { connect: { id: novoUsuario.id } }
+          usuarioId: novoUsuario.id,
         }
       });
     }
@@ -49,13 +39,13 @@ export const createRegister = async (req: Request, res: Response) => {
     return res.status(201).json({ message: 'Usuário criado com sucesso.' });
   } catch (error: any) {
     console.error(error);
-    // Verifique se o erro é de email duplicado (unique constraint violation)
     if (error.code === 'P2002' && error.meta?.target?.includes('email')) {
       return res.status(409).json({ message: 'Este email já está cadastrado.' });
     }
     return res.status(500).json({ message: 'Erro ao registrar usuário.' });
   }
 };
+
 
 // POST /auth/login
 export const createLogin = async (req: Request, res: Response) => {
