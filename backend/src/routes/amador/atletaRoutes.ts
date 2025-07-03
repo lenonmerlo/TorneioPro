@@ -1,34 +1,31 @@
-// ROTA: /api/amador/atletas
+// 📁 backend/src/routes/amador/atletaRoutes.ts
 
-import { Router, RequestHandler } from 'express';
+import { RequestHandler, Router } from 'express';
 import {
   createAtleta,
+  getAllAtletas,
   getAtletaById,
   updateAtleta,
-  deleteAtleta,
-  getAtletaByUser,
-  listarAtletasAmador
+  deleteAtleta
 } from '../../controllers/amador/atletaController';
 
-import { authMiddleware  } from '../../middlewares/authMiddleware';
+import { authMiddleware } from '../../middlewares/authMiddleware';
 
 const router = Router();
 
-// [POST] Criar novo atleta
+// [POST] Inscrição pública no torneio amador (sem autenticação)
 router.post('/', createAtleta as unknown as RequestHandler);
 
-// [GET] Listar todos os atletas
-router.get('/atletas/amador', listarAtletasAmador as unknown as RequestHandler);
+// [GET] Listar todos os atletas com participação (admin)
+router.get('/', authMiddleware, getAllAtletas as unknown as RequestHandler);
 
-// [GET] Buscar atleta por ID
-router.get('/:id', getAtletaById as unknown as RequestHandler);
+// [GET] Buscar atleta por ID (admin)
+router.get('/:id', authMiddleware, getAtletaById as unknown as RequestHandler);
 
-router.get('/atletas/by-user', authMiddleware , getAtletaByUser as unknown as RequestHandler);
+// [PUT] Atualizar atleta por ID (admin)
+router.put('/:id', authMiddleware, updateAtleta as unknown as RequestHandler);
 
-// [PUT] Atualizar atleta por ID
-router.put('/:id', updateAtleta as unknown as RequestHandler);
-
-// [DELETE] Deletar atleta por ID
-router.delete('/:id', deleteAtleta as unknown as RequestHandler);
+// [DELETE] Deletar atleta por ID (admin)
+router.delete('/:id', authMiddleware, deleteAtleta as unknown as RequestHandler);
 
 export default router;

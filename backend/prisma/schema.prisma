@@ -9,17 +9,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Modelo para TODOS os usuários da plataforma (treinadores e atletas)
+// Usuários autenticáveis (ex: treinadores)
 model Usuario {
   id        Int       @id @default(autoincrement())
   nome      String
   email     String    @unique
   senha     String
-  perfil    String    // 'atleta' ou 'treinador'
+  perfil    String    // 'treinador'
   criadoEm  DateTime  @default(now())
-  Torneio   Torneio[] // Torneios criados por este usuário (se for 'treinador')
-  atleta    Atleta?   // Um usuário pode ter um perfil de atleta (se perfil='atleta')
 
+  Torneio   Torneio[] // Torneios criados por este usuário
   Treinador Treinador[]
 }
 
@@ -31,128 +30,112 @@ model Treinador {
   usuarioId Int      @unique
 }
 
+// Atleta é independente de usuário autenticado
 model Atleta {
   id                  Int                    @id @default(autoincrement())
   nome                String
-  email               String                 @unique // Ainda vinculado ao Usuario também
+  email               String                 @unique
   genero              String
-  nivel               String?                // 'iniciante' ou 'intermediario' para o torneio amador
+  nivel               String?                // 'iniciante' ou 'intermediario'
 
-  // Relação 1:1 com Usuario (um Usuario do tipo 'atleta' tem um registro aqui)
-  usuarioId           Int?                    @unique
-  usuario             Usuario?                @relation(fields: [usuarioId], references: [id])
-
-  // Relação com as participações em Torneios Amadores
   participacoesAmador ParticipacaoAmador[]
-
-  // Relação N:M com EquipeOficial (via tabela de junção AtletaEquipeOficial)
   equipesOficiais     AtletaEquipeOficial[]
-
-  EquipeAmador EquipeAmador[] @relation("MembrosEquipeAmador")
+  EquipeAmador        EquipeAmador[] @relation("MembrosEquipeAmador")
 }
 
-// Modelo para o Torneio em si (Amador ou Oficial)
+// Torneio Amador ou Oficial
 model Torneio {
   id          Int            @id @default(autoincrement())
   nome        String
-  tipo        TipoTorneio    // 'amador' ou 'oficial'
+  tipo        TipoTorneio
   data        DateTime
   local       String?
-  status      StatusTorneio  @default(aberto) // 'aberto', 'fechado', 'encerrado'
+  status      StatusTorneio  @default(aberto)
   criadoPorId Int
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
+
   criadoPor   Usuario        @relation(fields: [criadoPorId], references: [id])
-
-  // Partidas do torneio (sejam elas de equipes amadoras ou oficiais)
   Partida     Partida[]
-  // Equipes sorteadas no Torneio Amador (se tipo='amador')
-  equipesAmador EquipeAmador[]
-  // Equipes criadas pelos atletas no Torneio Oficial (se tipo='oficial')
-  equipesOficial EquipeOficial[]
-
+  equipesAmador     EquipeAmador[]
+  equipesOficial    EquipeOficial[]
   ParticipacaoAmador ParticipacaoAmador[]
 }
 
-// Participação individual de um Atleta em um Torneio Amador
-// Um atleta se inscreve individualmente em um Torneio Amador
+// Participação individual no torneio amador
 model ParticipacaoAmador {
   id         Int      @id @default(autoincrement())
   atletaId   Int
   torneioId  Int
-  atleta     Atleta   @relation(fields: [atletaId], references: [id])
-  torneio    Torneio  @relation(fields: [torneioId], references: [id])
   criadoEm   DateTime @default(now())
 
-  @@unique([atletaId, torneioId]) // Um atleta só pode se inscrever uma vez por torneio amador
+  atleta     Atleta   @relation(fields: [atletaId], references: [id])
+  torneio    Torneio  @relation(fields: [torneioId], references: [id])
+
+  @@unique([atletaId, torneioId])
 }
 
-// Equipes formadas APÓS o sorteio no Torneio Amador
+// Equipes sorteadas no torneio amador
 model EquipeAmador {
   id                  Int          @id @default(autoincrement())
-  nome                String // Nome da equipe (ex: "Quarteto A", "Reserva 1")
+  nome                String
   tipo                String       // "Quarteto", "Reserva"
   torneioId           Int
   torneio             Torneio      @relation(fields: [torneioId], references: [id])
-  // Relacionamento M:N com Atleta para os membros da equipe
-  membros             Atleta[]     @relation("MembrosEquipeAmador") // Atletas que fazem parte desta equipe amadora
+
+  membros             Atleta[]     @relation("MembrosEquipeAmador")
   partidasComoEquipe1 Partida[]    @relation("EquipeAmador1")
   partidasComoEquipe2 Partida[]    @relation("EquipeAmador2")
 }
 
-
-// Equipes criadas pelos atletas para o Torneio Oficial
+// Equipes do torneio oficial
 model EquipeOficial {
-  id                    Int                   @id @default(autoincrement())
-  nome                  String
-  tipo                  String                // "Dupla", "Trio", "Quarteto"
-  createdAt             DateTime              @default(now())
-  torneioId             Int
-  torneio               Torneio               @relation(fields: [torneioId], references: [id])
-  // Relação N:M com Atleta para os membros da equipe oficial
-  membros               AtletaEquipeOficial[] // Atletas que compõem a equipe oficial
+  id                        Int                   @id @default(autoincrement())
+  nome                      String
+  tipo                      String                // "Dupla", "Trio", "Quarteto"
+  createdAt                 DateTime              @default(now())
+  torneioId                 Int
+  torneio                   Torneio               @relation(fields: [torneioId], references: [id])
+  membros                   AtletaEquipeOficial[]
   partidasComoEquipeOficial1 Partida[] @relation("EquipeOficialPartida1")
   partidasComoEquipeOficial2 Partida[] @relation("EquipeOficialPartida2")
 }
 
-// Tabela de junção para conectar Atletas a EquipesOficiais (N:M)
-// Um atleta pode fazer parte de várias equipes oficiais ao longo do tempo, e uma equipe oficial tem vários atletas.
+// Junção N:M entre atletas e equipes oficiais
 model AtletaEquipeOficial {
   atletaId        Int
   equipeOficialId Int
   atleta          Atleta        @relation(fields: [atletaId], references: [id])
   equipeOficial   EquipeOficial @relation(fields: [equipeOficialId], references: [id])
 
-  @@id([atletaId, equipeOficialId]) // Chave composta para unicidade
+  @@id([atletaId, equipeOficialId])
 }
 
-
-// Modelo genérico de Partida (para Torneio Amador e Oficial)
+// Partida genérica (amador e oficial)
 model Partida {
-  id            Int      @id @default(autoincrement())
-  torneioId     Int
-  torneio       Torneio  @relation(fields: [torneioId], references: [id])
-  fase          String   // Ex: "Oitavas de Final", "Quartas de Final", "Semifinal", "Final"
+  id                Int       @id @default(autoincrement())
+  torneioId         Int
+  fase              String
+  pontosEquipe1     Int?
+  pontosEquipe2     Int?
+  vencedorId        Int?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
-  // Para Torneio Amador: referência a EquipeAmador
-  equipeAmador1Id Int?
-  equipeAmador2Id Int?
-  equipeAmador1   EquipeAmador? @relation("EquipeAmador1", fields: [equipeAmador1Id], references: [id])
-  equipeAmador2   EquipeAmador? @relation("EquipeAmador2", fields: [equipeAmador2Id], references: [id])
+  torneio           Torneio   @relation(fields: [torneioId], references: [id])
 
-  // Para Torneio Oficial: referência a EquipeOficial
-  equipeOficial1Id Int?
-  equipeOficial2Id Int?
-  equipeOficial1   EquipeOficial? @relation("EquipeOficialPartida1", fields: [equipeOficial1Id], references: [id])
-  equipeOficial2   EquipeOficial? @relation("EquipeOficialPartida2", fields: [equipeOficial2Id], references: [id])
+  equipeAmador1Id   Int?
+  equipeAmador2Id   Int?
+  equipeAmador1     EquipeAmador? @relation("EquipeAmador1", fields: [equipeAmador1Id], references: [id])
+  equipeAmador2     EquipeAmador? @relation("EquipeAmador2", fields: [equipeAmador2Id], references: [id])
 
-  pontosEquipe1 Int?
-  pontosEquipe2 Int?
-  vencedorId    Int?   // ID da equipe vencedora (EquipeAmador.id ou EquipeOficial.id)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  equipeOficial1Id  Int?
+  equipeOficial2Id  Int?
+  equipeOficial1    EquipeOficial? @relation("EquipeOficialPartida1", fields: [equipeOficial1Id], references: [id])
+  equipeOficial2    EquipeOficial? @relation("EquipeOficialPartida2", fields: [equipeOficial2Id], references: [id])
 }
 
+// Enums
 enum StatusTorneio {
   aberto
   fechado

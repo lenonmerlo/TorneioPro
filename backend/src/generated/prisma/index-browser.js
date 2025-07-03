@@ -141,8 +141,7 @@ exports.Prisma.AtletaScalarFieldEnum = {
   nome: 'nome',
   email: 'email',
   genero: 'genero',
-  nivel: 'nivel',
-  usuarioId: 'usuarioId'
+  nivel: 'nivel'
 };
 
 exports.Prisma.TorneioScalarFieldEnum = {
@@ -188,15 +187,15 @@ exports.Prisma.PartidaScalarFieldEnum = {
   id: 'id',
   torneioId: 'torneioId',
   fase: 'fase',
-  equipeAmador1Id: 'equipeAmador1Id',
-  equipeAmador2Id: 'equipeAmador2Id',
-  equipeOficial1Id: 'equipeOficial1Id',
-  equipeOficial2Id: 'equipeOficial2Id',
   pontosEquipe1: 'pontosEquipe1',
   pontosEquipe2: 'pontosEquipe2',
   vencedorId: 'vencedorId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  equipeAmador1Id: 'equipeAmador1Id',
+  equipeAmador2Id: 'equipeAmador2Id',
+  equipeOficial1Id: 'equipeOficial1Id',
+  equipeOficial2Id: 'equipeOficial2Id'
 };
 
 exports.Prisma.SortOrder = {
