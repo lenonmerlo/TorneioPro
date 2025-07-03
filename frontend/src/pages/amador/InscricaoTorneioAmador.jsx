@@ -1,9 +1,11 @@
+// src/pages/InscricaoAmador.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '@/services/api'; // já configurado com baseURL
+import api from '@/services/api';
 
-function InscricaoTorneioAmador() {
+function InscricaoAmador() {
   const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
   const [genero, setGenero] = useState('');
   const [nivel, setNivel] = useState('');
   const [mensagem, setMensagem] = useState('');
@@ -13,23 +15,22 @@ function InscricaoTorneioAmador() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!nome || !genero || !nivel) {
+    if (!nome || !email || !genero || !nivel) {
       setMensagem('Por favor, preencha todos os campos.');
       return;
     }
 
     try {
-      const email = localStorage.getItem('emailUsuario'); // ainda vamos usar para associar
-
       await api.post('/amador/atletas', {
         nome,
+        email,
         genero,
         nivel,
-        email,
       });
 
       setMensagem('Inscrição enviada com sucesso!');
       setNome('');
+      setEmail('');
       setGenero('');
       setNivel('');
     } catch (error) {
@@ -45,8 +46,8 @@ function InscricaoTorneioAmador() {
     }
 
     setTimeout(() => {
-      navigate('/home-aluno');
-    }, 1500); // espera 1.5 segundos antes de redirecionar
+      navigate('/participar');
+    }, 1500);
   };
 
   return (
@@ -58,17 +59,26 @@ function InscricaoTorneioAmador() {
             <label className='font-semibold text-blue-900'>Nome:</label>
             <input
               type='text'
-              className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400'
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               placeholder='Digite seu nome completo'
+              className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400'
+            />
+
+            <label className='font-semibold text-blue-900'>E-mail:</label>
+            <input
+              type='email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder='Digite seu e-mail'
+              className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400'
             />
 
             <label className='font-semibold text-blue-900'>Gênero:</label>
             <select
-              className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400'
               value={genero}
               onChange={(e) => setGenero(e.target.value)}
+              className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400'
             >
               <option value=''>Selecione o gênero</option>
               <option value='masculino'>Masculino</option>
@@ -77,9 +87,9 @@ function InscricaoTorneioAmador() {
 
             <label className='font-semibold text-blue-900'>Nível:</label>
             <select
-              className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400'
               value={nivel}
               onChange={(e) => setNivel(e.target.value)}
+              className='px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400'
             >
               <option value=''>Selecione o nível</option>
               <option value='iniciante'>Iniciante</option>
@@ -109,4 +119,4 @@ function InscricaoTorneioAmador() {
   );
 }
 
-export default InscricaoTorneioAmador;
+export default InscricaoAmador;

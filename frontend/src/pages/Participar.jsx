@@ -1,26 +1,14 @@
 // src/pages/Participar.jsx
-import { getUsuarioLogado } from '@/utils/auth';
-import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import LogoEVPC from '/assets/logo-torneiopro.png';
+import { Link } from 'react-router-dom';
+import LogoTorneioPro from '/assets/logo-torneiopro.png';
 
 const Participar = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const usuario = getUsuarioLogado();
-
-    if (!usuario || usuario.perfil !== 'atleta') {
-      navigate('/');
-    }
-  }, []);
-
   return (
     <section className='flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] text-center px-4'>
       <div className='bg-white/90 rounded-xl p-8 shadow-xl max-w-md w-full space-y-6'>
-        <img src={LogoEVPC} alt='Logo EVPC' className='w-20 h-20 mx-auto' />
+        <img src={LogoTorneioPro} alt='Logo TorneioPro' className='w-20 h-20 mx-auto' />
         <h3 className='text-xl font-bold text-blue-800'>
-          Bem-vindo(a). Participe do TorneioPro{' '}
+          Bem-vindo(a). Participe do <span className="text-yellow-500">TorneioPro</span>
         </h3>
         <p className='text-sm text-gray-600'>Escolha seu tipo de inscrição abaixo:</p>
 

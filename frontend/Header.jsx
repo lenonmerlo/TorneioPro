@@ -46,7 +46,7 @@ function Header() {
   };
 
   // Verifica se o usuário está logado
-  const isLoggedIn = tipoUsuario === 'treinador';
+  const isLoggedIn = tipoUsuario === 'atleta' || tipoUsuario === 'treinador';
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -84,6 +84,27 @@ function Header() {
             </>
           )}
 
+          {/* Menu do Atleta */}
+          {tipoUsuario === 'atleta' && (
+            <>
+              <li>
+                <Link to="/home-aluno" className="hover:text-yellow-400 transition duration-200">
+                  Início
+                </Link>
+              </li>
+              <li>
+                <Link to="/sorteio" className="hover:text-yellow-400 transition duration-200">
+                  Torneio Amador
+                </Link>
+              </li>
+              <li>
+                <Link to="/torneio" className="hover:text-yellow-400 transition duration-200">
+                  Torneio Oficial
+                </Link>
+              </li>
+            </>
+          )}
+
           {/* Se não estiver logado → Mostrar Dropdown */}
           {!isLoggedIn && (
             <li className='relative dropdown-container'>
@@ -94,23 +115,21 @@ function Header() {
                 Acesse o Sistema
               </button>
               {showDropdown && (
-                <div className='absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md text-black z-50'>
-                  <Link
-                    to='/login-treinador'
-                    className='block px-4 py-2 hover:bg-yellow-100'
+                <div className='absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md text-black                   <Link
+                    to=\'/login-treinador\'
+                    className=\'block px-4 py-2 hover:bg-yellow-100\'
                     onClick={() => setShowDropdown(false)}
                   >
                     Login Treinador
                   </Link>
-                  <hr className='my-1' />
+                  <hr className=\'my-1\' />
                   <Link
-                    to='/cadastro-treinador'
-                    className='block px-4 py-2 hover:bg-yellow-100'
+                    to=\'/cadastro-treinador\'
+                    className=\'block px-4 py-2 hover:bg-yellow-100\'
                     onClick={() => setShowDropdown(false)}
                   >
                     Cadastrar Treinador
-                  </Link>
-                </div>
+                  </Link>      </div>
               )}
             </li>
           )}
