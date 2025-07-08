@@ -1,12 +1,12 @@
 // src/pages/amador/TorneioAmador.jsx
 
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { gerarChavesPorGrupos } from '@/utils/gerarChavesPorGrupos';
 import ButtonExportPDF from '@/components/amador/ButtonExportPDF';
 import api from '@/services/api';
+import { buscarResultadoSorteioAmador, dispararSorteioAmador } from '@/services/torneioAmadorService';
 import { getUsuarioLogado } from '@/utils/auth';
-import { dispararSorteioAmador, buscarResultadoSorteioAmador } from '@/services/sorteioService';
+import { gerarChavesPorGrupos } from '@/utils/gerarChavesPorGrupos';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function TorneioAmador() {
   const [resultado, setResultado] = useState(null);

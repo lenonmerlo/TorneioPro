@@ -34,8 +34,8 @@ function App() {
             <Route path='/home-treinador' element={<HomeTreinador />} />
             <Route path='/criar-torneio' element={<CriarTorneio />} />
 
-            {/* Sorteios */}
-            <Route path='/sorteio' element={<TorneioAmador />} />
+            {/* Torneios */}
+            <Route path='/torneio-amador' element={<TorneioAmador />} />
             <Route path='/torneio' element={<TorneioOficial />} />
           </Routes>
         </main>

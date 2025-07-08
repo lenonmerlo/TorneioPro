@@ -31,7 +31,7 @@ const Homeatleta = () => {
             Participar do Torneio
           </Link>
           <Link
-            to='/sorteio'
+            to='/torneio-amador'
             className='glass-button bg-yellow-400 hover:bg-yellow-300 text-blue-900'
           >
             Torneio Amador

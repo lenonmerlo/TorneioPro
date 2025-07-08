@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUsuarioLogado } from '@/utils/auth';
 import fundo from '/assets/bg-praia.png?url';
@@ -6,17 +6,41 @@ import fundo from '/assets/bg-praia.png?url';
 import HeroSection from '@/components/layout/HeroSection';
 import Sobre from '@/components/layout/Sobre';
 import EventoCard from '@/components/layout/EventoCard';
-import ContatoTorneioPro from '../components/layout/Contato';
-import OndasAnimadas from '../components/layout/OndasAnimadas';
+import ContatoTorneioPro from '@/components/layout/Contato';
+import OndasAnimadas from '@/components/layout/OndasAnimadas';
+import api from '@/services/api';
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const [torneios, setTorneios] = useState([]);
 
   useEffect(() => {
     const usuario = getUsuarioLogado();
     const { token, perfil } = usuario || {};
-    if (token && perfil === 'atleta') navigate('/home-atleta');
-    else if (token && perfil === 'treinador') navigate('/home-treinador');
+
+    if (token && perfil === 'treinador') {
+      navigate('/home-treinador');
+    }
+  }, []);
+
+  useEffect(() => {
+    const carregarTorneios = async () => {
+      try {
+        const resposta = await api.get('/usuarios/torneios');
+        const hoje = new Date();
+
+        const futurosOuAtivos = resposta.data.filter(torneio => {
+          const dataTorneio = new Date(torneio.data);
+          return dataTorneio >= hoje;
+        });
+
+        setTorneios(futurosOuAtivos);
+      } catch (error) {
+        console.error('Erro ao carregar torneios:', error);
+      }
+    };
+
+    carregarTorneios();
   }, []);
 
   return (
@@ -31,30 +55,29 @@ const LandingPage = () => {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center text-blue-900 mb-10">Próximos Eventos</h2>
           <div className="grid gap-6 md:grid-cols-3">
-            <EventoCard
-              titulo="Torneio Amador - Julho"
-              data="📅 14/07/2025"
-              info="🏐 Iniciante e Intermediário"
-              borderColor="border-yellow-400"
-            />
-            <EventoCard
-              titulo="Torneio Oficial - Agosto"
-              data="📅 18/08/2025"
-              info="👥 Dupla, Trio e Quarteto"
-              borderColor="border-blue-500"
-            />
-            <EventoCard
-              titulo="Festival de Verão"
-              data="📅 01/09/2025"
-              info="🎉 Brincadeiras e partidas mistas"
-              borderColor="border-pink-500"
-            />
+            {torneios.length > 0 ? (
+              torneios.map((torneio) => (
+                <EventoCard
+                  key={torneio.id}
+                  titulo={torneio.nome}
+                  data={`📅 ${new Date(torneio.data).toLocaleDateString('pt-BR')}`}
+                  info={`📍 ${torneio.local || 'Local a definir'}`}
+                  borderColor={
+                    torneio.tipo === 'AMADOR' ? 'border-yellow-400' : 'border-blue-500'
+                  }
+                />
+              ))
+            ) : (
+              <p className="text-center text-gray-500 col-span-full">
+                Nenhum torneio futuro disponível no momento.
+              </p>
+            )}
           </div>
         </div>
       </section>
+
       <ContatoTorneioPro />
       <OndasAnimadas />
-
       <div className="h-20" />
     </main>
   );

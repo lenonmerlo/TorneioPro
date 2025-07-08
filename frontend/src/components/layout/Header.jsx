@@ -72,7 +72,7 @@ function Header() {
                 </Link>
               </li>
               <li>
-                <Link to="/sorteio" className="hover:text-yellow-400 transition duration-200">
+                <Link to="/torneio-amador" className="hover:text-yellow-400 transition duration-200">
                   Torneio Amador
                 </Link>
               </li>

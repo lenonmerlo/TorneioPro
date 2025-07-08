@@ -53,7 +53,7 @@ const HomeTreinador = () => {
 
         <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mt-6'>
           <Link
-            to='/sorteio'
+            to='/torneio-amador'
             className='glass-button bg-yellow-400 hover:bg-yellow-300 text-blue-900'
           >
             Torneio Amador
