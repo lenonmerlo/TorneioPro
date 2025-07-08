@@ -84,6 +84,10 @@ export const getAllAtletas = async (_req: Request, res: Response) => {
 export const getAtletaById = async (req: Request, res: Response) => {
   const { id } = req.params;
 
+  if (!id || isNaN(Number(id))) {
+    return res.status(400).json({ message: 'ID do atleta inválido ou não fornecido.' });
+  }
+
   try {
     const atleta = await prisma.atleta.findUnique({
       where: { id: Number(id) },
@@ -99,6 +103,7 @@ export const getAtletaById = async (req: Request, res: Response) => {
     return res.status(500).json({ message: 'Erro ao buscar atleta.' });
   }
 };
+
 
 // [PUT] Atualizar atleta (admin)
 export const updateAtleta = async (req: Request, res: Response) => {

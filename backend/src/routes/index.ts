@@ -10,12 +10,13 @@ import atletaRoutes from './amador/atletaRoutes';
 import equipeAmadorRoutes from './amador/equipeAmadorRoutes';
 import participacaoAmadorRoutes from './amador/participacaoAmadorRoutes';
 import partidaAmadorRoutes from './amador/partidaAmadorRoutes'; // Adicionado
-import sorteioRoutes from './amador/sorteioRoutes';
+import torneioAmadorRoutes from './amador/torneioAmadorRoutes';
 
 // Rotas do Módulo Oficial
 import equipeOficialRoutes from './oficial/equipeOficialRoutes';
 import partidaOficialRoutes from './oficial/partidaRoutes'; // Renomeado para clareza
 import adminRoutes from './admin/adminRoutes';
+
 
 const router = Router();
 
@@ -34,7 +35,7 @@ router.use('/amador/atletas', atletaRoutes);
 router.use('/amador/equipes', equipeAmadorRoutes);
 router.use('/amador/participacoes', participacaoAmadorRoutes);
 router.use('/amador/partidas', partidaAmadorRoutes);
-router.use('/amador/sorteios', sorteioRoutes);
+router.use('/torneio-amador', torneioAmadorRoutes);
 
 // Rotas do Módulo Oficial
 router.use('/oficial/equipes', equipeOficialRoutes);
