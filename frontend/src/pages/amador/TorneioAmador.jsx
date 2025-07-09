@@ -228,11 +228,12 @@ function TorneioAmador() {
                       <div key={idx} className='p-4 bg-white rounded-xl border shadow'>
                         <h3 className='font-semibold text-blue-800 mb-2'>Time {label}</h3>
                         <ul className='text-blue-900 space-y-1'>
-                          {time.map((atleta) => (
+                          {Array.isArray(time.membros) && time.membros.map((atleta) => (
                             <li key={atleta.id}>
                               • {atleta.nome} ({atleta.genero}, {atleta.nivel})
                             </li>
                           ))}
+
                         </ul>
                         {reservas.length > 0 && (
                           <div className='mt-3'>
@@ -321,11 +322,11 @@ function TorneioAmador() {
                   >
                     <h3 className='text-lg font-semibold text-purple-800 mb-2'>Chave {chave}</h3>
                     <ul className='text-purple-900 space-y-1'>
-                      {times.map((time, idx) => (
+                      {Array.isArray(times) && times.map((time, idx) => (
                         <li key={idx}>
                           <strong>{time.nome}</strong>
                           <ul className='pl-4 list-disc text-sm text-purple-700'>
-                            {time.atletas.map((a) => (
+                            {Array.isArray(time.atletas) && time.atletas.map((a) => (
                               <li key={a.id}>
                                 {a.nome} ({a.genero}, {a.nivel})
                               </li>
@@ -337,6 +338,7 @@ function TorneioAmador() {
                   </div>
                 ))}
               </div>
+
             </section>
 
             <div className='text-center mt-8'>
