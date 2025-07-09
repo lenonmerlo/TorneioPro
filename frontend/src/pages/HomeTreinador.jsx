@@ -23,7 +23,7 @@ const HomeTreinador = () => {
 
   const buscarTorneios = async () => {
     try {
-      const res = await api.get('/admin/torneios');
+      const res = await api.get('/usuarios/torneios');
       setTorneios(res.data);
     } catch (error) {
       console.error('Erro ao buscar torneios:', error);

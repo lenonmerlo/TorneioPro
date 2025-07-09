@@ -28,9 +28,11 @@ const LandingPage = () => {
       try {
         const resposta = await api.get('/usuarios/torneios');
         const hoje = new Date();
+        hoje.setHours(0, 0, 0, 0); 
 
         const futurosOuAtivos = resposta.data.filter(torneio => {
           const dataTorneio = new Date(torneio.data);
+          dataTorneio.setHours(0, 0, 0, 0); 
           return dataTorneio >= hoje;
         });
 

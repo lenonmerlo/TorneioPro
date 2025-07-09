@@ -25,7 +25,7 @@ function TorneioAmador() {
   useEffect(() => {
     async function carregarAtletas() {
       try {
-        const response = await api.get('/amador/atletas/amador');
+        const response = await api.get(`/amador/atletas/torneio/${torneioId}`);
         const dados = response.data;
         setAtletas(dados);
 

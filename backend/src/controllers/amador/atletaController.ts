@@ -60,25 +60,43 @@ export const createAtleta = async (req: Request, res: Response) => {
 };
 
 // [GET] Listar todos os atletas com participação no torneio amador
-export const getAllAtletas = async (_req: Request, res: Response) => {
+// [GET] Listar todos os atletas com participação no torneio amador
+export const getAllAtletas = async (req: Request, res: Response) => {
   try {
-    const atletas = await prisma.atleta.findMany({
-      where: {
+    const torneioId = req.params.id;
+
+    let whereClause: any;
+
+    if (torneioId) {
+      whereClause = {
+        participacoesAmador: {
+          some: {
+            torneioId: Number(torneioId),
+          },
+        },
+      };
+    } else {
+      whereClause = {
         participacoesAmador: {
           some: {}, // pelo menos uma participação
         },
-      },
+      };
+    }
+
+    const atletas = await prisma.atleta.findMany({
+      where: whereClause,
       include: {
         participacoesAmador: true,
       },
     });
 
-    return res.status(200).json(atletas);
-  } catch (error) {
+    return res.status(200).json(atletas); 
+  } catch (error: any) {
     console.error('Erro ao listar atletas:', error);
     return res.status(500).json({ message: 'Erro ao buscar atletas.' });
   }
 };
+
 
 // [GET] Buscar atleta por ID (admin)
 export const getAtletaById = async (req: Request, res: Response) => {
