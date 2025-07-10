@@ -1,3 +1,5 @@
+// gerarChavesQuartetos.ts
+
 type Atleta = {
   nome: string;
   genero: 'masculino' | 'feminino';
