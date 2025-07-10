@@ -1,6 +1,6 @@
 import ButtonExportPDF from '@/components/amador/ButtonExportPDF';
 import api from '@/services/api';
-import { gerarChavesPorGrupos } from '@/utils/gerarChavesPorGrupos';
+import { gerarChavesGenericas } from "@/utils/gerarChavesGenericas";
 import { useEffect, useState } from 'react';
 
 const TABS = ['Duplas', 'Trios', 'Quartetos'];
@@ -47,7 +47,7 @@ function TorneioOficial() {
 
   const sortear = (equipes, tamanho, setResultado) => {
     if (!equipes.length) return;
-    const chaves = gerarChavesPorGrupos(equipes, tamanho);
+    const chaves = gerarChavesGenericas(equipes, tamanho);
     setResultado(chaves);
   };
 

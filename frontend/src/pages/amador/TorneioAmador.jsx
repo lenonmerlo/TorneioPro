@@ -4,7 +4,7 @@ import ButtonExportPDF from '@/components/amador/ButtonExportPDF';
 import api from '@/services/api';
 import { buscarResultadoSorteioAmador, dispararSorteioAmador } from '@/services/torneioAmadorService';
 import { getUsuarioLogado } from '@/utils/auth';
-import { gerarChavesPorGrupos } from '@/utils/gerarChavesPorGrupos';
+import { gerarChavesGenericas } from "@/utils/gerarChavesGenericas";
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -105,7 +105,7 @@ function TorneioAmador() {
     }));
 
     const todosOsTimes = [...timesPerfeitos, ...timesFlex];
-    const chavesSorteadas = gerarChavesPorGrupos(todosOsTimes, 3);
+    const chavesSorteadas = gerarChavesGenericas(todosOsTimes, 3);
     setChaves(chavesSorteadas);
   };
 
