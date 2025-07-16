@@ -10,6 +10,11 @@ dist/
 # Prisma
 prisma/dev.db
 
+# Others
+*.zip
+*.tgz
+*.bak
+*.tmp
 
 # Logs
 logs/

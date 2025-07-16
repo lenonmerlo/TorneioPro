@@ -27,6 +27,10 @@
     {
       "name": "Oficial",
       "description": "Operações do Módulo Oficial (Equipes, Partidas)"
+    },
+    {
+      "name": "Admin",
+      "description": "Operações do Módulo Administrativo"
     }
   ],
   "paths": {
@@ -433,9 +437,37 @@
         }
       }
     },
+    "/usuarios/torneios/ativo": {
+      "get": {
+        "summary": "Busca o torneio ativo.",
+        "tags": [
+          "Usuarios"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Torneio ativo encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Torneio"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Nenhum torneio ativo encontrado."
+          }
+        }
+      }
+    },
     "/amador/atletas": {
       "get": {
-        "summary": "Lista todos os atletas amadores.",
+        "summary": "Lista todos os atletas amadores (admin).",
         "tags": [
           "Amador"
         ],
@@ -461,14 +493,9 @@
         }
       },
       "post": {
-        "summary": "Cria um novo atleta amador.",
+        "summary": "Cria um novo atleta amador (inscrição pública).",
         "tags": [
           "Amador"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
         ],
         "requestBody": {
           "required": true,
@@ -493,6 +520,9 @@
           },
           "400": {
             "description": "Dados inválidos."
+          },
+          "409": {
+            "description": "Atleta já inscrito neste torneio."
           }
         }
       }
@@ -511,7 +541,7 @@
         }
       ],
       "get": {
-        "summary": "Busca um atleta amador pelo ID.",
+        "summary": "Busca um atleta amador pelo ID (admin).",
         "tags": [
           "Amador"
         ],
@@ -537,7 +567,7 @@
         }
       },
       "put": {
-        "summary": "Atualiza um atleta amador pelo ID.",
+        "summary": "Atualiza um atleta amador pelo ID (admin).",
         "tags": [
           "Amador"
         ],
@@ -576,7 +606,7 @@
         }
       },
       "delete": {
-        "summary": "Deleta um atleta amador pelo ID.",
+        "summary": "Deleta um atleta amador pelo ID (admin).",
         "tags": [
           "Amador"
         ],
@@ -591,6 +621,44 @@
           },
           "404": {
             "description": "Atleta não encontrado."
+          }
+        }
+      }
+    },
+    "/amador/atletas/torneio/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p"
+          },
+          "description": "ID do torneio para filtrar atletas."
+        }
+      ],
+      "get": {
+        "summary": "Busca atletas vinculados a um torneio amador (público).",
+        "tags": [
+          "Amador"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de atletas do torneio.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Atleta"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID do torneio inválido."
           }
         }
       }
@@ -633,7 +701,7 @@
         }
       }
     },
-    "/amador/equipes/{torneioId}": {
+    "/amador/equipes/equipes-amador/{torneioId}": {
       "parameters": [
         {
           "name": "torneioId",
@@ -669,6 +737,12 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "ID do torneio inválido."
+          },
+          "404": {
+            "description": "Torneio não encontrado."
           }
         }
       }
@@ -745,6 +819,74 @@
         }
       }
     },
+    "/amador/participacoes/inscritos": {
+      "get": {
+        "summary": "Lista todos os atletas inscritos em torneios amadores.",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de inscritos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ParticipacaoAmador"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/amador/participacoes/inscritos/{torneioId}": {
+      "parameters": [
+        {
+          "name": "torneioId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p"
+          },
+          "description": "ID do torneio para listar os inscritos."
+        }
+      ],
+      "get": {
+        "summary": "Lista atletas inscritos em um torneio amador específico.",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de inscritos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ParticipacaoAmador"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/amador/participacoes/inscricao": {
       "post": {
         "summary": "Cria uma nova participação (inscrição de atleta em equipe/torneio).",
@@ -779,6 +921,9 @@
           },
           "400": {
             "description": "Dados inválidos."
+          },
+          "409": {
+            "description": "Atleta já inscrito neste torneio."
           }
         }
       }
@@ -855,21 +1000,9 @@
         }
       }
     },
-    "/amador/participacoes/inscritos/{torneioId}": {
-      "parameters": [
-        {
-          "name": "torneioId",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string",
-            "example": "clv24x91w000108ml9s5h4y0p"
-          },
-          "description": "ID do torneio para listar os inscritos."
-        }
-      ],
+    "/amador/partidas": {
       "get": {
-        "summary": "Lista atletas inscritos em um torneio amador específico.",
+        "summary": "Lista todas as partidas de um torneio amador.",
         "tags": [
           "Amador"
         ],
@@ -880,22 +1013,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Lista de inscritos.",
+            "description": "Lista de partidas.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ParticipacaoAmador"
+                    "$ref": "#/components/schemas/Partida"
                   }
                 }
               }
             }
           }
         }
-      }
-    },
-    "/amador/partidas": {
+      },
       "post": {
         "summary": "Cria uma nova partida para o torneio amador.",
         "tags": [
@@ -1047,7 +1178,7 @@
         }
       }
     },
-    "/amador/sorteios/amador/{torneioId}": {
+    "/torneio-amador/{torneioId}": {
       "parameters": [
         {
           "name": "torneioId",
@@ -1079,6 +1210,25 @@
           },
           "404": {
             "description": "Torneio não encontrado."
+          }
+        }
+      },
+      "get": {
+        "summary": "Retorna o resultado do sorteio para o torneio amador.",
+        "tags": [
+          "Amador"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado do sorteio."
+          },
+          "404": {
+            "description": "Sorteio não encontrado."
           }
         }
       }
@@ -1160,6 +1310,45 @@
           "description": "ID da equipe oficial."
         }
       ],
+      "put": {
+        "summary": "Atualiza uma equipe oficial pelo ID.",
+        "tags": [
+          "Oficial"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEquipeOficial"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Equipe oficial atualizada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EquipeOficial"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos."
+          },
+          "404": {
+            "description": "Equipe oficial não encontrada."
+          }
+        }
+      },
       "delete": {
         "summary": "Deleta uma equipe oficial pelo ID.",
         "tags": [
@@ -1176,6 +1365,46 @@
           },
           "404": {
             "description": "Equipe oficial não encontrada."
+          }
+        }
+      }
+    },
+    "/oficial/equipes/torneio/{torneioId}": {
+      "parameters": [
+        {
+          "name": "torneioId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p"
+          },
+          "description": "ID do torneio para listar as equipes oficiais."
+        }
+      ],
+      "get": {
+        "summary": "Lista equipes oficiais de um torneio específico.",
+        "tags": [
+          "Oficial"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de equipes oficiais.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EquipeOficial"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1498,14 +1727,6 @@
             "type": "string",
             "example": "clv24x91w000108ml9s5h4y0o"
           },
-          "dataInicio": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "dataFim": {
-            "type": "string",
-            "format": "date-time"
-          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -1756,7 +1977,6 @@
         "type": "object",
         "required": [
           "atletaId",
-          "equipeAmadorId",
           "torneioId"
         ],
         "properties": {
@@ -1764,11 +1984,6 @@
             "type": "string",
             "example": "clv24x91w000108ml9s5h4y0q",
             "description": "ID do atleta que está se inscrevendo."
-          },
-          "equipeAmadorId": {
-            "type": "string",
-            "example": "clv24x91w000108ml9s5h4y0r",
-            "description": "ID da equipe amadora na qual o atleta está se inscrevendo."
           },
           "torneioId": {
             "type": "string",
@@ -1840,9 +2055,9 @@
         "type": "object",
         "required": [
           "torneioId",
-          "equipe1Id",
-          "equipe2Id",
-          "dataHora"
+          "equipeAmador1Id",
+          "equipeAmador2Id",
+          "fase"
         ],
         "properties": {
           "torneioId": {
@@ -1850,37 +2065,48 @@
             "example": "clv24x91w000108ml9s5h4y0p",
             "description": "ID do torneio ao qual a partida pertence."
           },
-          "equipe1Id": {
+          "equipeAmador1Id": {
             "type": "string",
             "example": "clv24x91w000108ml9s5h4y0r",
             "description": "ID da primeira equipe."
           },
-          "equipe2Id": {
+          "equipeAmador2Id": {
             "type": "string",
             "example": "clv24x91w000108ml9s5h4y0z",
             "description": "ID da segunda equipe."
           },
-          "dataHora": {
+          "fase": {
             "type": "string",
-            "format": "date-time",
-            "example": "2025-06-20T10:00:00Z",
-            "description": "Data e hora da partida no formato ISO 8601."
+            "example": "Fase de Grupos",
+            "description": "Fase da partida (e.g., 'Fase de Grupos', 'Quartas de Final')."
+          },
+          "pontosEquipe1": {
+            "type": "integer",
+            "example": 2,
+            "nullable": true,
+            "description": "Placar da primeira equipe."
+          },
+          "pontosEquipe2": {
+            "type": "integer",
+            "example": 1,
+            "nullable": true,
+            "description": "Placar da segunda equipe."
           }
         }
       },
       "UpdatePlacarPartida": {
         "type": "object",
         "required": [
-          "placarEquipe1",
-          "placarEquipe2"
+          "pontosEquipe1",
+          "pontosEquipe2"
         ],
         "properties": {
-          "placarEquipe1": {
+          "pontosEquipe1": {
             "type": "integer",
             "example": 2,
             "description": "Placar da primeira equipe."
           },
-          "placarEquipe2": {
+          "pontosEquipe2": {
             "type": "integer",
             "example": 1,
             "description": "Placar da segunda equipe."
@@ -1898,6 +2124,19 @@
             "type": "string",
             "example": "Time Oficial Gamma"
           },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "dupla",
+              "trio",
+              "quarteto"
+            ],
+            "example": "dupla"
+          },
+          "torneioId": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -1911,12 +2150,70 @@
       "NovaEquipeOficial": {
         "type": "object",
         "required": [
-          "nome"
+          "nome",
+          "tipo",
+          "torneioId",
+          "atletaIds"
         ],
         "properties": {
           "nome": {
             "type": "string",
             "example": "Time Oficial Delta"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "dupla",
+              "trio",
+              "quarteto"
+            ],
+            "example": "dupla"
+          },
+          "torneioId": {
+            "type": "string",
+            "example": "clv24x91w000108ml9s5h4y0p",
+            "description": "ID do torneio ao qual a equipe pertence."
+          },
+          "atletaIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "clv24x91w000108ml9s5h4y0q",
+              "clv24x91w000108ml9s5h4y0x"
+            ],
+            "description": "Array de IDs dos atletas que compõem a equipe."
+          }
+        }
+      },
+      "UpdateEquipeOficial": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "example": "Time Oficial Atualizado"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "dupla",
+              "trio",
+              "quarteto"
+            ],
+            "example": "trio"
+          },
+          "atletaIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "clv24x91w000108ml9s5h4y0q",
+              "clv24x91w000108ml9s5h4y0x",
+              "clv24x91w000108ml9s5h4y0y"
+            ],
+            "description": "Array de IDs dos atletas que compõem a equipe."
           }
         }
       },
@@ -1924,9 +2221,9 @@
         "type": "object",
         "required": [
           "torneioId",
-          "equipe1Id",
-          "equipe2Id",
-          "dataHora"
+          "equipeOficial1Id",
+          "equipeOficial2Id",
+          "fase"
         ],
         "properties": {
           "torneioId": {
@@ -1934,21 +2231,32 @@
             "example": "clv24x91w000108ml9s5h4y0p",
             "description": "ID do torneio ao qual a partida pertence."
           },
-          "equipe1Id": {
+          "equipeOficial1Id": {
             "type": "string",
             "example": "clv24x91w000108ml9s5h4y0u",
             "description": "ID da primeira equipe oficial."
           },
-          "equipe2Id": {
+          "equipeOficial2Id": {
             "type": "string",
             "example": "clv24x91w000108ml9s5h4y0w",
             "description": "ID da segunda equipe oficial."
           },
-          "dataHora": {
+          "fase": {
             "type": "string",
-            "format": "date-time",
-            "example": "2025-06-25T15:30:00Z",
-            "description": "Data e hora da partida no formato ISO 8601."
+            "example": "Fase de Grupos",
+            "description": "Fase da partida (e.g., 'Fase de Grupos', 'Quartas de Final')."
+          },
+          "pontosEquipe1": {
+            "type": "integer",
+            "example": 2,
+            "nullable": true,
+            "description": "Placar da primeira equipe."
+          },
+          "pontosEquipe2": {
+            "type": "integer",
+            "example": 1,
+            "nullable": true,
+            "description": "Placar da segunda equipe."
           }
         }
       }
@@ -1963,3 +2271,5 @@
     }
   }
 }
+
+
