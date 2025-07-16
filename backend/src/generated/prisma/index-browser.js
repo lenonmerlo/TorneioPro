@@ -129,13 +129,6 @@ exports.Prisma.UsuarioScalarFieldEnum = {
   criadoEm: 'criadoEm'
 };
 
-exports.Prisma.TreinadorScalarFieldEnum = {
-  id: 'id',
-  nome: 'nome',
-  email: 'email',
-  usuarioId: 'usuarioId'
-};
-
 exports.Prisma.AtletaScalarFieldEnum = {
   id: 'id',
   nome: 'nome',
@@ -147,7 +140,6 @@ exports.Prisma.AtletaScalarFieldEnum = {
 exports.Prisma.TorneioScalarFieldEnum = {
   id: 'id',
   nome: 'nome',
-  tipo: 'tipo',
   data: 'data',
   local: 'local',
   status: 'status',
@@ -156,31 +148,24 @@ exports.Prisma.TorneioScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.ParticipacaoAmadorScalarFieldEnum = {
+exports.Prisma.ParticipacaoScalarFieldEnum = {
   id: 'id',
   atletaId: 'atletaId',
   torneioId: 'torneioId',
   criadoEm: 'criadoEm'
 };
 
-exports.Prisma.EquipeAmadorScalarFieldEnum = {
+exports.Prisma.EquipeScalarFieldEnum = {
   id: 'id',
   nome: 'nome',
   tipo: 'tipo',
-  torneioId: 'torneioId'
+  torneioId: 'torneioId',
+  createdAt: 'createdAt'
 };
 
-exports.Prisma.EquipeOficialScalarFieldEnum = {
-  id: 'id',
-  nome: 'nome',
-  tipo: 'tipo',
-  createdAt: 'createdAt',
-  torneioId: 'torneioId'
-};
-
-exports.Prisma.AtletaEquipeOficialScalarFieldEnum = {
+exports.Prisma.EquipeAtletaScalarFieldEnum = {
   atletaId: 'atletaId',
-  equipeOficialId: 'equipeOficialId'
+  equipeId: 'equipeId'
 };
 
 exports.Prisma.PartidaScalarFieldEnum = {
@@ -192,10 +177,8 @@ exports.Prisma.PartidaScalarFieldEnum = {
   vencedorId: 'vencedorId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  equipeAmador1Id: 'equipeAmador1Id',
-  equipeAmador2Id: 'equipeAmador2Id',
-  equipeOficial1Id: 'equipeOficial1Id',
-  equipeOficial2Id: 'equipeOficial2Id'
+  equipe1Id: 'equipe1Id',
+  equipe2Id: 'equipe2Id'
 };
 
 exports.Prisma.SortOrder = {
@@ -212,26 +195,26 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.TipoTorneio = exports.$Enums.TipoTorneio = {
-  amador: 'amador',
-  oficial: 'oficial'
-};
-
 exports.StatusTorneio = exports.$Enums.StatusTorneio = {
   aberto: 'aberto',
   fechado: 'fechado',
   encerrado: 'encerrado'
 };
 
+exports.TipoEquipe = exports.$Enums.TipoEquipe = {
+  individual: 'individual',
+  dupla: 'dupla',
+  trio: 'trio',
+  quarteto: 'quarteto'
+};
+
 exports.Prisma.ModelName = {
   Usuario: 'Usuario',
-  Treinador: 'Treinador',
   Atleta: 'Atleta',
   Torneio: 'Torneio',
-  ParticipacaoAmador: 'ParticipacaoAmador',
-  EquipeAmador: 'EquipeAmador',
-  EquipeOficial: 'EquipeOficial',
-  AtletaEquipeOficial: 'AtletaEquipeOficial',
+  Participacao: 'Participacao',
+  Equipe: 'Equipe',
+  EquipeAtleta: 'EquipeAtleta',
   Partida: 'Partida'
 };
 

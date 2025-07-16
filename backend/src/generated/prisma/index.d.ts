@@ -19,11 +19,6 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type Usuario = $Result.DefaultSelection<Prisma.$UsuarioPayload>
 /**
- * Model Treinador
- * 
- */
-export type Treinador = $Result.DefaultSelection<Prisma.$TreinadorPayload>
-/**
  * Model Atleta
  * 
  */
@@ -34,25 +29,20 @@ export type Atleta = $Result.DefaultSelection<Prisma.$AtletaPayload>
  */
 export type Torneio = $Result.DefaultSelection<Prisma.$TorneioPayload>
 /**
- * Model ParticipacaoAmador
+ * Model Participacao
  * 
  */
-export type ParticipacaoAmador = $Result.DefaultSelection<Prisma.$ParticipacaoAmadorPayload>
+export type Participacao = $Result.DefaultSelection<Prisma.$ParticipacaoPayload>
 /**
- * Model EquipeAmador
+ * Model Equipe
  * 
  */
-export type EquipeAmador = $Result.DefaultSelection<Prisma.$EquipeAmadorPayload>
+export type Equipe = $Result.DefaultSelection<Prisma.$EquipePayload>
 /**
- * Model EquipeOficial
+ * Model EquipeAtleta
  * 
  */
-export type EquipeOficial = $Result.DefaultSelection<Prisma.$EquipeOficialPayload>
-/**
- * Model AtletaEquipeOficial
- * 
- */
-export type AtletaEquipeOficial = $Result.DefaultSelection<Prisma.$AtletaEquipeOficialPayload>
+export type EquipeAtleta = $Result.DefaultSelection<Prisma.$EquipeAtletaPayload>
 /**
  * Model Partida
  * 
@@ -72,12 +62,14 @@ export namespace $Enums {
 export type StatusTorneio = (typeof StatusTorneio)[keyof typeof StatusTorneio]
 
 
-export const TipoTorneio: {
-  amador: 'amador',
-  oficial: 'oficial'
+export const TipoEquipe: {
+  individual: 'individual',
+  dupla: 'dupla',
+  trio: 'trio',
+  quarteto: 'quarteto'
 };
 
-export type TipoTorneio = (typeof TipoTorneio)[keyof typeof TipoTorneio]
+export type TipoEquipe = (typeof TipoEquipe)[keyof typeof TipoEquipe]
 
 }
 
@@ -85,9 +77,9 @@ export type StatusTorneio = $Enums.StatusTorneio
 
 export const StatusTorneio: typeof $Enums.StatusTorneio
 
-export type TipoTorneio = $Enums.TipoTorneio
+export type TipoEquipe = $Enums.TipoEquipe
 
-export const TipoTorneio: typeof $Enums.TipoTorneio
+export const TipoEquipe: typeof $Enums.TipoEquipe
 
 /**
  * ##  Prisma Client ʲˢ
@@ -225,16 +217,6 @@ export class PrismaClient<
   get usuario(): Prisma.UsuarioDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.treinador`: Exposes CRUD operations for the **Treinador** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Treinadors
-    * const treinadors = await prisma.treinador.findMany()
-    * ```
-    */
-  get treinador(): Prisma.TreinadorDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.atleta`: Exposes CRUD operations for the **Atleta** model.
     * Example usage:
     * ```ts
@@ -255,44 +237,34 @@ export class PrismaClient<
   get torneio(): Prisma.TorneioDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.participacaoAmador`: Exposes CRUD operations for the **ParticipacaoAmador** model.
+   * `prisma.participacao`: Exposes CRUD operations for the **Participacao** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more ParticipacaoAmadors
-    * const participacaoAmadors = await prisma.participacaoAmador.findMany()
+    * // Fetch zero or more Participacaos
+    * const participacaos = await prisma.participacao.findMany()
     * ```
     */
-  get participacaoAmador(): Prisma.ParticipacaoAmadorDelegate<ExtArgs, ClientOptions>;
+  get participacao(): Prisma.ParticipacaoDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.equipeAmador`: Exposes CRUD operations for the **EquipeAmador** model.
+   * `prisma.equipe`: Exposes CRUD operations for the **Equipe** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more EquipeAmadors
-    * const equipeAmadors = await prisma.equipeAmador.findMany()
+    * // Fetch zero or more Equipes
+    * const equipes = await prisma.equipe.findMany()
     * ```
     */
-  get equipeAmador(): Prisma.EquipeAmadorDelegate<ExtArgs, ClientOptions>;
+  get equipe(): Prisma.EquipeDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.equipeOficial`: Exposes CRUD operations for the **EquipeOficial** model.
+   * `prisma.equipeAtleta`: Exposes CRUD operations for the **EquipeAtleta** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more EquipeOficials
-    * const equipeOficials = await prisma.equipeOficial.findMany()
+    * // Fetch zero or more EquipeAtletas
+    * const equipeAtletas = await prisma.equipeAtleta.findMany()
     * ```
     */
-  get equipeOficial(): Prisma.EquipeOficialDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.atletaEquipeOficial`: Exposes CRUD operations for the **AtletaEquipeOficial** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more AtletaEquipeOficials
-    * const atletaEquipeOficials = await prisma.atletaEquipeOficial.findMany()
-    * ```
-    */
-  get atletaEquipeOficial(): Prisma.AtletaEquipeOficialDelegate<ExtArgs, ClientOptions>;
+  get equipeAtleta(): Prisma.EquipeAtletaDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.partida`: Exposes CRUD operations for the **Partida** model.
@@ -744,13 +716,11 @@ export namespace Prisma {
 
   export const ModelName: {
     Usuario: 'Usuario',
-    Treinador: 'Treinador',
     Atleta: 'Atleta',
     Torneio: 'Torneio',
-    ParticipacaoAmador: 'ParticipacaoAmador',
-    EquipeAmador: 'EquipeAmador',
-    EquipeOficial: 'EquipeOficial',
-    AtletaEquipeOficial: 'AtletaEquipeOficial',
+    Participacao: 'Participacao',
+    Equipe: 'Equipe',
+    EquipeAtleta: 'EquipeAtleta',
     Partida: 'Partida'
   };
 
@@ -770,7 +740,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "treinador" | "atleta" | "torneio" | "participacaoAmador" | "equipeAmador" | "equipeOficial" | "atletaEquipeOficial" | "partida"
+      modelProps: "usuario" | "atleta" | "torneio" | "participacao" | "equipe" | "equipeAtleta" | "partida"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -845,80 +815,6 @@ export namespace Prisma {
           count: {
             args: Prisma.UsuarioCountArgs<ExtArgs>
             result: $Utils.Optional<UsuarioCountAggregateOutputType> | number
-          }
-        }
-      }
-      Treinador: {
-        payload: Prisma.$TreinadorPayload<ExtArgs>
-        fields: Prisma.TreinadorFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.TreinadorFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TreinadorPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.TreinadorFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TreinadorPayload>
-          }
-          findFirst: {
-            args: Prisma.TreinadorFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TreinadorPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.TreinadorFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TreinadorPayload>
-          }
-          findMany: {
-            args: Prisma.TreinadorFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TreinadorPayload>[]
-          }
-          create: {
-            args: Prisma.TreinadorCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TreinadorPayload>
-          }
-          createMany: {
-            args: Prisma.TreinadorCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.TreinadorCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TreinadorPayload>[]
-          }
-          delete: {
-            args: Prisma.TreinadorDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TreinadorPayload>
-          }
-          update: {
-            args: Prisma.TreinadorUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TreinadorPayload>
-          }
-          deleteMany: {
-            args: Prisma.TreinadorDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.TreinadorUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.TreinadorUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TreinadorPayload>[]
-          }
-          upsert: {
-            args: Prisma.TreinadorUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TreinadorPayload>
-          }
-          aggregate: {
-            args: Prisma.TreinadorAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateTreinador>
-          }
-          groupBy: {
-            args: Prisma.TreinadorGroupByArgs<ExtArgs>
-            result: $Utils.Optional<TreinadorGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.TreinadorCountArgs<ExtArgs>
-            result: $Utils.Optional<TreinadorCountAggregateOutputType> | number
           }
         }
       }
@@ -1070,299 +966,225 @@ export namespace Prisma {
           }
         }
       }
-      ParticipacaoAmador: {
-        payload: Prisma.$ParticipacaoAmadorPayload<ExtArgs>
-        fields: Prisma.ParticipacaoAmadorFieldRefs
+      Participacao: {
+        payload: Prisma.$ParticipacaoPayload<ExtArgs>
+        fields: Prisma.ParticipacaoFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.ParticipacaoAmadorFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ParticipacaoAmadorPayload> | null
+            args: Prisma.ParticipacaoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipacaoPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.ParticipacaoAmadorFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ParticipacaoAmadorPayload>
+            args: Prisma.ParticipacaoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipacaoPayload>
           }
           findFirst: {
-            args: Prisma.ParticipacaoAmadorFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ParticipacaoAmadorPayload> | null
+            args: Prisma.ParticipacaoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipacaoPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.ParticipacaoAmadorFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ParticipacaoAmadorPayload>
+            args: Prisma.ParticipacaoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipacaoPayload>
           }
           findMany: {
-            args: Prisma.ParticipacaoAmadorFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ParticipacaoAmadorPayload>[]
+            args: Prisma.ParticipacaoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipacaoPayload>[]
           }
           create: {
-            args: Prisma.ParticipacaoAmadorCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ParticipacaoAmadorPayload>
+            args: Prisma.ParticipacaoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipacaoPayload>
           }
           createMany: {
-            args: Prisma.ParticipacaoAmadorCreateManyArgs<ExtArgs>
+            args: Prisma.ParticipacaoCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.ParticipacaoAmadorCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ParticipacaoAmadorPayload>[]
+            args: Prisma.ParticipacaoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipacaoPayload>[]
           }
           delete: {
-            args: Prisma.ParticipacaoAmadorDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ParticipacaoAmadorPayload>
+            args: Prisma.ParticipacaoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipacaoPayload>
           }
           update: {
-            args: Prisma.ParticipacaoAmadorUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ParticipacaoAmadorPayload>
+            args: Prisma.ParticipacaoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipacaoPayload>
           }
           deleteMany: {
-            args: Prisma.ParticipacaoAmadorDeleteManyArgs<ExtArgs>
+            args: Prisma.ParticipacaoDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.ParticipacaoAmadorUpdateManyArgs<ExtArgs>
+            args: Prisma.ParticipacaoUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.ParticipacaoAmadorUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ParticipacaoAmadorPayload>[]
+            args: Prisma.ParticipacaoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipacaoPayload>[]
           }
           upsert: {
-            args: Prisma.ParticipacaoAmadorUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ParticipacaoAmadorPayload>
+            args: Prisma.ParticipacaoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipacaoPayload>
           }
           aggregate: {
-            args: Prisma.ParticipacaoAmadorAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateParticipacaoAmador>
+            args: Prisma.ParticipacaoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateParticipacao>
           }
           groupBy: {
-            args: Prisma.ParticipacaoAmadorGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ParticipacaoAmadorGroupByOutputType>[]
+            args: Prisma.ParticipacaoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ParticipacaoGroupByOutputType>[]
           }
           count: {
-            args: Prisma.ParticipacaoAmadorCountArgs<ExtArgs>
-            result: $Utils.Optional<ParticipacaoAmadorCountAggregateOutputType> | number
+            args: Prisma.ParticipacaoCountArgs<ExtArgs>
+            result: $Utils.Optional<ParticipacaoCountAggregateOutputType> | number
           }
         }
       }
-      EquipeAmador: {
-        payload: Prisma.$EquipeAmadorPayload<ExtArgs>
-        fields: Prisma.EquipeAmadorFieldRefs
+      Equipe: {
+        payload: Prisma.$EquipePayload<ExtArgs>
+        fields: Prisma.EquipeFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.EquipeAmadorFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeAmadorPayload> | null
+            args: Prisma.EquipeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipePayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.EquipeAmadorFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeAmadorPayload>
+            args: Prisma.EquipeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipePayload>
           }
           findFirst: {
-            args: Prisma.EquipeAmadorFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeAmadorPayload> | null
+            args: Prisma.EquipeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipePayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.EquipeAmadorFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeAmadorPayload>
+            args: Prisma.EquipeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipePayload>
           }
           findMany: {
-            args: Prisma.EquipeAmadorFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeAmadorPayload>[]
+            args: Prisma.EquipeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipePayload>[]
           }
           create: {
-            args: Prisma.EquipeAmadorCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeAmadorPayload>
+            args: Prisma.EquipeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipePayload>
           }
           createMany: {
-            args: Prisma.EquipeAmadorCreateManyArgs<ExtArgs>
+            args: Prisma.EquipeCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.EquipeAmadorCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeAmadorPayload>[]
+            args: Prisma.EquipeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipePayload>[]
           }
           delete: {
-            args: Prisma.EquipeAmadorDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeAmadorPayload>
+            args: Prisma.EquipeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipePayload>
           }
           update: {
-            args: Prisma.EquipeAmadorUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeAmadorPayload>
+            args: Prisma.EquipeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipePayload>
           }
           deleteMany: {
-            args: Prisma.EquipeAmadorDeleteManyArgs<ExtArgs>
+            args: Prisma.EquipeDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.EquipeAmadorUpdateManyArgs<ExtArgs>
+            args: Prisma.EquipeUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.EquipeAmadorUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeAmadorPayload>[]
+            args: Prisma.EquipeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipePayload>[]
           }
           upsert: {
-            args: Prisma.EquipeAmadorUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeAmadorPayload>
+            args: Prisma.EquipeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipePayload>
           }
           aggregate: {
-            args: Prisma.EquipeAmadorAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateEquipeAmador>
+            args: Prisma.EquipeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEquipe>
           }
           groupBy: {
-            args: Prisma.EquipeAmadorGroupByArgs<ExtArgs>
-            result: $Utils.Optional<EquipeAmadorGroupByOutputType>[]
+            args: Prisma.EquipeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EquipeGroupByOutputType>[]
           }
           count: {
-            args: Prisma.EquipeAmadorCountArgs<ExtArgs>
-            result: $Utils.Optional<EquipeAmadorCountAggregateOutputType> | number
+            args: Prisma.EquipeCountArgs<ExtArgs>
+            result: $Utils.Optional<EquipeCountAggregateOutputType> | number
           }
         }
       }
-      EquipeOficial: {
-        payload: Prisma.$EquipeOficialPayload<ExtArgs>
-        fields: Prisma.EquipeOficialFieldRefs
+      EquipeAtleta: {
+        payload: Prisma.$EquipeAtletaPayload<ExtArgs>
+        fields: Prisma.EquipeAtletaFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.EquipeOficialFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeOficialPayload> | null
+            args: Prisma.EquipeAtletaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipeAtletaPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.EquipeOficialFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeOficialPayload>
+            args: Prisma.EquipeAtletaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipeAtletaPayload>
           }
           findFirst: {
-            args: Prisma.EquipeOficialFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeOficialPayload> | null
+            args: Prisma.EquipeAtletaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipeAtletaPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.EquipeOficialFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeOficialPayload>
+            args: Prisma.EquipeAtletaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipeAtletaPayload>
           }
           findMany: {
-            args: Prisma.EquipeOficialFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeOficialPayload>[]
+            args: Prisma.EquipeAtletaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipeAtletaPayload>[]
           }
           create: {
-            args: Prisma.EquipeOficialCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeOficialPayload>
+            args: Prisma.EquipeAtletaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipeAtletaPayload>
           }
           createMany: {
-            args: Prisma.EquipeOficialCreateManyArgs<ExtArgs>
+            args: Prisma.EquipeAtletaCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.EquipeOficialCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeOficialPayload>[]
+            args: Prisma.EquipeAtletaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipeAtletaPayload>[]
           }
           delete: {
-            args: Prisma.EquipeOficialDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeOficialPayload>
+            args: Prisma.EquipeAtletaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipeAtletaPayload>
           }
           update: {
-            args: Prisma.EquipeOficialUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeOficialPayload>
+            args: Prisma.EquipeAtletaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipeAtletaPayload>
           }
           deleteMany: {
-            args: Prisma.EquipeOficialDeleteManyArgs<ExtArgs>
+            args: Prisma.EquipeAtletaDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.EquipeOficialUpdateManyArgs<ExtArgs>
+            args: Prisma.EquipeAtletaUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.EquipeOficialUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeOficialPayload>[]
+            args: Prisma.EquipeAtletaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipeAtletaPayload>[]
           }
           upsert: {
-            args: Prisma.EquipeOficialUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EquipeOficialPayload>
+            args: Prisma.EquipeAtletaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EquipeAtletaPayload>
           }
           aggregate: {
-            args: Prisma.EquipeOficialAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateEquipeOficial>
+            args: Prisma.EquipeAtletaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEquipeAtleta>
           }
           groupBy: {
-            args: Prisma.EquipeOficialGroupByArgs<ExtArgs>
-            result: $Utils.Optional<EquipeOficialGroupByOutputType>[]
+            args: Prisma.EquipeAtletaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EquipeAtletaGroupByOutputType>[]
           }
           count: {
-            args: Prisma.EquipeOficialCountArgs<ExtArgs>
-            result: $Utils.Optional<EquipeOficialCountAggregateOutputType> | number
-          }
-        }
-      }
-      AtletaEquipeOficial: {
-        payload: Prisma.$AtletaEquipeOficialPayload<ExtArgs>
-        fields: Prisma.AtletaEquipeOficialFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.AtletaEquipeOficialFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AtletaEquipeOficialPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.AtletaEquipeOficialFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AtletaEquipeOficialPayload>
-          }
-          findFirst: {
-            args: Prisma.AtletaEquipeOficialFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AtletaEquipeOficialPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.AtletaEquipeOficialFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AtletaEquipeOficialPayload>
-          }
-          findMany: {
-            args: Prisma.AtletaEquipeOficialFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AtletaEquipeOficialPayload>[]
-          }
-          create: {
-            args: Prisma.AtletaEquipeOficialCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AtletaEquipeOficialPayload>
-          }
-          createMany: {
-            args: Prisma.AtletaEquipeOficialCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.AtletaEquipeOficialCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AtletaEquipeOficialPayload>[]
-          }
-          delete: {
-            args: Prisma.AtletaEquipeOficialDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AtletaEquipeOficialPayload>
-          }
-          update: {
-            args: Prisma.AtletaEquipeOficialUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AtletaEquipeOficialPayload>
-          }
-          deleteMany: {
-            args: Prisma.AtletaEquipeOficialDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.AtletaEquipeOficialUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.AtletaEquipeOficialUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AtletaEquipeOficialPayload>[]
-          }
-          upsert: {
-            args: Prisma.AtletaEquipeOficialUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AtletaEquipeOficialPayload>
-          }
-          aggregate: {
-            args: Prisma.AtletaEquipeOficialAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateAtletaEquipeOficial>
-          }
-          groupBy: {
-            args: Prisma.AtletaEquipeOficialGroupByArgs<ExtArgs>
-            result: $Utils.Optional<AtletaEquipeOficialGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.AtletaEquipeOficialCountArgs<ExtArgs>
-            result: $Utils.Optional<AtletaEquipeOficialCountAggregateOutputType> | number
+            args: Prisma.EquipeAtletaCountArgs<ExtArgs>
+            result: $Utils.Optional<EquipeAtletaCountAggregateOutputType> | number
           }
         }
       }
@@ -1525,13 +1347,11 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     usuario?: UsuarioOmit
-    treinador?: TreinadorOmit
     atleta?: AtletaOmit
     torneio?: TorneioOmit
-    participacaoAmador?: ParticipacaoAmadorOmit
-    equipeAmador?: EquipeAmadorOmit
-    equipeOficial?: EquipeOficialOmit
-    atletaEquipeOficial?: AtletaEquipeOficialOmit
+    participacao?: ParticipacaoOmit
+    equipe?: EquipeOmit
+    equipeAtleta?: EquipeAtletaOmit
     partida?: PartidaOmit
   }
 
@@ -1627,13 +1447,11 @@ export namespace Prisma {
    */
 
   export type UsuarioCountOutputType = {
-    Torneio: number
-    Treinador: number
+    torneios: number
   }
 
   export type UsuarioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Torneio?: boolean | UsuarioCountOutputTypeCountTorneioArgs
-    Treinador?: boolean | UsuarioCountOutputTypeCountTreinadorArgs
+    torneios?: boolean | UsuarioCountOutputTypeCountTorneiosArgs
   }
 
   // Custom InputTypes
@@ -1650,15 +1468,8 @@ export namespace Prisma {
   /**
    * UsuarioCountOutputType without action
    */
-  export type UsuarioCountOutputTypeCountTorneioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UsuarioCountOutputTypeCountTorneiosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TorneioWhereInput
-  }
-
-  /**
-   * UsuarioCountOutputType without action
-   */
-  export type UsuarioCountOutputTypeCountTreinadorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TreinadorWhereInput
   }
 
 
@@ -1667,15 +1478,13 @@ export namespace Prisma {
    */
 
   export type AtletaCountOutputType = {
-    participacoesAmador: number
-    equipesOficiais: number
-    EquipeAmador: number
+    participacoes: number
+    equipes: number
   }
 
   export type AtletaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    participacoesAmador?: boolean | AtletaCountOutputTypeCountParticipacoesAmadorArgs
-    equipesOficiais?: boolean | AtletaCountOutputTypeCountEquipesOficiaisArgs
-    EquipeAmador?: boolean | AtletaCountOutputTypeCountEquipeAmadorArgs
+    participacoes?: boolean | AtletaCountOutputTypeCountParticipacoesArgs
+    equipes?: boolean | AtletaCountOutputTypeCountEquipesArgs
   }
 
   // Custom InputTypes
@@ -1692,22 +1501,15 @@ export namespace Prisma {
   /**
    * AtletaCountOutputType without action
    */
-  export type AtletaCountOutputTypeCountParticipacoesAmadorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ParticipacaoAmadorWhereInput
+  export type AtletaCountOutputTypeCountParticipacoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ParticipacaoWhereInput
   }
 
   /**
    * AtletaCountOutputType without action
    */
-  export type AtletaCountOutputTypeCountEquipesOficiaisArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AtletaEquipeOficialWhereInput
-  }
-
-  /**
-   * AtletaCountOutputType without action
-   */
-  export type AtletaCountOutputTypeCountEquipeAmadorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: EquipeAmadorWhereInput
+  export type AtletaCountOutputTypeCountEquipesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EquipeAtletaWhereInput
   }
 
 
@@ -1716,17 +1518,15 @@ export namespace Prisma {
    */
 
   export type TorneioCountOutputType = {
-    Partida: number
-    equipesAmador: number
-    equipesOficial: number
-    ParticipacaoAmador: number
+    participacoes: number
+    equipes: number
+    partidas: number
   }
 
   export type TorneioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Partida?: boolean | TorneioCountOutputTypeCountPartidaArgs
-    equipesAmador?: boolean | TorneioCountOutputTypeCountEquipesAmadorArgs
-    equipesOficial?: boolean | TorneioCountOutputTypeCountEquipesOficialArgs
-    ParticipacaoAmador?: boolean | TorneioCountOutputTypeCountParticipacaoAmadorArgs
+    participacoes?: boolean | TorneioCountOutputTypeCountParticipacoesArgs
+    equipes?: boolean | TorneioCountOutputTypeCountEquipesArgs
+    partidas?: boolean | TorneioCountOutputTypeCountPartidasArgs
   }
 
   // Custom InputTypes
@@ -1743,126 +1543,70 @@ export namespace Prisma {
   /**
    * TorneioCountOutputType without action
    */
-  export type TorneioCountOutputTypeCountPartidaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TorneioCountOutputTypeCountParticipacoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ParticipacaoWhereInput
+  }
+
+  /**
+   * TorneioCountOutputType without action
+   */
+  export type TorneioCountOutputTypeCountEquipesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EquipeWhereInput
+  }
+
+  /**
+   * TorneioCountOutputType without action
+   */
+  export type TorneioCountOutputTypeCountPartidasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PartidaWhereInput
   }
 
-  /**
-   * TorneioCountOutputType without action
-   */
-  export type TorneioCountOutputTypeCountEquipesAmadorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: EquipeAmadorWhereInput
-  }
 
   /**
-   * TorneioCountOutputType without action
-   */
-  export type TorneioCountOutputTypeCountEquipesOficialArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: EquipeOficialWhereInput
-  }
-
-  /**
-   * TorneioCountOutputType without action
-   */
-  export type TorneioCountOutputTypeCountParticipacaoAmadorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ParticipacaoAmadorWhereInput
-  }
-
-
-  /**
-   * Count Type EquipeAmadorCountOutputType
+   * Count Type EquipeCountOutputType
    */
 
-  export type EquipeAmadorCountOutputType = {
-    membros: number
+  export type EquipeCountOutputType = {
+    atletas: number
     partidasComoEquipe1: number
     partidasComoEquipe2: number
   }
 
-  export type EquipeAmadorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    membros?: boolean | EquipeAmadorCountOutputTypeCountMembrosArgs
-    partidasComoEquipe1?: boolean | EquipeAmadorCountOutputTypeCountPartidasComoEquipe1Args
-    partidasComoEquipe2?: boolean | EquipeAmadorCountOutputTypeCountPartidasComoEquipe2Args
+  export type EquipeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    atletas?: boolean | EquipeCountOutputTypeCountAtletasArgs
+    partidasComoEquipe1?: boolean | EquipeCountOutputTypeCountPartidasComoEquipe1Args
+    partidasComoEquipe2?: boolean | EquipeCountOutputTypeCountPartidasComoEquipe2Args
   }
 
   // Custom InputTypes
   /**
-   * EquipeAmadorCountOutputType without action
+   * EquipeCountOutputType without action
    */
-  export type EquipeAmadorCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the EquipeAmadorCountOutputType
+     * Select specific fields to fetch from the EquipeCountOutputType
      */
-    select?: EquipeAmadorCountOutputTypeSelect<ExtArgs> | null
+    select?: EquipeCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * EquipeAmadorCountOutputType without action
+   * EquipeCountOutputType without action
    */
-  export type EquipeAmadorCountOutputTypeCountMembrosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AtletaWhereInput
+  export type EquipeCountOutputTypeCountAtletasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EquipeAtletaWhereInput
   }
 
   /**
-   * EquipeAmadorCountOutputType without action
+   * EquipeCountOutputType without action
    */
-  export type EquipeAmadorCountOutputTypeCountPartidasComoEquipe1Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeCountOutputTypeCountPartidasComoEquipe1Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PartidaWhereInput
   }
 
   /**
-   * EquipeAmadorCountOutputType without action
+   * EquipeCountOutputType without action
    */
-  export type EquipeAmadorCountOutputTypeCountPartidasComoEquipe2Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PartidaWhereInput
-  }
-
-
-  /**
-   * Count Type EquipeOficialCountOutputType
-   */
-
-  export type EquipeOficialCountOutputType = {
-    membros: number
-    partidasComoEquipeOficial1: number
-    partidasComoEquipeOficial2: number
-  }
-
-  export type EquipeOficialCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    membros?: boolean | EquipeOficialCountOutputTypeCountMembrosArgs
-    partidasComoEquipeOficial1?: boolean | EquipeOficialCountOutputTypeCountPartidasComoEquipeOficial1Args
-    partidasComoEquipeOficial2?: boolean | EquipeOficialCountOutputTypeCountPartidasComoEquipeOficial2Args
-  }
-
-  // Custom InputTypes
-  /**
-   * EquipeOficialCountOutputType without action
-   */
-  export type EquipeOficialCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeOficialCountOutputType
-     */
-    select?: EquipeOficialCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * EquipeOficialCountOutputType without action
-   */
-  export type EquipeOficialCountOutputTypeCountMembrosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AtletaEquipeOficialWhereInput
-  }
-
-  /**
-   * EquipeOficialCountOutputType without action
-   */
-  export type EquipeOficialCountOutputTypeCountPartidasComoEquipeOficial1Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PartidaWhereInput
-  }
-
-  /**
-   * EquipeOficialCountOutputType without action
-   */
-  export type EquipeOficialCountOutputTypeCountPartidasComoEquipeOficial2Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeCountOutputTypeCountPartidasComoEquipe2Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PartidaWhereInput
   }
 
@@ -2077,8 +1821,7 @@ export namespace Prisma {
     senha?: boolean
     perfil?: boolean
     criadoEm?: boolean
-    Torneio?: boolean | Usuario$TorneioArgs<ExtArgs>
-    Treinador?: boolean | Usuario$TreinadorArgs<ExtArgs>
+    torneios?: boolean | Usuario$torneiosArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["usuario"]>
 
@@ -2111,8 +1854,7 @@ export namespace Prisma {
 
   export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "email" | "senha" | "perfil" | "criadoEm", ExtArgs["result"]["usuario"]>
   export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Torneio?: boolean | Usuario$TorneioArgs<ExtArgs>
-    Treinador?: boolean | Usuario$TreinadorArgs<ExtArgs>
+    torneios?: boolean | Usuario$torneiosArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UsuarioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2121,8 +1863,7 @@ export namespace Prisma {
   export type $UsuarioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Usuario"
     objects: {
-      Torneio: Prisma.$TorneioPayload<ExtArgs>[]
-      Treinador: Prisma.$TreinadorPayload<ExtArgs>[]
+      torneios: Prisma.$TorneioPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2525,8 +2266,7 @@ export namespace Prisma {
    */
   export interface Prisma__UsuarioClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    Torneio<T extends Usuario$TorneioArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$TorneioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    Treinador<T extends Usuario$TreinadorArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$TreinadorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TreinadorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    torneios<T extends Usuario$torneiosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$torneiosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2950,9 +2690,9 @@ export namespace Prisma {
   }
 
   /**
-   * Usuario.Torneio
+   * Usuario.torneios
    */
-  export type Usuario$TorneioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Usuario$torneiosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Torneio
      */
@@ -2974,30 +2714,6 @@ export namespace Prisma {
   }
 
   /**
-   * Usuario.Treinador
-   */
-  export type Usuario$TreinadorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Treinador
-     */
-    select?: TreinadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Treinador
-     */
-    omit?: TreinadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TreinadorInclude<ExtArgs> | null
-    where?: TreinadorWhereInput
-    orderBy?: TreinadorOrderByWithRelationInput | TreinadorOrderByWithRelationInput[]
-    cursor?: TreinadorWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TreinadorScalarFieldEnum | TreinadorScalarFieldEnum[]
-  }
-
-  /**
    * Usuario without action
    */
   export type UsuarioDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3013,1089 +2729,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UsuarioInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Treinador
-   */
-
-  export type AggregateTreinador = {
-    _count: TreinadorCountAggregateOutputType | null
-    _avg: TreinadorAvgAggregateOutputType | null
-    _sum: TreinadorSumAggregateOutputType | null
-    _min: TreinadorMinAggregateOutputType | null
-    _max: TreinadorMaxAggregateOutputType | null
-  }
-
-  export type TreinadorAvgAggregateOutputType = {
-    id: number | null
-    usuarioId: number | null
-  }
-
-  export type TreinadorSumAggregateOutputType = {
-    id: number | null
-    usuarioId: number | null
-  }
-
-  export type TreinadorMinAggregateOutputType = {
-    id: number | null
-    nome: string | null
-    email: string | null
-    usuarioId: number | null
-  }
-
-  export type TreinadorMaxAggregateOutputType = {
-    id: number | null
-    nome: string | null
-    email: string | null
-    usuarioId: number | null
-  }
-
-  export type TreinadorCountAggregateOutputType = {
-    id: number
-    nome: number
-    email: number
-    usuarioId: number
-    _all: number
-  }
-
-
-  export type TreinadorAvgAggregateInputType = {
-    id?: true
-    usuarioId?: true
-  }
-
-  export type TreinadorSumAggregateInputType = {
-    id?: true
-    usuarioId?: true
-  }
-
-  export type TreinadorMinAggregateInputType = {
-    id?: true
-    nome?: true
-    email?: true
-    usuarioId?: true
-  }
-
-  export type TreinadorMaxAggregateInputType = {
-    id?: true
-    nome?: true
-    email?: true
-    usuarioId?: true
-  }
-
-  export type TreinadorCountAggregateInputType = {
-    id?: true
-    nome?: true
-    email?: true
-    usuarioId?: true
-    _all?: true
-  }
-
-  export type TreinadorAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Treinador to aggregate.
-     */
-    where?: TreinadorWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Treinadors to fetch.
-     */
-    orderBy?: TreinadorOrderByWithRelationInput | TreinadorOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: TreinadorWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Treinadors from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Treinadors.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Treinadors
-    **/
-    _count?: true | TreinadorCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: TreinadorAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: TreinadorSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: TreinadorMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: TreinadorMaxAggregateInputType
-  }
-
-  export type GetTreinadorAggregateType<T extends TreinadorAggregateArgs> = {
-        [P in keyof T & keyof AggregateTreinador]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateTreinador[P]>
-      : GetScalarType<T[P], AggregateTreinador[P]>
-  }
-
-
-
-
-  export type TreinadorGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TreinadorWhereInput
-    orderBy?: TreinadorOrderByWithAggregationInput | TreinadorOrderByWithAggregationInput[]
-    by: TreinadorScalarFieldEnum[] | TreinadorScalarFieldEnum
-    having?: TreinadorScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: TreinadorCountAggregateInputType | true
-    _avg?: TreinadorAvgAggregateInputType
-    _sum?: TreinadorSumAggregateInputType
-    _min?: TreinadorMinAggregateInputType
-    _max?: TreinadorMaxAggregateInputType
-  }
-
-  export type TreinadorGroupByOutputType = {
-    id: number
-    nome: string
-    email: string
-    usuarioId: number
-    _count: TreinadorCountAggregateOutputType | null
-    _avg: TreinadorAvgAggregateOutputType | null
-    _sum: TreinadorSumAggregateOutputType | null
-    _min: TreinadorMinAggregateOutputType | null
-    _max: TreinadorMaxAggregateOutputType | null
-  }
-
-  type GetTreinadorGroupByPayload<T extends TreinadorGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<TreinadorGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof TreinadorGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], TreinadorGroupByOutputType[P]>
-            : GetScalarType<T[P], TreinadorGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type TreinadorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    nome?: boolean
-    email?: boolean
-    usuarioId?: boolean
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["treinador"]>
-
-  export type TreinadorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    nome?: boolean
-    email?: boolean
-    usuarioId?: boolean
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["treinador"]>
-
-  export type TreinadorSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    nome?: boolean
-    email?: boolean
-    usuarioId?: boolean
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["treinador"]>
-
-  export type TreinadorSelectScalar = {
-    id?: boolean
-    nome?: boolean
-    email?: boolean
-    usuarioId?: boolean
-  }
-
-  export type TreinadorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "email" | "usuarioId", ExtArgs["result"]["treinador"]>
-  export type TreinadorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
-  }
-  export type TreinadorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
-  }
-  export type TreinadorIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
-  }
-
-  export type $TreinadorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Treinador"
-    objects: {
-      usuario: Prisma.$UsuarioPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      nome: string
-      email: string
-      usuarioId: number
-    }, ExtArgs["result"]["treinador"]>
-    composites: {}
-  }
-
-  type TreinadorGetPayload<S extends boolean | null | undefined | TreinadorDefaultArgs> = $Result.GetResult<Prisma.$TreinadorPayload, S>
-
-  type TreinadorCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<TreinadorFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: TreinadorCountAggregateInputType | true
-    }
-
-  export interface TreinadorDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Treinador'], meta: { name: 'Treinador' } }
-    /**
-     * Find zero or one Treinador that matches the filter.
-     * @param {TreinadorFindUniqueArgs} args - Arguments to find a Treinador
-     * @example
-     * // Get one Treinador
-     * const treinador = await prisma.treinador.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends TreinadorFindUniqueArgs>(args: SelectSubset<T, TreinadorFindUniqueArgs<ExtArgs>>): Prisma__TreinadorClient<$Result.GetResult<Prisma.$TreinadorPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Treinador that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {TreinadorFindUniqueOrThrowArgs} args - Arguments to find a Treinador
-     * @example
-     * // Get one Treinador
-     * const treinador = await prisma.treinador.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends TreinadorFindUniqueOrThrowArgs>(args: SelectSubset<T, TreinadorFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TreinadorClient<$Result.GetResult<Prisma.$TreinadorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Treinador that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TreinadorFindFirstArgs} args - Arguments to find a Treinador
-     * @example
-     * // Get one Treinador
-     * const treinador = await prisma.treinador.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends TreinadorFindFirstArgs>(args?: SelectSubset<T, TreinadorFindFirstArgs<ExtArgs>>): Prisma__TreinadorClient<$Result.GetResult<Prisma.$TreinadorPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Treinador that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TreinadorFindFirstOrThrowArgs} args - Arguments to find a Treinador
-     * @example
-     * // Get one Treinador
-     * const treinador = await prisma.treinador.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends TreinadorFindFirstOrThrowArgs>(args?: SelectSubset<T, TreinadorFindFirstOrThrowArgs<ExtArgs>>): Prisma__TreinadorClient<$Result.GetResult<Prisma.$TreinadorPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Treinadors that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TreinadorFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Treinadors
-     * const treinadors = await prisma.treinador.findMany()
-     * 
-     * // Get first 10 Treinadors
-     * const treinadors = await prisma.treinador.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const treinadorWithIdOnly = await prisma.treinador.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends TreinadorFindManyArgs>(args?: SelectSubset<T, TreinadorFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TreinadorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Treinador.
-     * @param {TreinadorCreateArgs} args - Arguments to create a Treinador.
-     * @example
-     * // Create one Treinador
-     * const Treinador = await prisma.treinador.create({
-     *   data: {
-     *     // ... data to create a Treinador
-     *   }
-     * })
-     * 
-     */
-    create<T extends TreinadorCreateArgs>(args: SelectSubset<T, TreinadorCreateArgs<ExtArgs>>): Prisma__TreinadorClient<$Result.GetResult<Prisma.$TreinadorPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Treinadors.
-     * @param {TreinadorCreateManyArgs} args - Arguments to create many Treinadors.
-     * @example
-     * // Create many Treinadors
-     * const treinador = await prisma.treinador.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends TreinadorCreateManyArgs>(args?: SelectSubset<T, TreinadorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Treinadors and returns the data saved in the database.
-     * @param {TreinadorCreateManyAndReturnArgs} args - Arguments to create many Treinadors.
-     * @example
-     * // Create many Treinadors
-     * const treinador = await prisma.treinador.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Treinadors and only return the `id`
-     * const treinadorWithIdOnly = await prisma.treinador.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends TreinadorCreateManyAndReturnArgs>(args?: SelectSubset<T, TreinadorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TreinadorPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Treinador.
-     * @param {TreinadorDeleteArgs} args - Arguments to delete one Treinador.
-     * @example
-     * // Delete one Treinador
-     * const Treinador = await prisma.treinador.delete({
-     *   where: {
-     *     // ... filter to delete one Treinador
-     *   }
-     * })
-     * 
-     */
-    delete<T extends TreinadorDeleteArgs>(args: SelectSubset<T, TreinadorDeleteArgs<ExtArgs>>): Prisma__TreinadorClient<$Result.GetResult<Prisma.$TreinadorPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Treinador.
-     * @param {TreinadorUpdateArgs} args - Arguments to update one Treinador.
-     * @example
-     * // Update one Treinador
-     * const treinador = await prisma.treinador.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends TreinadorUpdateArgs>(args: SelectSubset<T, TreinadorUpdateArgs<ExtArgs>>): Prisma__TreinadorClient<$Result.GetResult<Prisma.$TreinadorPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Treinadors.
-     * @param {TreinadorDeleteManyArgs} args - Arguments to filter Treinadors to delete.
-     * @example
-     * // Delete a few Treinadors
-     * const { count } = await prisma.treinador.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends TreinadorDeleteManyArgs>(args?: SelectSubset<T, TreinadorDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Treinadors.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TreinadorUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Treinadors
-     * const treinador = await prisma.treinador.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends TreinadorUpdateManyArgs>(args: SelectSubset<T, TreinadorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Treinadors and returns the data updated in the database.
-     * @param {TreinadorUpdateManyAndReturnArgs} args - Arguments to update many Treinadors.
-     * @example
-     * // Update many Treinadors
-     * const treinador = await prisma.treinador.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Treinadors and only return the `id`
-     * const treinadorWithIdOnly = await prisma.treinador.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends TreinadorUpdateManyAndReturnArgs>(args: SelectSubset<T, TreinadorUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TreinadorPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Treinador.
-     * @param {TreinadorUpsertArgs} args - Arguments to update or create a Treinador.
-     * @example
-     * // Update or create a Treinador
-     * const treinador = await prisma.treinador.upsert({
-     *   create: {
-     *     // ... data to create a Treinador
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Treinador we want to update
-     *   }
-     * })
-     */
-    upsert<T extends TreinadorUpsertArgs>(args: SelectSubset<T, TreinadorUpsertArgs<ExtArgs>>): Prisma__TreinadorClient<$Result.GetResult<Prisma.$TreinadorPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Treinadors.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TreinadorCountArgs} args - Arguments to filter Treinadors to count.
-     * @example
-     * // Count the number of Treinadors
-     * const count = await prisma.treinador.count({
-     *   where: {
-     *     // ... the filter for the Treinadors we want to count
-     *   }
-     * })
-    **/
-    count<T extends TreinadorCountArgs>(
-      args?: Subset<T, TreinadorCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], TreinadorCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Treinador.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TreinadorAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends TreinadorAggregateArgs>(args: Subset<T, TreinadorAggregateArgs>): Prisma.PrismaPromise<GetTreinadorAggregateType<T>>
-
-    /**
-     * Group by Treinador.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {TreinadorGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends TreinadorGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: TreinadorGroupByArgs['orderBy'] }
-        : { orderBy?: TreinadorGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, TreinadorGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTreinadorGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Treinador model
-   */
-  readonly fields: TreinadorFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Treinador.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__TreinadorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Treinador model
-   */
-  interface TreinadorFieldRefs {
-    readonly id: FieldRef<"Treinador", 'Int'>
-    readonly nome: FieldRef<"Treinador", 'String'>
-    readonly email: FieldRef<"Treinador", 'String'>
-    readonly usuarioId: FieldRef<"Treinador", 'Int'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Treinador findUnique
-   */
-  export type TreinadorFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Treinador
-     */
-    select?: TreinadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Treinador
-     */
-    omit?: TreinadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TreinadorInclude<ExtArgs> | null
-    /**
-     * Filter, which Treinador to fetch.
-     */
-    where: TreinadorWhereUniqueInput
-  }
-
-  /**
-   * Treinador findUniqueOrThrow
-   */
-  export type TreinadorFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Treinador
-     */
-    select?: TreinadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Treinador
-     */
-    omit?: TreinadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TreinadorInclude<ExtArgs> | null
-    /**
-     * Filter, which Treinador to fetch.
-     */
-    where: TreinadorWhereUniqueInput
-  }
-
-  /**
-   * Treinador findFirst
-   */
-  export type TreinadorFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Treinador
-     */
-    select?: TreinadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Treinador
-     */
-    omit?: TreinadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TreinadorInclude<ExtArgs> | null
-    /**
-     * Filter, which Treinador to fetch.
-     */
-    where?: TreinadorWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Treinadors to fetch.
-     */
-    orderBy?: TreinadorOrderByWithRelationInput | TreinadorOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Treinadors.
-     */
-    cursor?: TreinadorWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Treinadors from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Treinadors.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Treinadors.
-     */
-    distinct?: TreinadorScalarFieldEnum | TreinadorScalarFieldEnum[]
-  }
-
-  /**
-   * Treinador findFirstOrThrow
-   */
-  export type TreinadorFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Treinador
-     */
-    select?: TreinadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Treinador
-     */
-    omit?: TreinadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TreinadorInclude<ExtArgs> | null
-    /**
-     * Filter, which Treinador to fetch.
-     */
-    where?: TreinadorWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Treinadors to fetch.
-     */
-    orderBy?: TreinadorOrderByWithRelationInput | TreinadorOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Treinadors.
-     */
-    cursor?: TreinadorWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Treinadors from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Treinadors.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Treinadors.
-     */
-    distinct?: TreinadorScalarFieldEnum | TreinadorScalarFieldEnum[]
-  }
-
-  /**
-   * Treinador findMany
-   */
-  export type TreinadorFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Treinador
-     */
-    select?: TreinadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Treinador
-     */
-    omit?: TreinadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TreinadorInclude<ExtArgs> | null
-    /**
-     * Filter, which Treinadors to fetch.
-     */
-    where?: TreinadorWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Treinadors to fetch.
-     */
-    orderBy?: TreinadorOrderByWithRelationInput | TreinadorOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Treinadors.
-     */
-    cursor?: TreinadorWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Treinadors from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Treinadors.
-     */
-    skip?: number
-    distinct?: TreinadorScalarFieldEnum | TreinadorScalarFieldEnum[]
-  }
-
-  /**
-   * Treinador create
-   */
-  export type TreinadorCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Treinador
-     */
-    select?: TreinadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Treinador
-     */
-    omit?: TreinadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TreinadorInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Treinador.
-     */
-    data: XOR<TreinadorCreateInput, TreinadorUncheckedCreateInput>
-  }
-
-  /**
-   * Treinador createMany
-   */
-  export type TreinadorCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Treinadors.
-     */
-    data: TreinadorCreateManyInput | TreinadorCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Treinador createManyAndReturn
-   */
-  export type TreinadorCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Treinador
-     */
-    select?: TreinadorSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Treinador
-     */
-    omit?: TreinadorOmit<ExtArgs> | null
-    /**
-     * The data used to create many Treinadors.
-     */
-    data: TreinadorCreateManyInput | TreinadorCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TreinadorIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Treinador update
-   */
-  export type TreinadorUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Treinador
-     */
-    select?: TreinadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Treinador
-     */
-    omit?: TreinadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TreinadorInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Treinador.
-     */
-    data: XOR<TreinadorUpdateInput, TreinadorUncheckedUpdateInput>
-    /**
-     * Choose, which Treinador to update.
-     */
-    where: TreinadorWhereUniqueInput
-  }
-
-  /**
-   * Treinador updateMany
-   */
-  export type TreinadorUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Treinadors.
-     */
-    data: XOR<TreinadorUpdateManyMutationInput, TreinadorUncheckedUpdateManyInput>
-    /**
-     * Filter which Treinadors to update
-     */
-    where?: TreinadorWhereInput
-    /**
-     * Limit how many Treinadors to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Treinador updateManyAndReturn
-   */
-  export type TreinadorUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Treinador
-     */
-    select?: TreinadorSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Treinador
-     */
-    omit?: TreinadorOmit<ExtArgs> | null
-    /**
-     * The data used to update Treinadors.
-     */
-    data: XOR<TreinadorUpdateManyMutationInput, TreinadorUncheckedUpdateManyInput>
-    /**
-     * Filter which Treinadors to update
-     */
-    where?: TreinadorWhereInput
-    /**
-     * Limit how many Treinadors to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TreinadorIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Treinador upsert
-   */
-  export type TreinadorUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Treinador
-     */
-    select?: TreinadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Treinador
-     */
-    omit?: TreinadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TreinadorInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Treinador to update in case it exists.
-     */
-    where: TreinadorWhereUniqueInput
-    /**
-     * In case the Treinador found by the `where` argument doesn't exist, create a new Treinador with this data.
-     */
-    create: XOR<TreinadorCreateInput, TreinadorUncheckedCreateInput>
-    /**
-     * In case the Treinador was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<TreinadorUpdateInput, TreinadorUncheckedUpdateInput>
-  }
-
-  /**
-   * Treinador delete
-   */
-  export type TreinadorDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Treinador
-     */
-    select?: TreinadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Treinador
-     */
-    omit?: TreinadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TreinadorInclude<ExtArgs> | null
-    /**
-     * Filter which Treinador to delete.
-     */
-    where: TreinadorWhereUniqueInput
-  }
-
-  /**
-   * Treinador deleteMany
-   */
-  export type TreinadorDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Treinadors to delete
-     */
-    where?: TreinadorWhereInput
-    /**
-     * Limit how many Treinadors to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Treinador without action
-   */
-  export type TreinadorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Treinador
-     */
-    select?: TreinadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Treinador
-     */
-    omit?: TreinadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TreinadorInclude<ExtArgs> | null
   }
 
 
@@ -4297,9 +2930,8 @@ export namespace Prisma {
     email?: boolean
     genero?: boolean
     nivel?: boolean
-    participacoesAmador?: boolean | Atleta$participacoesAmadorArgs<ExtArgs>
-    equipesOficiais?: boolean | Atleta$equipesOficiaisArgs<ExtArgs>
-    EquipeAmador?: boolean | Atleta$EquipeAmadorArgs<ExtArgs>
+    participacoes?: boolean | Atleta$participacoesArgs<ExtArgs>
+    equipes?: boolean | Atleta$equipesArgs<ExtArgs>
     _count?: boolean | AtletaCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["atleta"]>
 
@@ -4329,9 +2961,8 @@ export namespace Prisma {
 
   export type AtletaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "email" | "genero" | "nivel", ExtArgs["result"]["atleta"]>
   export type AtletaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    participacoesAmador?: boolean | Atleta$participacoesAmadorArgs<ExtArgs>
-    equipesOficiais?: boolean | Atleta$equipesOficiaisArgs<ExtArgs>
-    EquipeAmador?: boolean | Atleta$EquipeAmadorArgs<ExtArgs>
+    participacoes?: boolean | Atleta$participacoesArgs<ExtArgs>
+    equipes?: boolean | Atleta$equipesArgs<ExtArgs>
     _count?: boolean | AtletaCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AtletaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4340,9 +2971,8 @@ export namespace Prisma {
   export type $AtletaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Atleta"
     objects: {
-      participacoesAmador: Prisma.$ParticipacaoAmadorPayload<ExtArgs>[]
-      equipesOficiais: Prisma.$AtletaEquipeOficialPayload<ExtArgs>[]
-      EquipeAmador: Prisma.$EquipeAmadorPayload<ExtArgs>[]
+      participacoes: Prisma.$ParticipacaoPayload<ExtArgs>[]
+      equipes: Prisma.$EquipeAtletaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -4744,9 +3374,8 @@ export namespace Prisma {
    */
   export interface Prisma__AtletaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    participacoesAmador<T extends Atleta$participacoesAmadorArgs<ExtArgs> = {}>(args?: Subset<T, Atleta$participacoesAmadorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipacaoAmadorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    equipesOficiais<T extends Atleta$equipesOficiaisArgs<ExtArgs> = {}>(args?: Subset<T, Atleta$equipesOficiaisArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AtletaEquipeOficialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    EquipeAmador<T extends Atleta$EquipeAmadorArgs<ExtArgs> = {}>(args?: Subset<T, Atleta$EquipeAmadorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipeAmadorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    participacoes<T extends Atleta$participacoesArgs<ExtArgs> = {}>(args?: Subset<T, Atleta$participacoesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    equipes<T extends Atleta$equipesArgs<ExtArgs> = {}>(args?: Subset<T, Atleta$equipesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipeAtletaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5169,75 +3798,51 @@ export namespace Prisma {
   }
 
   /**
-   * Atleta.participacoesAmador
+   * Atleta.participacoes
    */
-  export type Atleta$participacoesAmadorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Atleta$participacoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ParticipacaoAmador
+     * Select specific fields to fetch from the Participacao
      */
-    select?: ParticipacaoAmadorSelect<ExtArgs> | null
+    select?: ParticipacaoSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ParticipacaoAmador
+     * Omit specific fields from the Participacao
      */
-    omit?: ParticipacaoAmadorOmit<ExtArgs> | null
+    omit?: ParticipacaoOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ParticipacaoAmadorInclude<ExtArgs> | null
-    where?: ParticipacaoAmadorWhereInput
-    orderBy?: ParticipacaoAmadorOrderByWithRelationInput | ParticipacaoAmadorOrderByWithRelationInput[]
-    cursor?: ParticipacaoAmadorWhereUniqueInput
+    include?: ParticipacaoInclude<ExtArgs> | null
+    where?: ParticipacaoWhereInput
+    orderBy?: ParticipacaoOrderByWithRelationInput | ParticipacaoOrderByWithRelationInput[]
+    cursor?: ParticipacaoWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: ParticipacaoAmadorScalarFieldEnum | ParticipacaoAmadorScalarFieldEnum[]
+    distinct?: ParticipacaoScalarFieldEnum | ParticipacaoScalarFieldEnum[]
   }
 
   /**
-   * Atleta.equipesOficiais
+   * Atleta.equipes
    */
-  export type Atleta$equipesOficiaisArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Atleta$equipesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the AtletaEquipeOficial
+     * Select specific fields to fetch from the EquipeAtleta
      */
-    select?: AtletaEquipeOficialSelect<ExtArgs> | null
+    select?: EquipeAtletaSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the AtletaEquipeOficial
+     * Omit specific fields from the EquipeAtleta
      */
-    omit?: AtletaEquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeAtletaOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AtletaEquipeOficialInclude<ExtArgs> | null
-    where?: AtletaEquipeOficialWhereInput
-    orderBy?: AtletaEquipeOficialOrderByWithRelationInput | AtletaEquipeOficialOrderByWithRelationInput[]
-    cursor?: AtletaEquipeOficialWhereUniqueInput
+    include?: EquipeAtletaInclude<ExtArgs> | null
+    where?: EquipeAtletaWhereInput
+    orderBy?: EquipeAtletaOrderByWithRelationInput | EquipeAtletaOrderByWithRelationInput[]
+    cursor?: EquipeAtletaWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: AtletaEquipeOficialScalarFieldEnum | AtletaEquipeOficialScalarFieldEnum[]
-  }
-
-  /**
-   * Atleta.EquipeAmador
-   */
-  export type Atleta$EquipeAmadorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeAmador
-     */
-    select?: EquipeAmadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeAmador
-     */
-    omit?: EquipeAmadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeAmadorInclude<ExtArgs> | null
-    where?: EquipeAmadorWhereInput
-    orderBy?: EquipeAmadorOrderByWithRelationInput | EquipeAmadorOrderByWithRelationInput[]
-    cursor?: EquipeAmadorWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: EquipeAmadorScalarFieldEnum | EquipeAmadorScalarFieldEnum[]
+    distinct?: EquipeAtletaScalarFieldEnum | EquipeAtletaScalarFieldEnum[]
   }
 
   /**
@@ -5284,7 +3889,6 @@ export namespace Prisma {
   export type TorneioMinAggregateOutputType = {
     id: number | null
     nome: string | null
-    tipo: $Enums.TipoTorneio | null
     data: Date | null
     local: string | null
     status: $Enums.StatusTorneio | null
@@ -5296,7 +3900,6 @@ export namespace Prisma {
   export type TorneioMaxAggregateOutputType = {
     id: number | null
     nome: string | null
-    tipo: $Enums.TipoTorneio | null
     data: Date | null
     local: string | null
     status: $Enums.StatusTorneio | null
@@ -5308,7 +3911,6 @@ export namespace Prisma {
   export type TorneioCountAggregateOutputType = {
     id: number
     nome: number
-    tipo: number
     data: number
     local: number
     status: number
@@ -5332,7 +3934,6 @@ export namespace Prisma {
   export type TorneioMinAggregateInputType = {
     id?: true
     nome?: true
-    tipo?: true
     data?: true
     local?: true
     status?: true
@@ -5344,7 +3945,6 @@ export namespace Prisma {
   export type TorneioMaxAggregateInputType = {
     id?: true
     nome?: true
-    tipo?: true
     data?: true
     local?: true
     status?: true
@@ -5356,7 +3956,6 @@ export namespace Prisma {
   export type TorneioCountAggregateInputType = {
     id?: true
     nome?: true
-    tipo?: true
     data?: true
     local?: true
     status?: true
@@ -5455,7 +4054,6 @@ export namespace Prisma {
   export type TorneioGroupByOutputType = {
     id: number
     nome: string
-    tipo: $Enums.TipoTorneio
     data: Date
     local: string | null
     status: $Enums.StatusTorneio
@@ -5486,7 +4084,6 @@ export namespace Prisma {
   export type TorneioSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nome?: boolean
-    tipo?: boolean
     data?: boolean
     local?: boolean
     status?: boolean
@@ -5494,17 +4091,15 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     criadoPor?: boolean | UsuarioDefaultArgs<ExtArgs>
-    Partida?: boolean | Torneio$PartidaArgs<ExtArgs>
-    equipesAmador?: boolean | Torneio$equipesAmadorArgs<ExtArgs>
-    equipesOficial?: boolean | Torneio$equipesOficialArgs<ExtArgs>
-    ParticipacaoAmador?: boolean | Torneio$ParticipacaoAmadorArgs<ExtArgs>
+    participacoes?: boolean | Torneio$participacoesArgs<ExtArgs>
+    equipes?: boolean | Torneio$equipesArgs<ExtArgs>
+    partidas?: boolean | Torneio$partidasArgs<ExtArgs>
     _count?: boolean | TorneioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["torneio"]>
 
   export type TorneioSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nome?: boolean
-    tipo?: boolean
     data?: boolean
     local?: boolean
     status?: boolean
@@ -5517,7 +4112,6 @@ export namespace Prisma {
   export type TorneioSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nome?: boolean
-    tipo?: boolean
     data?: boolean
     local?: boolean
     status?: boolean
@@ -5530,7 +4124,6 @@ export namespace Prisma {
   export type TorneioSelectScalar = {
     id?: boolean
     nome?: boolean
-    tipo?: boolean
     data?: boolean
     local?: boolean
     status?: boolean
@@ -5539,13 +4132,12 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type TorneioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "tipo" | "data" | "local" | "status" | "criadoPorId" | "createdAt" | "updatedAt", ExtArgs["result"]["torneio"]>
+  export type TorneioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "data" | "local" | "status" | "criadoPorId" | "createdAt" | "updatedAt", ExtArgs["result"]["torneio"]>
   export type TorneioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     criadoPor?: boolean | UsuarioDefaultArgs<ExtArgs>
-    Partida?: boolean | Torneio$PartidaArgs<ExtArgs>
-    equipesAmador?: boolean | Torneio$equipesAmadorArgs<ExtArgs>
-    equipesOficial?: boolean | Torneio$equipesOficialArgs<ExtArgs>
-    ParticipacaoAmador?: boolean | Torneio$ParticipacaoAmadorArgs<ExtArgs>
+    participacoes?: boolean | Torneio$participacoesArgs<ExtArgs>
+    equipes?: boolean | Torneio$equipesArgs<ExtArgs>
+    partidas?: boolean | Torneio$partidasArgs<ExtArgs>
     _count?: boolean | TorneioCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TorneioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5559,15 +4151,13 @@ export namespace Prisma {
     name: "Torneio"
     objects: {
       criadoPor: Prisma.$UsuarioPayload<ExtArgs>
-      Partida: Prisma.$PartidaPayload<ExtArgs>[]
-      equipesAmador: Prisma.$EquipeAmadorPayload<ExtArgs>[]
-      equipesOficial: Prisma.$EquipeOficialPayload<ExtArgs>[]
-      ParticipacaoAmador: Prisma.$ParticipacaoAmadorPayload<ExtArgs>[]
+      participacoes: Prisma.$ParticipacaoPayload<ExtArgs>[]
+      equipes: Prisma.$EquipePayload<ExtArgs>[]
+      partidas: Prisma.$PartidaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       nome: string
-      tipo: $Enums.TipoTorneio
       data: Date
       local: string | null
       status: $Enums.StatusTorneio
@@ -5969,10 +4559,9 @@ export namespace Prisma {
   export interface Prisma__TorneioClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     criadoPor<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    Partida<T extends Torneio$PartidaArgs<ExtArgs> = {}>(args?: Subset<T, Torneio$PartidaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartidaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    equipesAmador<T extends Torneio$equipesAmadorArgs<ExtArgs> = {}>(args?: Subset<T, Torneio$equipesAmadorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipeAmadorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    equipesOficial<T extends Torneio$equipesOficialArgs<ExtArgs> = {}>(args?: Subset<T, Torneio$equipesOficialArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipeOficialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    ParticipacaoAmador<T extends Torneio$ParticipacaoAmadorArgs<ExtArgs> = {}>(args?: Subset<T, Torneio$ParticipacaoAmadorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipacaoAmadorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    participacoes<T extends Torneio$participacoesArgs<ExtArgs> = {}>(args?: Subset<T, Torneio$participacoesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    equipes<T extends Torneio$equipesArgs<ExtArgs> = {}>(args?: Subset<T, Torneio$equipesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    partidas<T extends Torneio$partidasArgs<ExtArgs> = {}>(args?: Subset<T, Torneio$partidasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartidaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6004,7 +4593,6 @@ export namespace Prisma {
   interface TorneioFieldRefs {
     readonly id: FieldRef<"Torneio", 'Int'>
     readonly nome: FieldRef<"Torneio", 'String'>
-    readonly tipo: FieldRef<"Torneio", 'TipoTorneio'>
     readonly data: FieldRef<"Torneio", 'DateTime'>
     readonly local: FieldRef<"Torneio", 'String'>
     readonly status: FieldRef<"Torneio", 'StatusTorneio'>
@@ -6407,9 +4995,57 @@ export namespace Prisma {
   }
 
   /**
-   * Torneio.Partida
+   * Torneio.participacoes
    */
-  export type Torneio$PartidaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Torneio$participacoesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Participacao
+     */
+    select?: ParticipacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Participacao
+     */
+    omit?: ParticipacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParticipacaoInclude<ExtArgs> | null
+    where?: ParticipacaoWhereInput
+    orderBy?: ParticipacaoOrderByWithRelationInput | ParticipacaoOrderByWithRelationInput[]
+    cursor?: ParticipacaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ParticipacaoScalarFieldEnum | ParticipacaoScalarFieldEnum[]
+  }
+
+  /**
+   * Torneio.equipes
+   */
+  export type Torneio$equipesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Equipe
+     */
+    select?: EquipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Equipe
+     */
+    omit?: EquipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EquipeInclude<ExtArgs> | null
+    where?: EquipeWhereInput
+    orderBy?: EquipeOrderByWithRelationInput | EquipeOrderByWithRelationInput[]
+    cursor?: EquipeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EquipeScalarFieldEnum | EquipeScalarFieldEnum[]
+  }
+
+  /**
+   * Torneio.partidas
+   */
+  export type Torneio$partidasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Partida
      */
@@ -6428,78 +5064,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PartidaScalarFieldEnum | PartidaScalarFieldEnum[]
-  }
-
-  /**
-   * Torneio.equipesAmador
-   */
-  export type Torneio$equipesAmadorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeAmador
-     */
-    select?: EquipeAmadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeAmador
-     */
-    omit?: EquipeAmadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeAmadorInclude<ExtArgs> | null
-    where?: EquipeAmadorWhereInput
-    orderBy?: EquipeAmadorOrderByWithRelationInput | EquipeAmadorOrderByWithRelationInput[]
-    cursor?: EquipeAmadorWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: EquipeAmadorScalarFieldEnum | EquipeAmadorScalarFieldEnum[]
-  }
-
-  /**
-   * Torneio.equipesOficial
-   */
-  export type Torneio$equipesOficialArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeOficial
-     */
-    select?: EquipeOficialSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeOficial
-     */
-    omit?: EquipeOficialOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeOficialInclude<ExtArgs> | null
-    where?: EquipeOficialWhereInput
-    orderBy?: EquipeOficialOrderByWithRelationInput | EquipeOficialOrderByWithRelationInput[]
-    cursor?: EquipeOficialWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: EquipeOficialScalarFieldEnum | EquipeOficialScalarFieldEnum[]
-  }
-
-  /**
-   * Torneio.ParticipacaoAmador
-   */
-  export type Torneio$ParticipacaoAmadorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ParticipacaoAmador
-     */
-    select?: ParticipacaoAmadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ParticipacaoAmador
-     */
-    omit?: ParticipacaoAmadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ParticipacaoAmadorInclude<ExtArgs> | null
-    where?: ParticipacaoAmadorWhereInput
-    orderBy?: ParticipacaoAmadorOrderByWithRelationInput | ParticipacaoAmadorOrderByWithRelationInput[]
-    cursor?: ParticipacaoAmadorWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ParticipacaoAmadorScalarFieldEnum | ParticipacaoAmadorScalarFieldEnum[]
   }
 
   /**
@@ -6522,44 +5086,44 @@ export namespace Prisma {
 
 
   /**
-   * Model ParticipacaoAmador
+   * Model Participacao
    */
 
-  export type AggregateParticipacaoAmador = {
-    _count: ParticipacaoAmadorCountAggregateOutputType | null
-    _avg: ParticipacaoAmadorAvgAggregateOutputType | null
-    _sum: ParticipacaoAmadorSumAggregateOutputType | null
-    _min: ParticipacaoAmadorMinAggregateOutputType | null
-    _max: ParticipacaoAmadorMaxAggregateOutputType | null
+  export type AggregateParticipacao = {
+    _count: ParticipacaoCountAggregateOutputType | null
+    _avg: ParticipacaoAvgAggregateOutputType | null
+    _sum: ParticipacaoSumAggregateOutputType | null
+    _min: ParticipacaoMinAggregateOutputType | null
+    _max: ParticipacaoMaxAggregateOutputType | null
   }
 
-  export type ParticipacaoAmadorAvgAggregateOutputType = {
+  export type ParticipacaoAvgAggregateOutputType = {
     id: number | null
     atletaId: number | null
     torneioId: number | null
   }
 
-  export type ParticipacaoAmadorSumAggregateOutputType = {
+  export type ParticipacaoSumAggregateOutputType = {
     id: number | null
     atletaId: number | null
     torneioId: number | null
   }
 
-  export type ParticipacaoAmadorMinAggregateOutputType = {
-    id: number | null
-    atletaId: number | null
-    torneioId: number | null
-    criadoEm: Date | null
-  }
-
-  export type ParticipacaoAmadorMaxAggregateOutputType = {
+  export type ParticipacaoMinAggregateOutputType = {
     id: number | null
     atletaId: number | null
     torneioId: number | null
     criadoEm: Date | null
   }
 
-  export type ParticipacaoAmadorCountAggregateOutputType = {
+  export type ParticipacaoMaxAggregateOutputType = {
+    id: number | null
+    atletaId: number | null
+    torneioId: number | null
+    criadoEm: Date | null
+  }
+
+  export type ParticipacaoCountAggregateOutputType = {
     id: number
     atletaId: number
     torneioId: number
@@ -6568,33 +5132,33 @@ export namespace Prisma {
   }
 
 
-  export type ParticipacaoAmadorAvgAggregateInputType = {
+  export type ParticipacaoAvgAggregateInputType = {
     id?: true
     atletaId?: true
     torneioId?: true
   }
 
-  export type ParticipacaoAmadorSumAggregateInputType = {
+  export type ParticipacaoSumAggregateInputType = {
     id?: true
     atletaId?: true
     torneioId?: true
   }
 
-  export type ParticipacaoAmadorMinAggregateInputType = {
-    id?: true
-    atletaId?: true
-    torneioId?: true
-    criadoEm?: true
-  }
-
-  export type ParticipacaoAmadorMaxAggregateInputType = {
+  export type ParticipacaoMinAggregateInputType = {
     id?: true
     atletaId?: true
     torneioId?: true
     criadoEm?: true
   }
 
-  export type ParticipacaoAmadorCountAggregateInputType = {
+  export type ParticipacaoMaxAggregateInputType = {
+    id?: true
+    atletaId?: true
+    torneioId?: true
+    criadoEm?: true
+  }
+
+  export type ParticipacaoCountAggregateInputType = {
     id?: true
     atletaId?: true
     torneioId?: true
@@ -6602,168 +5166,168 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type ParticipacaoAmadorAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which ParticipacaoAmador to aggregate.
+     * Filter which Participacao to aggregate.
      */
-    where?: ParticipacaoAmadorWhereInput
+    where?: ParticipacaoWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ParticipacaoAmadors to fetch.
+     * Determine the order of Participacaos to fetch.
      */
-    orderBy?: ParticipacaoAmadorOrderByWithRelationInput | ParticipacaoAmadorOrderByWithRelationInput[]
+    orderBy?: ParticipacaoOrderByWithRelationInput | ParticipacaoOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: ParticipacaoAmadorWhereUniqueInput
+    cursor?: ParticipacaoWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ParticipacaoAmadors from the position of the cursor.
+     * Take `±n` Participacaos from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ParticipacaoAmadors.
+     * Skip the first `n` Participacaos.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned ParticipacaoAmadors
+     * Count returned Participacaos
     **/
-    _count?: true | ParticipacaoAmadorCountAggregateInputType
+    _count?: true | ParticipacaoCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: ParticipacaoAmadorAvgAggregateInputType
+    _avg?: ParticipacaoAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: ParticipacaoAmadorSumAggregateInputType
+    _sum?: ParticipacaoSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: ParticipacaoAmadorMinAggregateInputType
+    _min?: ParticipacaoMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: ParticipacaoAmadorMaxAggregateInputType
+    _max?: ParticipacaoMaxAggregateInputType
   }
 
-  export type GetParticipacaoAmadorAggregateType<T extends ParticipacaoAmadorAggregateArgs> = {
-        [P in keyof T & keyof AggregateParticipacaoAmador]: P extends '_count' | 'count'
+  export type GetParticipacaoAggregateType<T extends ParticipacaoAggregateArgs> = {
+        [P in keyof T & keyof AggregateParticipacao]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateParticipacaoAmador[P]>
-      : GetScalarType<T[P], AggregateParticipacaoAmador[P]>
+        : GetScalarType<T[P], AggregateParticipacao[P]>
+      : GetScalarType<T[P], AggregateParticipacao[P]>
   }
 
 
 
 
-  export type ParticipacaoAmadorGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ParticipacaoAmadorWhereInput
-    orderBy?: ParticipacaoAmadorOrderByWithAggregationInput | ParticipacaoAmadorOrderByWithAggregationInput[]
-    by: ParticipacaoAmadorScalarFieldEnum[] | ParticipacaoAmadorScalarFieldEnum
-    having?: ParticipacaoAmadorScalarWhereWithAggregatesInput
+  export type ParticipacaoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ParticipacaoWhereInput
+    orderBy?: ParticipacaoOrderByWithAggregationInput | ParticipacaoOrderByWithAggregationInput[]
+    by: ParticipacaoScalarFieldEnum[] | ParticipacaoScalarFieldEnum
+    having?: ParticipacaoScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: ParticipacaoAmadorCountAggregateInputType | true
-    _avg?: ParticipacaoAmadorAvgAggregateInputType
-    _sum?: ParticipacaoAmadorSumAggregateInputType
-    _min?: ParticipacaoAmadorMinAggregateInputType
-    _max?: ParticipacaoAmadorMaxAggregateInputType
+    _count?: ParticipacaoCountAggregateInputType | true
+    _avg?: ParticipacaoAvgAggregateInputType
+    _sum?: ParticipacaoSumAggregateInputType
+    _min?: ParticipacaoMinAggregateInputType
+    _max?: ParticipacaoMaxAggregateInputType
   }
 
-  export type ParticipacaoAmadorGroupByOutputType = {
+  export type ParticipacaoGroupByOutputType = {
     id: number
     atletaId: number
     torneioId: number
     criadoEm: Date
-    _count: ParticipacaoAmadorCountAggregateOutputType | null
-    _avg: ParticipacaoAmadorAvgAggregateOutputType | null
-    _sum: ParticipacaoAmadorSumAggregateOutputType | null
-    _min: ParticipacaoAmadorMinAggregateOutputType | null
-    _max: ParticipacaoAmadorMaxAggregateOutputType | null
+    _count: ParticipacaoCountAggregateOutputType | null
+    _avg: ParticipacaoAvgAggregateOutputType | null
+    _sum: ParticipacaoSumAggregateOutputType | null
+    _min: ParticipacaoMinAggregateOutputType | null
+    _max: ParticipacaoMaxAggregateOutputType | null
   }
 
-  type GetParticipacaoAmadorGroupByPayload<T extends ParticipacaoAmadorGroupByArgs> = Prisma.PrismaPromise<
+  type GetParticipacaoGroupByPayload<T extends ParticipacaoGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<ParticipacaoAmadorGroupByOutputType, T['by']> &
+      PickEnumerable<ParticipacaoGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof ParticipacaoAmadorGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof ParticipacaoGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], ParticipacaoAmadorGroupByOutputType[P]>
-            : GetScalarType<T[P], ParticipacaoAmadorGroupByOutputType[P]>
+              : GetScalarType<T[P], ParticipacaoGroupByOutputType[P]>
+            : GetScalarType<T[P], ParticipacaoGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type ParticipacaoAmadorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ParticipacaoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     atletaId?: boolean
     torneioId?: boolean
     criadoEm?: boolean
     atleta?: boolean | AtletaDefaultArgs<ExtArgs>
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["participacaoAmador"]>
+  }, ExtArgs["result"]["participacao"]>
 
-  export type ParticipacaoAmadorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ParticipacaoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     atletaId?: boolean
     torneioId?: boolean
     criadoEm?: boolean
     atleta?: boolean | AtletaDefaultArgs<ExtArgs>
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["participacaoAmador"]>
+  }, ExtArgs["result"]["participacao"]>
 
-  export type ParticipacaoAmadorSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ParticipacaoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     atletaId?: boolean
     torneioId?: boolean
     criadoEm?: boolean
     atleta?: boolean | AtletaDefaultArgs<ExtArgs>
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["participacaoAmador"]>
+  }, ExtArgs["result"]["participacao"]>
 
-  export type ParticipacaoAmadorSelectScalar = {
+  export type ParticipacaoSelectScalar = {
     id?: boolean
     atletaId?: boolean
     torneioId?: boolean
     criadoEm?: boolean
   }
 
-  export type ParticipacaoAmadorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "atletaId" | "torneioId" | "criadoEm", ExtArgs["result"]["participacaoAmador"]>
-  export type ParticipacaoAmadorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "atletaId" | "torneioId" | "criadoEm", ExtArgs["result"]["participacao"]>
+  export type ParticipacaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     atleta?: boolean | AtletaDefaultArgs<ExtArgs>
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
   }
-  export type ParticipacaoAmadorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     atleta?: boolean | AtletaDefaultArgs<ExtArgs>
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
   }
-  export type ParticipacaoAmadorIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     atleta?: boolean | AtletaDefaultArgs<ExtArgs>
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
   }
 
-  export type $ParticipacaoAmadorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "ParticipacaoAmador"
+  export type $ParticipacaoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Participacao"
     objects: {
       atleta: Prisma.$AtletaPayload<ExtArgs>
       torneio: Prisma.$TorneioPayload<ExtArgs>
@@ -6773,136 +5337,136 @@ export namespace Prisma {
       atletaId: number
       torneioId: number
       criadoEm: Date
-    }, ExtArgs["result"]["participacaoAmador"]>
+    }, ExtArgs["result"]["participacao"]>
     composites: {}
   }
 
-  type ParticipacaoAmadorGetPayload<S extends boolean | null | undefined | ParticipacaoAmadorDefaultArgs> = $Result.GetResult<Prisma.$ParticipacaoAmadorPayload, S>
+  type ParticipacaoGetPayload<S extends boolean | null | undefined | ParticipacaoDefaultArgs> = $Result.GetResult<Prisma.$ParticipacaoPayload, S>
 
-  type ParticipacaoAmadorCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<ParticipacaoAmadorFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: ParticipacaoAmadorCountAggregateInputType | true
+  type ParticipacaoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ParticipacaoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ParticipacaoCountAggregateInputType | true
     }
 
-  export interface ParticipacaoAmadorDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ParticipacaoAmador'], meta: { name: 'ParticipacaoAmador' } }
+  export interface ParticipacaoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Participacao'], meta: { name: 'Participacao' } }
     /**
-     * Find zero or one ParticipacaoAmador that matches the filter.
-     * @param {ParticipacaoAmadorFindUniqueArgs} args - Arguments to find a ParticipacaoAmador
+     * Find zero or one Participacao that matches the filter.
+     * @param {ParticipacaoFindUniqueArgs} args - Arguments to find a Participacao
      * @example
-     * // Get one ParticipacaoAmador
-     * const participacaoAmador = await prisma.participacaoAmador.findUnique({
+     * // Get one Participacao
+     * const participacao = await prisma.participacao.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends ParticipacaoAmadorFindUniqueArgs>(args: SelectSubset<T, ParticipacaoAmadorFindUniqueArgs<ExtArgs>>): Prisma__ParticipacaoAmadorClient<$Result.GetResult<Prisma.$ParticipacaoAmadorPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends ParticipacaoFindUniqueArgs>(args: SelectSubset<T, ParticipacaoFindUniqueArgs<ExtArgs>>): Prisma__ParticipacaoClient<$Result.GetResult<Prisma.$ParticipacaoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one ParticipacaoAmador that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Participacao that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {ParticipacaoAmadorFindUniqueOrThrowArgs} args - Arguments to find a ParticipacaoAmador
+     * @param {ParticipacaoFindUniqueOrThrowArgs} args - Arguments to find a Participacao
      * @example
-     * // Get one ParticipacaoAmador
-     * const participacaoAmador = await prisma.participacaoAmador.findUniqueOrThrow({
+     * // Get one Participacao
+     * const participacao = await prisma.participacao.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends ParticipacaoAmadorFindUniqueOrThrowArgs>(args: SelectSubset<T, ParticipacaoAmadorFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ParticipacaoAmadorClient<$Result.GetResult<Prisma.$ParticipacaoAmadorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends ParticipacaoFindUniqueOrThrowArgs>(args: SelectSubset<T, ParticipacaoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ParticipacaoClient<$Result.GetResult<Prisma.$ParticipacaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first ParticipacaoAmador that matches the filter.
+     * Find the first Participacao that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ParticipacaoAmadorFindFirstArgs} args - Arguments to find a ParticipacaoAmador
+     * @param {ParticipacaoFindFirstArgs} args - Arguments to find a Participacao
      * @example
-     * // Get one ParticipacaoAmador
-     * const participacaoAmador = await prisma.participacaoAmador.findFirst({
+     * // Get one Participacao
+     * const participacao = await prisma.participacao.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends ParticipacaoAmadorFindFirstArgs>(args?: SelectSubset<T, ParticipacaoAmadorFindFirstArgs<ExtArgs>>): Prisma__ParticipacaoAmadorClient<$Result.GetResult<Prisma.$ParticipacaoAmadorPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends ParticipacaoFindFirstArgs>(args?: SelectSubset<T, ParticipacaoFindFirstArgs<ExtArgs>>): Prisma__ParticipacaoClient<$Result.GetResult<Prisma.$ParticipacaoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first ParticipacaoAmador that matches the filter or
+     * Find the first Participacao that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ParticipacaoAmadorFindFirstOrThrowArgs} args - Arguments to find a ParticipacaoAmador
+     * @param {ParticipacaoFindFirstOrThrowArgs} args - Arguments to find a Participacao
      * @example
-     * // Get one ParticipacaoAmador
-     * const participacaoAmador = await prisma.participacaoAmador.findFirstOrThrow({
+     * // Get one Participacao
+     * const participacao = await prisma.participacao.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends ParticipacaoAmadorFindFirstOrThrowArgs>(args?: SelectSubset<T, ParticipacaoAmadorFindFirstOrThrowArgs<ExtArgs>>): Prisma__ParticipacaoAmadorClient<$Result.GetResult<Prisma.$ParticipacaoAmadorPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends ParticipacaoFindFirstOrThrowArgs>(args?: SelectSubset<T, ParticipacaoFindFirstOrThrowArgs<ExtArgs>>): Prisma__ParticipacaoClient<$Result.GetResult<Prisma.$ParticipacaoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more ParticipacaoAmadors that matches the filter.
+     * Find zero or more Participacaos that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ParticipacaoAmadorFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {ParticipacaoFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all ParticipacaoAmadors
-     * const participacaoAmadors = await prisma.participacaoAmador.findMany()
+     * // Get all Participacaos
+     * const participacaos = await prisma.participacao.findMany()
      * 
-     * // Get first 10 ParticipacaoAmadors
-     * const participacaoAmadors = await prisma.participacaoAmador.findMany({ take: 10 })
+     * // Get first 10 Participacaos
+     * const participacaos = await prisma.participacao.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const participacaoAmadorWithIdOnly = await prisma.participacaoAmador.findMany({ select: { id: true } })
+     * const participacaoWithIdOnly = await prisma.participacao.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends ParticipacaoAmadorFindManyArgs>(args?: SelectSubset<T, ParticipacaoAmadorFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipacaoAmadorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends ParticipacaoFindManyArgs>(args?: SelectSubset<T, ParticipacaoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a ParticipacaoAmador.
-     * @param {ParticipacaoAmadorCreateArgs} args - Arguments to create a ParticipacaoAmador.
+     * Create a Participacao.
+     * @param {ParticipacaoCreateArgs} args - Arguments to create a Participacao.
      * @example
-     * // Create one ParticipacaoAmador
-     * const ParticipacaoAmador = await prisma.participacaoAmador.create({
+     * // Create one Participacao
+     * const Participacao = await prisma.participacao.create({
      *   data: {
-     *     // ... data to create a ParticipacaoAmador
+     *     // ... data to create a Participacao
      *   }
      * })
      * 
      */
-    create<T extends ParticipacaoAmadorCreateArgs>(args: SelectSubset<T, ParticipacaoAmadorCreateArgs<ExtArgs>>): Prisma__ParticipacaoAmadorClient<$Result.GetResult<Prisma.$ParticipacaoAmadorPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends ParticipacaoCreateArgs>(args: SelectSubset<T, ParticipacaoCreateArgs<ExtArgs>>): Prisma__ParticipacaoClient<$Result.GetResult<Prisma.$ParticipacaoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many ParticipacaoAmadors.
-     * @param {ParticipacaoAmadorCreateManyArgs} args - Arguments to create many ParticipacaoAmadors.
+     * Create many Participacaos.
+     * @param {ParticipacaoCreateManyArgs} args - Arguments to create many Participacaos.
      * @example
-     * // Create many ParticipacaoAmadors
-     * const participacaoAmador = await prisma.participacaoAmador.createMany({
+     * // Create many Participacaos
+     * const participacao = await prisma.participacao.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends ParticipacaoAmadorCreateManyArgs>(args?: SelectSubset<T, ParticipacaoAmadorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends ParticipacaoCreateManyArgs>(args?: SelectSubset<T, ParticipacaoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many ParticipacaoAmadors and returns the data saved in the database.
-     * @param {ParticipacaoAmadorCreateManyAndReturnArgs} args - Arguments to create many ParticipacaoAmadors.
+     * Create many Participacaos and returns the data saved in the database.
+     * @param {ParticipacaoCreateManyAndReturnArgs} args - Arguments to create many Participacaos.
      * @example
-     * // Create many ParticipacaoAmadors
-     * const participacaoAmador = await prisma.participacaoAmador.createManyAndReturn({
+     * // Create many Participacaos
+     * const participacao = await prisma.participacao.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many ParticipacaoAmadors and only return the `id`
-     * const participacaoAmadorWithIdOnly = await prisma.participacaoAmador.createManyAndReturn({
+     * // Create many Participacaos and only return the `id`
+     * const participacaoWithIdOnly = await prisma.participacao.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -6912,28 +5476,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends ParticipacaoAmadorCreateManyAndReturnArgs>(args?: SelectSubset<T, ParticipacaoAmadorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipacaoAmadorPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends ParticipacaoCreateManyAndReturnArgs>(args?: SelectSubset<T, ParticipacaoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipacaoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a ParticipacaoAmador.
-     * @param {ParticipacaoAmadorDeleteArgs} args - Arguments to delete one ParticipacaoAmador.
+     * Delete a Participacao.
+     * @param {ParticipacaoDeleteArgs} args - Arguments to delete one Participacao.
      * @example
-     * // Delete one ParticipacaoAmador
-     * const ParticipacaoAmador = await prisma.participacaoAmador.delete({
+     * // Delete one Participacao
+     * const Participacao = await prisma.participacao.delete({
      *   where: {
-     *     // ... filter to delete one ParticipacaoAmador
+     *     // ... filter to delete one Participacao
      *   }
      * })
      * 
      */
-    delete<T extends ParticipacaoAmadorDeleteArgs>(args: SelectSubset<T, ParticipacaoAmadorDeleteArgs<ExtArgs>>): Prisma__ParticipacaoAmadorClient<$Result.GetResult<Prisma.$ParticipacaoAmadorPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends ParticipacaoDeleteArgs>(args: SelectSubset<T, ParticipacaoDeleteArgs<ExtArgs>>): Prisma__ParticipacaoClient<$Result.GetResult<Prisma.$ParticipacaoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one ParticipacaoAmador.
-     * @param {ParticipacaoAmadorUpdateArgs} args - Arguments to update one ParticipacaoAmador.
+     * Update one Participacao.
+     * @param {ParticipacaoUpdateArgs} args - Arguments to update one Participacao.
      * @example
-     * // Update one ParticipacaoAmador
-     * const participacaoAmador = await prisma.participacaoAmador.update({
+     * // Update one Participacao
+     * const participacao = await prisma.participacao.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6943,30 +5507,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends ParticipacaoAmadorUpdateArgs>(args: SelectSubset<T, ParticipacaoAmadorUpdateArgs<ExtArgs>>): Prisma__ParticipacaoAmadorClient<$Result.GetResult<Prisma.$ParticipacaoAmadorPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends ParticipacaoUpdateArgs>(args: SelectSubset<T, ParticipacaoUpdateArgs<ExtArgs>>): Prisma__ParticipacaoClient<$Result.GetResult<Prisma.$ParticipacaoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more ParticipacaoAmadors.
-     * @param {ParticipacaoAmadorDeleteManyArgs} args - Arguments to filter ParticipacaoAmadors to delete.
+     * Delete zero or more Participacaos.
+     * @param {ParticipacaoDeleteManyArgs} args - Arguments to filter Participacaos to delete.
      * @example
-     * // Delete a few ParticipacaoAmadors
-     * const { count } = await prisma.participacaoAmador.deleteMany({
+     * // Delete a few Participacaos
+     * const { count } = await prisma.participacao.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends ParticipacaoAmadorDeleteManyArgs>(args?: SelectSubset<T, ParticipacaoAmadorDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends ParticipacaoDeleteManyArgs>(args?: SelectSubset<T, ParticipacaoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more ParticipacaoAmadors.
+     * Update zero or more Participacaos.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ParticipacaoAmadorUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {ParticipacaoUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many ParticipacaoAmadors
-     * const participacaoAmador = await prisma.participacaoAmador.updateMany({
+     * // Update many Participacaos
+     * const participacao = await prisma.participacao.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6976,14 +5540,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends ParticipacaoAmadorUpdateManyArgs>(args: SelectSubset<T, ParticipacaoAmadorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends ParticipacaoUpdateManyArgs>(args: SelectSubset<T, ParticipacaoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more ParticipacaoAmadors and returns the data updated in the database.
-     * @param {ParticipacaoAmadorUpdateManyAndReturnArgs} args - Arguments to update many ParticipacaoAmadors.
+     * Update zero or more Participacaos and returns the data updated in the database.
+     * @param {ParticipacaoUpdateManyAndReturnArgs} args - Arguments to update many Participacaos.
      * @example
-     * // Update many ParticipacaoAmadors
-     * const participacaoAmador = await prisma.participacaoAmador.updateManyAndReturn({
+     * // Update many Participacaos
+     * const participacao = await prisma.participacao.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6992,8 +5556,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more ParticipacaoAmadors and only return the `id`
-     * const participacaoAmadorWithIdOnly = await prisma.participacaoAmador.updateManyAndReturn({
+     * // Update zero or more Participacaos and only return the `id`
+     * const participacaoWithIdOnly = await prisma.participacao.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -7006,56 +5570,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends ParticipacaoAmadorUpdateManyAndReturnArgs>(args: SelectSubset<T, ParticipacaoAmadorUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipacaoAmadorPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends ParticipacaoUpdateManyAndReturnArgs>(args: SelectSubset<T, ParticipacaoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipacaoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one ParticipacaoAmador.
-     * @param {ParticipacaoAmadorUpsertArgs} args - Arguments to update or create a ParticipacaoAmador.
+     * Create or update one Participacao.
+     * @param {ParticipacaoUpsertArgs} args - Arguments to update or create a Participacao.
      * @example
-     * // Update or create a ParticipacaoAmador
-     * const participacaoAmador = await prisma.participacaoAmador.upsert({
+     * // Update or create a Participacao
+     * const participacao = await prisma.participacao.upsert({
      *   create: {
-     *     // ... data to create a ParticipacaoAmador
+     *     // ... data to create a Participacao
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the ParticipacaoAmador we want to update
+     *     // ... the filter for the Participacao we want to update
      *   }
      * })
      */
-    upsert<T extends ParticipacaoAmadorUpsertArgs>(args: SelectSubset<T, ParticipacaoAmadorUpsertArgs<ExtArgs>>): Prisma__ParticipacaoAmadorClient<$Result.GetResult<Prisma.$ParticipacaoAmadorPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends ParticipacaoUpsertArgs>(args: SelectSubset<T, ParticipacaoUpsertArgs<ExtArgs>>): Prisma__ParticipacaoClient<$Result.GetResult<Prisma.$ParticipacaoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of ParticipacaoAmadors.
+     * Count the number of Participacaos.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ParticipacaoAmadorCountArgs} args - Arguments to filter ParticipacaoAmadors to count.
+     * @param {ParticipacaoCountArgs} args - Arguments to filter Participacaos to count.
      * @example
-     * // Count the number of ParticipacaoAmadors
-     * const count = await prisma.participacaoAmador.count({
+     * // Count the number of Participacaos
+     * const count = await prisma.participacao.count({
      *   where: {
-     *     // ... the filter for the ParticipacaoAmadors we want to count
+     *     // ... the filter for the Participacaos we want to count
      *   }
      * })
     **/
-    count<T extends ParticipacaoAmadorCountArgs>(
-      args?: Subset<T, ParticipacaoAmadorCountArgs>,
+    count<T extends ParticipacaoCountArgs>(
+      args?: Subset<T, ParticipacaoCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], ParticipacaoAmadorCountAggregateOutputType>
+          : GetScalarType<T['select'], ParticipacaoCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a ParticipacaoAmador.
+     * Allows you to perform aggregations operations on a Participacao.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ParticipacaoAmadorAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {ParticipacaoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -7075,13 +5639,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends ParticipacaoAmadorAggregateArgs>(args: Subset<T, ParticipacaoAmadorAggregateArgs>): Prisma.PrismaPromise<GetParticipacaoAmadorAggregateType<T>>
+    aggregate<T extends ParticipacaoAggregateArgs>(args: Subset<T, ParticipacaoAggregateArgs>): Prisma.PrismaPromise<GetParticipacaoAggregateType<T>>
 
     /**
-     * Group by ParticipacaoAmador.
+     * Group by Participacao.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ParticipacaoAmadorGroupByArgs} args - Group by arguments.
+     * @param {ParticipacaoGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -7096,14 +5660,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends ParticipacaoAmadorGroupByArgs,
+      T extends ParticipacaoGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ParticipacaoAmadorGroupByArgs['orderBy'] }
-        : { orderBy?: ParticipacaoAmadorGroupByArgs['orderBy'] },
+        ? { orderBy: ParticipacaoGroupByArgs['orderBy'] }
+        : { orderBy?: ParticipacaoGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -7152,20 +5716,20 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, ParticipacaoAmadorGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetParticipacaoAmadorGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, ParticipacaoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetParticipacaoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the ParticipacaoAmador model
+   * Fields of the Participacao model
    */
-  readonly fields: ParticipacaoAmadorFieldRefs;
+  readonly fields: ParticipacaoFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for ParticipacaoAmador.
+   * The delegate class that acts as a "Promise-like" for Participacao.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__ParticipacaoAmadorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__ParticipacaoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     atleta<T extends AtletaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AtletaDefaultArgs<ExtArgs>>): Prisma__AtletaClient<$Result.GetResult<Prisma.$AtletaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     torneio<T extends TorneioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TorneioDefaultArgs<ExtArgs>>): Prisma__TorneioClient<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
@@ -7195,1990 +5759,821 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the ParticipacaoAmador model
+   * Fields of the Participacao model
    */
-  interface ParticipacaoAmadorFieldRefs {
-    readonly id: FieldRef<"ParticipacaoAmador", 'Int'>
-    readonly atletaId: FieldRef<"ParticipacaoAmador", 'Int'>
-    readonly torneioId: FieldRef<"ParticipacaoAmador", 'Int'>
-    readonly criadoEm: FieldRef<"ParticipacaoAmador", 'DateTime'>
+  interface ParticipacaoFieldRefs {
+    readonly id: FieldRef<"Participacao", 'Int'>
+    readonly atletaId: FieldRef<"Participacao", 'Int'>
+    readonly torneioId: FieldRef<"Participacao", 'Int'>
+    readonly criadoEm: FieldRef<"Participacao", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * ParticipacaoAmador findUnique
+   * Participacao findUnique
    */
-  export type ParticipacaoAmadorFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ParticipacaoAmador
+     * Select specific fields to fetch from the Participacao
      */
-    select?: ParticipacaoAmadorSelect<ExtArgs> | null
+    select?: ParticipacaoSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ParticipacaoAmador
+     * Omit specific fields from the Participacao
      */
-    omit?: ParticipacaoAmadorOmit<ExtArgs> | null
+    omit?: ParticipacaoOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ParticipacaoAmadorInclude<ExtArgs> | null
+    include?: ParticipacaoInclude<ExtArgs> | null
     /**
-     * Filter, which ParticipacaoAmador to fetch.
+     * Filter, which Participacao to fetch.
      */
-    where: ParticipacaoAmadorWhereUniqueInput
+    where: ParticipacaoWhereUniqueInput
   }
 
   /**
-   * ParticipacaoAmador findUniqueOrThrow
+   * Participacao findUniqueOrThrow
    */
-  export type ParticipacaoAmadorFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ParticipacaoAmador
+     * Select specific fields to fetch from the Participacao
      */
-    select?: ParticipacaoAmadorSelect<ExtArgs> | null
+    select?: ParticipacaoSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ParticipacaoAmador
+     * Omit specific fields from the Participacao
      */
-    omit?: ParticipacaoAmadorOmit<ExtArgs> | null
+    omit?: ParticipacaoOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ParticipacaoAmadorInclude<ExtArgs> | null
+    include?: ParticipacaoInclude<ExtArgs> | null
     /**
-     * Filter, which ParticipacaoAmador to fetch.
+     * Filter, which Participacao to fetch.
      */
-    where: ParticipacaoAmadorWhereUniqueInput
+    where: ParticipacaoWhereUniqueInput
   }
 
   /**
-   * ParticipacaoAmador findFirst
+   * Participacao findFirst
    */
-  export type ParticipacaoAmadorFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ParticipacaoAmador
+     * Select specific fields to fetch from the Participacao
      */
-    select?: ParticipacaoAmadorSelect<ExtArgs> | null
+    select?: ParticipacaoSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ParticipacaoAmador
+     * Omit specific fields from the Participacao
      */
-    omit?: ParticipacaoAmadorOmit<ExtArgs> | null
+    omit?: ParticipacaoOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ParticipacaoAmadorInclude<ExtArgs> | null
+    include?: ParticipacaoInclude<ExtArgs> | null
     /**
-     * Filter, which ParticipacaoAmador to fetch.
+     * Filter, which Participacao to fetch.
      */
-    where?: ParticipacaoAmadorWhereInput
+    where?: ParticipacaoWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ParticipacaoAmadors to fetch.
+     * Determine the order of Participacaos to fetch.
      */
-    orderBy?: ParticipacaoAmadorOrderByWithRelationInput | ParticipacaoAmadorOrderByWithRelationInput[]
+    orderBy?: ParticipacaoOrderByWithRelationInput | ParticipacaoOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for ParticipacaoAmadors.
+     * Sets the position for searching for Participacaos.
      */
-    cursor?: ParticipacaoAmadorWhereUniqueInput
+    cursor?: ParticipacaoWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ParticipacaoAmadors from the position of the cursor.
+     * Take `±n` Participacaos from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ParticipacaoAmadors.
+     * Skip the first `n` Participacaos.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of ParticipacaoAmadors.
+     * Filter by unique combinations of Participacaos.
      */
-    distinct?: ParticipacaoAmadorScalarFieldEnum | ParticipacaoAmadorScalarFieldEnum[]
+    distinct?: ParticipacaoScalarFieldEnum | ParticipacaoScalarFieldEnum[]
   }
 
   /**
-   * ParticipacaoAmador findFirstOrThrow
+   * Participacao findFirstOrThrow
    */
-  export type ParticipacaoAmadorFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ParticipacaoAmador
+     * Select specific fields to fetch from the Participacao
      */
-    select?: ParticipacaoAmadorSelect<ExtArgs> | null
+    select?: ParticipacaoSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ParticipacaoAmador
+     * Omit specific fields from the Participacao
      */
-    omit?: ParticipacaoAmadorOmit<ExtArgs> | null
+    omit?: ParticipacaoOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ParticipacaoAmadorInclude<ExtArgs> | null
+    include?: ParticipacaoInclude<ExtArgs> | null
     /**
-     * Filter, which ParticipacaoAmador to fetch.
+     * Filter, which Participacao to fetch.
      */
-    where?: ParticipacaoAmadorWhereInput
+    where?: ParticipacaoWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ParticipacaoAmadors to fetch.
+     * Determine the order of Participacaos to fetch.
      */
-    orderBy?: ParticipacaoAmadorOrderByWithRelationInput | ParticipacaoAmadorOrderByWithRelationInput[]
+    orderBy?: ParticipacaoOrderByWithRelationInput | ParticipacaoOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for ParticipacaoAmadors.
+     * Sets the position for searching for Participacaos.
      */
-    cursor?: ParticipacaoAmadorWhereUniqueInput
+    cursor?: ParticipacaoWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ParticipacaoAmadors from the position of the cursor.
+     * Take `±n` Participacaos from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ParticipacaoAmadors.
+     * Skip the first `n` Participacaos.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of ParticipacaoAmadors.
+     * Filter by unique combinations of Participacaos.
      */
-    distinct?: ParticipacaoAmadorScalarFieldEnum | ParticipacaoAmadorScalarFieldEnum[]
+    distinct?: ParticipacaoScalarFieldEnum | ParticipacaoScalarFieldEnum[]
   }
 
   /**
-   * ParticipacaoAmador findMany
+   * Participacao findMany
    */
-  export type ParticipacaoAmadorFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ParticipacaoAmador
+     * Select specific fields to fetch from the Participacao
      */
-    select?: ParticipacaoAmadorSelect<ExtArgs> | null
+    select?: ParticipacaoSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ParticipacaoAmador
+     * Omit specific fields from the Participacao
      */
-    omit?: ParticipacaoAmadorOmit<ExtArgs> | null
+    omit?: ParticipacaoOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ParticipacaoAmadorInclude<ExtArgs> | null
+    include?: ParticipacaoInclude<ExtArgs> | null
     /**
-     * Filter, which ParticipacaoAmadors to fetch.
+     * Filter, which Participacaos to fetch.
      */
-    where?: ParticipacaoAmadorWhereInput
+    where?: ParticipacaoWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ParticipacaoAmadors to fetch.
+     * Determine the order of Participacaos to fetch.
      */
-    orderBy?: ParticipacaoAmadorOrderByWithRelationInput | ParticipacaoAmadorOrderByWithRelationInput[]
+    orderBy?: ParticipacaoOrderByWithRelationInput | ParticipacaoOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing ParticipacaoAmadors.
+     * Sets the position for listing Participacaos.
      */
-    cursor?: ParticipacaoAmadorWhereUniqueInput
+    cursor?: ParticipacaoWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ParticipacaoAmadors from the position of the cursor.
+     * Take `±n` Participacaos from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ParticipacaoAmadors.
+     * Skip the first `n` Participacaos.
      */
     skip?: number
-    distinct?: ParticipacaoAmadorScalarFieldEnum | ParticipacaoAmadorScalarFieldEnum[]
+    distinct?: ParticipacaoScalarFieldEnum | ParticipacaoScalarFieldEnum[]
   }
 
   /**
-   * ParticipacaoAmador create
+   * Participacao create
    */
-  export type ParticipacaoAmadorCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ParticipacaoAmador
+     * Select specific fields to fetch from the Participacao
      */
-    select?: ParticipacaoAmadorSelect<ExtArgs> | null
+    select?: ParticipacaoSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ParticipacaoAmador
+     * Omit specific fields from the Participacao
      */
-    omit?: ParticipacaoAmadorOmit<ExtArgs> | null
+    omit?: ParticipacaoOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ParticipacaoAmadorInclude<ExtArgs> | null
+    include?: ParticipacaoInclude<ExtArgs> | null
     /**
-     * The data needed to create a ParticipacaoAmador.
+     * The data needed to create a Participacao.
      */
-    data: XOR<ParticipacaoAmadorCreateInput, ParticipacaoAmadorUncheckedCreateInput>
+    data: XOR<ParticipacaoCreateInput, ParticipacaoUncheckedCreateInput>
   }
 
   /**
-   * ParticipacaoAmador createMany
+   * Participacao createMany
    */
-  export type ParticipacaoAmadorCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many ParticipacaoAmadors.
+     * The data used to create many Participacaos.
      */
-    data: ParticipacaoAmadorCreateManyInput | ParticipacaoAmadorCreateManyInput[]
+    data: ParticipacaoCreateManyInput | ParticipacaoCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * ParticipacaoAmador createManyAndReturn
+   * Participacao createManyAndReturn
    */
-  export type ParticipacaoAmadorCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ParticipacaoAmador
+     * Select specific fields to fetch from the Participacao
      */
-    select?: ParticipacaoAmadorSelectCreateManyAndReturn<ExtArgs> | null
+    select?: ParticipacaoSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the ParticipacaoAmador
+     * Omit specific fields from the Participacao
      */
-    omit?: ParticipacaoAmadorOmit<ExtArgs> | null
+    omit?: ParticipacaoOmit<ExtArgs> | null
     /**
-     * The data used to create many ParticipacaoAmadors.
+     * The data used to create many Participacaos.
      */
-    data: ParticipacaoAmadorCreateManyInput | ParticipacaoAmadorCreateManyInput[]
+    data: ParticipacaoCreateManyInput | ParticipacaoCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ParticipacaoAmadorIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: ParticipacaoIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * ParticipacaoAmador update
+   * Participacao update
    */
-  export type ParticipacaoAmadorUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ParticipacaoAmador
+     * Select specific fields to fetch from the Participacao
      */
-    select?: ParticipacaoAmadorSelect<ExtArgs> | null
+    select?: ParticipacaoSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ParticipacaoAmador
+     * Omit specific fields from the Participacao
      */
-    omit?: ParticipacaoAmadorOmit<ExtArgs> | null
+    omit?: ParticipacaoOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ParticipacaoAmadorInclude<ExtArgs> | null
+    include?: ParticipacaoInclude<ExtArgs> | null
     /**
-     * The data needed to update a ParticipacaoAmador.
+     * The data needed to update a Participacao.
      */
-    data: XOR<ParticipacaoAmadorUpdateInput, ParticipacaoAmadorUncheckedUpdateInput>
+    data: XOR<ParticipacaoUpdateInput, ParticipacaoUncheckedUpdateInput>
     /**
-     * Choose, which ParticipacaoAmador to update.
+     * Choose, which Participacao to update.
      */
-    where: ParticipacaoAmadorWhereUniqueInput
+    where: ParticipacaoWhereUniqueInput
   }
 
   /**
-   * ParticipacaoAmador updateMany
+   * Participacao updateMany
    */
-  export type ParticipacaoAmadorUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update ParticipacaoAmadors.
+     * The data used to update Participacaos.
      */
-    data: XOR<ParticipacaoAmadorUpdateManyMutationInput, ParticipacaoAmadorUncheckedUpdateManyInput>
+    data: XOR<ParticipacaoUpdateManyMutationInput, ParticipacaoUncheckedUpdateManyInput>
     /**
-     * Filter which ParticipacaoAmadors to update
+     * Filter which Participacaos to update
      */
-    where?: ParticipacaoAmadorWhereInput
+    where?: ParticipacaoWhereInput
     /**
-     * Limit how many ParticipacaoAmadors to update.
+     * Limit how many Participacaos to update.
      */
     limit?: number
   }
 
   /**
-   * ParticipacaoAmador updateManyAndReturn
+   * Participacao updateManyAndReturn
    */
-  export type ParticipacaoAmadorUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ParticipacaoAmador
+     * Select specific fields to fetch from the Participacao
      */
-    select?: ParticipacaoAmadorSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: ParticipacaoSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the ParticipacaoAmador
+     * Omit specific fields from the Participacao
      */
-    omit?: ParticipacaoAmadorOmit<ExtArgs> | null
+    omit?: ParticipacaoOmit<ExtArgs> | null
     /**
-     * The data used to update ParticipacaoAmadors.
+     * The data used to update Participacaos.
      */
-    data: XOR<ParticipacaoAmadorUpdateManyMutationInput, ParticipacaoAmadorUncheckedUpdateManyInput>
+    data: XOR<ParticipacaoUpdateManyMutationInput, ParticipacaoUncheckedUpdateManyInput>
     /**
-     * Filter which ParticipacaoAmadors to update
+     * Filter which Participacaos to update
      */
-    where?: ParticipacaoAmadorWhereInput
+    where?: ParticipacaoWhereInput
     /**
-     * Limit how many ParticipacaoAmadors to update.
+     * Limit how many Participacaos to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ParticipacaoAmadorIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: ParticipacaoIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * ParticipacaoAmador upsert
+   * Participacao upsert
    */
-  export type ParticipacaoAmadorUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ParticipacaoAmador
+     * Select specific fields to fetch from the Participacao
      */
-    select?: ParticipacaoAmadorSelect<ExtArgs> | null
+    select?: ParticipacaoSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ParticipacaoAmador
+     * Omit specific fields from the Participacao
      */
-    omit?: ParticipacaoAmadorOmit<ExtArgs> | null
+    omit?: ParticipacaoOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ParticipacaoAmadorInclude<ExtArgs> | null
+    include?: ParticipacaoInclude<ExtArgs> | null
     /**
-     * The filter to search for the ParticipacaoAmador to update in case it exists.
+     * The filter to search for the Participacao to update in case it exists.
      */
-    where: ParticipacaoAmadorWhereUniqueInput
+    where: ParticipacaoWhereUniqueInput
     /**
-     * In case the ParticipacaoAmador found by the `where` argument doesn't exist, create a new ParticipacaoAmador with this data.
+     * In case the Participacao found by the `where` argument doesn't exist, create a new Participacao with this data.
      */
-    create: XOR<ParticipacaoAmadorCreateInput, ParticipacaoAmadorUncheckedCreateInput>
+    create: XOR<ParticipacaoCreateInput, ParticipacaoUncheckedCreateInput>
     /**
-     * In case the ParticipacaoAmador was found with the provided `where` argument, update it with this data.
+     * In case the Participacao was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<ParticipacaoAmadorUpdateInput, ParticipacaoAmadorUncheckedUpdateInput>
+    update: XOR<ParticipacaoUpdateInput, ParticipacaoUncheckedUpdateInput>
   }
 
   /**
-   * ParticipacaoAmador delete
+   * Participacao delete
    */
-  export type ParticipacaoAmadorDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ParticipacaoAmador
+     * Select specific fields to fetch from the Participacao
      */
-    select?: ParticipacaoAmadorSelect<ExtArgs> | null
+    select?: ParticipacaoSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ParticipacaoAmador
+     * Omit specific fields from the Participacao
      */
-    omit?: ParticipacaoAmadorOmit<ExtArgs> | null
+    omit?: ParticipacaoOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ParticipacaoAmadorInclude<ExtArgs> | null
+    include?: ParticipacaoInclude<ExtArgs> | null
     /**
-     * Filter which ParticipacaoAmador to delete.
+     * Filter which Participacao to delete.
      */
-    where: ParticipacaoAmadorWhereUniqueInput
+    where: ParticipacaoWhereUniqueInput
   }
 
   /**
-   * ParticipacaoAmador deleteMany
+   * Participacao deleteMany
    */
-  export type ParticipacaoAmadorDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which ParticipacaoAmadors to delete
+     * Filter which Participacaos to delete
      */
-    where?: ParticipacaoAmadorWhereInput
+    where?: ParticipacaoWhereInput
     /**
-     * Limit how many ParticipacaoAmadors to delete.
+     * Limit how many Participacaos to delete.
      */
     limit?: number
   }
 
   /**
-   * ParticipacaoAmador without action
+   * Participacao without action
    */
-  export type ParticipacaoAmadorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ParticipacaoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ParticipacaoAmador
+     * Select specific fields to fetch from the Participacao
      */
-    select?: ParticipacaoAmadorSelect<ExtArgs> | null
+    select?: ParticipacaoSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ParticipacaoAmador
+     * Omit specific fields from the Participacao
      */
-    omit?: ParticipacaoAmadorOmit<ExtArgs> | null
+    omit?: ParticipacaoOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ParticipacaoAmadorInclude<ExtArgs> | null
+    include?: ParticipacaoInclude<ExtArgs> | null
   }
 
 
   /**
-   * Model EquipeAmador
+   * Model Equipe
    */
 
-  export type AggregateEquipeAmador = {
-    _count: EquipeAmadorCountAggregateOutputType | null
-    _avg: EquipeAmadorAvgAggregateOutputType | null
-    _sum: EquipeAmadorSumAggregateOutputType | null
-    _min: EquipeAmadorMinAggregateOutputType | null
-    _max: EquipeAmadorMaxAggregateOutputType | null
+  export type AggregateEquipe = {
+    _count: EquipeCountAggregateOutputType | null
+    _avg: EquipeAvgAggregateOutputType | null
+    _sum: EquipeSumAggregateOutputType | null
+    _min: EquipeMinAggregateOutputType | null
+    _max: EquipeMaxAggregateOutputType | null
   }
 
-  export type EquipeAmadorAvgAggregateOutputType = {
+  export type EquipeAvgAggregateOutputType = {
     id: number | null
     torneioId: number | null
   }
 
-  export type EquipeAmadorSumAggregateOutputType = {
+  export type EquipeSumAggregateOutputType = {
     id: number | null
     torneioId: number | null
   }
 
-  export type EquipeAmadorMinAggregateOutputType = {
+  export type EquipeMinAggregateOutputType = {
     id: number | null
     nome: string | null
-    tipo: string | null
+    tipo: $Enums.TipoEquipe | null
     torneioId: number | null
+    createdAt: Date | null
   }
 
-  export type EquipeAmadorMaxAggregateOutputType = {
+  export type EquipeMaxAggregateOutputType = {
     id: number | null
     nome: string | null
-    tipo: string | null
+    tipo: $Enums.TipoEquipe | null
     torneioId: number | null
+    createdAt: Date | null
   }
 
-  export type EquipeAmadorCountAggregateOutputType = {
+  export type EquipeCountAggregateOutputType = {
     id: number
     nome: number
     tipo: number
     torneioId: number
+    createdAt: number
     _all: number
   }
 
 
-  export type EquipeAmadorAvgAggregateInputType = {
+  export type EquipeAvgAggregateInputType = {
     id?: true
     torneioId?: true
   }
 
-  export type EquipeAmadorSumAggregateInputType = {
+  export type EquipeSumAggregateInputType = {
     id?: true
     torneioId?: true
   }
 
-  export type EquipeAmadorMinAggregateInputType = {
+  export type EquipeMinAggregateInputType = {
     id?: true
     nome?: true
     tipo?: true
     torneioId?: true
+    createdAt?: true
   }
 
-  export type EquipeAmadorMaxAggregateInputType = {
+  export type EquipeMaxAggregateInputType = {
     id?: true
     nome?: true
     tipo?: true
     torneioId?: true
+    createdAt?: true
   }
 
-  export type EquipeAmadorCountAggregateInputType = {
+  export type EquipeCountAggregateInputType = {
     id?: true
     nome?: true
     tipo?: true
     torneioId?: true
+    createdAt?: true
     _all?: true
   }
 
-  export type EquipeAmadorAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which EquipeAmador to aggregate.
+     * Filter which Equipe to aggregate.
      */
-    where?: EquipeAmadorWhereInput
+    where?: EquipeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of EquipeAmadors to fetch.
+     * Determine the order of Equipes to fetch.
      */
-    orderBy?: EquipeAmadorOrderByWithRelationInput | EquipeAmadorOrderByWithRelationInput[]
+    orderBy?: EquipeOrderByWithRelationInput | EquipeOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: EquipeAmadorWhereUniqueInput
+    cursor?: EquipeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` EquipeAmadors from the position of the cursor.
+     * Take `±n` Equipes from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` EquipeAmadors.
+     * Skip the first `n` Equipes.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned EquipeAmadors
+     * Count returned Equipes
     **/
-    _count?: true | EquipeAmadorCountAggregateInputType
+    _count?: true | EquipeCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: EquipeAmadorAvgAggregateInputType
+    _avg?: EquipeAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: EquipeAmadorSumAggregateInputType
+    _sum?: EquipeSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: EquipeAmadorMinAggregateInputType
+    _min?: EquipeMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: EquipeAmadorMaxAggregateInputType
+    _max?: EquipeMaxAggregateInputType
   }
 
-  export type GetEquipeAmadorAggregateType<T extends EquipeAmadorAggregateArgs> = {
-        [P in keyof T & keyof AggregateEquipeAmador]: P extends '_count' | 'count'
+  export type GetEquipeAggregateType<T extends EquipeAggregateArgs> = {
+        [P in keyof T & keyof AggregateEquipe]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateEquipeAmador[P]>
-      : GetScalarType<T[P], AggregateEquipeAmador[P]>
+        : GetScalarType<T[P], AggregateEquipe[P]>
+      : GetScalarType<T[P], AggregateEquipe[P]>
   }
 
 
 
 
-  export type EquipeAmadorGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: EquipeAmadorWhereInput
-    orderBy?: EquipeAmadorOrderByWithAggregationInput | EquipeAmadorOrderByWithAggregationInput[]
-    by: EquipeAmadorScalarFieldEnum[] | EquipeAmadorScalarFieldEnum
-    having?: EquipeAmadorScalarWhereWithAggregatesInput
+  export type EquipeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EquipeWhereInput
+    orderBy?: EquipeOrderByWithAggregationInput | EquipeOrderByWithAggregationInput[]
+    by: EquipeScalarFieldEnum[] | EquipeScalarFieldEnum
+    having?: EquipeScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: EquipeAmadorCountAggregateInputType | true
-    _avg?: EquipeAmadorAvgAggregateInputType
-    _sum?: EquipeAmadorSumAggregateInputType
-    _min?: EquipeAmadorMinAggregateInputType
-    _max?: EquipeAmadorMaxAggregateInputType
+    _count?: EquipeCountAggregateInputType | true
+    _avg?: EquipeAvgAggregateInputType
+    _sum?: EquipeSumAggregateInputType
+    _min?: EquipeMinAggregateInputType
+    _max?: EquipeMaxAggregateInputType
   }
 
-  export type EquipeAmadorGroupByOutputType = {
+  export type EquipeGroupByOutputType = {
     id: number
     nome: string
-    tipo: string
+    tipo: $Enums.TipoEquipe
     torneioId: number
-    _count: EquipeAmadorCountAggregateOutputType | null
-    _avg: EquipeAmadorAvgAggregateOutputType | null
-    _sum: EquipeAmadorSumAggregateOutputType | null
-    _min: EquipeAmadorMinAggregateOutputType | null
-    _max: EquipeAmadorMaxAggregateOutputType | null
+    createdAt: Date
+    _count: EquipeCountAggregateOutputType | null
+    _avg: EquipeAvgAggregateOutputType | null
+    _sum: EquipeSumAggregateOutputType | null
+    _min: EquipeMinAggregateOutputType | null
+    _max: EquipeMaxAggregateOutputType | null
   }
 
-  type GetEquipeAmadorGroupByPayload<T extends EquipeAmadorGroupByArgs> = Prisma.PrismaPromise<
+  type GetEquipeGroupByPayload<T extends EquipeGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<EquipeAmadorGroupByOutputType, T['by']> &
+      PickEnumerable<EquipeGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof EquipeAmadorGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof EquipeGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], EquipeAmadorGroupByOutputType[P]>
-            : GetScalarType<T[P], EquipeAmadorGroupByOutputType[P]>
+              : GetScalarType<T[P], EquipeGroupByOutputType[P]>
+            : GetScalarType<T[P], EquipeGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type EquipeAmadorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type EquipeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nome?: boolean
     tipo?: boolean
     torneioId?: boolean
+    createdAt?: boolean
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-    membros?: boolean | EquipeAmador$membrosArgs<ExtArgs>
-    partidasComoEquipe1?: boolean | EquipeAmador$partidasComoEquipe1Args<ExtArgs>
-    partidasComoEquipe2?: boolean | EquipeAmador$partidasComoEquipe2Args<ExtArgs>
-    _count?: boolean | EquipeAmadorCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["equipeAmador"]>
+    atletas?: boolean | Equipe$atletasArgs<ExtArgs>
+    partidasComoEquipe1?: boolean | Equipe$partidasComoEquipe1Args<ExtArgs>
+    partidasComoEquipe2?: boolean | Equipe$partidasComoEquipe2Args<ExtArgs>
+    _count?: boolean | EquipeCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["equipe"]>
 
-  export type EquipeAmadorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type EquipeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nome?: boolean
     tipo?: boolean
     torneioId?: boolean
+    createdAt?: boolean
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["equipeAmador"]>
+  }, ExtArgs["result"]["equipe"]>
 
-  export type EquipeAmadorSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type EquipeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     nome?: boolean
     tipo?: boolean
     torneioId?: boolean
+    createdAt?: boolean
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["equipeAmador"]>
+  }, ExtArgs["result"]["equipe"]>
 
-  export type EquipeAmadorSelectScalar = {
+  export type EquipeSelectScalar = {
     id?: boolean
     nome?: boolean
     tipo?: boolean
     torneioId?: boolean
+    createdAt?: boolean
   }
 
-  export type EquipeAmadorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "tipo" | "torneioId", ExtArgs["result"]["equipeAmador"]>
-  export type EquipeAmadorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "tipo" | "torneioId" | "createdAt", ExtArgs["result"]["equipe"]>
+  export type EquipeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-    membros?: boolean | EquipeAmador$membrosArgs<ExtArgs>
-    partidasComoEquipe1?: boolean | EquipeAmador$partidasComoEquipe1Args<ExtArgs>
-    partidasComoEquipe2?: boolean | EquipeAmador$partidasComoEquipe2Args<ExtArgs>
-    _count?: boolean | EquipeAmadorCountOutputTypeDefaultArgs<ExtArgs>
+    atletas?: boolean | Equipe$atletasArgs<ExtArgs>
+    partidasComoEquipe1?: boolean | Equipe$partidasComoEquipe1Args<ExtArgs>
+    partidasComoEquipe2?: boolean | Equipe$partidasComoEquipe2Args<ExtArgs>
+    _count?: boolean | EquipeCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type EquipeAmadorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
   }
-  export type EquipeAmadorIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
   }
 
-  export type $EquipeAmadorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "EquipeAmador"
+  export type $EquipePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Equipe"
     objects: {
       torneio: Prisma.$TorneioPayload<ExtArgs>
-      membros: Prisma.$AtletaPayload<ExtArgs>[]
+      atletas: Prisma.$EquipeAtletaPayload<ExtArgs>[]
       partidasComoEquipe1: Prisma.$PartidaPayload<ExtArgs>[]
       partidasComoEquipe2: Prisma.$PartidaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       nome: string
-      tipo: string
+      tipo: $Enums.TipoEquipe
       torneioId: number
-    }, ExtArgs["result"]["equipeAmador"]>
-    composites: {}
-  }
-
-  type EquipeAmadorGetPayload<S extends boolean | null | undefined | EquipeAmadorDefaultArgs> = $Result.GetResult<Prisma.$EquipeAmadorPayload, S>
-
-  type EquipeAmadorCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<EquipeAmadorFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: EquipeAmadorCountAggregateInputType | true
-    }
-
-  export interface EquipeAmadorDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EquipeAmador'], meta: { name: 'EquipeAmador' } }
-    /**
-     * Find zero or one EquipeAmador that matches the filter.
-     * @param {EquipeAmadorFindUniqueArgs} args - Arguments to find a EquipeAmador
-     * @example
-     * // Get one EquipeAmador
-     * const equipeAmador = await prisma.equipeAmador.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends EquipeAmadorFindUniqueArgs>(args: SelectSubset<T, EquipeAmadorFindUniqueArgs<ExtArgs>>): Prisma__EquipeAmadorClient<$Result.GetResult<Prisma.$EquipeAmadorPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one EquipeAmador that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {EquipeAmadorFindUniqueOrThrowArgs} args - Arguments to find a EquipeAmador
-     * @example
-     * // Get one EquipeAmador
-     * const equipeAmador = await prisma.equipeAmador.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends EquipeAmadorFindUniqueOrThrowArgs>(args: SelectSubset<T, EquipeAmadorFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EquipeAmadorClient<$Result.GetResult<Prisma.$EquipeAmadorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first EquipeAmador that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EquipeAmadorFindFirstArgs} args - Arguments to find a EquipeAmador
-     * @example
-     * // Get one EquipeAmador
-     * const equipeAmador = await prisma.equipeAmador.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends EquipeAmadorFindFirstArgs>(args?: SelectSubset<T, EquipeAmadorFindFirstArgs<ExtArgs>>): Prisma__EquipeAmadorClient<$Result.GetResult<Prisma.$EquipeAmadorPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first EquipeAmador that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EquipeAmadorFindFirstOrThrowArgs} args - Arguments to find a EquipeAmador
-     * @example
-     * // Get one EquipeAmador
-     * const equipeAmador = await prisma.equipeAmador.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends EquipeAmadorFindFirstOrThrowArgs>(args?: SelectSubset<T, EquipeAmadorFindFirstOrThrowArgs<ExtArgs>>): Prisma__EquipeAmadorClient<$Result.GetResult<Prisma.$EquipeAmadorPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more EquipeAmadors that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EquipeAmadorFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all EquipeAmadors
-     * const equipeAmadors = await prisma.equipeAmador.findMany()
-     * 
-     * // Get first 10 EquipeAmadors
-     * const equipeAmadors = await prisma.equipeAmador.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const equipeAmadorWithIdOnly = await prisma.equipeAmador.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends EquipeAmadorFindManyArgs>(args?: SelectSubset<T, EquipeAmadorFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipeAmadorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a EquipeAmador.
-     * @param {EquipeAmadorCreateArgs} args - Arguments to create a EquipeAmador.
-     * @example
-     * // Create one EquipeAmador
-     * const EquipeAmador = await prisma.equipeAmador.create({
-     *   data: {
-     *     // ... data to create a EquipeAmador
-     *   }
-     * })
-     * 
-     */
-    create<T extends EquipeAmadorCreateArgs>(args: SelectSubset<T, EquipeAmadorCreateArgs<ExtArgs>>): Prisma__EquipeAmadorClient<$Result.GetResult<Prisma.$EquipeAmadorPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many EquipeAmadors.
-     * @param {EquipeAmadorCreateManyArgs} args - Arguments to create many EquipeAmadors.
-     * @example
-     * // Create many EquipeAmadors
-     * const equipeAmador = await prisma.equipeAmador.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends EquipeAmadorCreateManyArgs>(args?: SelectSubset<T, EquipeAmadorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many EquipeAmadors and returns the data saved in the database.
-     * @param {EquipeAmadorCreateManyAndReturnArgs} args - Arguments to create many EquipeAmadors.
-     * @example
-     * // Create many EquipeAmadors
-     * const equipeAmador = await prisma.equipeAmador.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many EquipeAmadors and only return the `id`
-     * const equipeAmadorWithIdOnly = await prisma.equipeAmador.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends EquipeAmadorCreateManyAndReturnArgs>(args?: SelectSubset<T, EquipeAmadorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipeAmadorPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a EquipeAmador.
-     * @param {EquipeAmadorDeleteArgs} args - Arguments to delete one EquipeAmador.
-     * @example
-     * // Delete one EquipeAmador
-     * const EquipeAmador = await prisma.equipeAmador.delete({
-     *   where: {
-     *     // ... filter to delete one EquipeAmador
-     *   }
-     * })
-     * 
-     */
-    delete<T extends EquipeAmadorDeleteArgs>(args: SelectSubset<T, EquipeAmadorDeleteArgs<ExtArgs>>): Prisma__EquipeAmadorClient<$Result.GetResult<Prisma.$EquipeAmadorPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one EquipeAmador.
-     * @param {EquipeAmadorUpdateArgs} args - Arguments to update one EquipeAmador.
-     * @example
-     * // Update one EquipeAmador
-     * const equipeAmador = await prisma.equipeAmador.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends EquipeAmadorUpdateArgs>(args: SelectSubset<T, EquipeAmadorUpdateArgs<ExtArgs>>): Prisma__EquipeAmadorClient<$Result.GetResult<Prisma.$EquipeAmadorPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more EquipeAmadors.
-     * @param {EquipeAmadorDeleteManyArgs} args - Arguments to filter EquipeAmadors to delete.
-     * @example
-     * // Delete a few EquipeAmadors
-     * const { count } = await prisma.equipeAmador.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends EquipeAmadorDeleteManyArgs>(args?: SelectSubset<T, EquipeAmadorDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more EquipeAmadors.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EquipeAmadorUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many EquipeAmadors
-     * const equipeAmador = await prisma.equipeAmador.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends EquipeAmadorUpdateManyArgs>(args: SelectSubset<T, EquipeAmadorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more EquipeAmadors and returns the data updated in the database.
-     * @param {EquipeAmadorUpdateManyAndReturnArgs} args - Arguments to update many EquipeAmadors.
-     * @example
-     * // Update many EquipeAmadors
-     * const equipeAmador = await prisma.equipeAmador.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more EquipeAmadors and only return the `id`
-     * const equipeAmadorWithIdOnly = await prisma.equipeAmador.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends EquipeAmadorUpdateManyAndReturnArgs>(args: SelectSubset<T, EquipeAmadorUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipeAmadorPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one EquipeAmador.
-     * @param {EquipeAmadorUpsertArgs} args - Arguments to update or create a EquipeAmador.
-     * @example
-     * // Update or create a EquipeAmador
-     * const equipeAmador = await prisma.equipeAmador.upsert({
-     *   create: {
-     *     // ... data to create a EquipeAmador
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the EquipeAmador we want to update
-     *   }
-     * })
-     */
-    upsert<T extends EquipeAmadorUpsertArgs>(args: SelectSubset<T, EquipeAmadorUpsertArgs<ExtArgs>>): Prisma__EquipeAmadorClient<$Result.GetResult<Prisma.$EquipeAmadorPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of EquipeAmadors.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EquipeAmadorCountArgs} args - Arguments to filter EquipeAmadors to count.
-     * @example
-     * // Count the number of EquipeAmadors
-     * const count = await prisma.equipeAmador.count({
-     *   where: {
-     *     // ... the filter for the EquipeAmadors we want to count
-     *   }
-     * })
-    **/
-    count<T extends EquipeAmadorCountArgs>(
-      args?: Subset<T, EquipeAmadorCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], EquipeAmadorCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a EquipeAmador.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EquipeAmadorAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends EquipeAmadorAggregateArgs>(args: Subset<T, EquipeAmadorAggregateArgs>): Prisma.PrismaPromise<GetEquipeAmadorAggregateType<T>>
-
-    /**
-     * Group by EquipeAmador.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {EquipeAmadorGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends EquipeAmadorGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: EquipeAmadorGroupByArgs['orderBy'] }
-        : { orderBy?: EquipeAmadorGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, EquipeAmadorGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEquipeAmadorGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the EquipeAmador model
-   */
-  readonly fields: EquipeAmadorFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for EquipeAmador.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__EquipeAmadorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    torneio<T extends TorneioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TorneioDefaultArgs<ExtArgs>>): Prisma__TorneioClient<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    membros<T extends EquipeAmador$membrosArgs<ExtArgs> = {}>(args?: Subset<T, EquipeAmador$membrosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AtletaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    partidasComoEquipe1<T extends EquipeAmador$partidasComoEquipe1Args<ExtArgs> = {}>(args?: Subset<T, EquipeAmador$partidasComoEquipe1Args<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartidaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    partidasComoEquipe2<T extends EquipeAmador$partidasComoEquipe2Args<ExtArgs> = {}>(args?: Subset<T, EquipeAmador$partidasComoEquipe2Args<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartidaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the EquipeAmador model
-   */
-  interface EquipeAmadorFieldRefs {
-    readonly id: FieldRef<"EquipeAmador", 'Int'>
-    readonly nome: FieldRef<"EquipeAmador", 'String'>
-    readonly tipo: FieldRef<"EquipeAmador", 'String'>
-    readonly torneioId: FieldRef<"EquipeAmador", 'Int'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * EquipeAmador findUnique
-   */
-  export type EquipeAmadorFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeAmador
-     */
-    select?: EquipeAmadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeAmador
-     */
-    omit?: EquipeAmadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeAmadorInclude<ExtArgs> | null
-    /**
-     * Filter, which EquipeAmador to fetch.
-     */
-    where: EquipeAmadorWhereUniqueInput
-  }
-
-  /**
-   * EquipeAmador findUniqueOrThrow
-   */
-  export type EquipeAmadorFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeAmador
-     */
-    select?: EquipeAmadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeAmador
-     */
-    omit?: EquipeAmadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeAmadorInclude<ExtArgs> | null
-    /**
-     * Filter, which EquipeAmador to fetch.
-     */
-    where: EquipeAmadorWhereUniqueInput
-  }
-
-  /**
-   * EquipeAmador findFirst
-   */
-  export type EquipeAmadorFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeAmador
-     */
-    select?: EquipeAmadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeAmador
-     */
-    omit?: EquipeAmadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeAmadorInclude<ExtArgs> | null
-    /**
-     * Filter, which EquipeAmador to fetch.
-     */
-    where?: EquipeAmadorWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of EquipeAmadors to fetch.
-     */
-    orderBy?: EquipeAmadorOrderByWithRelationInput | EquipeAmadorOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for EquipeAmadors.
-     */
-    cursor?: EquipeAmadorWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` EquipeAmadors from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` EquipeAmadors.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of EquipeAmadors.
-     */
-    distinct?: EquipeAmadorScalarFieldEnum | EquipeAmadorScalarFieldEnum[]
-  }
-
-  /**
-   * EquipeAmador findFirstOrThrow
-   */
-  export type EquipeAmadorFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeAmador
-     */
-    select?: EquipeAmadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeAmador
-     */
-    omit?: EquipeAmadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeAmadorInclude<ExtArgs> | null
-    /**
-     * Filter, which EquipeAmador to fetch.
-     */
-    where?: EquipeAmadorWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of EquipeAmadors to fetch.
-     */
-    orderBy?: EquipeAmadorOrderByWithRelationInput | EquipeAmadorOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for EquipeAmadors.
-     */
-    cursor?: EquipeAmadorWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` EquipeAmadors from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` EquipeAmadors.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of EquipeAmadors.
-     */
-    distinct?: EquipeAmadorScalarFieldEnum | EquipeAmadorScalarFieldEnum[]
-  }
-
-  /**
-   * EquipeAmador findMany
-   */
-  export type EquipeAmadorFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeAmador
-     */
-    select?: EquipeAmadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeAmador
-     */
-    omit?: EquipeAmadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeAmadorInclude<ExtArgs> | null
-    /**
-     * Filter, which EquipeAmadors to fetch.
-     */
-    where?: EquipeAmadorWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of EquipeAmadors to fetch.
-     */
-    orderBy?: EquipeAmadorOrderByWithRelationInput | EquipeAmadorOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing EquipeAmadors.
-     */
-    cursor?: EquipeAmadorWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` EquipeAmadors from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` EquipeAmadors.
-     */
-    skip?: number
-    distinct?: EquipeAmadorScalarFieldEnum | EquipeAmadorScalarFieldEnum[]
-  }
-
-  /**
-   * EquipeAmador create
-   */
-  export type EquipeAmadorCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeAmador
-     */
-    select?: EquipeAmadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeAmador
-     */
-    omit?: EquipeAmadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeAmadorInclude<ExtArgs> | null
-    /**
-     * The data needed to create a EquipeAmador.
-     */
-    data: XOR<EquipeAmadorCreateInput, EquipeAmadorUncheckedCreateInput>
-  }
-
-  /**
-   * EquipeAmador createMany
-   */
-  export type EquipeAmadorCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many EquipeAmadors.
-     */
-    data: EquipeAmadorCreateManyInput | EquipeAmadorCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * EquipeAmador createManyAndReturn
-   */
-  export type EquipeAmadorCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeAmador
-     */
-    select?: EquipeAmadorSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeAmador
-     */
-    omit?: EquipeAmadorOmit<ExtArgs> | null
-    /**
-     * The data used to create many EquipeAmadors.
-     */
-    data: EquipeAmadorCreateManyInput | EquipeAmadorCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeAmadorIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * EquipeAmador update
-   */
-  export type EquipeAmadorUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeAmador
-     */
-    select?: EquipeAmadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeAmador
-     */
-    omit?: EquipeAmadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeAmadorInclude<ExtArgs> | null
-    /**
-     * The data needed to update a EquipeAmador.
-     */
-    data: XOR<EquipeAmadorUpdateInput, EquipeAmadorUncheckedUpdateInput>
-    /**
-     * Choose, which EquipeAmador to update.
-     */
-    where: EquipeAmadorWhereUniqueInput
-  }
-
-  /**
-   * EquipeAmador updateMany
-   */
-  export type EquipeAmadorUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update EquipeAmadors.
-     */
-    data: XOR<EquipeAmadorUpdateManyMutationInput, EquipeAmadorUncheckedUpdateManyInput>
-    /**
-     * Filter which EquipeAmadors to update
-     */
-    where?: EquipeAmadorWhereInput
-    /**
-     * Limit how many EquipeAmadors to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * EquipeAmador updateManyAndReturn
-   */
-  export type EquipeAmadorUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeAmador
-     */
-    select?: EquipeAmadorSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeAmador
-     */
-    omit?: EquipeAmadorOmit<ExtArgs> | null
-    /**
-     * The data used to update EquipeAmadors.
-     */
-    data: XOR<EquipeAmadorUpdateManyMutationInput, EquipeAmadorUncheckedUpdateManyInput>
-    /**
-     * Filter which EquipeAmadors to update
-     */
-    where?: EquipeAmadorWhereInput
-    /**
-     * Limit how many EquipeAmadors to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeAmadorIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * EquipeAmador upsert
-   */
-  export type EquipeAmadorUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeAmador
-     */
-    select?: EquipeAmadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeAmador
-     */
-    omit?: EquipeAmadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeAmadorInclude<ExtArgs> | null
-    /**
-     * The filter to search for the EquipeAmador to update in case it exists.
-     */
-    where: EquipeAmadorWhereUniqueInput
-    /**
-     * In case the EquipeAmador found by the `where` argument doesn't exist, create a new EquipeAmador with this data.
-     */
-    create: XOR<EquipeAmadorCreateInput, EquipeAmadorUncheckedCreateInput>
-    /**
-     * In case the EquipeAmador was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<EquipeAmadorUpdateInput, EquipeAmadorUncheckedUpdateInput>
-  }
-
-  /**
-   * EquipeAmador delete
-   */
-  export type EquipeAmadorDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeAmador
-     */
-    select?: EquipeAmadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeAmador
-     */
-    omit?: EquipeAmadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeAmadorInclude<ExtArgs> | null
-    /**
-     * Filter which EquipeAmador to delete.
-     */
-    where: EquipeAmadorWhereUniqueInput
-  }
-
-  /**
-   * EquipeAmador deleteMany
-   */
-  export type EquipeAmadorDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which EquipeAmadors to delete
-     */
-    where?: EquipeAmadorWhereInput
-    /**
-     * Limit how many EquipeAmadors to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * EquipeAmador.membros
-   */
-  export type EquipeAmador$membrosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Atleta
-     */
-    select?: AtletaSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Atleta
-     */
-    omit?: AtletaOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AtletaInclude<ExtArgs> | null
-    where?: AtletaWhereInput
-    orderBy?: AtletaOrderByWithRelationInput | AtletaOrderByWithRelationInput[]
-    cursor?: AtletaWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AtletaScalarFieldEnum | AtletaScalarFieldEnum[]
-  }
-
-  /**
-   * EquipeAmador.partidasComoEquipe1
-   */
-  export type EquipeAmador$partidasComoEquipe1Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Partida
-     */
-    select?: PartidaSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Partida
-     */
-    omit?: PartidaOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PartidaInclude<ExtArgs> | null
-    where?: PartidaWhereInput
-    orderBy?: PartidaOrderByWithRelationInput | PartidaOrderByWithRelationInput[]
-    cursor?: PartidaWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PartidaScalarFieldEnum | PartidaScalarFieldEnum[]
-  }
-
-  /**
-   * EquipeAmador.partidasComoEquipe2
-   */
-  export type EquipeAmador$partidasComoEquipe2Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Partida
-     */
-    select?: PartidaSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Partida
-     */
-    omit?: PartidaOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PartidaInclude<ExtArgs> | null
-    where?: PartidaWhereInput
-    orderBy?: PartidaOrderByWithRelationInput | PartidaOrderByWithRelationInput[]
-    cursor?: PartidaWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PartidaScalarFieldEnum | PartidaScalarFieldEnum[]
-  }
-
-  /**
-   * EquipeAmador without action
-   */
-  export type EquipeAmadorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeAmador
-     */
-    select?: EquipeAmadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeAmador
-     */
-    omit?: EquipeAmadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeAmadorInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model EquipeOficial
-   */
-
-  export type AggregateEquipeOficial = {
-    _count: EquipeOficialCountAggregateOutputType | null
-    _avg: EquipeOficialAvgAggregateOutputType | null
-    _sum: EquipeOficialSumAggregateOutputType | null
-    _min: EquipeOficialMinAggregateOutputType | null
-    _max: EquipeOficialMaxAggregateOutputType | null
-  }
-
-  export type EquipeOficialAvgAggregateOutputType = {
-    id: number | null
-    torneioId: number | null
-  }
-
-  export type EquipeOficialSumAggregateOutputType = {
-    id: number | null
-    torneioId: number | null
-  }
-
-  export type EquipeOficialMinAggregateOutputType = {
-    id: number | null
-    nome: string | null
-    tipo: string | null
-    createdAt: Date | null
-    torneioId: number | null
-  }
-
-  export type EquipeOficialMaxAggregateOutputType = {
-    id: number | null
-    nome: string | null
-    tipo: string | null
-    createdAt: Date | null
-    torneioId: number | null
-  }
-
-  export type EquipeOficialCountAggregateOutputType = {
-    id: number
-    nome: number
-    tipo: number
-    createdAt: number
-    torneioId: number
-    _all: number
-  }
-
-
-  export type EquipeOficialAvgAggregateInputType = {
-    id?: true
-    torneioId?: true
-  }
-
-  export type EquipeOficialSumAggregateInputType = {
-    id?: true
-    torneioId?: true
-  }
-
-  export type EquipeOficialMinAggregateInputType = {
-    id?: true
-    nome?: true
-    tipo?: true
-    createdAt?: true
-    torneioId?: true
-  }
-
-  export type EquipeOficialMaxAggregateInputType = {
-    id?: true
-    nome?: true
-    tipo?: true
-    createdAt?: true
-    torneioId?: true
-  }
-
-  export type EquipeOficialCountAggregateInputType = {
-    id?: true
-    nome?: true
-    tipo?: true
-    createdAt?: true
-    torneioId?: true
-    _all?: true
-  }
-
-  export type EquipeOficialAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which EquipeOficial to aggregate.
-     */
-    where?: EquipeOficialWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of EquipeOficials to fetch.
-     */
-    orderBy?: EquipeOficialOrderByWithRelationInput | EquipeOficialOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: EquipeOficialWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` EquipeOficials from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` EquipeOficials.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned EquipeOficials
-    **/
-    _count?: true | EquipeOficialCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: EquipeOficialAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: EquipeOficialSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: EquipeOficialMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: EquipeOficialMaxAggregateInputType
-  }
-
-  export type GetEquipeOficialAggregateType<T extends EquipeOficialAggregateArgs> = {
-        [P in keyof T & keyof AggregateEquipeOficial]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateEquipeOficial[P]>
-      : GetScalarType<T[P], AggregateEquipeOficial[P]>
-  }
-
-
-
-
-  export type EquipeOficialGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: EquipeOficialWhereInput
-    orderBy?: EquipeOficialOrderByWithAggregationInput | EquipeOficialOrderByWithAggregationInput[]
-    by: EquipeOficialScalarFieldEnum[] | EquipeOficialScalarFieldEnum
-    having?: EquipeOficialScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: EquipeOficialCountAggregateInputType | true
-    _avg?: EquipeOficialAvgAggregateInputType
-    _sum?: EquipeOficialSumAggregateInputType
-    _min?: EquipeOficialMinAggregateInputType
-    _max?: EquipeOficialMaxAggregateInputType
-  }
-
-  export type EquipeOficialGroupByOutputType = {
-    id: number
-    nome: string
-    tipo: string
-    createdAt: Date
-    torneioId: number
-    _count: EquipeOficialCountAggregateOutputType | null
-    _avg: EquipeOficialAvgAggregateOutputType | null
-    _sum: EquipeOficialSumAggregateOutputType | null
-    _min: EquipeOficialMinAggregateOutputType | null
-    _max: EquipeOficialMaxAggregateOutputType | null
-  }
-
-  type GetEquipeOficialGroupByPayload<T extends EquipeOficialGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<EquipeOficialGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof EquipeOficialGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], EquipeOficialGroupByOutputType[P]>
-            : GetScalarType<T[P], EquipeOficialGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type EquipeOficialSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    nome?: boolean
-    tipo?: boolean
-    createdAt?: boolean
-    torneioId?: boolean
-    torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-    membros?: boolean | EquipeOficial$membrosArgs<ExtArgs>
-    partidasComoEquipeOficial1?: boolean | EquipeOficial$partidasComoEquipeOficial1Args<ExtArgs>
-    partidasComoEquipeOficial2?: boolean | EquipeOficial$partidasComoEquipeOficial2Args<ExtArgs>
-    _count?: boolean | EquipeOficialCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["equipeOficial"]>
-
-  export type EquipeOficialSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    nome?: boolean
-    tipo?: boolean
-    createdAt?: boolean
-    torneioId?: boolean
-    torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["equipeOficial"]>
-
-  export type EquipeOficialSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    nome?: boolean
-    tipo?: boolean
-    createdAt?: boolean
-    torneioId?: boolean
-    torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["equipeOficial"]>
-
-  export type EquipeOficialSelectScalar = {
-    id?: boolean
-    nome?: boolean
-    tipo?: boolean
-    createdAt?: boolean
-    torneioId?: boolean
-  }
-
-  export type EquipeOficialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "tipo" | "createdAt" | "torneioId", ExtArgs["result"]["equipeOficial"]>
-  export type EquipeOficialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-    membros?: boolean | EquipeOficial$membrosArgs<ExtArgs>
-    partidasComoEquipeOficial1?: boolean | EquipeOficial$partidasComoEquipeOficial1Args<ExtArgs>
-    partidasComoEquipeOficial2?: boolean | EquipeOficial$partidasComoEquipeOficial2Args<ExtArgs>
-    _count?: boolean | EquipeOficialCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type EquipeOficialIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-  }
-  export type EquipeOficialIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-  }
-
-  export type $EquipeOficialPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "EquipeOficial"
-    objects: {
-      torneio: Prisma.$TorneioPayload<ExtArgs>
-      membros: Prisma.$AtletaEquipeOficialPayload<ExtArgs>[]
-      partidasComoEquipeOficial1: Prisma.$PartidaPayload<ExtArgs>[]
-      partidasComoEquipeOficial2: Prisma.$PartidaPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      nome: string
-      tipo: string
       createdAt: Date
-      torneioId: number
-    }, ExtArgs["result"]["equipeOficial"]>
+    }, ExtArgs["result"]["equipe"]>
     composites: {}
   }
 
-  type EquipeOficialGetPayload<S extends boolean | null | undefined | EquipeOficialDefaultArgs> = $Result.GetResult<Prisma.$EquipeOficialPayload, S>
+  type EquipeGetPayload<S extends boolean | null | undefined | EquipeDefaultArgs> = $Result.GetResult<Prisma.$EquipePayload, S>
 
-  type EquipeOficialCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<EquipeOficialFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: EquipeOficialCountAggregateInputType | true
+  type EquipeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EquipeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EquipeCountAggregateInputType | true
     }
 
-  export interface EquipeOficialDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EquipeOficial'], meta: { name: 'EquipeOficial' } }
+  export interface EquipeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Equipe'], meta: { name: 'Equipe' } }
     /**
-     * Find zero or one EquipeOficial that matches the filter.
-     * @param {EquipeOficialFindUniqueArgs} args - Arguments to find a EquipeOficial
+     * Find zero or one Equipe that matches the filter.
+     * @param {EquipeFindUniqueArgs} args - Arguments to find a Equipe
      * @example
-     * // Get one EquipeOficial
-     * const equipeOficial = await prisma.equipeOficial.findUnique({
+     * // Get one Equipe
+     * const equipe = await prisma.equipe.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends EquipeOficialFindUniqueArgs>(args: SelectSubset<T, EquipeOficialFindUniqueArgs<ExtArgs>>): Prisma__EquipeOficialClient<$Result.GetResult<Prisma.$EquipeOficialPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends EquipeFindUniqueArgs>(args: SelectSubset<T, EquipeFindUniqueArgs<ExtArgs>>): Prisma__EquipeClient<$Result.GetResult<Prisma.$EquipePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one EquipeOficial that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Equipe that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {EquipeOficialFindUniqueOrThrowArgs} args - Arguments to find a EquipeOficial
+     * @param {EquipeFindUniqueOrThrowArgs} args - Arguments to find a Equipe
      * @example
-     * // Get one EquipeOficial
-     * const equipeOficial = await prisma.equipeOficial.findUniqueOrThrow({
+     * // Get one Equipe
+     * const equipe = await prisma.equipe.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends EquipeOficialFindUniqueOrThrowArgs>(args: SelectSubset<T, EquipeOficialFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EquipeOficialClient<$Result.GetResult<Prisma.$EquipeOficialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends EquipeFindUniqueOrThrowArgs>(args: SelectSubset<T, EquipeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EquipeClient<$Result.GetResult<Prisma.$EquipePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first EquipeOficial that matches the filter.
+     * Find the first Equipe that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {EquipeOficialFindFirstArgs} args - Arguments to find a EquipeOficial
+     * @param {EquipeFindFirstArgs} args - Arguments to find a Equipe
      * @example
-     * // Get one EquipeOficial
-     * const equipeOficial = await prisma.equipeOficial.findFirst({
+     * // Get one Equipe
+     * const equipe = await prisma.equipe.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends EquipeOficialFindFirstArgs>(args?: SelectSubset<T, EquipeOficialFindFirstArgs<ExtArgs>>): Prisma__EquipeOficialClient<$Result.GetResult<Prisma.$EquipeOficialPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends EquipeFindFirstArgs>(args?: SelectSubset<T, EquipeFindFirstArgs<ExtArgs>>): Prisma__EquipeClient<$Result.GetResult<Prisma.$EquipePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first EquipeOficial that matches the filter or
+     * Find the first Equipe that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {EquipeOficialFindFirstOrThrowArgs} args - Arguments to find a EquipeOficial
+     * @param {EquipeFindFirstOrThrowArgs} args - Arguments to find a Equipe
      * @example
-     * // Get one EquipeOficial
-     * const equipeOficial = await prisma.equipeOficial.findFirstOrThrow({
+     * // Get one Equipe
+     * const equipe = await prisma.equipe.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends EquipeOficialFindFirstOrThrowArgs>(args?: SelectSubset<T, EquipeOficialFindFirstOrThrowArgs<ExtArgs>>): Prisma__EquipeOficialClient<$Result.GetResult<Prisma.$EquipeOficialPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends EquipeFindFirstOrThrowArgs>(args?: SelectSubset<T, EquipeFindFirstOrThrowArgs<ExtArgs>>): Prisma__EquipeClient<$Result.GetResult<Prisma.$EquipePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more EquipeOficials that matches the filter.
+     * Find zero or more Equipes that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {EquipeOficialFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {EquipeFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all EquipeOficials
-     * const equipeOficials = await prisma.equipeOficial.findMany()
+     * // Get all Equipes
+     * const equipes = await prisma.equipe.findMany()
      * 
-     * // Get first 10 EquipeOficials
-     * const equipeOficials = await prisma.equipeOficial.findMany({ take: 10 })
+     * // Get first 10 Equipes
+     * const equipes = await prisma.equipe.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const equipeOficialWithIdOnly = await prisma.equipeOficial.findMany({ select: { id: true } })
+     * const equipeWithIdOnly = await prisma.equipe.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends EquipeOficialFindManyArgs>(args?: SelectSubset<T, EquipeOficialFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipeOficialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends EquipeFindManyArgs>(args?: SelectSubset<T, EquipeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a EquipeOficial.
-     * @param {EquipeOficialCreateArgs} args - Arguments to create a EquipeOficial.
+     * Create a Equipe.
+     * @param {EquipeCreateArgs} args - Arguments to create a Equipe.
      * @example
-     * // Create one EquipeOficial
-     * const EquipeOficial = await prisma.equipeOficial.create({
+     * // Create one Equipe
+     * const Equipe = await prisma.equipe.create({
      *   data: {
-     *     // ... data to create a EquipeOficial
+     *     // ... data to create a Equipe
      *   }
      * })
      * 
      */
-    create<T extends EquipeOficialCreateArgs>(args: SelectSubset<T, EquipeOficialCreateArgs<ExtArgs>>): Prisma__EquipeOficialClient<$Result.GetResult<Prisma.$EquipeOficialPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends EquipeCreateArgs>(args: SelectSubset<T, EquipeCreateArgs<ExtArgs>>): Prisma__EquipeClient<$Result.GetResult<Prisma.$EquipePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many EquipeOficials.
-     * @param {EquipeOficialCreateManyArgs} args - Arguments to create many EquipeOficials.
+     * Create many Equipes.
+     * @param {EquipeCreateManyArgs} args - Arguments to create many Equipes.
      * @example
-     * // Create many EquipeOficials
-     * const equipeOficial = await prisma.equipeOficial.createMany({
+     * // Create many Equipes
+     * const equipe = await prisma.equipe.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends EquipeOficialCreateManyArgs>(args?: SelectSubset<T, EquipeOficialCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends EquipeCreateManyArgs>(args?: SelectSubset<T, EquipeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many EquipeOficials and returns the data saved in the database.
-     * @param {EquipeOficialCreateManyAndReturnArgs} args - Arguments to create many EquipeOficials.
+     * Create many Equipes and returns the data saved in the database.
+     * @param {EquipeCreateManyAndReturnArgs} args - Arguments to create many Equipes.
      * @example
-     * // Create many EquipeOficials
-     * const equipeOficial = await prisma.equipeOficial.createManyAndReturn({
+     * // Create many Equipes
+     * const equipe = await prisma.equipe.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many EquipeOficials and only return the `id`
-     * const equipeOficialWithIdOnly = await prisma.equipeOficial.createManyAndReturn({
+     * // Create many Equipes and only return the `id`
+     * const equipeWithIdOnly = await prisma.equipe.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -9188,28 +6583,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends EquipeOficialCreateManyAndReturnArgs>(args?: SelectSubset<T, EquipeOficialCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipeOficialPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends EquipeCreateManyAndReturnArgs>(args?: SelectSubset<T, EquipeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a EquipeOficial.
-     * @param {EquipeOficialDeleteArgs} args - Arguments to delete one EquipeOficial.
+     * Delete a Equipe.
+     * @param {EquipeDeleteArgs} args - Arguments to delete one Equipe.
      * @example
-     * // Delete one EquipeOficial
-     * const EquipeOficial = await prisma.equipeOficial.delete({
+     * // Delete one Equipe
+     * const Equipe = await prisma.equipe.delete({
      *   where: {
-     *     // ... filter to delete one EquipeOficial
+     *     // ... filter to delete one Equipe
      *   }
      * })
      * 
      */
-    delete<T extends EquipeOficialDeleteArgs>(args: SelectSubset<T, EquipeOficialDeleteArgs<ExtArgs>>): Prisma__EquipeOficialClient<$Result.GetResult<Prisma.$EquipeOficialPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends EquipeDeleteArgs>(args: SelectSubset<T, EquipeDeleteArgs<ExtArgs>>): Prisma__EquipeClient<$Result.GetResult<Prisma.$EquipePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one EquipeOficial.
-     * @param {EquipeOficialUpdateArgs} args - Arguments to update one EquipeOficial.
+     * Update one Equipe.
+     * @param {EquipeUpdateArgs} args - Arguments to update one Equipe.
      * @example
-     * // Update one EquipeOficial
-     * const equipeOficial = await prisma.equipeOficial.update({
+     * // Update one Equipe
+     * const equipe = await prisma.equipe.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -9219,30 +6614,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends EquipeOficialUpdateArgs>(args: SelectSubset<T, EquipeOficialUpdateArgs<ExtArgs>>): Prisma__EquipeOficialClient<$Result.GetResult<Prisma.$EquipeOficialPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends EquipeUpdateArgs>(args: SelectSubset<T, EquipeUpdateArgs<ExtArgs>>): Prisma__EquipeClient<$Result.GetResult<Prisma.$EquipePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more EquipeOficials.
-     * @param {EquipeOficialDeleteManyArgs} args - Arguments to filter EquipeOficials to delete.
+     * Delete zero or more Equipes.
+     * @param {EquipeDeleteManyArgs} args - Arguments to filter Equipes to delete.
      * @example
-     * // Delete a few EquipeOficials
-     * const { count } = await prisma.equipeOficial.deleteMany({
+     * // Delete a few Equipes
+     * const { count } = await prisma.equipe.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends EquipeOficialDeleteManyArgs>(args?: SelectSubset<T, EquipeOficialDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends EquipeDeleteManyArgs>(args?: SelectSubset<T, EquipeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more EquipeOficials.
+     * Update zero or more Equipes.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {EquipeOficialUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {EquipeUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many EquipeOficials
-     * const equipeOficial = await prisma.equipeOficial.updateMany({
+     * // Update many Equipes
+     * const equipe = await prisma.equipe.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -9252,14 +6647,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends EquipeOficialUpdateManyArgs>(args: SelectSubset<T, EquipeOficialUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends EquipeUpdateManyArgs>(args: SelectSubset<T, EquipeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more EquipeOficials and returns the data updated in the database.
-     * @param {EquipeOficialUpdateManyAndReturnArgs} args - Arguments to update many EquipeOficials.
+     * Update zero or more Equipes and returns the data updated in the database.
+     * @param {EquipeUpdateManyAndReturnArgs} args - Arguments to update many Equipes.
      * @example
-     * // Update many EquipeOficials
-     * const equipeOficial = await prisma.equipeOficial.updateManyAndReturn({
+     * // Update many Equipes
+     * const equipe = await prisma.equipe.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -9268,8 +6663,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more EquipeOficials and only return the `id`
-     * const equipeOficialWithIdOnly = await prisma.equipeOficial.updateManyAndReturn({
+     * // Update zero or more Equipes and only return the `id`
+     * const equipeWithIdOnly = await prisma.equipe.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -9282,56 +6677,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends EquipeOficialUpdateManyAndReturnArgs>(args: SelectSubset<T, EquipeOficialUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipeOficialPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends EquipeUpdateManyAndReturnArgs>(args: SelectSubset<T, EquipeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one EquipeOficial.
-     * @param {EquipeOficialUpsertArgs} args - Arguments to update or create a EquipeOficial.
+     * Create or update one Equipe.
+     * @param {EquipeUpsertArgs} args - Arguments to update or create a Equipe.
      * @example
-     * // Update or create a EquipeOficial
-     * const equipeOficial = await prisma.equipeOficial.upsert({
+     * // Update or create a Equipe
+     * const equipe = await prisma.equipe.upsert({
      *   create: {
-     *     // ... data to create a EquipeOficial
+     *     // ... data to create a Equipe
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the EquipeOficial we want to update
+     *     // ... the filter for the Equipe we want to update
      *   }
      * })
      */
-    upsert<T extends EquipeOficialUpsertArgs>(args: SelectSubset<T, EquipeOficialUpsertArgs<ExtArgs>>): Prisma__EquipeOficialClient<$Result.GetResult<Prisma.$EquipeOficialPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends EquipeUpsertArgs>(args: SelectSubset<T, EquipeUpsertArgs<ExtArgs>>): Prisma__EquipeClient<$Result.GetResult<Prisma.$EquipePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of EquipeOficials.
+     * Count the number of Equipes.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {EquipeOficialCountArgs} args - Arguments to filter EquipeOficials to count.
+     * @param {EquipeCountArgs} args - Arguments to filter Equipes to count.
      * @example
-     * // Count the number of EquipeOficials
-     * const count = await prisma.equipeOficial.count({
+     * // Count the number of Equipes
+     * const count = await prisma.equipe.count({
      *   where: {
-     *     // ... the filter for the EquipeOficials we want to count
+     *     // ... the filter for the Equipes we want to count
      *   }
      * })
     **/
-    count<T extends EquipeOficialCountArgs>(
-      args?: Subset<T, EquipeOficialCountArgs>,
+    count<T extends EquipeCountArgs>(
+      args?: Subset<T, EquipeCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], EquipeOficialCountAggregateOutputType>
+          : GetScalarType<T['select'], EquipeCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a EquipeOficial.
+     * Allows you to perform aggregations operations on a Equipe.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {EquipeOficialAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {EquipeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -9351,13 +6746,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends EquipeOficialAggregateArgs>(args: Subset<T, EquipeOficialAggregateArgs>): Prisma.PrismaPromise<GetEquipeOficialAggregateType<T>>
+    aggregate<T extends EquipeAggregateArgs>(args: Subset<T, EquipeAggregateArgs>): Prisma.PrismaPromise<GetEquipeAggregateType<T>>
 
     /**
-     * Group by EquipeOficial.
+     * Group by Equipe.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {EquipeOficialGroupByArgs} args - Group by arguments.
+     * @param {EquipeGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -9372,14 +6767,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends EquipeOficialGroupByArgs,
+      T extends EquipeGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: EquipeOficialGroupByArgs['orderBy'] }
-        : { orderBy?: EquipeOficialGroupByArgs['orderBy'] },
+        ? { orderBy: EquipeGroupByArgs['orderBy'] }
+        : { orderBy?: EquipeGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -9428,25 +6823,25 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, EquipeOficialGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEquipeOficialGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, EquipeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEquipeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the EquipeOficial model
+   * Fields of the Equipe model
    */
-  readonly fields: EquipeOficialFieldRefs;
+  readonly fields: EquipeFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for EquipeOficial.
+   * The delegate class that acts as a "Promise-like" for Equipe.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__EquipeOficialClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__EquipeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     torneio<T extends TorneioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TorneioDefaultArgs<ExtArgs>>): Prisma__TorneioClient<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    membros<T extends EquipeOficial$membrosArgs<ExtArgs> = {}>(args?: Subset<T, EquipeOficial$membrosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AtletaEquipeOficialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    partidasComoEquipeOficial1<T extends EquipeOficial$partidasComoEquipeOficial1Args<ExtArgs> = {}>(args?: Subset<T, EquipeOficial$partidasComoEquipeOficial1Args<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartidaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    partidasComoEquipeOficial2<T extends EquipeOficial$partidasComoEquipeOficial2Args<ExtArgs> = {}>(args?: Subset<T, EquipeOficial$partidasComoEquipeOficial2Args<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartidaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    atletas<T extends Equipe$atletasArgs<ExtArgs> = {}>(args?: Subset<T, Equipe$atletasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipeAtletaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    partidasComoEquipe1<T extends Equipe$partidasComoEquipe1Args<ExtArgs> = {}>(args?: Subset<T, Equipe$partidasComoEquipe1Args<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartidaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    partidasComoEquipe2<T extends Equipe$partidasComoEquipe2Args<ExtArgs> = {}>(args?: Subset<T, Equipe$partidasComoEquipe2Args<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartidaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9473,437 +6868,437 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the EquipeOficial model
+   * Fields of the Equipe model
    */
-  interface EquipeOficialFieldRefs {
-    readonly id: FieldRef<"EquipeOficial", 'Int'>
-    readonly nome: FieldRef<"EquipeOficial", 'String'>
-    readonly tipo: FieldRef<"EquipeOficial", 'String'>
-    readonly createdAt: FieldRef<"EquipeOficial", 'DateTime'>
-    readonly torneioId: FieldRef<"EquipeOficial", 'Int'>
+  interface EquipeFieldRefs {
+    readonly id: FieldRef<"Equipe", 'Int'>
+    readonly nome: FieldRef<"Equipe", 'String'>
+    readonly tipo: FieldRef<"Equipe", 'TipoEquipe'>
+    readonly torneioId: FieldRef<"Equipe", 'Int'>
+    readonly createdAt: FieldRef<"Equipe", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * EquipeOficial findUnique
+   * Equipe findUnique
    */
-  export type EquipeOficialFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the EquipeOficial
+     * Select specific fields to fetch from the Equipe
      */
-    select?: EquipeOficialSelect<ExtArgs> | null
+    select?: EquipeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the EquipeOficial
+     * Omit specific fields from the Equipe
      */
-    omit?: EquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EquipeOficialInclude<ExtArgs> | null
+    include?: EquipeInclude<ExtArgs> | null
     /**
-     * Filter, which EquipeOficial to fetch.
+     * Filter, which Equipe to fetch.
      */
-    where: EquipeOficialWhereUniqueInput
+    where: EquipeWhereUniqueInput
   }
 
   /**
-   * EquipeOficial findUniqueOrThrow
+   * Equipe findUniqueOrThrow
    */
-  export type EquipeOficialFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the EquipeOficial
+     * Select specific fields to fetch from the Equipe
      */
-    select?: EquipeOficialSelect<ExtArgs> | null
+    select?: EquipeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the EquipeOficial
+     * Omit specific fields from the Equipe
      */
-    omit?: EquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EquipeOficialInclude<ExtArgs> | null
+    include?: EquipeInclude<ExtArgs> | null
     /**
-     * Filter, which EquipeOficial to fetch.
+     * Filter, which Equipe to fetch.
      */
-    where: EquipeOficialWhereUniqueInput
+    where: EquipeWhereUniqueInput
   }
 
   /**
-   * EquipeOficial findFirst
+   * Equipe findFirst
    */
-  export type EquipeOficialFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the EquipeOficial
+     * Select specific fields to fetch from the Equipe
      */
-    select?: EquipeOficialSelect<ExtArgs> | null
+    select?: EquipeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the EquipeOficial
+     * Omit specific fields from the Equipe
      */
-    omit?: EquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EquipeOficialInclude<ExtArgs> | null
+    include?: EquipeInclude<ExtArgs> | null
     /**
-     * Filter, which EquipeOficial to fetch.
+     * Filter, which Equipe to fetch.
      */
-    where?: EquipeOficialWhereInput
+    where?: EquipeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of EquipeOficials to fetch.
+     * Determine the order of Equipes to fetch.
      */
-    orderBy?: EquipeOficialOrderByWithRelationInput | EquipeOficialOrderByWithRelationInput[]
+    orderBy?: EquipeOrderByWithRelationInput | EquipeOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for EquipeOficials.
+     * Sets the position for searching for Equipes.
      */
-    cursor?: EquipeOficialWhereUniqueInput
+    cursor?: EquipeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` EquipeOficials from the position of the cursor.
+     * Take `±n` Equipes from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` EquipeOficials.
+     * Skip the first `n` Equipes.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of EquipeOficials.
+     * Filter by unique combinations of Equipes.
      */
-    distinct?: EquipeOficialScalarFieldEnum | EquipeOficialScalarFieldEnum[]
+    distinct?: EquipeScalarFieldEnum | EquipeScalarFieldEnum[]
   }
 
   /**
-   * EquipeOficial findFirstOrThrow
+   * Equipe findFirstOrThrow
    */
-  export type EquipeOficialFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the EquipeOficial
+     * Select specific fields to fetch from the Equipe
      */
-    select?: EquipeOficialSelect<ExtArgs> | null
+    select?: EquipeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the EquipeOficial
+     * Omit specific fields from the Equipe
      */
-    omit?: EquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EquipeOficialInclude<ExtArgs> | null
+    include?: EquipeInclude<ExtArgs> | null
     /**
-     * Filter, which EquipeOficial to fetch.
+     * Filter, which Equipe to fetch.
      */
-    where?: EquipeOficialWhereInput
+    where?: EquipeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of EquipeOficials to fetch.
+     * Determine the order of Equipes to fetch.
      */
-    orderBy?: EquipeOficialOrderByWithRelationInput | EquipeOficialOrderByWithRelationInput[]
+    orderBy?: EquipeOrderByWithRelationInput | EquipeOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for EquipeOficials.
+     * Sets the position for searching for Equipes.
      */
-    cursor?: EquipeOficialWhereUniqueInput
+    cursor?: EquipeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` EquipeOficials from the position of the cursor.
+     * Take `±n` Equipes from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` EquipeOficials.
+     * Skip the first `n` Equipes.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of EquipeOficials.
+     * Filter by unique combinations of Equipes.
      */
-    distinct?: EquipeOficialScalarFieldEnum | EquipeOficialScalarFieldEnum[]
+    distinct?: EquipeScalarFieldEnum | EquipeScalarFieldEnum[]
   }
 
   /**
-   * EquipeOficial findMany
+   * Equipe findMany
    */
-  export type EquipeOficialFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the EquipeOficial
+     * Select specific fields to fetch from the Equipe
      */
-    select?: EquipeOficialSelect<ExtArgs> | null
+    select?: EquipeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the EquipeOficial
+     * Omit specific fields from the Equipe
      */
-    omit?: EquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EquipeOficialInclude<ExtArgs> | null
+    include?: EquipeInclude<ExtArgs> | null
     /**
-     * Filter, which EquipeOficials to fetch.
+     * Filter, which Equipes to fetch.
      */
-    where?: EquipeOficialWhereInput
+    where?: EquipeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of EquipeOficials to fetch.
+     * Determine the order of Equipes to fetch.
      */
-    orderBy?: EquipeOficialOrderByWithRelationInput | EquipeOficialOrderByWithRelationInput[]
+    orderBy?: EquipeOrderByWithRelationInput | EquipeOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing EquipeOficials.
+     * Sets the position for listing Equipes.
      */
-    cursor?: EquipeOficialWhereUniqueInput
+    cursor?: EquipeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` EquipeOficials from the position of the cursor.
+     * Take `±n` Equipes from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` EquipeOficials.
+     * Skip the first `n` Equipes.
      */
     skip?: number
-    distinct?: EquipeOficialScalarFieldEnum | EquipeOficialScalarFieldEnum[]
+    distinct?: EquipeScalarFieldEnum | EquipeScalarFieldEnum[]
   }
 
   /**
-   * EquipeOficial create
+   * Equipe create
    */
-  export type EquipeOficialCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the EquipeOficial
+     * Select specific fields to fetch from the Equipe
      */
-    select?: EquipeOficialSelect<ExtArgs> | null
+    select?: EquipeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the EquipeOficial
+     * Omit specific fields from the Equipe
      */
-    omit?: EquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EquipeOficialInclude<ExtArgs> | null
+    include?: EquipeInclude<ExtArgs> | null
     /**
-     * The data needed to create a EquipeOficial.
+     * The data needed to create a Equipe.
      */
-    data: XOR<EquipeOficialCreateInput, EquipeOficialUncheckedCreateInput>
+    data: XOR<EquipeCreateInput, EquipeUncheckedCreateInput>
   }
 
   /**
-   * EquipeOficial createMany
+   * Equipe createMany
    */
-  export type EquipeOficialCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many EquipeOficials.
+     * The data used to create many Equipes.
      */
-    data: EquipeOficialCreateManyInput | EquipeOficialCreateManyInput[]
+    data: EquipeCreateManyInput | EquipeCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * EquipeOficial createManyAndReturn
+   * Equipe createManyAndReturn
    */
-  export type EquipeOficialCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the EquipeOficial
+     * Select specific fields to fetch from the Equipe
      */
-    select?: EquipeOficialSelectCreateManyAndReturn<ExtArgs> | null
+    select?: EquipeSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the EquipeOficial
+     * Omit specific fields from the Equipe
      */
-    omit?: EquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeOmit<ExtArgs> | null
     /**
-     * The data used to create many EquipeOficials.
+     * The data used to create many Equipes.
      */
-    data: EquipeOficialCreateManyInput | EquipeOficialCreateManyInput[]
+    data: EquipeCreateManyInput | EquipeCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EquipeOficialIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: EquipeIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * EquipeOficial update
+   * Equipe update
    */
-  export type EquipeOficialUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the EquipeOficial
+     * Select specific fields to fetch from the Equipe
      */
-    select?: EquipeOficialSelect<ExtArgs> | null
+    select?: EquipeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the EquipeOficial
+     * Omit specific fields from the Equipe
      */
-    omit?: EquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EquipeOficialInclude<ExtArgs> | null
+    include?: EquipeInclude<ExtArgs> | null
     /**
-     * The data needed to update a EquipeOficial.
+     * The data needed to update a Equipe.
      */
-    data: XOR<EquipeOficialUpdateInput, EquipeOficialUncheckedUpdateInput>
+    data: XOR<EquipeUpdateInput, EquipeUncheckedUpdateInput>
     /**
-     * Choose, which EquipeOficial to update.
+     * Choose, which Equipe to update.
      */
-    where: EquipeOficialWhereUniqueInput
+    where: EquipeWhereUniqueInput
   }
 
   /**
-   * EquipeOficial updateMany
+   * Equipe updateMany
    */
-  export type EquipeOficialUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update EquipeOficials.
+     * The data used to update Equipes.
      */
-    data: XOR<EquipeOficialUpdateManyMutationInput, EquipeOficialUncheckedUpdateManyInput>
+    data: XOR<EquipeUpdateManyMutationInput, EquipeUncheckedUpdateManyInput>
     /**
-     * Filter which EquipeOficials to update
+     * Filter which Equipes to update
      */
-    where?: EquipeOficialWhereInput
+    where?: EquipeWhereInput
     /**
-     * Limit how many EquipeOficials to update.
+     * Limit how many Equipes to update.
      */
     limit?: number
   }
 
   /**
-   * EquipeOficial updateManyAndReturn
+   * Equipe updateManyAndReturn
    */
-  export type EquipeOficialUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the EquipeOficial
+     * Select specific fields to fetch from the Equipe
      */
-    select?: EquipeOficialSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: EquipeSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the EquipeOficial
+     * Omit specific fields from the Equipe
      */
-    omit?: EquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeOmit<ExtArgs> | null
     /**
-     * The data used to update EquipeOficials.
+     * The data used to update Equipes.
      */
-    data: XOR<EquipeOficialUpdateManyMutationInput, EquipeOficialUncheckedUpdateManyInput>
+    data: XOR<EquipeUpdateManyMutationInput, EquipeUncheckedUpdateManyInput>
     /**
-     * Filter which EquipeOficials to update
+     * Filter which Equipes to update
      */
-    where?: EquipeOficialWhereInput
+    where?: EquipeWhereInput
     /**
-     * Limit how many EquipeOficials to update.
+     * Limit how many Equipes to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EquipeOficialIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: EquipeIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * EquipeOficial upsert
+   * Equipe upsert
    */
-  export type EquipeOficialUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the EquipeOficial
+     * Select specific fields to fetch from the Equipe
      */
-    select?: EquipeOficialSelect<ExtArgs> | null
+    select?: EquipeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the EquipeOficial
+     * Omit specific fields from the Equipe
      */
-    omit?: EquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EquipeOficialInclude<ExtArgs> | null
+    include?: EquipeInclude<ExtArgs> | null
     /**
-     * The filter to search for the EquipeOficial to update in case it exists.
+     * The filter to search for the Equipe to update in case it exists.
      */
-    where: EquipeOficialWhereUniqueInput
+    where: EquipeWhereUniqueInput
     /**
-     * In case the EquipeOficial found by the `where` argument doesn't exist, create a new EquipeOficial with this data.
+     * In case the Equipe found by the `where` argument doesn't exist, create a new Equipe with this data.
      */
-    create: XOR<EquipeOficialCreateInput, EquipeOficialUncheckedCreateInput>
+    create: XOR<EquipeCreateInput, EquipeUncheckedCreateInput>
     /**
-     * In case the EquipeOficial was found with the provided `where` argument, update it with this data.
+     * In case the Equipe was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<EquipeOficialUpdateInput, EquipeOficialUncheckedUpdateInput>
+    update: XOR<EquipeUpdateInput, EquipeUncheckedUpdateInput>
   }
 
   /**
-   * EquipeOficial delete
+   * Equipe delete
    */
-  export type EquipeOficialDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the EquipeOficial
+     * Select specific fields to fetch from the Equipe
      */
-    select?: EquipeOficialSelect<ExtArgs> | null
+    select?: EquipeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the EquipeOficial
+     * Omit specific fields from the Equipe
      */
-    omit?: EquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EquipeOficialInclude<ExtArgs> | null
+    include?: EquipeInclude<ExtArgs> | null
     /**
-     * Filter which EquipeOficial to delete.
+     * Filter which Equipe to delete.
      */
-    where: EquipeOficialWhereUniqueInput
+    where: EquipeWhereUniqueInput
   }
 
   /**
-   * EquipeOficial deleteMany
+   * Equipe deleteMany
    */
-  export type EquipeOficialDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which EquipeOficials to delete
+     * Filter which Equipes to delete
      */
-    where?: EquipeOficialWhereInput
+    where?: EquipeWhereInput
     /**
-     * Limit how many EquipeOficials to delete.
+     * Limit how many Equipes to delete.
      */
     limit?: number
   }
 
   /**
-   * EquipeOficial.membros
+   * Equipe.atletas
    */
-  export type EquipeOficial$membrosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Equipe$atletasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the AtletaEquipeOficial
+     * Select specific fields to fetch from the EquipeAtleta
      */
-    select?: AtletaEquipeOficialSelect<ExtArgs> | null
+    select?: EquipeAtletaSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the AtletaEquipeOficial
+     * Omit specific fields from the EquipeAtleta
      */
-    omit?: AtletaEquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeAtletaOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AtletaEquipeOficialInclude<ExtArgs> | null
-    where?: AtletaEquipeOficialWhereInput
-    orderBy?: AtletaEquipeOficialOrderByWithRelationInput | AtletaEquipeOficialOrderByWithRelationInput[]
-    cursor?: AtletaEquipeOficialWhereUniqueInput
+    include?: EquipeAtletaInclude<ExtArgs> | null
+    where?: EquipeAtletaWhereInput
+    orderBy?: EquipeAtletaOrderByWithRelationInput | EquipeAtletaOrderByWithRelationInput[]
+    cursor?: EquipeAtletaWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: AtletaEquipeOficialScalarFieldEnum | AtletaEquipeOficialScalarFieldEnum[]
+    distinct?: EquipeAtletaScalarFieldEnum | EquipeAtletaScalarFieldEnum[]
   }
 
   /**
-   * EquipeOficial.partidasComoEquipeOficial1
+   * Equipe.partidasComoEquipe1
    */
-  export type EquipeOficial$partidasComoEquipeOficial1Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Equipe$partidasComoEquipe1Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Partida
      */
@@ -9925,9 +7320,9 @@ export namespace Prisma {
   }
 
   /**
-   * EquipeOficial.partidasComoEquipeOficial2
+   * Equipe.partidasComoEquipe2
    */
-  export type EquipeOficial$partidasComoEquipeOficial2Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Equipe$partidasComoEquipe2Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Partida
      */
@@ -9949,378 +7344,378 @@ export namespace Prisma {
   }
 
   /**
-   * EquipeOficial without action
+   * Equipe without action
    */
-  export type EquipeOficialDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the EquipeOficial
+     * Select specific fields to fetch from the Equipe
      */
-    select?: EquipeOficialSelect<ExtArgs> | null
+    select?: EquipeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the EquipeOficial
+     * Omit specific fields from the Equipe
      */
-    omit?: EquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EquipeOficialInclude<ExtArgs> | null
+    include?: EquipeInclude<ExtArgs> | null
   }
 
 
   /**
-   * Model AtletaEquipeOficial
+   * Model EquipeAtleta
    */
 
-  export type AggregateAtletaEquipeOficial = {
-    _count: AtletaEquipeOficialCountAggregateOutputType | null
-    _avg: AtletaEquipeOficialAvgAggregateOutputType | null
-    _sum: AtletaEquipeOficialSumAggregateOutputType | null
-    _min: AtletaEquipeOficialMinAggregateOutputType | null
-    _max: AtletaEquipeOficialMaxAggregateOutputType | null
+  export type AggregateEquipeAtleta = {
+    _count: EquipeAtletaCountAggregateOutputType | null
+    _avg: EquipeAtletaAvgAggregateOutputType | null
+    _sum: EquipeAtletaSumAggregateOutputType | null
+    _min: EquipeAtletaMinAggregateOutputType | null
+    _max: EquipeAtletaMaxAggregateOutputType | null
   }
 
-  export type AtletaEquipeOficialAvgAggregateOutputType = {
+  export type EquipeAtletaAvgAggregateOutputType = {
     atletaId: number | null
-    equipeOficialId: number | null
+    equipeId: number | null
   }
 
-  export type AtletaEquipeOficialSumAggregateOutputType = {
+  export type EquipeAtletaSumAggregateOutputType = {
     atletaId: number | null
-    equipeOficialId: number | null
+    equipeId: number | null
   }
 
-  export type AtletaEquipeOficialMinAggregateOutputType = {
+  export type EquipeAtletaMinAggregateOutputType = {
     atletaId: number | null
-    equipeOficialId: number | null
+    equipeId: number | null
   }
 
-  export type AtletaEquipeOficialMaxAggregateOutputType = {
+  export type EquipeAtletaMaxAggregateOutputType = {
     atletaId: number | null
-    equipeOficialId: number | null
+    equipeId: number | null
   }
 
-  export type AtletaEquipeOficialCountAggregateOutputType = {
+  export type EquipeAtletaCountAggregateOutputType = {
     atletaId: number
-    equipeOficialId: number
+    equipeId: number
     _all: number
   }
 
 
-  export type AtletaEquipeOficialAvgAggregateInputType = {
+  export type EquipeAtletaAvgAggregateInputType = {
     atletaId?: true
-    equipeOficialId?: true
+    equipeId?: true
   }
 
-  export type AtletaEquipeOficialSumAggregateInputType = {
+  export type EquipeAtletaSumAggregateInputType = {
     atletaId?: true
-    equipeOficialId?: true
+    equipeId?: true
   }
 
-  export type AtletaEquipeOficialMinAggregateInputType = {
+  export type EquipeAtletaMinAggregateInputType = {
     atletaId?: true
-    equipeOficialId?: true
+    equipeId?: true
   }
 
-  export type AtletaEquipeOficialMaxAggregateInputType = {
+  export type EquipeAtletaMaxAggregateInputType = {
     atletaId?: true
-    equipeOficialId?: true
+    equipeId?: true
   }
 
-  export type AtletaEquipeOficialCountAggregateInputType = {
+  export type EquipeAtletaCountAggregateInputType = {
     atletaId?: true
-    equipeOficialId?: true
+    equipeId?: true
     _all?: true
   }
 
-  export type AtletaEquipeOficialAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which AtletaEquipeOficial to aggregate.
+     * Filter which EquipeAtleta to aggregate.
      */
-    where?: AtletaEquipeOficialWhereInput
+    where?: EquipeAtletaWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of AtletaEquipeOficials to fetch.
+     * Determine the order of EquipeAtletas to fetch.
      */
-    orderBy?: AtletaEquipeOficialOrderByWithRelationInput | AtletaEquipeOficialOrderByWithRelationInput[]
+    orderBy?: EquipeAtletaOrderByWithRelationInput | EquipeAtletaOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: AtletaEquipeOficialWhereUniqueInput
+    cursor?: EquipeAtletaWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` AtletaEquipeOficials from the position of the cursor.
+     * Take `±n` EquipeAtletas from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` AtletaEquipeOficials.
+     * Skip the first `n` EquipeAtletas.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned AtletaEquipeOficials
+     * Count returned EquipeAtletas
     **/
-    _count?: true | AtletaEquipeOficialCountAggregateInputType
+    _count?: true | EquipeAtletaCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: AtletaEquipeOficialAvgAggregateInputType
+    _avg?: EquipeAtletaAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: AtletaEquipeOficialSumAggregateInputType
+    _sum?: EquipeAtletaSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: AtletaEquipeOficialMinAggregateInputType
+    _min?: EquipeAtletaMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: AtletaEquipeOficialMaxAggregateInputType
+    _max?: EquipeAtletaMaxAggregateInputType
   }
 
-  export type GetAtletaEquipeOficialAggregateType<T extends AtletaEquipeOficialAggregateArgs> = {
-        [P in keyof T & keyof AggregateAtletaEquipeOficial]: P extends '_count' | 'count'
+  export type GetEquipeAtletaAggregateType<T extends EquipeAtletaAggregateArgs> = {
+        [P in keyof T & keyof AggregateEquipeAtleta]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateAtletaEquipeOficial[P]>
-      : GetScalarType<T[P], AggregateAtletaEquipeOficial[P]>
+        : GetScalarType<T[P], AggregateEquipeAtleta[P]>
+      : GetScalarType<T[P], AggregateEquipeAtleta[P]>
   }
 
 
 
 
-  export type AtletaEquipeOficialGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AtletaEquipeOficialWhereInput
-    orderBy?: AtletaEquipeOficialOrderByWithAggregationInput | AtletaEquipeOficialOrderByWithAggregationInput[]
-    by: AtletaEquipeOficialScalarFieldEnum[] | AtletaEquipeOficialScalarFieldEnum
-    having?: AtletaEquipeOficialScalarWhereWithAggregatesInput
+  export type EquipeAtletaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EquipeAtletaWhereInput
+    orderBy?: EquipeAtletaOrderByWithAggregationInput | EquipeAtletaOrderByWithAggregationInput[]
+    by: EquipeAtletaScalarFieldEnum[] | EquipeAtletaScalarFieldEnum
+    having?: EquipeAtletaScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: AtletaEquipeOficialCountAggregateInputType | true
-    _avg?: AtletaEquipeOficialAvgAggregateInputType
-    _sum?: AtletaEquipeOficialSumAggregateInputType
-    _min?: AtletaEquipeOficialMinAggregateInputType
-    _max?: AtletaEquipeOficialMaxAggregateInputType
+    _count?: EquipeAtletaCountAggregateInputType | true
+    _avg?: EquipeAtletaAvgAggregateInputType
+    _sum?: EquipeAtletaSumAggregateInputType
+    _min?: EquipeAtletaMinAggregateInputType
+    _max?: EquipeAtletaMaxAggregateInputType
   }
 
-  export type AtletaEquipeOficialGroupByOutputType = {
+  export type EquipeAtletaGroupByOutputType = {
     atletaId: number
-    equipeOficialId: number
-    _count: AtletaEquipeOficialCountAggregateOutputType | null
-    _avg: AtletaEquipeOficialAvgAggregateOutputType | null
-    _sum: AtletaEquipeOficialSumAggregateOutputType | null
-    _min: AtletaEquipeOficialMinAggregateOutputType | null
-    _max: AtletaEquipeOficialMaxAggregateOutputType | null
+    equipeId: number
+    _count: EquipeAtletaCountAggregateOutputType | null
+    _avg: EquipeAtletaAvgAggregateOutputType | null
+    _sum: EquipeAtletaSumAggregateOutputType | null
+    _min: EquipeAtletaMinAggregateOutputType | null
+    _max: EquipeAtletaMaxAggregateOutputType | null
   }
 
-  type GetAtletaEquipeOficialGroupByPayload<T extends AtletaEquipeOficialGroupByArgs> = Prisma.PrismaPromise<
+  type GetEquipeAtletaGroupByPayload<T extends EquipeAtletaGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<AtletaEquipeOficialGroupByOutputType, T['by']> &
+      PickEnumerable<EquipeAtletaGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof AtletaEquipeOficialGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof EquipeAtletaGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], AtletaEquipeOficialGroupByOutputType[P]>
-            : GetScalarType<T[P], AtletaEquipeOficialGroupByOutputType[P]>
+              : GetScalarType<T[P], EquipeAtletaGroupByOutputType[P]>
+            : GetScalarType<T[P], EquipeAtletaGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type AtletaEquipeOficialSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type EquipeAtletaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     atletaId?: boolean
-    equipeOficialId?: boolean
+    equipeId?: boolean
     atleta?: boolean | AtletaDefaultArgs<ExtArgs>
-    equipeOficial?: boolean | EquipeOficialDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["atletaEquipeOficial"]>
+    equipe?: boolean | EquipeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["equipeAtleta"]>
 
-  export type AtletaEquipeOficialSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type EquipeAtletaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     atletaId?: boolean
-    equipeOficialId?: boolean
+    equipeId?: boolean
     atleta?: boolean | AtletaDefaultArgs<ExtArgs>
-    equipeOficial?: boolean | EquipeOficialDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["atletaEquipeOficial"]>
+    equipe?: boolean | EquipeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["equipeAtleta"]>
 
-  export type AtletaEquipeOficialSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type EquipeAtletaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     atletaId?: boolean
-    equipeOficialId?: boolean
+    equipeId?: boolean
     atleta?: boolean | AtletaDefaultArgs<ExtArgs>
-    equipeOficial?: boolean | EquipeOficialDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["atletaEquipeOficial"]>
+    equipe?: boolean | EquipeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["equipeAtleta"]>
 
-  export type AtletaEquipeOficialSelectScalar = {
+  export type EquipeAtletaSelectScalar = {
     atletaId?: boolean
-    equipeOficialId?: boolean
+    equipeId?: boolean
   }
 
-  export type AtletaEquipeOficialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"atletaId" | "equipeOficialId", ExtArgs["result"]["atletaEquipeOficial"]>
-  export type AtletaEquipeOficialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"atletaId" | "equipeId", ExtArgs["result"]["equipeAtleta"]>
+  export type EquipeAtletaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     atleta?: boolean | AtletaDefaultArgs<ExtArgs>
-    equipeOficial?: boolean | EquipeOficialDefaultArgs<ExtArgs>
+    equipe?: boolean | EquipeDefaultArgs<ExtArgs>
   }
-  export type AtletaEquipeOficialIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     atleta?: boolean | AtletaDefaultArgs<ExtArgs>
-    equipeOficial?: boolean | EquipeOficialDefaultArgs<ExtArgs>
+    equipe?: boolean | EquipeDefaultArgs<ExtArgs>
   }
-  export type AtletaEquipeOficialIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     atleta?: boolean | AtletaDefaultArgs<ExtArgs>
-    equipeOficial?: boolean | EquipeOficialDefaultArgs<ExtArgs>
+    equipe?: boolean | EquipeDefaultArgs<ExtArgs>
   }
 
-  export type $AtletaEquipeOficialPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "AtletaEquipeOficial"
+  export type $EquipeAtletaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EquipeAtleta"
     objects: {
       atleta: Prisma.$AtletaPayload<ExtArgs>
-      equipeOficial: Prisma.$EquipeOficialPayload<ExtArgs>
+      equipe: Prisma.$EquipePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       atletaId: number
-      equipeOficialId: number
-    }, ExtArgs["result"]["atletaEquipeOficial"]>
+      equipeId: number
+    }, ExtArgs["result"]["equipeAtleta"]>
     composites: {}
   }
 
-  type AtletaEquipeOficialGetPayload<S extends boolean | null | undefined | AtletaEquipeOficialDefaultArgs> = $Result.GetResult<Prisma.$AtletaEquipeOficialPayload, S>
+  type EquipeAtletaGetPayload<S extends boolean | null | undefined | EquipeAtletaDefaultArgs> = $Result.GetResult<Prisma.$EquipeAtletaPayload, S>
 
-  type AtletaEquipeOficialCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<AtletaEquipeOficialFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: AtletaEquipeOficialCountAggregateInputType | true
+  type EquipeAtletaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EquipeAtletaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EquipeAtletaCountAggregateInputType | true
     }
 
-  export interface AtletaEquipeOficialDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AtletaEquipeOficial'], meta: { name: 'AtletaEquipeOficial' } }
+  export interface EquipeAtletaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EquipeAtleta'], meta: { name: 'EquipeAtleta' } }
     /**
-     * Find zero or one AtletaEquipeOficial that matches the filter.
-     * @param {AtletaEquipeOficialFindUniqueArgs} args - Arguments to find a AtletaEquipeOficial
+     * Find zero or one EquipeAtleta that matches the filter.
+     * @param {EquipeAtletaFindUniqueArgs} args - Arguments to find a EquipeAtleta
      * @example
-     * // Get one AtletaEquipeOficial
-     * const atletaEquipeOficial = await prisma.atletaEquipeOficial.findUnique({
+     * // Get one EquipeAtleta
+     * const equipeAtleta = await prisma.equipeAtleta.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends AtletaEquipeOficialFindUniqueArgs>(args: SelectSubset<T, AtletaEquipeOficialFindUniqueArgs<ExtArgs>>): Prisma__AtletaEquipeOficialClient<$Result.GetResult<Prisma.$AtletaEquipeOficialPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends EquipeAtletaFindUniqueArgs>(args: SelectSubset<T, EquipeAtletaFindUniqueArgs<ExtArgs>>): Prisma__EquipeAtletaClient<$Result.GetResult<Prisma.$EquipeAtletaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one AtletaEquipeOficial that matches the filter or throw an error with `error.code='P2025'`
+     * Find one EquipeAtleta that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {AtletaEquipeOficialFindUniqueOrThrowArgs} args - Arguments to find a AtletaEquipeOficial
+     * @param {EquipeAtletaFindUniqueOrThrowArgs} args - Arguments to find a EquipeAtleta
      * @example
-     * // Get one AtletaEquipeOficial
-     * const atletaEquipeOficial = await prisma.atletaEquipeOficial.findUniqueOrThrow({
+     * // Get one EquipeAtleta
+     * const equipeAtleta = await prisma.equipeAtleta.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends AtletaEquipeOficialFindUniqueOrThrowArgs>(args: SelectSubset<T, AtletaEquipeOficialFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AtletaEquipeOficialClient<$Result.GetResult<Prisma.$AtletaEquipeOficialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends EquipeAtletaFindUniqueOrThrowArgs>(args: SelectSubset<T, EquipeAtletaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EquipeAtletaClient<$Result.GetResult<Prisma.$EquipeAtletaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first AtletaEquipeOficial that matches the filter.
+     * Find the first EquipeAtleta that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AtletaEquipeOficialFindFirstArgs} args - Arguments to find a AtletaEquipeOficial
+     * @param {EquipeAtletaFindFirstArgs} args - Arguments to find a EquipeAtleta
      * @example
-     * // Get one AtletaEquipeOficial
-     * const atletaEquipeOficial = await prisma.atletaEquipeOficial.findFirst({
+     * // Get one EquipeAtleta
+     * const equipeAtleta = await prisma.equipeAtleta.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends AtletaEquipeOficialFindFirstArgs>(args?: SelectSubset<T, AtletaEquipeOficialFindFirstArgs<ExtArgs>>): Prisma__AtletaEquipeOficialClient<$Result.GetResult<Prisma.$AtletaEquipeOficialPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends EquipeAtletaFindFirstArgs>(args?: SelectSubset<T, EquipeAtletaFindFirstArgs<ExtArgs>>): Prisma__EquipeAtletaClient<$Result.GetResult<Prisma.$EquipeAtletaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first AtletaEquipeOficial that matches the filter or
+     * Find the first EquipeAtleta that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AtletaEquipeOficialFindFirstOrThrowArgs} args - Arguments to find a AtletaEquipeOficial
+     * @param {EquipeAtletaFindFirstOrThrowArgs} args - Arguments to find a EquipeAtleta
      * @example
-     * // Get one AtletaEquipeOficial
-     * const atletaEquipeOficial = await prisma.atletaEquipeOficial.findFirstOrThrow({
+     * // Get one EquipeAtleta
+     * const equipeAtleta = await prisma.equipeAtleta.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends AtletaEquipeOficialFindFirstOrThrowArgs>(args?: SelectSubset<T, AtletaEquipeOficialFindFirstOrThrowArgs<ExtArgs>>): Prisma__AtletaEquipeOficialClient<$Result.GetResult<Prisma.$AtletaEquipeOficialPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends EquipeAtletaFindFirstOrThrowArgs>(args?: SelectSubset<T, EquipeAtletaFindFirstOrThrowArgs<ExtArgs>>): Prisma__EquipeAtletaClient<$Result.GetResult<Prisma.$EquipeAtletaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more AtletaEquipeOficials that matches the filter.
+     * Find zero or more EquipeAtletas that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AtletaEquipeOficialFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {EquipeAtletaFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all AtletaEquipeOficials
-     * const atletaEquipeOficials = await prisma.atletaEquipeOficial.findMany()
+     * // Get all EquipeAtletas
+     * const equipeAtletas = await prisma.equipeAtleta.findMany()
      * 
-     * // Get first 10 AtletaEquipeOficials
-     * const atletaEquipeOficials = await prisma.atletaEquipeOficial.findMany({ take: 10 })
+     * // Get first 10 EquipeAtletas
+     * const equipeAtletas = await prisma.equipeAtleta.findMany({ take: 10 })
      * 
      * // Only select the `atletaId`
-     * const atletaEquipeOficialWithAtletaIdOnly = await prisma.atletaEquipeOficial.findMany({ select: { atletaId: true } })
+     * const equipeAtletaWithAtletaIdOnly = await prisma.equipeAtleta.findMany({ select: { atletaId: true } })
      * 
      */
-    findMany<T extends AtletaEquipeOficialFindManyArgs>(args?: SelectSubset<T, AtletaEquipeOficialFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AtletaEquipeOficialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends EquipeAtletaFindManyArgs>(args?: SelectSubset<T, EquipeAtletaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipeAtletaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a AtletaEquipeOficial.
-     * @param {AtletaEquipeOficialCreateArgs} args - Arguments to create a AtletaEquipeOficial.
+     * Create a EquipeAtleta.
+     * @param {EquipeAtletaCreateArgs} args - Arguments to create a EquipeAtleta.
      * @example
-     * // Create one AtletaEquipeOficial
-     * const AtletaEquipeOficial = await prisma.atletaEquipeOficial.create({
+     * // Create one EquipeAtleta
+     * const EquipeAtleta = await prisma.equipeAtleta.create({
      *   data: {
-     *     // ... data to create a AtletaEquipeOficial
+     *     // ... data to create a EquipeAtleta
      *   }
      * })
      * 
      */
-    create<T extends AtletaEquipeOficialCreateArgs>(args: SelectSubset<T, AtletaEquipeOficialCreateArgs<ExtArgs>>): Prisma__AtletaEquipeOficialClient<$Result.GetResult<Prisma.$AtletaEquipeOficialPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends EquipeAtletaCreateArgs>(args: SelectSubset<T, EquipeAtletaCreateArgs<ExtArgs>>): Prisma__EquipeAtletaClient<$Result.GetResult<Prisma.$EquipeAtletaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many AtletaEquipeOficials.
-     * @param {AtletaEquipeOficialCreateManyArgs} args - Arguments to create many AtletaEquipeOficials.
+     * Create many EquipeAtletas.
+     * @param {EquipeAtletaCreateManyArgs} args - Arguments to create many EquipeAtletas.
      * @example
-     * // Create many AtletaEquipeOficials
-     * const atletaEquipeOficial = await prisma.atletaEquipeOficial.createMany({
+     * // Create many EquipeAtletas
+     * const equipeAtleta = await prisma.equipeAtleta.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends AtletaEquipeOficialCreateManyArgs>(args?: SelectSubset<T, AtletaEquipeOficialCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends EquipeAtletaCreateManyArgs>(args?: SelectSubset<T, EquipeAtletaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many AtletaEquipeOficials and returns the data saved in the database.
-     * @param {AtletaEquipeOficialCreateManyAndReturnArgs} args - Arguments to create many AtletaEquipeOficials.
+     * Create many EquipeAtletas and returns the data saved in the database.
+     * @param {EquipeAtletaCreateManyAndReturnArgs} args - Arguments to create many EquipeAtletas.
      * @example
-     * // Create many AtletaEquipeOficials
-     * const atletaEquipeOficial = await prisma.atletaEquipeOficial.createManyAndReturn({
+     * // Create many EquipeAtletas
+     * const equipeAtleta = await prisma.equipeAtleta.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many AtletaEquipeOficials and only return the `atletaId`
-     * const atletaEquipeOficialWithAtletaIdOnly = await prisma.atletaEquipeOficial.createManyAndReturn({
+     * // Create many EquipeAtletas and only return the `atletaId`
+     * const equipeAtletaWithAtletaIdOnly = await prisma.equipeAtleta.createManyAndReturn({
      *   select: { atletaId: true },
      *   data: [
      *     // ... provide data here
@@ -10330,28 +7725,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends AtletaEquipeOficialCreateManyAndReturnArgs>(args?: SelectSubset<T, AtletaEquipeOficialCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AtletaEquipeOficialPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends EquipeAtletaCreateManyAndReturnArgs>(args?: SelectSubset<T, EquipeAtletaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipeAtletaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a AtletaEquipeOficial.
-     * @param {AtletaEquipeOficialDeleteArgs} args - Arguments to delete one AtletaEquipeOficial.
+     * Delete a EquipeAtleta.
+     * @param {EquipeAtletaDeleteArgs} args - Arguments to delete one EquipeAtleta.
      * @example
-     * // Delete one AtletaEquipeOficial
-     * const AtletaEquipeOficial = await prisma.atletaEquipeOficial.delete({
+     * // Delete one EquipeAtleta
+     * const EquipeAtleta = await prisma.equipeAtleta.delete({
      *   where: {
-     *     // ... filter to delete one AtletaEquipeOficial
+     *     // ... filter to delete one EquipeAtleta
      *   }
      * })
      * 
      */
-    delete<T extends AtletaEquipeOficialDeleteArgs>(args: SelectSubset<T, AtletaEquipeOficialDeleteArgs<ExtArgs>>): Prisma__AtletaEquipeOficialClient<$Result.GetResult<Prisma.$AtletaEquipeOficialPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends EquipeAtletaDeleteArgs>(args: SelectSubset<T, EquipeAtletaDeleteArgs<ExtArgs>>): Prisma__EquipeAtletaClient<$Result.GetResult<Prisma.$EquipeAtletaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one AtletaEquipeOficial.
-     * @param {AtletaEquipeOficialUpdateArgs} args - Arguments to update one AtletaEquipeOficial.
+     * Update one EquipeAtleta.
+     * @param {EquipeAtletaUpdateArgs} args - Arguments to update one EquipeAtleta.
      * @example
-     * // Update one AtletaEquipeOficial
-     * const atletaEquipeOficial = await prisma.atletaEquipeOficial.update({
+     * // Update one EquipeAtleta
+     * const equipeAtleta = await prisma.equipeAtleta.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -10361,30 +7756,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends AtletaEquipeOficialUpdateArgs>(args: SelectSubset<T, AtletaEquipeOficialUpdateArgs<ExtArgs>>): Prisma__AtletaEquipeOficialClient<$Result.GetResult<Prisma.$AtletaEquipeOficialPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends EquipeAtletaUpdateArgs>(args: SelectSubset<T, EquipeAtletaUpdateArgs<ExtArgs>>): Prisma__EquipeAtletaClient<$Result.GetResult<Prisma.$EquipeAtletaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more AtletaEquipeOficials.
-     * @param {AtletaEquipeOficialDeleteManyArgs} args - Arguments to filter AtletaEquipeOficials to delete.
+     * Delete zero or more EquipeAtletas.
+     * @param {EquipeAtletaDeleteManyArgs} args - Arguments to filter EquipeAtletas to delete.
      * @example
-     * // Delete a few AtletaEquipeOficials
-     * const { count } = await prisma.atletaEquipeOficial.deleteMany({
+     * // Delete a few EquipeAtletas
+     * const { count } = await prisma.equipeAtleta.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends AtletaEquipeOficialDeleteManyArgs>(args?: SelectSubset<T, AtletaEquipeOficialDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends EquipeAtletaDeleteManyArgs>(args?: SelectSubset<T, EquipeAtletaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more AtletaEquipeOficials.
+     * Update zero or more EquipeAtletas.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AtletaEquipeOficialUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {EquipeAtletaUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many AtletaEquipeOficials
-     * const atletaEquipeOficial = await prisma.atletaEquipeOficial.updateMany({
+     * // Update many EquipeAtletas
+     * const equipeAtleta = await prisma.equipeAtleta.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -10394,14 +7789,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends AtletaEquipeOficialUpdateManyArgs>(args: SelectSubset<T, AtletaEquipeOficialUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends EquipeAtletaUpdateManyArgs>(args: SelectSubset<T, EquipeAtletaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more AtletaEquipeOficials and returns the data updated in the database.
-     * @param {AtletaEquipeOficialUpdateManyAndReturnArgs} args - Arguments to update many AtletaEquipeOficials.
+     * Update zero or more EquipeAtletas and returns the data updated in the database.
+     * @param {EquipeAtletaUpdateManyAndReturnArgs} args - Arguments to update many EquipeAtletas.
      * @example
-     * // Update many AtletaEquipeOficials
-     * const atletaEquipeOficial = await prisma.atletaEquipeOficial.updateManyAndReturn({
+     * // Update many EquipeAtletas
+     * const equipeAtleta = await prisma.equipeAtleta.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -10410,8 +7805,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more AtletaEquipeOficials and only return the `atletaId`
-     * const atletaEquipeOficialWithAtletaIdOnly = await prisma.atletaEquipeOficial.updateManyAndReturn({
+     * // Update zero or more EquipeAtletas and only return the `atletaId`
+     * const equipeAtletaWithAtletaIdOnly = await prisma.equipeAtleta.updateManyAndReturn({
      *   select: { atletaId: true },
      *   where: {
      *     // ... provide filter here
@@ -10424,56 +7819,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends AtletaEquipeOficialUpdateManyAndReturnArgs>(args: SelectSubset<T, AtletaEquipeOficialUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AtletaEquipeOficialPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends EquipeAtletaUpdateManyAndReturnArgs>(args: SelectSubset<T, EquipeAtletaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipeAtletaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one AtletaEquipeOficial.
-     * @param {AtletaEquipeOficialUpsertArgs} args - Arguments to update or create a AtletaEquipeOficial.
+     * Create or update one EquipeAtleta.
+     * @param {EquipeAtletaUpsertArgs} args - Arguments to update or create a EquipeAtleta.
      * @example
-     * // Update or create a AtletaEquipeOficial
-     * const atletaEquipeOficial = await prisma.atletaEquipeOficial.upsert({
+     * // Update or create a EquipeAtleta
+     * const equipeAtleta = await prisma.equipeAtleta.upsert({
      *   create: {
-     *     // ... data to create a AtletaEquipeOficial
+     *     // ... data to create a EquipeAtleta
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the AtletaEquipeOficial we want to update
+     *     // ... the filter for the EquipeAtleta we want to update
      *   }
      * })
      */
-    upsert<T extends AtletaEquipeOficialUpsertArgs>(args: SelectSubset<T, AtletaEquipeOficialUpsertArgs<ExtArgs>>): Prisma__AtletaEquipeOficialClient<$Result.GetResult<Prisma.$AtletaEquipeOficialPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends EquipeAtletaUpsertArgs>(args: SelectSubset<T, EquipeAtletaUpsertArgs<ExtArgs>>): Prisma__EquipeAtletaClient<$Result.GetResult<Prisma.$EquipeAtletaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of AtletaEquipeOficials.
+     * Count the number of EquipeAtletas.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AtletaEquipeOficialCountArgs} args - Arguments to filter AtletaEquipeOficials to count.
+     * @param {EquipeAtletaCountArgs} args - Arguments to filter EquipeAtletas to count.
      * @example
-     * // Count the number of AtletaEquipeOficials
-     * const count = await prisma.atletaEquipeOficial.count({
+     * // Count the number of EquipeAtletas
+     * const count = await prisma.equipeAtleta.count({
      *   where: {
-     *     // ... the filter for the AtletaEquipeOficials we want to count
+     *     // ... the filter for the EquipeAtletas we want to count
      *   }
      * })
     **/
-    count<T extends AtletaEquipeOficialCountArgs>(
-      args?: Subset<T, AtletaEquipeOficialCountArgs>,
+    count<T extends EquipeAtletaCountArgs>(
+      args?: Subset<T, EquipeAtletaCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], AtletaEquipeOficialCountAggregateOutputType>
+          : GetScalarType<T['select'], EquipeAtletaCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a AtletaEquipeOficial.
+     * Allows you to perform aggregations operations on a EquipeAtleta.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AtletaEquipeOficialAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {EquipeAtletaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -10493,13 +7888,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends AtletaEquipeOficialAggregateArgs>(args: Subset<T, AtletaEquipeOficialAggregateArgs>): Prisma.PrismaPromise<GetAtletaEquipeOficialAggregateType<T>>
+    aggregate<T extends EquipeAtletaAggregateArgs>(args: Subset<T, EquipeAtletaAggregateArgs>): Prisma.PrismaPromise<GetEquipeAtletaAggregateType<T>>
 
     /**
-     * Group by AtletaEquipeOficial.
+     * Group by EquipeAtleta.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AtletaEquipeOficialGroupByArgs} args - Group by arguments.
+     * @param {EquipeAtletaGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -10514,14 +7909,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends AtletaEquipeOficialGroupByArgs,
+      T extends EquipeAtletaGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AtletaEquipeOficialGroupByArgs['orderBy'] }
-        : { orderBy?: AtletaEquipeOficialGroupByArgs['orderBy'] },
+        ? { orderBy: EquipeAtletaGroupByArgs['orderBy'] }
+        : { orderBy?: EquipeAtletaGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -10570,23 +7965,23 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, AtletaEquipeOficialGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAtletaEquipeOficialGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, EquipeAtletaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEquipeAtletaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the AtletaEquipeOficial model
+   * Fields of the EquipeAtleta model
    */
-  readonly fields: AtletaEquipeOficialFieldRefs;
+  readonly fields: EquipeAtletaFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for AtletaEquipeOficial.
+   * The delegate class that acts as a "Promise-like" for EquipeAtleta.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__AtletaEquipeOficialClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__EquipeAtletaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     atleta<T extends AtletaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AtletaDefaultArgs<ExtArgs>>): Prisma__AtletaClient<$Result.GetResult<Prisma.$AtletaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    equipeOficial<T extends EquipeOficialDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EquipeOficialDefaultArgs<ExtArgs>>): Prisma__EquipeOficialClient<$Result.GetResult<Prisma.$EquipeOficialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    equipe<T extends EquipeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EquipeDefaultArgs<ExtArgs>>): Prisma__EquipeClient<$Result.GetResult<Prisma.$EquipePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10613,422 +8008,422 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the AtletaEquipeOficial model
+   * Fields of the EquipeAtleta model
    */
-  interface AtletaEquipeOficialFieldRefs {
-    readonly atletaId: FieldRef<"AtletaEquipeOficial", 'Int'>
-    readonly equipeOficialId: FieldRef<"AtletaEquipeOficial", 'Int'>
+  interface EquipeAtletaFieldRefs {
+    readonly atletaId: FieldRef<"EquipeAtleta", 'Int'>
+    readonly equipeId: FieldRef<"EquipeAtleta", 'Int'>
   }
     
 
   // Custom InputTypes
   /**
-   * AtletaEquipeOficial findUnique
+   * EquipeAtleta findUnique
    */
-  export type AtletaEquipeOficialFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the AtletaEquipeOficial
+     * Select specific fields to fetch from the EquipeAtleta
      */
-    select?: AtletaEquipeOficialSelect<ExtArgs> | null
+    select?: EquipeAtletaSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the AtletaEquipeOficial
+     * Omit specific fields from the EquipeAtleta
      */
-    omit?: AtletaEquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeAtletaOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AtletaEquipeOficialInclude<ExtArgs> | null
+    include?: EquipeAtletaInclude<ExtArgs> | null
     /**
-     * Filter, which AtletaEquipeOficial to fetch.
+     * Filter, which EquipeAtleta to fetch.
      */
-    where: AtletaEquipeOficialWhereUniqueInput
+    where: EquipeAtletaWhereUniqueInput
   }
 
   /**
-   * AtletaEquipeOficial findUniqueOrThrow
+   * EquipeAtleta findUniqueOrThrow
    */
-  export type AtletaEquipeOficialFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the AtletaEquipeOficial
+     * Select specific fields to fetch from the EquipeAtleta
      */
-    select?: AtletaEquipeOficialSelect<ExtArgs> | null
+    select?: EquipeAtletaSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the AtletaEquipeOficial
+     * Omit specific fields from the EquipeAtleta
      */
-    omit?: AtletaEquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeAtletaOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AtletaEquipeOficialInclude<ExtArgs> | null
+    include?: EquipeAtletaInclude<ExtArgs> | null
     /**
-     * Filter, which AtletaEquipeOficial to fetch.
+     * Filter, which EquipeAtleta to fetch.
      */
-    where: AtletaEquipeOficialWhereUniqueInput
+    where: EquipeAtletaWhereUniqueInput
   }
 
   /**
-   * AtletaEquipeOficial findFirst
+   * EquipeAtleta findFirst
    */
-  export type AtletaEquipeOficialFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the AtletaEquipeOficial
+     * Select specific fields to fetch from the EquipeAtleta
      */
-    select?: AtletaEquipeOficialSelect<ExtArgs> | null
+    select?: EquipeAtletaSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the AtletaEquipeOficial
+     * Omit specific fields from the EquipeAtleta
      */
-    omit?: AtletaEquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeAtletaOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AtletaEquipeOficialInclude<ExtArgs> | null
+    include?: EquipeAtletaInclude<ExtArgs> | null
     /**
-     * Filter, which AtletaEquipeOficial to fetch.
+     * Filter, which EquipeAtleta to fetch.
      */
-    where?: AtletaEquipeOficialWhereInput
+    where?: EquipeAtletaWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of AtletaEquipeOficials to fetch.
+     * Determine the order of EquipeAtletas to fetch.
      */
-    orderBy?: AtletaEquipeOficialOrderByWithRelationInput | AtletaEquipeOficialOrderByWithRelationInput[]
+    orderBy?: EquipeAtletaOrderByWithRelationInput | EquipeAtletaOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for AtletaEquipeOficials.
+     * Sets the position for searching for EquipeAtletas.
      */
-    cursor?: AtletaEquipeOficialWhereUniqueInput
+    cursor?: EquipeAtletaWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` AtletaEquipeOficials from the position of the cursor.
+     * Take `±n` EquipeAtletas from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` AtletaEquipeOficials.
+     * Skip the first `n` EquipeAtletas.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of AtletaEquipeOficials.
+     * Filter by unique combinations of EquipeAtletas.
      */
-    distinct?: AtletaEquipeOficialScalarFieldEnum | AtletaEquipeOficialScalarFieldEnum[]
+    distinct?: EquipeAtletaScalarFieldEnum | EquipeAtletaScalarFieldEnum[]
   }
 
   /**
-   * AtletaEquipeOficial findFirstOrThrow
+   * EquipeAtleta findFirstOrThrow
    */
-  export type AtletaEquipeOficialFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the AtletaEquipeOficial
+     * Select specific fields to fetch from the EquipeAtleta
      */
-    select?: AtletaEquipeOficialSelect<ExtArgs> | null
+    select?: EquipeAtletaSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the AtletaEquipeOficial
+     * Omit specific fields from the EquipeAtleta
      */
-    omit?: AtletaEquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeAtletaOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AtletaEquipeOficialInclude<ExtArgs> | null
+    include?: EquipeAtletaInclude<ExtArgs> | null
     /**
-     * Filter, which AtletaEquipeOficial to fetch.
+     * Filter, which EquipeAtleta to fetch.
      */
-    where?: AtletaEquipeOficialWhereInput
+    where?: EquipeAtletaWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of AtletaEquipeOficials to fetch.
+     * Determine the order of EquipeAtletas to fetch.
      */
-    orderBy?: AtletaEquipeOficialOrderByWithRelationInput | AtletaEquipeOficialOrderByWithRelationInput[]
+    orderBy?: EquipeAtletaOrderByWithRelationInput | EquipeAtletaOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for AtletaEquipeOficials.
+     * Sets the position for searching for EquipeAtletas.
      */
-    cursor?: AtletaEquipeOficialWhereUniqueInput
+    cursor?: EquipeAtletaWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` AtletaEquipeOficials from the position of the cursor.
+     * Take `±n` EquipeAtletas from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` AtletaEquipeOficials.
+     * Skip the first `n` EquipeAtletas.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of AtletaEquipeOficials.
+     * Filter by unique combinations of EquipeAtletas.
      */
-    distinct?: AtletaEquipeOficialScalarFieldEnum | AtletaEquipeOficialScalarFieldEnum[]
+    distinct?: EquipeAtletaScalarFieldEnum | EquipeAtletaScalarFieldEnum[]
   }
 
   /**
-   * AtletaEquipeOficial findMany
+   * EquipeAtleta findMany
    */
-  export type AtletaEquipeOficialFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the AtletaEquipeOficial
+     * Select specific fields to fetch from the EquipeAtleta
      */
-    select?: AtletaEquipeOficialSelect<ExtArgs> | null
+    select?: EquipeAtletaSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the AtletaEquipeOficial
+     * Omit specific fields from the EquipeAtleta
      */
-    omit?: AtletaEquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeAtletaOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AtletaEquipeOficialInclude<ExtArgs> | null
+    include?: EquipeAtletaInclude<ExtArgs> | null
     /**
-     * Filter, which AtletaEquipeOficials to fetch.
+     * Filter, which EquipeAtletas to fetch.
      */
-    where?: AtletaEquipeOficialWhereInput
+    where?: EquipeAtletaWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of AtletaEquipeOficials to fetch.
+     * Determine the order of EquipeAtletas to fetch.
      */
-    orderBy?: AtletaEquipeOficialOrderByWithRelationInput | AtletaEquipeOficialOrderByWithRelationInput[]
+    orderBy?: EquipeAtletaOrderByWithRelationInput | EquipeAtletaOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing AtletaEquipeOficials.
+     * Sets the position for listing EquipeAtletas.
      */
-    cursor?: AtletaEquipeOficialWhereUniqueInput
+    cursor?: EquipeAtletaWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` AtletaEquipeOficials from the position of the cursor.
+     * Take `±n` EquipeAtletas from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` AtletaEquipeOficials.
+     * Skip the first `n` EquipeAtletas.
      */
     skip?: number
-    distinct?: AtletaEquipeOficialScalarFieldEnum | AtletaEquipeOficialScalarFieldEnum[]
+    distinct?: EquipeAtletaScalarFieldEnum | EquipeAtletaScalarFieldEnum[]
   }
 
   /**
-   * AtletaEquipeOficial create
+   * EquipeAtleta create
    */
-  export type AtletaEquipeOficialCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the AtletaEquipeOficial
+     * Select specific fields to fetch from the EquipeAtleta
      */
-    select?: AtletaEquipeOficialSelect<ExtArgs> | null
+    select?: EquipeAtletaSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the AtletaEquipeOficial
+     * Omit specific fields from the EquipeAtleta
      */
-    omit?: AtletaEquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeAtletaOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AtletaEquipeOficialInclude<ExtArgs> | null
+    include?: EquipeAtletaInclude<ExtArgs> | null
     /**
-     * The data needed to create a AtletaEquipeOficial.
+     * The data needed to create a EquipeAtleta.
      */
-    data: XOR<AtletaEquipeOficialCreateInput, AtletaEquipeOficialUncheckedCreateInput>
+    data: XOR<EquipeAtletaCreateInput, EquipeAtletaUncheckedCreateInput>
   }
 
   /**
-   * AtletaEquipeOficial createMany
+   * EquipeAtleta createMany
    */
-  export type AtletaEquipeOficialCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many AtletaEquipeOficials.
+     * The data used to create many EquipeAtletas.
      */
-    data: AtletaEquipeOficialCreateManyInput | AtletaEquipeOficialCreateManyInput[]
+    data: EquipeAtletaCreateManyInput | EquipeAtletaCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * AtletaEquipeOficial createManyAndReturn
+   * EquipeAtleta createManyAndReturn
    */
-  export type AtletaEquipeOficialCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the AtletaEquipeOficial
+     * Select specific fields to fetch from the EquipeAtleta
      */
-    select?: AtletaEquipeOficialSelectCreateManyAndReturn<ExtArgs> | null
+    select?: EquipeAtletaSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the AtletaEquipeOficial
+     * Omit specific fields from the EquipeAtleta
      */
-    omit?: AtletaEquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeAtletaOmit<ExtArgs> | null
     /**
-     * The data used to create many AtletaEquipeOficials.
+     * The data used to create many EquipeAtletas.
      */
-    data: AtletaEquipeOficialCreateManyInput | AtletaEquipeOficialCreateManyInput[]
+    data: EquipeAtletaCreateManyInput | EquipeAtletaCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AtletaEquipeOficialIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: EquipeAtletaIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * AtletaEquipeOficial update
+   * EquipeAtleta update
    */
-  export type AtletaEquipeOficialUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the AtletaEquipeOficial
+     * Select specific fields to fetch from the EquipeAtleta
      */
-    select?: AtletaEquipeOficialSelect<ExtArgs> | null
+    select?: EquipeAtletaSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the AtletaEquipeOficial
+     * Omit specific fields from the EquipeAtleta
      */
-    omit?: AtletaEquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeAtletaOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AtletaEquipeOficialInclude<ExtArgs> | null
+    include?: EquipeAtletaInclude<ExtArgs> | null
     /**
-     * The data needed to update a AtletaEquipeOficial.
+     * The data needed to update a EquipeAtleta.
      */
-    data: XOR<AtletaEquipeOficialUpdateInput, AtletaEquipeOficialUncheckedUpdateInput>
+    data: XOR<EquipeAtletaUpdateInput, EquipeAtletaUncheckedUpdateInput>
     /**
-     * Choose, which AtletaEquipeOficial to update.
+     * Choose, which EquipeAtleta to update.
      */
-    where: AtletaEquipeOficialWhereUniqueInput
+    where: EquipeAtletaWhereUniqueInput
   }
 
   /**
-   * AtletaEquipeOficial updateMany
+   * EquipeAtleta updateMany
    */
-  export type AtletaEquipeOficialUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update AtletaEquipeOficials.
+     * The data used to update EquipeAtletas.
      */
-    data: XOR<AtletaEquipeOficialUpdateManyMutationInput, AtletaEquipeOficialUncheckedUpdateManyInput>
+    data: XOR<EquipeAtletaUpdateManyMutationInput, EquipeAtletaUncheckedUpdateManyInput>
     /**
-     * Filter which AtletaEquipeOficials to update
+     * Filter which EquipeAtletas to update
      */
-    where?: AtletaEquipeOficialWhereInput
+    where?: EquipeAtletaWhereInput
     /**
-     * Limit how many AtletaEquipeOficials to update.
+     * Limit how many EquipeAtletas to update.
      */
     limit?: number
   }
 
   /**
-   * AtletaEquipeOficial updateManyAndReturn
+   * EquipeAtleta updateManyAndReturn
    */
-  export type AtletaEquipeOficialUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the AtletaEquipeOficial
+     * Select specific fields to fetch from the EquipeAtleta
      */
-    select?: AtletaEquipeOficialSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: EquipeAtletaSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the AtletaEquipeOficial
+     * Omit specific fields from the EquipeAtleta
      */
-    omit?: AtletaEquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeAtletaOmit<ExtArgs> | null
     /**
-     * The data used to update AtletaEquipeOficials.
+     * The data used to update EquipeAtletas.
      */
-    data: XOR<AtletaEquipeOficialUpdateManyMutationInput, AtletaEquipeOficialUncheckedUpdateManyInput>
+    data: XOR<EquipeAtletaUpdateManyMutationInput, EquipeAtletaUncheckedUpdateManyInput>
     /**
-     * Filter which AtletaEquipeOficials to update
+     * Filter which EquipeAtletas to update
      */
-    where?: AtletaEquipeOficialWhereInput
+    where?: EquipeAtletaWhereInput
     /**
-     * Limit how many AtletaEquipeOficials to update.
+     * Limit how many EquipeAtletas to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AtletaEquipeOficialIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: EquipeAtletaIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * AtletaEquipeOficial upsert
+   * EquipeAtleta upsert
    */
-  export type AtletaEquipeOficialUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the AtletaEquipeOficial
+     * Select specific fields to fetch from the EquipeAtleta
      */
-    select?: AtletaEquipeOficialSelect<ExtArgs> | null
+    select?: EquipeAtletaSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the AtletaEquipeOficial
+     * Omit specific fields from the EquipeAtleta
      */
-    omit?: AtletaEquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeAtletaOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AtletaEquipeOficialInclude<ExtArgs> | null
+    include?: EquipeAtletaInclude<ExtArgs> | null
     /**
-     * The filter to search for the AtletaEquipeOficial to update in case it exists.
+     * The filter to search for the EquipeAtleta to update in case it exists.
      */
-    where: AtletaEquipeOficialWhereUniqueInput
+    where: EquipeAtletaWhereUniqueInput
     /**
-     * In case the AtletaEquipeOficial found by the `where` argument doesn't exist, create a new AtletaEquipeOficial with this data.
+     * In case the EquipeAtleta found by the `where` argument doesn't exist, create a new EquipeAtleta with this data.
      */
-    create: XOR<AtletaEquipeOficialCreateInput, AtletaEquipeOficialUncheckedCreateInput>
+    create: XOR<EquipeAtletaCreateInput, EquipeAtletaUncheckedCreateInput>
     /**
-     * In case the AtletaEquipeOficial was found with the provided `where` argument, update it with this data.
+     * In case the EquipeAtleta was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<AtletaEquipeOficialUpdateInput, AtletaEquipeOficialUncheckedUpdateInput>
+    update: XOR<EquipeAtletaUpdateInput, EquipeAtletaUncheckedUpdateInput>
   }
 
   /**
-   * AtletaEquipeOficial delete
+   * EquipeAtleta delete
    */
-  export type AtletaEquipeOficialDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the AtletaEquipeOficial
+     * Select specific fields to fetch from the EquipeAtleta
      */
-    select?: AtletaEquipeOficialSelect<ExtArgs> | null
+    select?: EquipeAtletaSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the AtletaEquipeOficial
+     * Omit specific fields from the EquipeAtleta
      */
-    omit?: AtletaEquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeAtletaOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AtletaEquipeOficialInclude<ExtArgs> | null
+    include?: EquipeAtletaInclude<ExtArgs> | null
     /**
-     * Filter which AtletaEquipeOficial to delete.
+     * Filter which EquipeAtleta to delete.
      */
-    where: AtletaEquipeOficialWhereUniqueInput
+    where: EquipeAtletaWhereUniqueInput
   }
 
   /**
-   * AtletaEquipeOficial deleteMany
+   * EquipeAtleta deleteMany
    */
-  export type AtletaEquipeOficialDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which AtletaEquipeOficials to delete
+     * Filter which EquipeAtletas to delete
      */
-    where?: AtletaEquipeOficialWhereInput
+    where?: EquipeAtletaWhereInput
     /**
-     * Limit how many AtletaEquipeOficials to delete.
+     * Limit how many EquipeAtletas to delete.
      */
     limit?: number
   }
 
   /**
-   * AtletaEquipeOficial without action
+   * EquipeAtleta without action
    */
-  export type AtletaEquipeOficialDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EquipeAtletaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the AtletaEquipeOficial
+     * Select specific fields to fetch from the EquipeAtleta
      */
-    select?: AtletaEquipeOficialSelect<ExtArgs> | null
+    select?: EquipeAtletaSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the AtletaEquipeOficial
+     * Omit specific fields from the EquipeAtleta
      */
-    omit?: AtletaEquipeOficialOmit<ExtArgs> | null
+    omit?: EquipeAtletaOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AtletaEquipeOficialInclude<ExtArgs> | null
+    include?: EquipeAtletaInclude<ExtArgs> | null
   }
 
 
@@ -11050,10 +8445,8 @@ export namespace Prisma {
     pontosEquipe1: number | null
     pontosEquipe2: number | null
     vencedorId: number | null
-    equipeAmador1Id: number | null
-    equipeAmador2Id: number | null
-    equipeOficial1Id: number | null
-    equipeOficial2Id: number | null
+    equipe1Id: number | null
+    equipe2Id: number | null
   }
 
   export type PartidaSumAggregateOutputType = {
@@ -11062,10 +8455,8 @@ export namespace Prisma {
     pontosEquipe1: number | null
     pontosEquipe2: number | null
     vencedorId: number | null
-    equipeAmador1Id: number | null
-    equipeAmador2Id: number | null
-    equipeOficial1Id: number | null
-    equipeOficial2Id: number | null
+    equipe1Id: number | null
+    equipe2Id: number | null
   }
 
   export type PartidaMinAggregateOutputType = {
@@ -11077,10 +8468,8 @@ export namespace Prisma {
     vencedorId: number | null
     createdAt: Date | null
     updatedAt: Date | null
-    equipeAmador1Id: number | null
-    equipeAmador2Id: number | null
-    equipeOficial1Id: number | null
-    equipeOficial2Id: number | null
+    equipe1Id: number | null
+    equipe2Id: number | null
   }
 
   export type PartidaMaxAggregateOutputType = {
@@ -11092,10 +8481,8 @@ export namespace Prisma {
     vencedorId: number | null
     createdAt: Date | null
     updatedAt: Date | null
-    equipeAmador1Id: number | null
-    equipeAmador2Id: number | null
-    equipeOficial1Id: number | null
-    equipeOficial2Id: number | null
+    equipe1Id: number | null
+    equipe2Id: number | null
   }
 
   export type PartidaCountAggregateOutputType = {
@@ -11107,10 +8494,8 @@ export namespace Prisma {
     vencedorId: number
     createdAt: number
     updatedAt: number
-    equipeAmador1Id: number
-    equipeAmador2Id: number
-    equipeOficial1Id: number
-    equipeOficial2Id: number
+    equipe1Id: number
+    equipe2Id: number
     _all: number
   }
 
@@ -11121,10 +8506,8 @@ export namespace Prisma {
     pontosEquipe1?: true
     pontosEquipe2?: true
     vencedorId?: true
-    equipeAmador1Id?: true
-    equipeAmador2Id?: true
-    equipeOficial1Id?: true
-    equipeOficial2Id?: true
+    equipe1Id?: true
+    equipe2Id?: true
   }
 
   export type PartidaSumAggregateInputType = {
@@ -11133,10 +8516,8 @@ export namespace Prisma {
     pontosEquipe1?: true
     pontosEquipe2?: true
     vencedorId?: true
-    equipeAmador1Id?: true
-    equipeAmador2Id?: true
-    equipeOficial1Id?: true
-    equipeOficial2Id?: true
+    equipe1Id?: true
+    equipe2Id?: true
   }
 
   export type PartidaMinAggregateInputType = {
@@ -11148,10 +8529,8 @@ export namespace Prisma {
     vencedorId?: true
     createdAt?: true
     updatedAt?: true
-    equipeAmador1Id?: true
-    equipeAmador2Id?: true
-    equipeOficial1Id?: true
-    equipeOficial2Id?: true
+    equipe1Id?: true
+    equipe2Id?: true
   }
 
   export type PartidaMaxAggregateInputType = {
@@ -11163,10 +8542,8 @@ export namespace Prisma {
     vencedorId?: true
     createdAt?: true
     updatedAt?: true
-    equipeAmador1Id?: true
-    equipeAmador2Id?: true
-    equipeOficial1Id?: true
-    equipeOficial2Id?: true
+    equipe1Id?: true
+    equipe2Id?: true
   }
 
   export type PartidaCountAggregateInputType = {
@@ -11178,10 +8555,8 @@ export namespace Prisma {
     vencedorId?: true
     createdAt?: true
     updatedAt?: true
-    equipeAmador1Id?: true
-    equipeAmador2Id?: true
-    equipeOficial1Id?: true
-    equipeOficial2Id?: true
+    equipe1Id?: true
+    equipe2Id?: true
     _all?: true
   }
 
@@ -11280,10 +8655,8 @@ export namespace Prisma {
     vencedorId: number | null
     createdAt: Date
     updatedAt: Date
-    equipeAmador1Id: number | null
-    equipeAmador2Id: number | null
-    equipeOficial1Id: number | null
-    equipeOficial2Id: number | null
+    equipe1Id: number
+    equipe2Id: number
     _count: PartidaCountAggregateOutputType | null
     _avg: PartidaAvgAggregateOutputType | null
     _sum: PartidaSumAggregateOutputType | null
@@ -11314,15 +8687,11 @@ export namespace Prisma {
     vencedorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    equipeAmador1Id?: boolean
-    equipeAmador2Id?: boolean
-    equipeOficial1Id?: boolean
-    equipeOficial2Id?: boolean
+    equipe1Id?: boolean
+    equipe2Id?: boolean
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-    equipeAmador1?: boolean | Partida$equipeAmador1Args<ExtArgs>
-    equipeAmador2?: boolean | Partida$equipeAmador2Args<ExtArgs>
-    equipeOficial1?: boolean | Partida$equipeOficial1Args<ExtArgs>
-    equipeOficial2?: boolean | Partida$equipeOficial2Args<ExtArgs>
+    equipe1?: boolean | EquipeDefaultArgs<ExtArgs>
+    equipe2?: boolean | EquipeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["partida"]>
 
   export type PartidaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -11334,15 +8703,11 @@ export namespace Prisma {
     vencedorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    equipeAmador1Id?: boolean
-    equipeAmador2Id?: boolean
-    equipeOficial1Id?: boolean
-    equipeOficial2Id?: boolean
+    equipe1Id?: boolean
+    equipe2Id?: boolean
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-    equipeAmador1?: boolean | Partida$equipeAmador1Args<ExtArgs>
-    equipeAmador2?: boolean | Partida$equipeAmador2Args<ExtArgs>
-    equipeOficial1?: boolean | Partida$equipeOficial1Args<ExtArgs>
-    equipeOficial2?: boolean | Partida$equipeOficial2Args<ExtArgs>
+    equipe1?: boolean | EquipeDefaultArgs<ExtArgs>
+    equipe2?: boolean | EquipeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["partida"]>
 
   export type PartidaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -11354,15 +8719,11 @@ export namespace Prisma {
     vencedorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    equipeAmador1Id?: boolean
-    equipeAmador2Id?: boolean
-    equipeOficial1Id?: boolean
-    equipeOficial2Id?: boolean
+    equipe1Id?: boolean
+    equipe2Id?: boolean
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-    equipeAmador1?: boolean | Partida$equipeAmador1Args<ExtArgs>
-    equipeAmador2?: boolean | Partida$equipeAmador2Args<ExtArgs>
-    equipeOficial1?: boolean | Partida$equipeOficial1Args<ExtArgs>
-    equipeOficial2?: boolean | Partida$equipeOficial2Args<ExtArgs>
+    equipe1?: boolean | EquipeDefaultArgs<ExtArgs>
+    equipe2?: boolean | EquipeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["partida"]>
 
   export type PartidaSelectScalar = {
@@ -11374,43 +8735,33 @@ export namespace Prisma {
     vencedorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    equipeAmador1Id?: boolean
-    equipeAmador2Id?: boolean
-    equipeOficial1Id?: boolean
-    equipeOficial2Id?: boolean
+    equipe1Id?: boolean
+    equipe2Id?: boolean
   }
 
-  export type PartidaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "torneioId" | "fase" | "pontosEquipe1" | "pontosEquipe2" | "vencedorId" | "createdAt" | "updatedAt" | "equipeAmador1Id" | "equipeAmador2Id" | "equipeOficial1Id" | "equipeOficial2Id", ExtArgs["result"]["partida"]>
+  export type PartidaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "torneioId" | "fase" | "pontosEquipe1" | "pontosEquipe2" | "vencedorId" | "createdAt" | "updatedAt" | "equipe1Id" | "equipe2Id", ExtArgs["result"]["partida"]>
   export type PartidaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-    equipeAmador1?: boolean | Partida$equipeAmador1Args<ExtArgs>
-    equipeAmador2?: boolean | Partida$equipeAmador2Args<ExtArgs>
-    equipeOficial1?: boolean | Partida$equipeOficial1Args<ExtArgs>
-    equipeOficial2?: boolean | Partida$equipeOficial2Args<ExtArgs>
+    equipe1?: boolean | EquipeDefaultArgs<ExtArgs>
+    equipe2?: boolean | EquipeDefaultArgs<ExtArgs>
   }
   export type PartidaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-    equipeAmador1?: boolean | Partida$equipeAmador1Args<ExtArgs>
-    equipeAmador2?: boolean | Partida$equipeAmador2Args<ExtArgs>
-    equipeOficial1?: boolean | Partida$equipeOficial1Args<ExtArgs>
-    equipeOficial2?: boolean | Partida$equipeOficial2Args<ExtArgs>
+    equipe1?: boolean | EquipeDefaultArgs<ExtArgs>
+    equipe2?: boolean | EquipeDefaultArgs<ExtArgs>
   }
   export type PartidaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     torneio?: boolean | TorneioDefaultArgs<ExtArgs>
-    equipeAmador1?: boolean | Partida$equipeAmador1Args<ExtArgs>
-    equipeAmador2?: boolean | Partida$equipeAmador2Args<ExtArgs>
-    equipeOficial1?: boolean | Partida$equipeOficial1Args<ExtArgs>
-    equipeOficial2?: boolean | Partida$equipeOficial2Args<ExtArgs>
+    equipe1?: boolean | EquipeDefaultArgs<ExtArgs>
+    equipe2?: boolean | EquipeDefaultArgs<ExtArgs>
   }
 
   export type $PartidaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Partida"
     objects: {
       torneio: Prisma.$TorneioPayload<ExtArgs>
-      equipeAmador1: Prisma.$EquipeAmadorPayload<ExtArgs> | null
-      equipeAmador2: Prisma.$EquipeAmadorPayload<ExtArgs> | null
-      equipeOficial1: Prisma.$EquipeOficialPayload<ExtArgs> | null
-      equipeOficial2: Prisma.$EquipeOficialPayload<ExtArgs> | null
+      equipe1: Prisma.$EquipePayload<ExtArgs>
+      equipe2: Prisma.$EquipePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -11421,10 +8772,8 @@ export namespace Prisma {
       vencedorId: number | null
       createdAt: Date
       updatedAt: Date
-      equipeAmador1Id: number | null
-      equipeAmador2Id: number | null
-      equipeOficial1Id: number | null
-      equipeOficial2Id: number | null
+      equipe1Id: number
+      equipe2Id: number
     }, ExtArgs["result"]["partida"]>
     composites: {}
   }
@@ -11820,10 +9169,8 @@ export namespace Prisma {
   export interface Prisma__PartidaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     torneio<T extends TorneioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TorneioDefaultArgs<ExtArgs>>): Prisma__TorneioClient<$Result.GetResult<Prisma.$TorneioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    equipeAmador1<T extends Partida$equipeAmador1Args<ExtArgs> = {}>(args?: Subset<T, Partida$equipeAmador1Args<ExtArgs>>): Prisma__EquipeAmadorClient<$Result.GetResult<Prisma.$EquipeAmadorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    equipeAmador2<T extends Partida$equipeAmador2Args<ExtArgs> = {}>(args?: Subset<T, Partida$equipeAmador2Args<ExtArgs>>): Prisma__EquipeAmadorClient<$Result.GetResult<Prisma.$EquipeAmadorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    equipeOficial1<T extends Partida$equipeOficial1Args<ExtArgs> = {}>(args?: Subset<T, Partida$equipeOficial1Args<ExtArgs>>): Prisma__EquipeOficialClient<$Result.GetResult<Prisma.$EquipeOficialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    equipeOficial2<T extends Partida$equipeOficial2Args<ExtArgs> = {}>(args?: Subset<T, Partida$equipeOficial2Args<ExtArgs>>): Prisma__EquipeOficialClient<$Result.GetResult<Prisma.$EquipeOficialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    equipe1<T extends EquipeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EquipeDefaultArgs<ExtArgs>>): Prisma__EquipeClient<$Result.GetResult<Prisma.$EquipePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    equipe2<T extends EquipeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EquipeDefaultArgs<ExtArgs>>): Prisma__EquipeClient<$Result.GetResult<Prisma.$EquipePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11861,10 +9208,8 @@ export namespace Prisma {
     readonly vencedorId: FieldRef<"Partida", 'Int'>
     readonly createdAt: FieldRef<"Partida", 'DateTime'>
     readonly updatedAt: FieldRef<"Partida", 'DateTime'>
-    readonly equipeAmador1Id: FieldRef<"Partida", 'Int'>
-    readonly equipeAmador2Id: FieldRef<"Partida", 'Int'>
-    readonly equipeOficial1Id: FieldRef<"Partida", 'Int'>
-    readonly equipeOficial2Id: FieldRef<"Partida", 'Int'>
+    readonly equipe1Id: FieldRef<"Partida", 'Int'>
+    readonly equipe2Id: FieldRef<"Partida", 'Int'>
   }
     
 
@@ -12261,82 +9606,6 @@ export namespace Prisma {
   }
 
   /**
-   * Partida.equipeAmador1
-   */
-  export type Partida$equipeAmador1Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeAmador
-     */
-    select?: EquipeAmadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeAmador
-     */
-    omit?: EquipeAmadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeAmadorInclude<ExtArgs> | null
-    where?: EquipeAmadorWhereInput
-  }
-
-  /**
-   * Partida.equipeAmador2
-   */
-  export type Partida$equipeAmador2Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeAmador
-     */
-    select?: EquipeAmadorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeAmador
-     */
-    omit?: EquipeAmadorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeAmadorInclude<ExtArgs> | null
-    where?: EquipeAmadorWhereInput
-  }
-
-  /**
-   * Partida.equipeOficial1
-   */
-  export type Partida$equipeOficial1Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeOficial
-     */
-    select?: EquipeOficialSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeOficial
-     */
-    omit?: EquipeOficialOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeOficialInclude<ExtArgs> | null
-    where?: EquipeOficialWhereInput
-  }
-
-  /**
-   * Partida.equipeOficial2
-   */
-  export type Partida$equipeOficial2Args<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the EquipeOficial
-     */
-    select?: EquipeOficialSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the EquipeOficial
-     */
-    omit?: EquipeOficialOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EquipeOficialInclude<ExtArgs> | null
-    where?: EquipeOficialWhereInput
-  }
-
-  /**
    * Partida without action
    */
   export type PartidaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12381,16 +9650,6 @@ export namespace Prisma {
   export type UsuarioScalarFieldEnum = (typeof UsuarioScalarFieldEnum)[keyof typeof UsuarioScalarFieldEnum]
 
 
-  export const TreinadorScalarFieldEnum: {
-    id: 'id',
-    nome: 'nome',
-    email: 'email',
-    usuarioId: 'usuarioId'
-  };
-
-  export type TreinadorScalarFieldEnum = (typeof TreinadorScalarFieldEnum)[keyof typeof TreinadorScalarFieldEnum]
-
-
   export const AtletaScalarFieldEnum: {
     id: 'id',
     nome: 'nome',
@@ -12405,7 +9664,6 @@ export namespace Prisma {
   export const TorneioScalarFieldEnum: {
     id: 'id',
     nome: 'nome',
-    tipo: 'tipo',
     data: 'data',
     local: 'local',
     status: 'status',
@@ -12417,43 +9675,33 @@ export namespace Prisma {
   export type TorneioScalarFieldEnum = (typeof TorneioScalarFieldEnum)[keyof typeof TorneioScalarFieldEnum]
 
 
-  export const ParticipacaoAmadorScalarFieldEnum: {
+  export const ParticipacaoScalarFieldEnum: {
     id: 'id',
     atletaId: 'atletaId',
     torneioId: 'torneioId',
     criadoEm: 'criadoEm'
   };
 
-  export type ParticipacaoAmadorScalarFieldEnum = (typeof ParticipacaoAmadorScalarFieldEnum)[keyof typeof ParticipacaoAmadorScalarFieldEnum]
+  export type ParticipacaoScalarFieldEnum = (typeof ParticipacaoScalarFieldEnum)[keyof typeof ParticipacaoScalarFieldEnum]
 
 
-  export const EquipeAmadorScalarFieldEnum: {
+  export const EquipeScalarFieldEnum: {
     id: 'id',
     nome: 'nome',
     tipo: 'tipo',
-    torneioId: 'torneioId'
+    torneioId: 'torneioId',
+    createdAt: 'createdAt'
   };
 
-  export type EquipeAmadorScalarFieldEnum = (typeof EquipeAmadorScalarFieldEnum)[keyof typeof EquipeAmadorScalarFieldEnum]
+  export type EquipeScalarFieldEnum = (typeof EquipeScalarFieldEnum)[keyof typeof EquipeScalarFieldEnum]
 
 
-  export const EquipeOficialScalarFieldEnum: {
-    id: 'id',
-    nome: 'nome',
-    tipo: 'tipo',
-    createdAt: 'createdAt',
-    torneioId: 'torneioId'
-  };
-
-  export type EquipeOficialScalarFieldEnum = (typeof EquipeOficialScalarFieldEnum)[keyof typeof EquipeOficialScalarFieldEnum]
-
-
-  export const AtletaEquipeOficialScalarFieldEnum: {
+  export const EquipeAtletaScalarFieldEnum: {
     atletaId: 'atletaId',
-    equipeOficialId: 'equipeOficialId'
+    equipeId: 'equipeId'
   };
 
-  export type AtletaEquipeOficialScalarFieldEnum = (typeof AtletaEquipeOficialScalarFieldEnum)[keyof typeof AtletaEquipeOficialScalarFieldEnum]
+  export type EquipeAtletaScalarFieldEnum = (typeof EquipeAtletaScalarFieldEnum)[keyof typeof EquipeAtletaScalarFieldEnum]
 
 
   export const PartidaScalarFieldEnum: {
@@ -12465,10 +9713,8 @@ export namespace Prisma {
     vencedorId: 'vencedorId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    equipeAmador1Id: 'equipeAmador1Id',
-    equipeAmador2Id: 'equipeAmador2Id',
-    equipeOficial1Id: 'equipeOficial1Id',
-    equipeOficial2Id: 'equipeOficial2Id'
+    equipe1Id: 'equipe1Id',
+    equipe2Id: 'equipe2Id'
   };
 
   export type PartidaScalarFieldEnum = (typeof PartidaScalarFieldEnum)[keyof typeof PartidaScalarFieldEnum]
@@ -12546,20 +9792,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'TipoTorneio'
-   */
-  export type EnumTipoTorneioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoTorneio'>
-    
-
-
-  /**
-   * Reference to a field of type 'TipoTorneio[]'
-   */
-  export type ListEnumTipoTorneioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoTorneio[]'>
-    
-
-
-  /**
    * Reference to a field of type 'StatusTorneio'
    */
   export type EnumStatusTorneioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusTorneio'>
@@ -12570,6 +9802,20 @@ export namespace Prisma {
    * Reference to a field of type 'StatusTorneio[]'
    */
   export type ListEnumStatusTorneioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusTorneio[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TipoEquipe'
+   */
+  export type EnumTipoEquipeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoEquipe'>
+    
+
+
+  /**
+   * Reference to a field of type 'TipoEquipe[]'
+   */
+  export type ListEnumTipoEquipeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoEquipe[]'>
     
 
 
@@ -12600,8 +9846,7 @@ export namespace Prisma {
     senha?: StringFilter<"Usuario"> | string
     perfil?: StringFilter<"Usuario"> | string
     criadoEm?: DateTimeFilter<"Usuario"> | Date | string
-    Torneio?: TorneioListRelationFilter
-    Treinador?: TreinadorListRelationFilter
+    torneios?: TorneioListRelationFilter
   }
 
   export type UsuarioOrderByWithRelationInput = {
@@ -12611,8 +9856,7 @@ export namespace Prisma {
     senha?: SortOrder
     perfil?: SortOrder
     criadoEm?: SortOrder
-    Torneio?: TorneioOrderByRelationAggregateInput
-    Treinador?: TreinadorOrderByRelationAggregateInput
+    torneios?: TorneioOrderByRelationAggregateInput
   }
 
   export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
@@ -12625,8 +9869,7 @@ export namespace Prisma {
     senha?: StringFilter<"Usuario"> | string
     perfil?: StringFilter<"Usuario"> | string
     criadoEm?: DateTimeFilter<"Usuario"> | Date | string
-    Torneio?: TorneioListRelationFilter
-    Treinador?: TreinadorListRelationFilter
+    torneios?: TorneioListRelationFilter
   }, "id" | "email">
 
   export type UsuarioOrderByWithAggregationInput = {
@@ -12655,58 +9898,6 @@ export namespace Prisma {
     criadoEm?: DateTimeWithAggregatesFilter<"Usuario"> | Date | string
   }
 
-  export type TreinadorWhereInput = {
-    AND?: TreinadorWhereInput | TreinadorWhereInput[]
-    OR?: TreinadorWhereInput[]
-    NOT?: TreinadorWhereInput | TreinadorWhereInput[]
-    id?: IntFilter<"Treinador"> | number
-    nome?: StringFilter<"Treinador"> | string
-    email?: StringFilter<"Treinador"> | string
-    usuarioId?: IntFilter<"Treinador"> | number
-    usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
-  }
-
-  export type TreinadorOrderByWithRelationInput = {
-    id?: SortOrder
-    nome?: SortOrder
-    email?: SortOrder
-    usuarioId?: SortOrder
-    usuario?: UsuarioOrderByWithRelationInput
-  }
-
-  export type TreinadorWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    email?: string
-    usuarioId?: number
-    AND?: TreinadorWhereInput | TreinadorWhereInput[]
-    OR?: TreinadorWhereInput[]
-    NOT?: TreinadorWhereInput | TreinadorWhereInput[]
-    nome?: StringFilter<"Treinador"> | string
-    usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
-  }, "id" | "email" | "usuarioId">
-
-  export type TreinadorOrderByWithAggregationInput = {
-    id?: SortOrder
-    nome?: SortOrder
-    email?: SortOrder
-    usuarioId?: SortOrder
-    _count?: TreinadorCountOrderByAggregateInput
-    _avg?: TreinadorAvgOrderByAggregateInput
-    _max?: TreinadorMaxOrderByAggregateInput
-    _min?: TreinadorMinOrderByAggregateInput
-    _sum?: TreinadorSumOrderByAggregateInput
-  }
-
-  export type TreinadorScalarWhereWithAggregatesInput = {
-    AND?: TreinadorScalarWhereWithAggregatesInput | TreinadorScalarWhereWithAggregatesInput[]
-    OR?: TreinadorScalarWhereWithAggregatesInput[]
-    NOT?: TreinadorScalarWhereWithAggregatesInput | TreinadorScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Treinador"> | number
-    nome?: StringWithAggregatesFilter<"Treinador"> | string
-    email?: StringWithAggregatesFilter<"Treinador"> | string
-    usuarioId?: IntWithAggregatesFilter<"Treinador"> | number
-  }
-
   export type AtletaWhereInput = {
     AND?: AtletaWhereInput | AtletaWhereInput[]
     OR?: AtletaWhereInput[]
@@ -12716,9 +9907,8 @@ export namespace Prisma {
     email?: StringFilter<"Atleta"> | string
     genero?: StringFilter<"Atleta"> | string
     nivel?: StringNullableFilter<"Atleta"> | string | null
-    participacoesAmador?: ParticipacaoAmadorListRelationFilter
-    equipesOficiais?: AtletaEquipeOficialListRelationFilter
-    EquipeAmador?: EquipeAmadorListRelationFilter
+    participacoes?: ParticipacaoListRelationFilter
+    equipes?: EquipeAtletaListRelationFilter
   }
 
   export type AtletaOrderByWithRelationInput = {
@@ -12727,9 +9917,8 @@ export namespace Prisma {
     email?: SortOrder
     genero?: SortOrder
     nivel?: SortOrderInput | SortOrder
-    participacoesAmador?: ParticipacaoAmadorOrderByRelationAggregateInput
-    equipesOficiais?: AtletaEquipeOficialOrderByRelationAggregateInput
-    EquipeAmador?: EquipeAmadorOrderByRelationAggregateInput
+    participacoes?: ParticipacaoOrderByRelationAggregateInput
+    equipes?: EquipeAtletaOrderByRelationAggregateInput
   }
 
   export type AtletaWhereUniqueInput = Prisma.AtLeast<{
@@ -12741,9 +9930,8 @@ export namespace Prisma {
     nome?: StringFilter<"Atleta"> | string
     genero?: StringFilter<"Atleta"> | string
     nivel?: StringNullableFilter<"Atleta"> | string | null
-    participacoesAmador?: ParticipacaoAmadorListRelationFilter
-    equipesOficiais?: AtletaEquipeOficialListRelationFilter
-    EquipeAmador?: EquipeAmadorListRelationFilter
+    participacoes?: ParticipacaoListRelationFilter
+    equipes?: EquipeAtletaListRelationFilter
   }, "id" | "email">
 
   export type AtletaOrderByWithAggregationInput = {
@@ -12776,7 +9964,6 @@ export namespace Prisma {
     NOT?: TorneioWhereInput | TorneioWhereInput[]
     id?: IntFilter<"Torneio"> | number
     nome?: StringFilter<"Torneio"> | string
-    tipo?: EnumTipoTorneioFilter<"Torneio"> | $Enums.TipoTorneio
     data?: DateTimeFilter<"Torneio"> | Date | string
     local?: StringNullableFilter<"Torneio"> | string | null
     status?: EnumStatusTorneioFilter<"Torneio"> | $Enums.StatusTorneio
@@ -12784,16 +9971,14 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Torneio"> | Date | string
     updatedAt?: DateTimeFilter<"Torneio"> | Date | string
     criadoPor?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
-    Partida?: PartidaListRelationFilter
-    equipesAmador?: EquipeAmadorListRelationFilter
-    equipesOficial?: EquipeOficialListRelationFilter
-    ParticipacaoAmador?: ParticipacaoAmadorListRelationFilter
+    participacoes?: ParticipacaoListRelationFilter
+    equipes?: EquipeListRelationFilter
+    partidas?: PartidaListRelationFilter
   }
 
   export type TorneioOrderByWithRelationInput = {
     id?: SortOrder
     nome?: SortOrder
-    tipo?: SortOrder
     data?: SortOrder
     local?: SortOrderInput | SortOrder
     status?: SortOrder
@@ -12801,10 +9986,9 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     criadoPor?: UsuarioOrderByWithRelationInput
-    Partida?: PartidaOrderByRelationAggregateInput
-    equipesAmador?: EquipeAmadorOrderByRelationAggregateInput
-    equipesOficial?: EquipeOficialOrderByRelationAggregateInput
-    ParticipacaoAmador?: ParticipacaoAmadorOrderByRelationAggregateInput
+    participacoes?: ParticipacaoOrderByRelationAggregateInput
+    equipes?: EquipeOrderByRelationAggregateInput
+    partidas?: PartidaOrderByRelationAggregateInput
   }
 
   export type TorneioWhereUniqueInput = Prisma.AtLeast<{
@@ -12813,7 +9997,6 @@ export namespace Prisma {
     OR?: TorneioWhereInput[]
     NOT?: TorneioWhereInput | TorneioWhereInput[]
     nome?: StringFilter<"Torneio"> | string
-    tipo?: EnumTipoTorneioFilter<"Torneio"> | $Enums.TipoTorneio
     data?: DateTimeFilter<"Torneio"> | Date | string
     local?: StringNullableFilter<"Torneio"> | string | null
     status?: EnumStatusTorneioFilter<"Torneio"> | $Enums.StatusTorneio
@@ -12821,16 +10004,14 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Torneio"> | Date | string
     updatedAt?: DateTimeFilter<"Torneio"> | Date | string
     criadoPor?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
-    Partida?: PartidaListRelationFilter
-    equipesAmador?: EquipeAmadorListRelationFilter
-    equipesOficial?: EquipeOficialListRelationFilter
-    ParticipacaoAmador?: ParticipacaoAmadorListRelationFilter
+    participacoes?: ParticipacaoListRelationFilter
+    equipes?: EquipeListRelationFilter
+    partidas?: PartidaListRelationFilter
   }, "id">
 
   export type TorneioOrderByWithAggregationInput = {
     id?: SortOrder
     nome?: SortOrder
-    tipo?: SortOrder
     data?: SortOrder
     local?: SortOrderInput | SortOrder
     status?: SortOrder
@@ -12850,7 +10031,6 @@ export namespace Prisma {
     NOT?: TorneioScalarWhereWithAggregatesInput | TorneioScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Torneio"> | number
     nome?: StringWithAggregatesFilter<"Torneio"> | string
-    tipo?: EnumTipoTorneioWithAggregatesFilter<"Torneio"> | $Enums.TipoTorneio
     data?: DateTimeWithAggregatesFilter<"Torneio"> | Date | string
     local?: StringNullableWithAggregatesFilter<"Torneio"> | string | null
     status?: EnumStatusTorneioWithAggregatesFilter<"Torneio"> | $Enums.StatusTorneio
@@ -12859,19 +10039,19 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Torneio"> | Date | string
   }
 
-  export type ParticipacaoAmadorWhereInput = {
-    AND?: ParticipacaoAmadorWhereInput | ParticipacaoAmadorWhereInput[]
-    OR?: ParticipacaoAmadorWhereInput[]
-    NOT?: ParticipacaoAmadorWhereInput | ParticipacaoAmadorWhereInput[]
-    id?: IntFilter<"ParticipacaoAmador"> | number
-    atletaId?: IntFilter<"ParticipacaoAmador"> | number
-    torneioId?: IntFilter<"ParticipacaoAmador"> | number
-    criadoEm?: DateTimeFilter<"ParticipacaoAmador"> | Date | string
+  export type ParticipacaoWhereInput = {
+    AND?: ParticipacaoWhereInput | ParticipacaoWhereInput[]
+    OR?: ParticipacaoWhereInput[]
+    NOT?: ParticipacaoWhereInput | ParticipacaoWhereInput[]
+    id?: IntFilter<"Participacao"> | number
+    atletaId?: IntFilter<"Participacao"> | number
+    torneioId?: IntFilter<"Participacao"> | number
+    criadoEm?: DateTimeFilter<"Participacao"> | Date | string
     atleta?: XOR<AtletaScalarRelationFilter, AtletaWhereInput>
     torneio?: XOR<TorneioScalarRelationFilter, TorneioWhereInput>
   }
 
-  export type ParticipacaoAmadorOrderByWithRelationInput = {
+  export type ParticipacaoOrderByWithRelationInput = {
     id?: SortOrder
     atletaId?: SortOrder
     torneioId?: SortOrder
@@ -12880,212 +10060,151 @@ export namespace Prisma {
     torneio?: TorneioOrderByWithRelationInput
   }
 
-  export type ParticipacaoAmadorWhereUniqueInput = Prisma.AtLeast<{
+  export type ParticipacaoWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    atletaId_torneioId?: ParticipacaoAmadorAtletaIdTorneioIdCompoundUniqueInput
-    AND?: ParticipacaoAmadorWhereInput | ParticipacaoAmadorWhereInput[]
-    OR?: ParticipacaoAmadorWhereInput[]
-    NOT?: ParticipacaoAmadorWhereInput | ParticipacaoAmadorWhereInput[]
-    atletaId?: IntFilter<"ParticipacaoAmador"> | number
-    torneioId?: IntFilter<"ParticipacaoAmador"> | number
-    criadoEm?: DateTimeFilter<"ParticipacaoAmador"> | Date | string
+    atletaId_torneioId?: ParticipacaoAtletaIdTorneioIdCompoundUniqueInput
+    AND?: ParticipacaoWhereInput | ParticipacaoWhereInput[]
+    OR?: ParticipacaoWhereInput[]
+    NOT?: ParticipacaoWhereInput | ParticipacaoWhereInput[]
+    atletaId?: IntFilter<"Participacao"> | number
+    torneioId?: IntFilter<"Participacao"> | number
+    criadoEm?: DateTimeFilter<"Participacao"> | Date | string
     atleta?: XOR<AtletaScalarRelationFilter, AtletaWhereInput>
     torneio?: XOR<TorneioScalarRelationFilter, TorneioWhereInput>
   }, "id" | "atletaId_torneioId">
 
-  export type ParticipacaoAmadorOrderByWithAggregationInput = {
+  export type ParticipacaoOrderByWithAggregationInput = {
     id?: SortOrder
     atletaId?: SortOrder
     torneioId?: SortOrder
     criadoEm?: SortOrder
-    _count?: ParticipacaoAmadorCountOrderByAggregateInput
-    _avg?: ParticipacaoAmadorAvgOrderByAggregateInput
-    _max?: ParticipacaoAmadorMaxOrderByAggregateInput
-    _min?: ParticipacaoAmadorMinOrderByAggregateInput
-    _sum?: ParticipacaoAmadorSumOrderByAggregateInput
+    _count?: ParticipacaoCountOrderByAggregateInput
+    _avg?: ParticipacaoAvgOrderByAggregateInput
+    _max?: ParticipacaoMaxOrderByAggregateInput
+    _min?: ParticipacaoMinOrderByAggregateInput
+    _sum?: ParticipacaoSumOrderByAggregateInput
   }
 
-  export type ParticipacaoAmadorScalarWhereWithAggregatesInput = {
-    AND?: ParticipacaoAmadorScalarWhereWithAggregatesInput | ParticipacaoAmadorScalarWhereWithAggregatesInput[]
-    OR?: ParticipacaoAmadorScalarWhereWithAggregatesInput[]
-    NOT?: ParticipacaoAmadorScalarWhereWithAggregatesInput | ParticipacaoAmadorScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"ParticipacaoAmador"> | number
-    atletaId?: IntWithAggregatesFilter<"ParticipacaoAmador"> | number
-    torneioId?: IntWithAggregatesFilter<"ParticipacaoAmador"> | number
-    criadoEm?: DateTimeWithAggregatesFilter<"ParticipacaoAmador"> | Date | string
+  export type ParticipacaoScalarWhereWithAggregatesInput = {
+    AND?: ParticipacaoScalarWhereWithAggregatesInput | ParticipacaoScalarWhereWithAggregatesInput[]
+    OR?: ParticipacaoScalarWhereWithAggregatesInput[]
+    NOT?: ParticipacaoScalarWhereWithAggregatesInput | ParticipacaoScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Participacao"> | number
+    atletaId?: IntWithAggregatesFilter<"Participacao"> | number
+    torneioId?: IntWithAggregatesFilter<"Participacao"> | number
+    criadoEm?: DateTimeWithAggregatesFilter<"Participacao"> | Date | string
   }
 
-  export type EquipeAmadorWhereInput = {
-    AND?: EquipeAmadorWhereInput | EquipeAmadorWhereInput[]
-    OR?: EquipeAmadorWhereInput[]
-    NOT?: EquipeAmadorWhereInput | EquipeAmadorWhereInput[]
-    id?: IntFilter<"EquipeAmador"> | number
-    nome?: StringFilter<"EquipeAmador"> | string
-    tipo?: StringFilter<"EquipeAmador"> | string
-    torneioId?: IntFilter<"EquipeAmador"> | number
+  export type EquipeWhereInput = {
+    AND?: EquipeWhereInput | EquipeWhereInput[]
+    OR?: EquipeWhereInput[]
+    NOT?: EquipeWhereInput | EquipeWhereInput[]
+    id?: IntFilter<"Equipe"> | number
+    nome?: StringFilter<"Equipe"> | string
+    tipo?: EnumTipoEquipeFilter<"Equipe"> | $Enums.TipoEquipe
+    torneioId?: IntFilter<"Equipe"> | number
+    createdAt?: DateTimeFilter<"Equipe"> | Date | string
     torneio?: XOR<TorneioScalarRelationFilter, TorneioWhereInput>
-    membros?: AtletaListRelationFilter
+    atletas?: EquipeAtletaListRelationFilter
     partidasComoEquipe1?: PartidaListRelationFilter
     partidasComoEquipe2?: PartidaListRelationFilter
   }
 
-  export type EquipeAmadorOrderByWithRelationInput = {
+  export type EquipeOrderByWithRelationInput = {
     id?: SortOrder
     nome?: SortOrder
     tipo?: SortOrder
     torneioId?: SortOrder
+    createdAt?: SortOrder
     torneio?: TorneioOrderByWithRelationInput
-    membros?: AtletaOrderByRelationAggregateInput
+    atletas?: EquipeAtletaOrderByRelationAggregateInput
     partidasComoEquipe1?: PartidaOrderByRelationAggregateInput
     partidasComoEquipe2?: PartidaOrderByRelationAggregateInput
   }
 
-  export type EquipeAmadorWhereUniqueInput = Prisma.AtLeast<{
+  export type EquipeWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    AND?: EquipeAmadorWhereInput | EquipeAmadorWhereInput[]
-    OR?: EquipeAmadorWhereInput[]
-    NOT?: EquipeAmadorWhereInput | EquipeAmadorWhereInput[]
-    nome?: StringFilter<"EquipeAmador"> | string
-    tipo?: StringFilter<"EquipeAmador"> | string
-    torneioId?: IntFilter<"EquipeAmador"> | number
+    AND?: EquipeWhereInput | EquipeWhereInput[]
+    OR?: EquipeWhereInput[]
+    NOT?: EquipeWhereInput | EquipeWhereInput[]
+    nome?: StringFilter<"Equipe"> | string
+    tipo?: EnumTipoEquipeFilter<"Equipe"> | $Enums.TipoEquipe
+    torneioId?: IntFilter<"Equipe"> | number
+    createdAt?: DateTimeFilter<"Equipe"> | Date | string
     torneio?: XOR<TorneioScalarRelationFilter, TorneioWhereInput>
-    membros?: AtletaListRelationFilter
+    atletas?: EquipeAtletaListRelationFilter
     partidasComoEquipe1?: PartidaListRelationFilter
     partidasComoEquipe2?: PartidaListRelationFilter
   }, "id">
 
-  export type EquipeAmadorOrderByWithAggregationInput = {
+  export type EquipeOrderByWithAggregationInput = {
     id?: SortOrder
     nome?: SortOrder
     tipo?: SortOrder
     torneioId?: SortOrder
-    _count?: EquipeAmadorCountOrderByAggregateInput
-    _avg?: EquipeAmadorAvgOrderByAggregateInput
-    _max?: EquipeAmadorMaxOrderByAggregateInput
-    _min?: EquipeAmadorMinOrderByAggregateInput
-    _sum?: EquipeAmadorSumOrderByAggregateInput
-  }
-
-  export type EquipeAmadorScalarWhereWithAggregatesInput = {
-    AND?: EquipeAmadorScalarWhereWithAggregatesInput | EquipeAmadorScalarWhereWithAggregatesInput[]
-    OR?: EquipeAmadorScalarWhereWithAggregatesInput[]
-    NOT?: EquipeAmadorScalarWhereWithAggregatesInput | EquipeAmadorScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"EquipeAmador"> | number
-    nome?: StringWithAggregatesFilter<"EquipeAmador"> | string
-    tipo?: StringWithAggregatesFilter<"EquipeAmador"> | string
-    torneioId?: IntWithAggregatesFilter<"EquipeAmador"> | number
-  }
-
-  export type EquipeOficialWhereInput = {
-    AND?: EquipeOficialWhereInput | EquipeOficialWhereInput[]
-    OR?: EquipeOficialWhereInput[]
-    NOT?: EquipeOficialWhereInput | EquipeOficialWhereInput[]
-    id?: IntFilter<"EquipeOficial"> | number
-    nome?: StringFilter<"EquipeOficial"> | string
-    tipo?: StringFilter<"EquipeOficial"> | string
-    createdAt?: DateTimeFilter<"EquipeOficial"> | Date | string
-    torneioId?: IntFilter<"EquipeOficial"> | number
-    torneio?: XOR<TorneioScalarRelationFilter, TorneioWhereInput>
-    membros?: AtletaEquipeOficialListRelationFilter
-    partidasComoEquipeOficial1?: PartidaListRelationFilter
-    partidasComoEquipeOficial2?: PartidaListRelationFilter
-  }
-
-  export type EquipeOficialOrderByWithRelationInput = {
-    id?: SortOrder
-    nome?: SortOrder
-    tipo?: SortOrder
     createdAt?: SortOrder
-    torneioId?: SortOrder
-    torneio?: TorneioOrderByWithRelationInput
-    membros?: AtletaEquipeOficialOrderByRelationAggregateInput
-    partidasComoEquipeOficial1?: PartidaOrderByRelationAggregateInput
-    partidasComoEquipeOficial2?: PartidaOrderByRelationAggregateInput
+    _count?: EquipeCountOrderByAggregateInput
+    _avg?: EquipeAvgOrderByAggregateInput
+    _max?: EquipeMaxOrderByAggregateInput
+    _min?: EquipeMinOrderByAggregateInput
+    _sum?: EquipeSumOrderByAggregateInput
   }
 
-  export type EquipeOficialWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: EquipeOficialWhereInput | EquipeOficialWhereInput[]
-    OR?: EquipeOficialWhereInput[]
-    NOT?: EquipeOficialWhereInput | EquipeOficialWhereInput[]
-    nome?: StringFilter<"EquipeOficial"> | string
-    tipo?: StringFilter<"EquipeOficial"> | string
-    createdAt?: DateTimeFilter<"EquipeOficial"> | Date | string
-    torneioId?: IntFilter<"EquipeOficial"> | number
-    torneio?: XOR<TorneioScalarRelationFilter, TorneioWhereInput>
-    membros?: AtletaEquipeOficialListRelationFilter
-    partidasComoEquipeOficial1?: PartidaListRelationFilter
-    partidasComoEquipeOficial2?: PartidaListRelationFilter
-  }, "id">
-
-  export type EquipeOficialOrderByWithAggregationInput = {
-    id?: SortOrder
-    nome?: SortOrder
-    tipo?: SortOrder
-    createdAt?: SortOrder
-    torneioId?: SortOrder
-    _count?: EquipeOficialCountOrderByAggregateInput
-    _avg?: EquipeOficialAvgOrderByAggregateInput
-    _max?: EquipeOficialMaxOrderByAggregateInput
-    _min?: EquipeOficialMinOrderByAggregateInput
-    _sum?: EquipeOficialSumOrderByAggregateInput
+  export type EquipeScalarWhereWithAggregatesInput = {
+    AND?: EquipeScalarWhereWithAggregatesInput | EquipeScalarWhereWithAggregatesInput[]
+    OR?: EquipeScalarWhereWithAggregatesInput[]
+    NOT?: EquipeScalarWhereWithAggregatesInput | EquipeScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Equipe"> | number
+    nome?: StringWithAggregatesFilter<"Equipe"> | string
+    tipo?: EnumTipoEquipeWithAggregatesFilter<"Equipe"> | $Enums.TipoEquipe
+    torneioId?: IntWithAggregatesFilter<"Equipe"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Equipe"> | Date | string
   }
 
-  export type EquipeOficialScalarWhereWithAggregatesInput = {
-    AND?: EquipeOficialScalarWhereWithAggregatesInput | EquipeOficialScalarWhereWithAggregatesInput[]
-    OR?: EquipeOficialScalarWhereWithAggregatesInput[]
-    NOT?: EquipeOficialScalarWhereWithAggregatesInput | EquipeOficialScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"EquipeOficial"> | number
-    nome?: StringWithAggregatesFilter<"EquipeOficial"> | string
-    tipo?: StringWithAggregatesFilter<"EquipeOficial"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"EquipeOficial"> | Date | string
-    torneioId?: IntWithAggregatesFilter<"EquipeOficial"> | number
-  }
-
-  export type AtletaEquipeOficialWhereInput = {
-    AND?: AtletaEquipeOficialWhereInput | AtletaEquipeOficialWhereInput[]
-    OR?: AtletaEquipeOficialWhereInput[]
-    NOT?: AtletaEquipeOficialWhereInput | AtletaEquipeOficialWhereInput[]
-    atletaId?: IntFilter<"AtletaEquipeOficial"> | number
-    equipeOficialId?: IntFilter<"AtletaEquipeOficial"> | number
+  export type EquipeAtletaWhereInput = {
+    AND?: EquipeAtletaWhereInput | EquipeAtletaWhereInput[]
+    OR?: EquipeAtletaWhereInput[]
+    NOT?: EquipeAtletaWhereInput | EquipeAtletaWhereInput[]
+    atletaId?: IntFilter<"EquipeAtleta"> | number
+    equipeId?: IntFilter<"EquipeAtleta"> | number
     atleta?: XOR<AtletaScalarRelationFilter, AtletaWhereInput>
-    equipeOficial?: XOR<EquipeOficialScalarRelationFilter, EquipeOficialWhereInput>
+    equipe?: XOR<EquipeScalarRelationFilter, EquipeWhereInput>
   }
 
-  export type AtletaEquipeOficialOrderByWithRelationInput = {
+  export type EquipeAtletaOrderByWithRelationInput = {
     atletaId?: SortOrder
-    equipeOficialId?: SortOrder
+    equipeId?: SortOrder
     atleta?: AtletaOrderByWithRelationInput
-    equipeOficial?: EquipeOficialOrderByWithRelationInput
+    equipe?: EquipeOrderByWithRelationInput
   }
 
-  export type AtletaEquipeOficialWhereUniqueInput = Prisma.AtLeast<{
-    atletaId_equipeOficialId?: AtletaEquipeOficialAtletaIdEquipeOficialIdCompoundUniqueInput
-    AND?: AtletaEquipeOficialWhereInput | AtletaEquipeOficialWhereInput[]
-    OR?: AtletaEquipeOficialWhereInput[]
-    NOT?: AtletaEquipeOficialWhereInput | AtletaEquipeOficialWhereInput[]
-    atletaId?: IntFilter<"AtletaEquipeOficial"> | number
-    equipeOficialId?: IntFilter<"AtletaEquipeOficial"> | number
+  export type EquipeAtletaWhereUniqueInput = Prisma.AtLeast<{
+    atletaId_equipeId?: EquipeAtletaAtletaIdEquipeIdCompoundUniqueInput
+    AND?: EquipeAtletaWhereInput | EquipeAtletaWhereInput[]
+    OR?: EquipeAtletaWhereInput[]
+    NOT?: EquipeAtletaWhereInput | EquipeAtletaWhereInput[]
+    atletaId?: IntFilter<"EquipeAtleta"> | number
+    equipeId?: IntFilter<"EquipeAtleta"> | number
     atleta?: XOR<AtletaScalarRelationFilter, AtletaWhereInput>
-    equipeOficial?: XOR<EquipeOficialScalarRelationFilter, EquipeOficialWhereInput>
-  }, "atletaId_equipeOficialId">
+    equipe?: XOR<EquipeScalarRelationFilter, EquipeWhereInput>
+  }, "atletaId_equipeId">
 
-  export type AtletaEquipeOficialOrderByWithAggregationInput = {
+  export type EquipeAtletaOrderByWithAggregationInput = {
     atletaId?: SortOrder
-    equipeOficialId?: SortOrder
-    _count?: AtletaEquipeOficialCountOrderByAggregateInput
-    _avg?: AtletaEquipeOficialAvgOrderByAggregateInput
-    _max?: AtletaEquipeOficialMaxOrderByAggregateInput
-    _min?: AtletaEquipeOficialMinOrderByAggregateInput
-    _sum?: AtletaEquipeOficialSumOrderByAggregateInput
+    equipeId?: SortOrder
+    _count?: EquipeAtletaCountOrderByAggregateInput
+    _avg?: EquipeAtletaAvgOrderByAggregateInput
+    _max?: EquipeAtletaMaxOrderByAggregateInput
+    _min?: EquipeAtletaMinOrderByAggregateInput
+    _sum?: EquipeAtletaSumOrderByAggregateInput
   }
 
-  export type AtletaEquipeOficialScalarWhereWithAggregatesInput = {
-    AND?: AtletaEquipeOficialScalarWhereWithAggregatesInput | AtletaEquipeOficialScalarWhereWithAggregatesInput[]
-    OR?: AtletaEquipeOficialScalarWhereWithAggregatesInput[]
-    NOT?: AtletaEquipeOficialScalarWhereWithAggregatesInput | AtletaEquipeOficialScalarWhereWithAggregatesInput[]
-    atletaId?: IntWithAggregatesFilter<"AtletaEquipeOficial"> | number
-    equipeOficialId?: IntWithAggregatesFilter<"AtletaEquipeOficial"> | number
+  export type EquipeAtletaScalarWhereWithAggregatesInput = {
+    AND?: EquipeAtletaScalarWhereWithAggregatesInput | EquipeAtletaScalarWhereWithAggregatesInput[]
+    OR?: EquipeAtletaScalarWhereWithAggregatesInput[]
+    NOT?: EquipeAtletaScalarWhereWithAggregatesInput | EquipeAtletaScalarWhereWithAggregatesInput[]
+    atletaId?: IntWithAggregatesFilter<"EquipeAtleta"> | number
+    equipeId?: IntWithAggregatesFilter<"EquipeAtleta"> | number
   }
 
   export type PartidaWhereInput = {
@@ -13100,15 +10219,11 @@ export namespace Prisma {
     vencedorId?: IntNullableFilter<"Partida"> | number | null
     createdAt?: DateTimeFilter<"Partida"> | Date | string
     updatedAt?: DateTimeFilter<"Partida"> | Date | string
-    equipeAmador1Id?: IntNullableFilter<"Partida"> | number | null
-    equipeAmador2Id?: IntNullableFilter<"Partida"> | number | null
-    equipeOficial1Id?: IntNullableFilter<"Partida"> | number | null
-    equipeOficial2Id?: IntNullableFilter<"Partida"> | number | null
+    equipe1Id?: IntFilter<"Partida"> | number
+    equipe2Id?: IntFilter<"Partida"> | number
     torneio?: XOR<TorneioScalarRelationFilter, TorneioWhereInput>
-    equipeAmador1?: XOR<EquipeAmadorNullableScalarRelationFilter, EquipeAmadorWhereInput> | null
-    equipeAmador2?: XOR<EquipeAmadorNullableScalarRelationFilter, EquipeAmadorWhereInput> | null
-    equipeOficial1?: XOR<EquipeOficialNullableScalarRelationFilter, EquipeOficialWhereInput> | null
-    equipeOficial2?: XOR<EquipeOficialNullableScalarRelationFilter, EquipeOficialWhereInput> | null
+    equipe1?: XOR<EquipeScalarRelationFilter, EquipeWhereInput>
+    equipe2?: XOR<EquipeScalarRelationFilter, EquipeWhereInput>
   }
 
   export type PartidaOrderByWithRelationInput = {
@@ -13120,15 +10235,11 @@ export namespace Prisma {
     vencedorId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    equipeAmador1Id?: SortOrderInput | SortOrder
-    equipeAmador2Id?: SortOrderInput | SortOrder
-    equipeOficial1Id?: SortOrderInput | SortOrder
-    equipeOficial2Id?: SortOrderInput | SortOrder
+    equipe1Id?: SortOrder
+    equipe2Id?: SortOrder
     torneio?: TorneioOrderByWithRelationInput
-    equipeAmador1?: EquipeAmadorOrderByWithRelationInput
-    equipeAmador2?: EquipeAmadorOrderByWithRelationInput
-    equipeOficial1?: EquipeOficialOrderByWithRelationInput
-    equipeOficial2?: EquipeOficialOrderByWithRelationInput
+    equipe1?: EquipeOrderByWithRelationInput
+    equipe2?: EquipeOrderByWithRelationInput
   }
 
   export type PartidaWhereUniqueInput = Prisma.AtLeast<{
@@ -13143,15 +10254,11 @@ export namespace Prisma {
     vencedorId?: IntNullableFilter<"Partida"> | number | null
     createdAt?: DateTimeFilter<"Partida"> | Date | string
     updatedAt?: DateTimeFilter<"Partida"> | Date | string
-    equipeAmador1Id?: IntNullableFilter<"Partida"> | number | null
-    equipeAmador2Id?: IntNullableFilter<"Partida"> | number | null
-    equipeOficial1Id?: IntNullableFilter<"Partida"> | number | null
-    equipeOficial2Id?: IntNullableFilter<"Partida"> | number | null
+    equipe1Id?: IntFilter<"Partida"> | number
+    equipe2Id?: IntFilter<"Partida"> | number
     torneio?: XOR<TorneioScalarRelationFilter, TorneioWhereInput>
-    equipeAmador1?: XOR<EquipeAmadorNullableScalarRelationFilter, EquipeAmadorWhereInput> | null
-    equipeAmador2?: XOR<EquipeAmadorNullableScalarRelationFilter, EquipeAmadorWhereInput> | null
-    equipeOficial1?: XOR<EquipeOficialNullableScalarRelationFilter, EquipeOficialWhereInput> | null
-    equipeOficial2?: XOR<EquipeOficialNullableScalarRelationFilter, EquipeOficialWhereInput> | null
+    equipe1?: XOR<EquipeScalarRelationFilter, EquipeWhereInput>
+    equipe2?: XOR<EquipeScalarRelationFilter, EquipeWhereInput>
   }, "id">
 
   export type PartidaOrderByWithAggregationInput = {
@@ -13163,10 +10270,8 @@ export namespace Prisma {
     vencedorId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    equipeAmador1Id?: SortOrderInput | SortOrder
-    equipeAmador2Id?: SortOrderInput | SortOrder
-    equipeOficial1Id?: SortOrderInput | SortOrder
-    equipeOficial2Id?: SortOrderInput | SortOrder
+    equipe1Id?: SortOrder
+    equipe2Id?: SortOrder
     _count?: PartidaCountOrderByAggregateInput
     _avg?: PartidaAvgOrderByAggregateInput
     _max?: PartidaMaxOrderByAggregateInput
@@ -13186,10 +10291,8 @@ export namespace Prisma {
     vencedorId?: IntNullableWithAggregatesFilter<"Partida"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"Partida"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Partida"> | Date | string
-    equipeAmador1Id?: IntNullableWithAggregatesFilter<"Partida"> | number | null
-    equipeAmador2Id?: IntNullableWithAggregatesFilter<"Partida"> | number | null
-    equipeOficial1Id?: IntNullableWithAggregatesFilter<"Partida"> | number | null
-    equipeOficial2Id?: IntNullableWithAggregatesFilter<"Partida"> | number | null
+    equipe1Id?: IntWithAggregatesFilter<"Partida"> | number
+    equipe2Id?: IntWithAggregatesFilter<"Partida"> | number
   }
 
   export type UsuarioCreateInput = {
@@ -13198,8 +10301,7 @@ export namespace Prisma {
     senha: string
     perfil: string
     criadoEm?: Date | string
-    Torneio?: TorneioCreateNestedManyWithoutCriadoPorInput
-    Treinador?: TreinadorCreateNestedManyWithoutUsuarioInput
+    torneios?: TorneioCreateNestedManyWithoutCriadoPorInput
   }
 
   export type UsuarioUncheckedCreateInput = {
@@ -13209,8 +10311,7 @@ export namespace Prisma {
     senha: string
     perfil: string
     criadoEm?: Date | string
-    Torneio?: TorneioUncheckedCreateNestedManyWithoutCriadoPorInput
-    Treinador?: TreinadorUncheckedCreateNestedManyWithoutUsuarioInput
+    torneios?: TorneioUncheckedCreateNestedManyWithoutCriadoPorInput
   }
 
   export type UsuarioUpdateInput = {
@@ -13219,8 +10320,7 @@ export namespace Prisma {
     senha?: StringFieldUpdateOperationsInput | string
     perfil?: StringFieldUpdateOperationsInput | string
     criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
-    Torneio?: TorneioUpdateManyWithoutCriadoPorNestedInput
-    Treinador?: TreinadorUpdateManyWithoutUsuarioNestedInput
+    torneios?: TorneioUpdateManyWithoutCriadoPorNestedInput
   }
 
   export type UsuarioUncheckedUpdateInput = {
@@ -13230,8 +10330,7 @@ export namespace Prisma {
     senha?: StringFieldUpdateOperationsInput | string
     perfil?: StringFieldUpdateOperationsInput | string
     criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
-    Torneio?: TorneioUncheckedUpdateManyWithoutCriadoPorNestedInput
-    Treinador?: TreinadorUncheckedUpdateManyWithoutUsuarioNestedInput
+    torneios?: TorneioUncheckedUpdateManyWithoutCriadoPorNestedInput
   }
 
   export type UsuarioCreateManyInput = {
@@ -13260,59 +10359,13 @@ export namespace Prisma {
     criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type TreinadorCreateInput = {
-    nome: string
-    email: string
-    usuario: UsuarioCreateNestedOneWithoutTreinadorInput
-  }
-
-  export type TreinadorUncheckedCreateInput = {
-    id?: number
-    nome: string
-    email: string
-    usuarioId: number
-  }
-
-  export type TreinadorUpdateInput = {
-    nome?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    usuario?: UsuarioUpdateOneRequiredWithoutTreinadorNestedInput
-  }
-
-  export type TreinadorUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    usuarioId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type TreinadorCreateManyInput = {
-    id?: number
-    nome: string
-    email: string
-    usuarioId: number
-  }
-
-  export type TreinadorUpdateManyMutationInput = {
-    nome?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type TreinadorUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    usuarioId?: IntFieldUpdateOperationsInput | number
-  }
-
   export type AtletaCreateInput = {
     nome: string
     email: string
     genero: string
     nivel?: string | null
-    participacoesAmador?: ParticipacaoAmadorCreateNestedManyWithoutAtletaInput
-    equipesOficiais?: AtletaEquipeOficialCreateNestedManyWithoutAtletaInput
-    EquipeAmador?: EquipeAmadorCreateNestedManyWithoutMembrosInput
+    participacoes?: ParticipacaoCreateNestedManyWithoutAtletaInput
+    equipes?: EquipeAtletaCreateNestedManyWithoutAtletaInput
   }
 
   export type AtletaUncheckedCreateInput = {
@@ -13321,9 +10374,8 @@ export namespace Prisma {
     email: string
     genero: string
     nivel?: string | null
-    participacoesAmador?: ParticipacaoAmadorUncheckedCreateNestedManyWithoutAtletaInput
-    equipesOficiais?: AtletaEquipeOficialUncheckedCreateNestedManyWithoutAtletaInput
-    EquipeAmador?: EquipeAmadorUncheckedCreateNestedManyWithoutMembrosInput
+    participacoes?: ParticipacaoUncheckedCreateNestedManyWithoutAtletaInput
+    equipes?: EquipeAtletaUncheckedCreateNestedManyWithoutAtletaInput
   }
 
   export type AtletaUpdateInput = {
@@ -13331,9 +10383,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     genero?: StringFieldUpdateOperationsInput | string
     nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    participacoesAmador?: ParticipacaoAmadorUpdateManyWithoutAtletaNestedInput
-    equipesOficiais?: AtletaEquipeOficialUpdateManyWithoutAtletaNestedInput
-    EquipeAmador?: EquipeAmadorUpdateManyWithoutMembrosNestedInput
+    participacoes?: ParticipacaoUpdateManyWithoutAtletaNestedInput
+    equipes?: EquipeAtletaUpdateManyWithoutAtletaNestedInput
   }
 
   export type AtletaUncheckedUpdateInput = {
@@ -13342,9 +10393,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     genero?: StringFieldUpdateOperationsInput | string
     nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    participacoesAmador?: ParticipacaoAmadorUncheckedUpdateManyWithoutAtletaNestedInput
-    equipesOficiais?: AtletaEquipeOficialUncheckedUpdateManyWithoutAtletaNestedInput
-    EquipeAmador?: EquipeAmadorUncheckedUpdateManyWithoutMembrosNestedInput
+    participacoes?: ParticipacaoUncheckedUpdateManyWithoutAtletaNestedInput
+    equipes?: EquipeAtletaUncheckedUpdateManyWithoutAtletaNestedInput
   }
 
   export type AtletaCreateManyInput = {
@@ -13372,70 +10422,61 @@ export namespace Prisma {
 
   export type TorneioCreateInput = {
     nome: string
-    tipo: $Enums.TipoTorneio
     data: Date | string
     local?: string | null
     status?: $Enums.StatusTorneio
     createdAt?: Date | string
     updatedAt?: Date | string
-    criadoPor: UsuarioCreateNestedOneWithoutTorneioInput
-    Partida?: PartidaCreateNestedManyWithoutTorneioInput
-    equipesAmador?: EquipeAmadorCreateNestedManyWithoutTorneioInput
-    equipesOficial?: EquipeOficialCreateNestedManyWithoutTorneioInput
-    ParticipacaoAmador?: ParticipacaoAmadorCreateNestedManyWithoutTorneioInput
+    criadoPor: UsuarioCreateNestedOneWithoutTorneiosInput
+    participacoes?: ParticipacaoCreateNestedManyWithoutTorneioInput
+    equipes?: EquipeCreateNestedManyWithoutTorneioInput
+    partidas?: PartidaCreateNestedManyWithoutTorneioInput
   }
 
   export type TorneioUncheckedCreateInput = {
     id?: number
     nome: string
-    tipo: $Enums.TipoTorneio
     data: Date | string
     local?: string | null
     status?: $Enums.StatusTorneio
     criadoPorId: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    Partida?: PartidaUncheckedCreateNestedManyWithoutTorneioInput
-    equipesAmador?: EquipeAmadorUncheckedCreateNestedManyWithoutTorneioInput
-    equipesOficial?: EquipeOficialUncheckedCreateNestedManyWithoutTorneioInput
-    ParticipacaoAmador?: ParticipacaoAmadorUncheckedCreateNestedManyWithoutTorneioInput
+    participacoes?: ParticipacaoUncheckedCreateNestedManyWithoutTorneioInput
+    equipes?: EquipeUncheckedCreateNestedManyWithoutTorneioInput
+    partidas?: PartidaUncheckedCreateNestedManyWithoutTorneioInput
   }
 
   export type TorneioUpdateInput = {
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
     data?: DateTimeFieldUpdateOperationsInput | Date | string
     local?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    criadoPor?: UsuarioUpdateOneRequiredWithoutTorneioNestedInput
-    Partida?: PartidaUpdateManyWithoutTorneioNestedInput
-    equipesAmador?: EquipeAmadorUpdateManyWithoutTorneioNestedInput
-    equipesOficial?: EquipeOficialUpdateManyWithoutTorneioNestedInput
-    ParticipacaoAmador?: ParticipacaoAmadorUpdateManyWithoutTorneioNestedInput
+    criadoPor?: UsuarioUpdateOneRequiredWithoutTorneiosNestedInput
+    participacoes?: ParticipacaoUpdateManyWithoutTorneioNestedInput
+    equipes?: EquipeUpdateManyWithoutTorneioNestedInput
+    partidas?: PartidaUpdateManyWithoutTorneioNestedInput
   }
 
   export type TorneioUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
     data?: DateTimeFieldUpdateOperationsInput | Date | string
     local?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
     criadoPorId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Partida?: PartidaUncheckedUpdateManyWithoutTorneioNestedInput
-    equipesAmador?: EquipeAmadorUncheckedUpdateManyWithoutTorneioNestedInput
-    equipesOficial?: EquipeOficialUncheckedUpdateManyWithoutTorneioNestedInput
-    ParticipacaoAmador?: ParticipacaoAmadorUncheckedUpdateManyWithoutTorneioNestedInput
+    participacoes?: ParticipacaoUncheckedUpdateManyWithoutTorneioNestedInput
+    equipes?: EquipeUncheckedUpdateManyWithoutTorneioNestedInput
+    partidas?: PartidaUncheckedUpdateManyWithoutTorneioNestedInput
   }
 
   export type TorneioCreateManyInput = {
     id?: number
     nome: string
-    tipo: $Enums.TipoTorneio
     data: Date | string
     local?: string | null
     status?: $Enums.StatusTorneio
@@ -13446,7 +10487,6 @@ export namespace Prisma {
 
   export type TorneioUpdateManyMutationInput = {
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
     data?: DateTimeFieldUpdateOperationsInput | Date | string
     local?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
@@ -13457,7 +10497,6 @@ export namespace Prisma {
   export type TorneioUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
     data?: DateTimeFieldUpdateOperationsInput | Date | string
     local?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
@@ -13466,203 +10505,146 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ParticipacaoAmadorCreateInput = {
+  export type ParticipacaoCreateInput = {
     criadoEm?: Date | string
-    atleta: AtletaCreateNestedOneWithoutParticipacoesAmadorInput
-    torneio: TorneioCreateNestedOneWithoutParticipacaoAmadorInput
+    atleta: AtletaCreateNestedOneWithoutParticipacoesInput
+    torneio: TorneioCreateNestedOneWithoutParticipacoesInput
   }
 
-  export type ParticipacaoAmadorUncheckedCreateInput = {
-    id?: number
-    atletaId: number
-    torneioId: number
-    criadoEm?: Date | string
-  }
-
-  export type ParticipacaoAmadorUpdateInput = {
-    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
-    atleta?: AtletaUpdateOneRequiredWithoutParticipacoesAmadorNestedInput
-    torneio?: TorneioUpdateOneRequiredWithoutParticipacaoAmadorNestedInput
-  }
-
-  export type ParticipacaoAmadorUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    atletaId?: IntFieldUpdateOperationsInput | number
-    torneioId?: IntFieldUpdateOperationsInput | number
-    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ParticipacaoAmadorCreateManyInput = {
+  export type ParticipacaoUncheckedCreateInput = {
     id?: number
     atletaId: number
     torneioId: number
     criadoEm?: Date | string
   }
 
-  export type ParticipacaoAmadorUpdateManyMutationInput = {
+  export type ParticipacaoUpdateInput = {
+    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+    atleta?: AtletaUpdateOneRequiredWithoutParticipacoesNestedInput
+    torneio?: TorneioUpdateOneRequiredWithoutParticipacoesNestedInput
+  }
+
+  export type ParticipacaoUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    atletaId?: IntFieldUpdateOperationsInput | number
+    torneioId?: IntFieldUpdateOperationsInput | number
     criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ParticipacaoAmadorUncheckedUpdateManyInput = {
+  export type ParticipacaoCreateManyInput = {
+    id?: number
+    atletaId: number
+    torneioId: number
+    criadoEm?: Date | string
+  }
+
+  export type ParticipacaoUpdateManyMutationInput = {
+    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ParticipacaoUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     atletaId?: IntFieldUpdateOperationsInput | number
     torneioId?: IntFieldUpdateOperationsInput | number
     criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type EquipeAmadorCreateInput = {
+  export type EquipeCreateInput = {
     nome: string
-    tipo: string
-    torneio: TorneioCreateNestedOneWithoutEquipesAmadorInput
-    membros?: AtletaCreateNestedManyWithoutEquipeAmadorInput
-    partidasComoEquipe1?: PartidaCreateNestedManyWithoutEquipeAmador1Input
-    partidasComoEquipe2?: PartidaCreateNestedManyWithoutEquipeAmador2Input
-  }
-
-  export type EquipeAmadorUncheckedCreateInput = {
-    id?: number
-    nome: string
-    tipo: string
-    torneioId: number
-    membros?: AtletaUncheckedCreateNestedManyWithoutEquipeAmadorInput
-    partidasComoEquipe1?: PartidaUncheckedCreateNestedManyWithoutEquipeAmador1Input
-    partidasComoEquipe2?: PartidaUncheckedCreateNestedManyWithoutEquipeAmador2Input
-  }
-
-  export type EquipeAmadorUpdateInput = {
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    torneio?: TorneioUpdateOneRequiredWithoutEquipesAmadorNestedInput
-    membros?: AtletaUpdateManyWithoutEquipeAmadorNestedInput
-    partidasComoEquipe1?: PartidaUpdateManyWithoutEquipeAmador1NestedInput
-    partidasComoEquipe2?: PartidaUpdateManyWithoutEquipeAmador2NestedInput
-  }
-
-  export type EquipeAmadorUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    torneioId?: IntFieldUpdateOperationsInput | number
-    membros?: AtletaUncheckedUpdateManyWithoutEquipeAmadorNestedInput
-    partidasComoEquipe1?: PartidaUncheckedUpdateManyWithoutEquipeAmador1NestedInput
-    partidasComoEquipe2?: PartidaUncheckedUpdateManyWithoutEquipeAmador2NestedInput
-  }
-
-  export type EquipeAmadorCreateManyInput = {
-    id?: number
-    nome: string
-    tipo: string
-    torneioId: number
-  }
-
-  export type EquipeAmadorUpdateManyMutationInput = {
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type EquipeAmadorUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    torneioId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type EquipeOficialCreateInput = {
-    nome: string
-    tipo: string
+    tipo: $Enums.TipoEquipe
     createdAt?: Date | string
-    torneio: TorneioCreateNestedOneWithoutEquipesOficialInput
-    membros?: AtletaEquipeOficialCreateNestedManyWithoutEquipeOficialInput
-    partidasComoEquipeOficial1?: PartidaCreateNestedManyWithoutEquipeOficial1Input
-    partidasComoEquipeOficial2?: PartidaCreateNestedManyWithoutEquipeOficial2Input
+    torneio: TorneioCreateNestedOneWithoutEquipesInput
+    atletas?: EquipeAtletaCreateNestedManyWithoutEquipeInput
+    partidasComoEquipe1?: PartidaCreateNestedManyWithoutEquipe1Input
+    partidasComoEquipe2?: PartidaCreateNestedManyWithoutEquipe2Input
   }
 
-  export type EquipeOficialUncheckedCreateInput = {
+  export type EquipeUncheckedCreateInput = {
     id?: number
     nome: string
-    tipo: string
-    createdAt?: Date | string
+    tipo: $Enums.TipoEquipe
     torneioId: number
-    membros?: AtletaEquipeOficialUncheckedCreateNestedManyWithoutEquipeOficialInput
-    partidasComoEquipeOficial1?: PartidaUncheckedCreateNestedManyWithoutEquipeOficial1Input
-    partidasComoEquipeOficial2?: PartidaUncheckedCreateNestedManyWithoutEquipeOficial2Input
+    createdAt?: Date | string
+    atletas?: EquipeAtletaUncheckedCreateNestedManyWithoutEquipeInput
+    partidasComoEquipe1?: PartidaUncheckedCreateNestedManyWithoutEquipe1Input
+    partidasComoEquipe2?: PartidaUncheckedCreateNestedManyWithoutEquipe2Input
   }
 
-  export type EquipeOficialUpdateInput = {
+  export type EquipeUpdateInput = {
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoEquipeFieldUpdateOperationsInput | $Enums.TipoEquipe
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    torneio?: TorneioUpdateOneRequiredWithoutEquipesOficialNestedInput
-    membros?: AtletaEquipeOficialUpdateManyWithoutEquipeOficialNestedInput
-    partidasComoEquipeOficial1?: PartidaUpdateManyWithoutEquipeOficial1NestedInput
-    partidasComoEquipeOficial2?: PartidaUpdateManyWithoutEquipeOficial2NestedInput
+    torneio?: TorneioUpdateOneRequiredWithoutEquipesNestedInput
+    atletas?: EquipeAtletaUpdateManyWithoutEquipeNestedInput
+    partidasComoEquipe1?: PartidaUpdateManyWithoutEquipe1NestedInput
+    partidasComoEquipe2?: PartidaUpdateManyWithoutEquipe2NestedInput
   }
 
-  export type EquipeOficialUncheckedUpdateInput = {
+  export type EquipeUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tipo?: EnumTipoEquipeFieldUpdateOperationsInput | $Enums.TipoEquipe
     torneioId?: IntFieldUpdateOperationsInput | number
-    membros?: AtletaEquipeOficialUncheckedUpdateManyWithoutEquipeOficialNestedInput
-    partidasComoEquipeOficial1?: PartidaUncheckedUpdateManyWithoutEquipeOficial1NestedInput
-    partidasComoEquipeOficial2?: PartidaUncheckedUpdateManyWithoutEquipeOficial2NestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    atletas?: EquipeAtletaUncheckedUpdateManyWithoutEquipeNestedInput
+    partidasComoEquipe1?: PartidaUncheckedUpdateManyWithoutEquipe1NestedInput
+    partidasComoEquipe2?: PartidaUncheckedUpdateManyWithoutEquipe2NestedInput
   }
 
-  export type EquipeOficialCreateManyInput = {
+  export type EquipeCreateManyInput = {
     id?: number
     nome: string
-    tipo: string
-    createdAt?: Date | string
+    tipo: $Enums.TipoEquipe
     torneioId: number
+    createdAt?: Date | string
   }
 
-  export type EquipeOficialUpdateManyMutationInput = {
+  export type EquipeUpdateManyMutationInput = {
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoEquipeFieldUpdateOperationsInput | $Enums.TipoEquipe
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type EquipeOficialUncheckedUpdateManyInput = {
+  export type EquipeUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tipo?: EnumTipoEquipeFieldUpdateOperationsInput | $Enums.TipoEquipe
     torneioId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AtletaEquipeOficialCreateInput = {
-    atleta: AtletaCreateNestedOneWithoutEquipesOficiaisInput
-    equipeOficial: EquipeOficialCreateNestedOneWithoutMembrosInput
+  export type EquipeAtletaCreateInput = {
+    atleta: AtletaCreateNestedOneWithoutEquipesInput
+    equipe: EquipeCreateNestedOneWithoutAtletasInput
   }
 
-  export type AtletaEquipeOficialUncheckedCreateInput = {
+  export type EquipeAtletaUncheckedCreateInput = {
     atletaId: number
-    equipeOficialId: number
+    equipeId: number
   }
 
-  export type AtletaEquipeOficialUpdateInput = {
-    atleta?: AtletaUpdateOneRequiredWithoutEquipesOficiaisNestedInput
-    equipeOficial?: EquipeOficialUpdateOneRequiredWithoutMembrosNestedInput
+  export type EquipeAtletaUpdateInput = {
+    atleta?: AtletaUpdateOneRequiredWithoutEquipesNestedInput
+    equipe?: EquipeUpdateOneRequiredWithoutAtletasNestedInput
   }
 
-  export type AtletaEquipeOficialUncheckedUpdateInput = {
+  export type EquipeAtletaUncheckedUpdateInput = {
     atletaId?: IntFieldUpdateOperationsInput | number
-    equipeOficialId?: IntFieldUpdateOperationsInput | number
+    equipeId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type AtletaEquipeOficialCreateManyInput = {
+  export type EquipeAtletaCreateManyInput = {
     atletaId: number
-    equipeOficialId: number
+    equipeId: number
   }
 
-  export type AtletaEquipeOficialUpdateManyMutationInput = {
+  export type EquipeAtletaUpdateManyMutationInput = {
 
   }
 
-  export type AtletaEquipeOficialUncheckedUpdateManyInput = {
+  export type EquipeAtletaUncheckedUpdateManyInput = {
     atletaId?: IntFieldUpdateOperationsInput | number
-    equipeOficialId?: IntFieldUpdateOperationsInput | number
+    equipeId?: IntFieldUpdateOperationsInput | number
   }
 
   export type PartidaCreateInput = {
@@ -13672,11 +10654,9 @@ export namespace Prisma {
     vencedorId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    torneio: TorneioCreateNestedOneWithoutPartidaInput
-    equipeAmador1?: EquipeAmadorCreateNestedOneWithoutPartidasComoEquipe1Input
-    equipeAmador2?: EquipeAmadorCreateNestedOneWithoutPartidasComoEquipe2Input
-    equipeOficial1?: EquipeOficialCreateNestedOneWithoutPartidasComoEquipeOficial1Input
-    equipeOficial2?: EquipeOficialCreateNestedOneWithoutPartidasComoEquipeOficial2Input
+    torneio: TorneioCreateNestedOneWithoutPartidasInput
+    equipe1: EquipeCreateNestedOneWithoutPartidasComoEquipe1Input
+    equipe2: EquipeCreateNestedOneWithoutPartidasComoEquipe2Input
   }
 
   export type PartidaUncheckedCreateInput = {
@@ -13688,10 +10668,8 @@ export namespace Prisma {
     vencedorId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    equipeAmador1Id?: number | null
-    equipeAmador2Id?: number | null
-    equipeOficial1Id?: number | null
-    equipeOficial2Id?: number | null
+    equipe1Id: number
+    equipe2Id: number
   }
 
   export type PartidaUpdateInput = {
@@ -13701,11 +10679,9 @@ export namespace Prisma {
     vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    torneio?: TorneioUpdateOneRequiredWithoutPartidaNestedInput
-    equipeAmador1?: EquipeAmadorUpdateOneWithoutPartidasComoEquipe1NestedInput
-    equipeAmador2?: EquipeAmadorUpdateOneWithoutPartidasComoEquipe2NestedInput
-    equipeOficial1?: EquipeOficialUpdateOneWithoutPartidasComoEquipeOficial1NestedInput
-    equipeOficial2?: EquipeOficialUpdateOneWithoutPartidasComoEquipeOficial2NestedInput
+    torneio?: TorneioUpdateOneRequiredWithoutPartidasNestedInput
+    equipe1?: EquipeUpdateOneRequiredWithoutPartidasComoEquipe1NestedInput
+    equipe2?: EquipeUpdateOneRequiredWithoutPartidasComoEquipe2NestedInput
   }
 
   export type PartidaUncheckedUpdateInput = {
@@ -13717,10 +10693,8 @@ export namespace Prisma {
     vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    equipeAmador1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeAmador2Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial2Id?: NullableIntFieldUpdateOperationsInput | number | null
+    equipe1Id?: IntFieldUpdateOperationsInput | number
+    equipe2Id?: IntFieldUpdateOperationsInput | number
   }
 
   export type PartidaCreateManyInput = {
@@ -13732,10 +10706,8 @@ export namespace Prisma {
     vencedorId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    equipeAmador1Id?: number | null
-    equipeAmador2Id?: number | null
-    equipeOficial1Id?: number | null
-    equipeOficial2Id?: number | null
+    equipe1Id: number
+    equipe2Id: number
   }
 
   export type PartidaUpdateManyMutationInput = {
@@ -13756,10 +10728,8 @@ export namespace Prisma {
     vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    equipeAmador1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeAmador2Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial2Id?: NullableIntFieldUpdateOperationsInput | number | null
+    equipe1Id?: IntFieldUpdateOperationsInput | number
+    equipe2Id?: IntFieldUpdateOperationsInput | number
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -13805,17 +10775,7 @@ export namespace Prisma {
     none?: TorneioWhereInput
   }
 
-  export type TreinadorListRelationFilter = {
-    every?: TreinadorWhereInput
-    some?: TreinadorWhereInput
-    none?: TreinadorWhereInput
-  }
-
   export type TorneioOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type TreinadorOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13902,42 +10862,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type UsuarioScalarRelationFilter = {
-    is?: UsuarioWhereInput
-    isNot?: UsuarioWhereInput
-  }
-
-  export type TreinadorCountOrderByAggregateInput = {
-    id?: SortOrder
-    nome?: SortOrder
-    email?: SortOrder
-    usuarioId?: SortOrder
-  }
-
-  export type TreinadorAvgOrderByAggregateInput = {
-    id?: SortOrder
-    usuarioId?: SortOrder
-  }
-
-  export type TreinadorMaxOrderByAggregateInput = {
-    id?: SortOrder
-    nome?: SortOrder
-    email?: SortOrder
-    usuarioId?: SortOrder
-  }
-
-  export type TreinadorMinOrderByAggregateInput = {
-    id?: SortOrder
-    nome?: SortOrder
-    email?: SortOrder
-    usuarioId?: SortOrder
-  }
-
-  export type TreinadorSumOrderByAggregateInput = {
-    id?: SortOrder
-    usuarioId?: SortOrder
-  }
-
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -13953,22 +10877,16 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type ParticipacaoAmadorListRelationFilter = {
-    every?: ParticipacaoAmadorWhereInput
-    some?: ParticipacaoAmadorWhereInput
-    none?: ParticipacaoAmadorWhereInput
+  export type ParticipacaoListRelationFilter = {
+    every?: ParticipacaoWhereInput
+    some?: ParticipacaoWhereInput
+    none?: ParticipacaoWhereInput
   }
 
-  export type AtletaEquipeOficialListRelationFilter = {
-    every?: AtletaEquipeOficialWhereInput
-    some?: AtletaEquipeOficialWhereInput
-    none?: AtletaEquipeOficialWhereInput
-  }
-
-  export type EquipeAmadorListRelationFilter = {
-    every?: EquipeAmadorWhereInput
-    some?: EquipeAmadorWhereInput
-    none?: EquipeAmadorWhereInput
+  export type EquipeAtletaListRelationFilter = {
+    every?: EquipeAtletaWhereInput
+    some?: EquipeAtletaWhereInput
+    none?: EquipeAtletaWhereInput
   }
 
   export type SortOrderInput = {
@@ -13976,15 +10894,11 @@ export namespace Prisma {
     nulls?: NullsOrder
   }
 
-  export type ParticipacaoAmadorOrderByRelationAggregateInput = {
+  export type ParticipacaoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type AtletaEquipeOficialOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type EquipeAmadorOrderByRelationAggregateInput = {
+  export type EquipeAtletaOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -14038,18 +10952,22 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type EnumTipoTorneioFilter<$PrismaModel = never> = {
-    equals?: $Enums.TipoTorneio | EnumTipoTorneioFieldRefInput<$PrismaModel>
-    in?: $Enums.TipoTorneio[] | ListEnumTipoTorneioFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TipoTorneio[] | ListEnumTipoTorneioFieldRefInput<$PrismaModel>
-    not?: NestedEnumTipoTorneioFilter<$PrismaModel> | $Enums.TipoTorneio
-  }
-
   export type EnumStatusTorneioFilter<$PrismaModel = never> = {
     equals?: $Enums.StatusTorneio | EnumStatusTorneioFieldRefInput<$PrismaModel>
     in?: $Enums.StatusTorneio[] | ListEnumStatusTorneioFieldRefInput<$PrismaModel>
     notIn?: $Enums.StatusTorneio[] | ListEnumStatusTorneioFieldRefInput<$PrismaModel>
     not?: NestedEnumStatusTorneioFilter<$PrismaModel> | $Enums.StatusTorneio
+  }
+
+  export type UsuarioScalarRelationFilter = {
+    is?: UsuarioWhereInput
+    isNot?: UsuarioWhereInput
+  }
+
+  export type EquipeListRelationFilter = {
+    every?: EquipeWhereInput
+    some?: EquipeWhereInput
+    none?: EquipeWhereInput
   }
 
   export type PartidaListRelationFilter = {
@@ -14058,24 +10976,17 @@ export namespace Prisma {
     none?: PartidaWhereInput
   }
 
-  export type EquipeOficialListRelationFilter = {
-    every?: EquipeOficialWhereInput
-    some?: EquipeOficialWhereInput
-    none?: EquipeOficialWhereInput
+  export type EquipeOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type PartidaOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type EquipeOficialOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type TorneioCountOrderByAggregateInput = {
     id?: SortOrder
     nome?: SortOrder
-    tipo?: SortOrder
     data?: SortOrder
     local?: SortOrder
     status?: SortOrder
@@ -14092,7 +11003,6 @@ export namespace Prisma {
   export type TorneioMaxOrderByAggregateInput = {
     id?: SortOrder
     nome?: SortOrder
-    tipo?: SortOrder
     data?: SortOrder
     local?: SortOrder
     status?: SortOrder
@@ -14104,7 +11014,6 @@ export namespace Prisma {
   export type TorneioMinOrderByAggregateInput = {
     id?: SortOrder
     nome?: SortOrder
-    tipo?: SortOrder
     data?: SortOrder
     local?: SortOrder
     status?: SortOrder
@@ -14116,16 +11025,6 @@ export namespace Prisma {
   export type TorneioSumOrderByAggregateInput = {
     id?: SortOrder
     criadoPorId?: SortOrder
-  }
-
-  export type EnumTipoTorneioWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.TipoTorneio | EnumTipoTorneioFieldRefInput<$PrismaModel>
-    in?: $Enums.TipoTorneio[] | ListEnumTipoTorneioFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TipoTorneio[] | ListEnumTipoTorneioFieldRefInput<$PrismaModel>
-    not?: NestedEnumTipoTorneioWithAggregatesFilter<$PrismaModel> | $Enums.TipoTorneio
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumTipoTorneioFilter<$PrismaModel>
-    _max?: NestedEnumTipoTorneioFilter<$PrismaModel>
   }
 
   export type EnumStatusTorneioWithAggregatesFilter<$PrismaModel = never> = {
@@ -14148,152 +11047,128 @@ export namespace Prisma {
     isNot?: TorneioWhereInput
   }
 
-  export type ParticipacaoAmadorAtletaIdTorneioIdCompoundUniqueInput = {
+  export type ParticipacaoAtletaIdTorneioIdCompoundUniqueInput = {
     atletaId: number
     torneioId: number
   }
 
-  export type ParticipacaoAmadorCountOrderByAggregateInput = {
+  export type ParticipacaoCountOrderByAggregateInput = {
     id?: SortOrder
     atletaId?: SortOrder
     torneioId?: SortOrder
     criadoEm?: SortOrder
   }
 
-  export type ParticipacaoAmadorAvgOrderByAggregateInput = {
+  export type ParticipacaoAvgOrderByAggregateInput = {
     id?: SortOrder
     atletaId?: SortOrder
     torneioId?: SortOrder
   }
 
-  export type ParticipacaoAmadorMaxOrderByAggregateInput = {
-    id?: SortOrder
-    atletaId?: SortOrder
-    torneioId?: SortOrder
-    criadoEm?: SortOrder
-  }
-
-  export type ParticipacaoAmadorMinOrderByAggregateInput = {
+  export type ParticipacaoMaxOrderByAggregateInput = {
     id?: SortOrder
     atletaId?: SortOrder
     torneioId?: SortOrder
     criadoEm?: SortOrder
   }
 
-  export type ParticipacaoAmadorSumOrderByAggregateInput = {
+  export type ParticipacaoMinOrderByAggregateInput = {
+    id?: SortOrder
+    atletaId?: SortOrder
+    torneioId?: SortOrder
+    criadoEm?: SortOrder
+  }
+
+  export type ParticipacaoSumOrderByAggregateInput = {
     id?: SortOrder
     atletaId?: SortOrder
     torneioId?: SortOrder
   }
 
-  export type AtletaListRelationFilter = {
-    every?: AtletaWhereInput
-    some?: AtletaWhereInput
-    none?: AtletaWhereInput
+  export type EnumTipoEquipeFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoEquipe | EnumTipoEquipeFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoEquipe[] | ListEnumTipoEquipeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoEquipe[] | ListEnumTipoEquipeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoEquipeFilter<$PrismaModel> | $Enums.TipoEquipe
   }
 
-  export type AtletaOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type EquipeAmadorCountOrderByAggregateInput = {
+  export type EquipeCountOrderByAggregateInput = {
     id?: SortOrder
     nome?: SortOrder
     tipo?: SortOrder
     torneioId?: SortOrder
-  }
-
-  export type EquipeAmadorAvgOrderByAggregateInput = {
-    id?: SortOrder
-    torneioId?: SortOrder
-  }
-
-  export type EquipeAmadorMaxOrderByAggregateInput = {
-    id?: SortOrder
-    nome?: SortOrder
-    tipo?: SortOrder
-    torneioId?: SortOrder
-  }
-
-  export type EquipeAmadorMinOrderByAggregateInput = {
-    id?: SortOrder
-    nome?: SortOrder
-    tipo?: SortOrder
-    torneioId?: SortOrder
-  }
-
-  export type EquipeAmadorSumOrderByAggregateInput = {
-    id?: SortOrder
-    torneioId?: SortOrder
-  }
-
-  export type EquipeOficialCountOrderByAggregateInput = {
-    id?: SortOrder
-    nome?: SortOrder
-    tipo?: SortOrder
     createdAt?: SortOrder
-    torneioId?: SortOrder
   }
 
-  export type EquipeOficialAvgOrderByAggregateInput = {
+  export type EquipeAvgOrderByAggregateInput = {
     id?: SortOrder
     torneioId?: SortOrder
   }
 
-  export type EquipeOficialMaxOrderByAggregateInput = {
-    id?: SortOrder
-    nome?: SortOrder
-    tipo?: SortOrder
-    createdAt?: SortOrder
-    torneioId?: SortOrder
-  }
-
-  export type EquipeOficialMinOrderByAggregateInput = {
+  export type EquipeMaxOrderByAggregateInput = {
     id?: SortOrder
     nome?: SortOrder
     tipo?: SortOrder
-    createdAt?: SortOrder
     torneioId?: SortOrder
+    createdAt?: SortOrder
   }
 
-  export type EquipeOficialSumOrderByAggregateInput = {
+  export type EquipeMinOrderByAggregateInput = {
+    id?: SortOrder
+    nome?: SortOrder
+    tipo?: SortOrder
+    torneioId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EquipeSumOrderByAggregateInput = {
     id?: SortOrder
     torneioId?: SortOrder
   }
 
-  export type EquipeOficialScalarRelationFilter = {
-    is?: EquipeOficialWhereInput
-    isNot?: EquipeOficialWhereInput
+  export type EnumTipoEquipeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoEquipe | EnumTipoEquipeFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoEquipe[] | ListEnumTipoEquipeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoEquipe[] | ListEnumTipoEquipeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoEquipeWithAggregatesFilter<$PrismaModel> | $Enums.TipoEquipe
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTipoEquipeFilter<$PrismaModel>
+    _max?: NestedEnumTipoEquipeFilter<$PrismaModel>
   }
 
-  export type AtletaEquipeOficialAtletaIdEquipeOficialIdCompoundUniqueInput = {
+  export type EquipeScalarRelationFilter = {
+    is?: EquipeWhereInput
+    isNot?: EquipeWhereInput
+  }
+
+  export type EquipeAtletaAtletaIdEquipeIdCompoundUniqueInput = {
     atletaId: number
-    equipeOficialId: number
+    equipeId: number
   }
 
-  export type AtletaEquipeOficialCountOrderByAggregateInput = {
+  export type EquipeAtletaCountOrderByAggregateInput = {
     atletaId?: SortOrder
-    equipeOficialId?: SortOrder
+    equipeId?: SortOrder
   }
 
-  export type AtletaEquipeOficialAvgOrderByAggregateInput = {
+  export type EquipeAtletaAvgOrderByAggregateInput = {
     atletaId?: SortOrder
-    equipeOficialId?: SortOrder
+    equipeId?: SortOrder
   }
 
-  export type AtletaEquipeOficialMaxOrderByAggregateInput = {
+  export type EquipeAtletaMaxOrderByAggregateInput = {
     atletaId?: SortOrder
-    equipeOficialId?: SortOrder
+    equipeId?: SortOrder
   }
 
-  export type AtletaEquipeOficialMinOrderByAggregateInput = {
+  export type EquipeAtletaMinOrderByAggregateInput = {
     atletaId?: SortOrder
-    equipeOficialId?: SortOrder
+    equipeId?: SortOrder
   }
 
-  export type AtletaEquipeOficialSumOrderByAggregateInput = {
+  export type EquipeAtletaSumOrderByAggregateInput = {
     atletaId?: SortOrder
-    equipeOficialId?: SortOrder
+    equipeId?: SortOrder
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -14307,16 +11182,6 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type EquipeAmadorNullableScalarRelationFilter = {
-    is?: EquipeAmadorWhereInput | null
-    isNot?: EquipeAmadorWhereInput | null
-  }
-
-  export type EquipeOficialNullableScalarRelationFilter = {
-    is?: EquipeOficialWhereInput | null
-    isNot?: EquipeOficialWhereInput | null
-  }
-
   export type PartidaCountOrderByAggregateInput = {
     id?: SortOrder
     torneioId?: SortOrder
@@ -14326,10 +11191,8 @@ export namespace Prisma {
     vencedorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    equipeAmador1Id?: SortOrder
-    equipeAmador2Id?: SortOrder
-    equipeOficial1Id?: SortOrder
-    equipeOficial2Id?: SortOrder
+    equipe1Id?: SortOrder
+    equipe2Id?: SortOrder
   }
 
   export type PartidaAvgOrderByAggregateInput = {
@@ -14338,10 +11201,8 @@ export namespace Prisma {
     pontosEquipe1?: SortOrder
     pontosEquipe2?: SortOrder
     vencedorId?: SortOrder
-    equipeAmador1Id?: SortOrder
-    equipeAmador2Id?: SortOrder
-    equipeOficial1Id?: SortOrder
-    equipeOficial2Id?: SortOrder
+    equipe1Id?: SortOrder
+    equipe2Id?: SortOrder
   }
 
   export type PartidaMaxOrderByAggregateInput = {
@@ -14353,10 +11214,8 @@ export namespace Prisma {
     vencedorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    equipeAmador1Id?: SortOrder
-    equipeAmador2Id?: SortOrder
-    equipeOficial1Id?: SortOrder
-    equipeOficial2Id?: SortOrder
+    equipe1Id?: SortOrder
+    equipe2Id?: SortOrder
   }
 
   export type PartidaMinOrderByAggregateInput = {
@@ -14368,10 +11227,8 @@ export namespace Prisma {
     vencedorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    equipeAmador1Id?: SortOrder
-    equipeAmador2Id?: SortOrder
-    equipeOficial1Id?: SortOrder
-    equipeOficial2Id?: SortOrder
+    equipe1Id?: SortOrder
+    equipe2Id?: SortOrder
   }
 
   export type PartidaSumOrderByAggregateInput = {
@@ -14380,10 +11237,8 @@ export namespace Prisma {
     pontosEquipe1?: SortOrder
     pontosEquipe2?: SortOrder
     vencedorId?: SortOrder
-    equipeAmador1Id?: SortOrder
-    equipeAmador2Id?: SortOrder
-    equipeOficial1Id?: SortOrder
-    equipeOficial2Id?: SortOrder
+    equipe1Id?: SortOrder
+    equipe2Id?: SortOrder
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -14409,25 +11264,11 @@ export namespace Prisma {
     connect?: TorneioWhereUniqueInput | TorneioWhereUniqueInput[]
   }
 
-  export type TreinadorCreateNestedManyWithoutUsuarioInput = {
-    create?: XOR<TreinadorCreateWithoutUsuarioInput, TreinadorUncheckedCreateWithoutUsuarioInput> | TreinadorCreateWithoutUsuarioInput[] | TreinadorUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: TreinadorCreateOrConnectWithoutUsuarioInput | TreinadorCreateOrConnectWithoutUsuarioInput[]
-    createMany?: TreinadorCreateManyUsuarioInputEnvelope
-    connect?: TreinadorWhereUniqueInput | TreinadorWhereUniqueInput[]
-  }
-
   export type TorneioUncheckedCreateNestedManyWithoutCriadoPorInput = {
     create?: XOR<TorneioCreateWithoutCriadoPorInput, TorneioUncheckedCreateWithoutCriadoPorInput> | TorneioCreateWithoutCriadoPorInput[] | TorneioUncheckedCreateWithoutCriadoPorInput[]
     connectOrCreate?: TorneioCreateOrConnectWithoutCriadoPorInput | TorneioCreateOrConnectWithoutCriadoPorInput[]
     createMany?: TorneioCreateManyCriadoPorInputEnvelope
     connect?: TorneioWhereUniqueInput | TorneioWhereUniqueInput[]
-  }
-
-  export type TreinadorUncheckedCreateNestedManyWithoutUsuarioInput = {
-    create?: XOR<TreinadorCreateWithoutUsuarioInput, TreinadorUncheckedCreateWithoutUsuarioInput> | TreinadorCreateWithoutUsuarioInput[] | TreinadorUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: TreinadorCreateOrConnectWithoutUsuarioInput | TreinadorCreateOrConnectWithoutUsuarioInput[]
-    createMany?: TreinadorCreateManyUsuarioInputEnvelope
-    connect?: TreinadorWhereUniqueInput | TreinadorWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -14452,20 +11293,6 @@ export namespace Prisma {
     deleteMany?: TorneioScalarWhereInput | TorneioScalarWhereInput[]
   }
 
-  export type TreinadorUpdateManyWithoutUsuarioNestedInput = {
-    create?: XOR<TreinadorCreateWithoutUsuarioInput, TreinadorUncheckedCreateWithoutUsuarioInput> | TreinadorCreateWithoutUsuarioInput[] | TreinadorUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: TreinadorCreateOrConnectWithoutUsuarioInput | TreinadorCreateOrConnectWithoutUsuarioInput[]
-    upsert?: TreinadorUpsertWithWhereUniqueWithoutUsuarioInput | TreinadorUpsertWithWhereUniqueWithoutUsuarioInput[]
-    createMany?: TreinadorCreateManyUsuarioInputEnvelope
-    set?: TreinadorWhereUniqueInput | TreinadorWhereUniqueInput[]
-    disconnect?: TreinadorWhereUniqueInput | TreinadorWhereUniqueInput[]
-    delete?: TreinadorWhereUniqueInput | TreinadorWhereUniqueInput[]
-    connect?: TreinadorWhereUniqueInput | TreinadorWhereUniqueInput[]
-    update?: TreinadorUpdateWithWhereUniqueWithoutUsuarioInput | TreinadorUpdateWithWhereUniqueWithoutUsuarioInput[]
-    updateMany?: TreinadorUpdateManyWithWhereWithoutUsuarioInput | TreinadorUpdateManyWithWhereWithoutUsuarioInput[]
-    deleteMany?: TreinadorScalarWhereInput | TreinadorScalarWhereInput[]
-  }
-
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -14488,164 +11315,112 @@ export namespace Prisma {
     deleteMany?: TorneioScalarWhereInput | TorneioScalarWhereInput[]
   }
 
-  export type TreinadorUncheckedUpdateManyWithoutUsuarioNestedInput = {
-    create?: XOR<TreinadorCreateWithoutUsuarioInput, TreinadorUncheckedCreateWithoutUsuarioInput> | TreinadorCreateWithoutUsuarioInput[] | TreinadorUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: TreinadorCreateOrConnectWithoutUsuarioInput | TreinadorCreateOrConnectWithoutUsuarioInput[]
-    upsert?: TreinadorUpsertWithWhereUniqueWithoutUsuarioInput | TreinadorUpsertWithWhereUniqueWithoutUsuarioInput[]
-    createMany?: TreinadorCreateManyUsuarioInputEnvelope
-    set?: TreinadorWhereUniqueInput | TreinadorWhereUniqueInput[]
-    disconnect?: TreinadorWhereUniqueInput | TreinadorWhereUniqueInput[]
-    delete?: TreinadorWhereUniqueInput | TreinadorWhereUniqueInput[]
-    connect?: TreinadorWhereUniqueInput | TreinadorWhereUniqueInput[]
-    update?: TreinadorUpdateWithWhereUniqueWithoutUsuarioInput | TreinadorUpdateWithWhereUniqueWithoutUsuarioInput[]
-    updateMany?: TreinadorUpdateManyWithWhereWithoutUsuarioInput | TreinadorUpdateManyWithWhereWithoutUsuarioInput[]
-    deleteMany?: TreinadorScalarWhereInput | TreinadorScalarWhereInput[]
+  export type ParticipacaoCreateNestedManyWithoutAtletaInput = {
+    create?: XOR<ParticipacaoCreateWithoutAtletaInput, ParticipacaoUncheckedCreateWithoutAtletaInput> | ParticipacaoCreateWithoutAtletaInput[] | ParticipacaoUncheckedCreateWithoutAtletaInput[]
+    connectOrCreate?: ParticipacaoCreateOrConnectWithoutAtletaInput | ParticipacaoCreateOrConnectWithoutAtletaInput[]
+    createMany?: ParticipacaoCreateManyAtletaInputEnvelope
+    connect?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
   }
 
-  export type UsuarioCreateNestedOneWithoutTreinadorInput = {
-    create?: XOR<UsuarioCreateWithoutTreinadorInput, UsuarioUncheckedCreateWithoutTreinadorInput>
-    connectOrCreate?: UsuarioCreateOrConnectWithoutTreinadorInput
-    connect?: UsuarioWhereUniqueInput
+  export type EquipeAtletaCreateNestedManyWithoutAtletaInput = {
+    create?: XOR<EquipeAtletaCreateWithoutAtletaInput, EquipeAtletaUncheckedCreateWithoutAtletaInput> | EquipeAtletaCreateWithoutAtletaInput[] | EquipeAtletaUncheckedCreateWithoutAtletaInput[]
+    connectOrCreate?: EquipeAtletaCreateOrConnectWithoutAtletaInput | EquipeAtletaCreateOrConnectWithoutAtletaInput[]
+    createMany?: EquipeAtletaCreateManyAtletaInputEnvelope
+    connect?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
   }
 
-  export type UsuarioUpdateOneRequiredWithoutTreinadorNestedInput = {
-    create?: XOR<UsuarioCreateWithoutTreinadorInput, UsuarioUncheckedCreateWithoutTreinadorInput>
-    connectOrCreate?: UsuarioCreateOrConnectWithoutTreinadorInput
-    upsert?: UsuarioUpsertWithoutTreinadorInput
-    connect?: UsuarioWhereUniqueInput
-    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutTreinadorInput, UsuarioUpdateWithoutTreinadorInput>, UsuarioUncheckedUpdateWithoutTreinadorInput>
+  export type ParticipacaoUncheckedCreateNestedManyWithoutAtletaInput = {
+    create?: XOR<ParticipacaoCreateWithoutAtletaInput, ParticipacaoUncheckedCreateWithoutAtletaInput> | ParticipacaoCreateWithoutAtletaInput[] | ParticipacaoUncheckedCreateWithoutAtletaInput[]
+    connectOrCreate?: ParticipacaoCreateOrConnectWithoutAtletaInput | ParticipacaoCreateOrConnectWithoutAtletaInput[]
+    createMany?: ParticipacaoCreateManyAtletaInputEnvelope
+    connect?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
   }
 
-  export type ParticipacaoAmadorCreateNestedManyWithoutAtletaInput = {
-    create?: XOR<ParticipacaoAmadorCreateWithoutAtletaInput, ParticipacaoAmadorUncheckedCreateWithoutAtletaInput> | ParticipacaoAmadorCreateWithoutAtletaInput[] | ParticipacaoAmadorUncheckedCreateWithoutAtletaInput[]
-    connectOrCreate?: ParticipacaoAmadorCreateOrConnectWithoutAtletaInput | ParticipacaoAmadorCreateOrConnectWithoutAtletaInput[]
-    createMany?: ParticipacaoAmadorCreateManyAtletaInputEnvelope
-    connect?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-  }
-
-  export type AtletaEquipeOficialCreateNestedManyWithoutAtletaInput = {
-    create?: XOR<AtletaEquipeOficialCreateWithoutAtletaInput, AtletaEquipeOficialUncheckedCreateWithoutAtletaInput> | AtletaEquipeOficialCreateWithoutAtletaInput[] | AtletaEquipeOficialUncheckedCreateWithoutAtletaInput[]
-    connectOrCreate?: AtletaEquipeOficialCreateOrConnectWithoutAtletaInput | AtletaEquipeOficialCreateOrConnectWithoutAtletaInput[]
-    createMany?: AtletaEquipeOficialCreateManyAtletaInputEnvelope
-    connect?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-  }
-
-  export type EquipeAmadorCreateNestedManyWithoutMembrosInput = {
-    create?: XOR<EquipeAmadorCreateWithoutMembrosInput, EquipeAmadorUncheckedCreateWithoutMembrosInput> | EquipeAmadorCreateWithoutMembrosInput[] | EquipeAmadorUncheckedCreateWithoutMembrosInput[]
-    connectOrCreate?: EquipeAmadorCreateOrConnectWithoutMembrosInput | EquipeAmadorCreateOrConnectWithoutMembrosInput[]
-    connect?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-  }
-
-  export type ParticipacaoAmadorUncheckedCreateNestedManyWithoutAtletaInput = {
-    create?: XOR<ParticipacaoAmadorCreateWithoutAtletaInput, ParticipacaoAmadorUncheckedCreateWithoutAtletaInput> | ParticipacaoAmadorCreateWithoutAtletaInput[] | ParticipacaoAmadorUncheckedCreateWithoutAtletaInput[]
-    connectOrCreate?: ParticipacaoAmadorCreateOrConnectWithoutAtletaInput | ParticipacaoAmadorCreateOrConnectWithoutAtletaInput[]
-    createMany?: ParticipacaoAmadorCreateManyAtletaInputEnvelope
-    connect?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-  }
-
-  export type AtletaEquipeOficialUncheckedCreateNestedManyWithoutAtletaInput = {
-    create?: XOR<AtletaEquipeOficialCreateWithoutAtletaInput, AtletaEquipeOficialUncheckedCreateWithoutAtletaInput> | AtletaEquipeOficialCreateWithoutAtletaInput[] | AtletaEquipeOficialUncheckedCreateWithoutAtletaInput[]
-    connectOrCreate?: AtletaEquipeOficialCreateOrConnectWithoutAtletaInput | AtletaEquipeOficialCreateOrConnectWithoutAtletaInput[]
-    createMany?: AtletaEquipeOficialCreateManyAtletaInputEnvelope
-    connect?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-  }
-
-  export type EquipeAmadorUncheckedCreateNestedManyWithoutMembrosInput = {
-    create?: XOR<EquipeAmadorCreateWithoutMembrosInput, EquipeAmadorUncheckedCreateWithoutMembrosInput> | EquipeAmadorCreateWithoutMembrosInput[] | EquipeAmadorUncheckedCreateWithoutMembrosInput[]
-    connectOrCreate?: EquipeAmadorCreateOrConnectWithoutMembrosInput | EquipeAmadorCreateOrConnectWithoutMembrosInput[]
-    connect?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
+  export type EquipeAtletaUncheckedCreateNestedManyWithoutAtletaInput = {
+    create?: XOR<EquipeAtletaCreateWithoutAtletaInput, EquipeAtletaUncheckedCreateWithoutAtletaInput> | EquipeAtletaCreateWithoutAtletaInput[] | EquipeAtletaUncheckedCreateWithoutAtletaInput[]
+    connectOrCreate?: EquipeAtletaCreateOrConnectWithoutAtletaInput | EquipeAtletaCreateOrConnectWithoutAtletaInput[]
+    createMany?: EquipeAtletaCreateManyAtletaInputEnvelope
+    connect?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
 
-  export type ParticipacaoAmadorUpdateManyWithoutAtletaNestedInput = {
-    create?: XOR<ParticipacaoAmadorCreateWithoutAtletaInput, ParticipacaoAmadorUncheckedCreateWithoutAtletaInput> | ParticipacaoAmadorCreateWithoutAtletaInput[] | ParticipacaoAmadorUncheckedCreateWithoutAtletaInput[]
-    connectOrCreate?: ParticipacaoAmadorCreateOrConnectWithoutAtletaInput | ParticipacaoAmadorCreateOrConnectWithoutAtletaInput[]
-    upsert?: ParticipacaoAmadorUpsertWithWhereUniqueWithoutAtletaInput | ParticipacaoAmadorUpsertWithWhereUniqueWithoutAtletaInput[]
-    createMany?: ParticipacaoAmadorCreateManyAtletaInputEnvelope
-    set?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-    disconnect?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-    delete?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-    connect?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-    update?: ParticipacaoAmadorUpdateWithWhereUniqueWithoutAtletaInput | ParticipacaoAmadorUpdateWithWhereUniqueWithoutAtletaInput[]
-    updateMany?: ParticipacaoAmadorUpdateManyWithWhereWithoutAtletaInput | ParticipacaoAmadorUpdateManyWithWhereWithoutAtletaInput[]
-    deleteMany?: ParticipacaoAmadorScalarWhereInput | ParticipacaoAmadorScalarWhereInput[]
+  export type ParticipacaoUpdateManyWithoutAtletaNestedInput = {
+    create?: XOR<ParticipacaoCreateWithoutAtletaInput, ParticipacaoUncheckedCreateWithoutAtletaInput> | ParticipacaoCreateWithoutAtletaInput[] | ParticipacaoUncheckedCreateWithoutAtletaInput[]
+    connectOrCreate?: ParticipacaoCreateOrConnectWithoutAtletaInput | ParticipacaoCreateOrConnectWithoutAtletaInput[]
+    upsert?: ParticipacaoUpsertWithWhereUniqueWithoutAtletaInput | ParticipacaoUpsertWithWhereUniqueWithoutAtletaInput[]
+    createMany?: ParticipacaoCreateManyAtletaInputEnvelope
+    set?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
+    disconnect?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
+    delete?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
+    connect?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
+    update?: ParticipacaoUpdateWithWhereUniqueWithoutAtletaInput | ParticipacaoUpdateWithWhereUniqueWithoutAtletaInput[]
+    updateMany?: ParticipacaoUpdateManyWithWhereWithoutAtletaInput | ParticipacaoUpdateManyWithWhereWithoutAtletaInput[]
+    deleteMany?: ParticipacaoScalarWhereInput | ParticipacaoScalarWhereInput[]
   }
 
-  export type AtletaEquipeOficialUpdateManyWithoutAtletaNestedInput = {
-    create?: XOR<AtletaEquipeOficialCreateWithoutAtletaInput, AtletaEquipeOficialUncheckedCreateWithoutAtletaInput> | AtletaEquipeOficialCreateWithoutAtletaInput[] | AtletaEquipeOficialUncheckedCreateWithoutAtletaInput[]
-    connectOrCreate?: AtletaEquipeOficialCreateOrConnectWithoutAtletaInput | AtletaEquipeOficialCreateOrConnectWithoutAtletaInput[]
-    upsert?: AtletaEquipeOficialUpsertWithWhereUniqueWithoutAtletaInput | AtletaEquipeOficialUpsertWithWhereUniqueWithoutAtletaInput[]
-    createMany?: AtletaEquipeOficialCreateManyAtletaInputEnvelope
-    set?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-    disconnect?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-    delete?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-    connect?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-    update?: AtletaEquipeOficialUpdateWithWhereUniqueWithoutAtletaInput | AtletaEquipeOficialUpdateWithWhereUniqueWithoutAtletaInput[]
-    updateMany?: AtletaEquipeOficialUpdateManyWithWhereWithoutAtletaInput | AtletaEquipeOficialUpdateManyWithWhereWithoutAtletaInput[]
-    deleteMany?: AtletaEquipeOficialScalarWhereInput | AtletaEquipeOficialScalarWhereInput[]
+  export type EquipeAtletaUpdateManyWithoutAtletaNestedInput = {
+    create?: XOR<EquipeAtletaCreateWithoutAtletaInput, EquipeAtletaUncheckedCreateWithoutAtletaInput> | EquipeAtletaCreateWithoutAtletaInput[] | EquipeAtletaUncheckedCreateWithoutAtletaInput[]
+    connectOrCreate?: EquipeAtletaCreateOrConnectWithoutAtletaInput | EquipeAtletaCreateOrConnectWithoutAtletaInput[]
+    upsert?: EquipeAtletaUpsertWithWhereUniqueWithoutAtletaInput | EquipeAtletaUpsertWithWhereUniqueWithoutAtletaInput[]
+    createMany?: EquipeAtletaCreateManyAtletaInputEnvelope
+    set?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
+    disconnect?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
+    delete?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
+    connect?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
+    update?: EquipeAtletaUpdateWithWhereUniqueWithoutAtletaInput | EquipeAtletaUpdateWithWhereUniqueWithoutAtletaInput[]
+    updateMany?: EquipeAtletaUpdateManyWithWhereWithoutAtletaInput | EquipeAtletaUpdateManyWithWhereWithoutAtletaInput[]
+    deleteMany?: EquipeAtletaScalarWhereInput | EquipeAtletaScalarWhereInput[]
   }
 
-  export type EquipeAmadorUpdateManyWithoutMembrosNestedInput = {
-    create?: XOR<EquipeAmadorCreateWithoutMembrosInput, EquipeAmadorUncheckedCreateWithoutMembrosInput> | EquipeAmadorCreateWithoutMembrosInput[] | EquipeAmadorUncheckedCreateWithoutMembrosInput[]
-    connectOrCreate?: EquipeAmadorCreateOrConnectWithoutMembrosInput | EquipeAmadorCreateOrConnectWithoutMembrosInput[]
-    upsert?: EquipeAmadorUpsertWithWhereUniqueWithoutMembrosInput | EquipeAmadorUpsertWithWhereUniqueWithoutMembrosInput[]
-    set?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-    disconnect?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-    delete?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-    connect?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-    update?: EquipeAmadorUpdateWithWhereUniqueWithoutMembrosInput | EquipeAmadorUpdateWithWhereUniqueWithoutMembrosInput[]
-    updateMany?: EquipeAmadorUpdateManyWithWhereWithoutMembrosInput | EquipeAmadorUpdateManyWithWhereWithoutMembrosInput[]
-    deleteMany?: EquipeAmadorScalarWhereInput | EquipeAmadorScalarWhereInput[]
+  export type ParticipacaoUncheckedUpdateManyWithoutAtletaNestedInput = {
+    create?: XOR<ParticipacaoCreateWithoutAtletaInput, ParticipacaoUncheckedCreateWithoutAtletaInput> | ParticipacaoCreateWithoutAtletaInput[] | ParticipacaoUncheckedCreateWithoutAtletaInput[]
+    connectOrCreate?: ParticipacaoCreateOrConnectWithoutAtletaInput | ParticipacaoCreateOrConnectWithoutAtletaInput[]
+    upsert?: ParticipacaoUpsertWithWhereUniqueWithoutAtletaInput | ParticipacaoUpsertWithWhereUniqueWithoutAtletaInput[]
+    createMany?: ParticipacaoCreateManyAtletaInputEnvelope
+    set?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
+    disconnect?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
+    delete?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
+    connect?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
+    update?: ParticipacaoUpdateWithWhereUniqueWithoutAtletaInput | ParticipacaoUpdateWithWhereUniqueWithoutAtletaInput[]
+    updateMany?: ParticipacaoUpdateManyWithWhereWithoutAtletaInput | ParticipacaoUpdateManyWithWhereWithoutAtletaInput[]
+    deleteMany?: ParticipacaoScalarWhereInput | ParticipacaoScalarWhereInput[]
   }
 
-  export type ParticipacaoAmadorUncheckedUpdateManyWithoutAtletaNestedInput = {
-    create?: XOR<ParticipacaoAmadorCreateWithoutAtletaInput, ParticipacaoAmadorUncheckedCreateWithoutAtletaInput> | ParticipacaoAmadorCreateWithoutAtletaInput[] | ParticipacaoAmadorUncheckedCreateWithoutAtletaInput[]
-    connectOrCreate?: ParticipacaoAmadorCreateOrConnectWithoutAtletaInput | ParticipacaoAmadorCreateOrConnectWithoutAtletaInput[]
-    upsert?: ParticipacaoAmadorUpsertWithWhereUniqueWithoutAtletaInput | ParticipacaoAmadorUpsertWithWhereUniqueWithoutAtletaInput[]
-    createMany?: ParticipacaoAmadorCreateManyAtletaInputEnvelope
-    set?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-    disconnect?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-    delete?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-    connect?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-    update?: ParticipacaoAmadorUpdateWithWhereUniqueWithoutAtletaInput | ParticipacaoAmadorUpdateWithWhereUniqueWithoutAtletaInput[]
-    updateMany?: ParticipacaoAmadorUpdateManyWithWhereWithoutAtletaInput | ParticipacaoAmadorUpdateManyWithWhereWithoutAtletaInput[]
-    deleteMany?: ParticipacaoAmadorScalarWhereInput | ParticipacaoAmadorScalarWhereInput[]
+  export type EquipeAtletaUncheckedUpdateManyWithoutAtletaNestedInput = {
+    create?: XOR<EquipeAtletaCreateWithoutAtletaInput, EquipeAtletaUncheckedCreateWithoutAtletaInput> | EquipeAtletaCreateWithoutAtletaInput[] | EquipeAtletaUncheckedCreateWithoutAtletaInput[]
+    connectOrCreate?: EquipeAtletaCreateOrConnectWithoutAtletaInput | EquipeAtletaCreateOrConnectWithoutAtletaInput[]
+    upsert?: EquipeAtletaUpsertWithWhereUniqueWithoutAtletaInput | EquipeAtletaUpsertWithWhereUniqueWithoutAtletaInput[]
+    createMany?: EquipeAtletaCreateManyAtletaInputEnvelope
+    set?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
+    disconnect?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
+    delete?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
+    connect?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
+    update?: EquipeAtletaUpdateWithWhereUniqueWithoutAtletaInput | EquipeAtletaUpdateWithWhereUniqueWithoutAtletaInput[]
+    updateMany?: EquipeAtletaUpdateManyWithWhereWithoutAtletaInput | EquipeAtletaUpdateManyWithWhereWithoutAtletaInput[]
+    deleteMany?: EquipeAtletaScalarWhereInput | EquipeAtletaScalarWhereInput[]
   }
 
-  export type AtletaEquipeOficialUncheckedUpdateManyWithoutAtletaNestedInput = {
-    create?: XOR<AtletaEquipeOficialCreateWithoutAtletaInput, AtletaEquipeOficialUncheckedCreateWithoutAtletaInput> | AtletaEquipeOficialCreateWithoutAtletaInput[] | AtletaEquipeOficialUncheckedCreateWithoutAtletaInput[]
-    connectOrCreate?: AtletaEquipeOficialCreateOrConnectWithoutAtletaInput | AtletaEquipeOficialCreateOrConnectWithoutAtletaInput[]
-    upsert?: AtletaEquipeOficialUpsertWithWhereUniqueWithoutAtletaInput | AtletaEquipeOficialUpsertWithWhereUniqueWithoutAtletaInput[]
-    createMany?: AtletaEquipeOficialCreateManyAtletaInputEnvelope
-    set?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-    disconnect?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-    delete?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-    connect?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-    update?: AtletaEquipeOficialUpdateWithWhereUniqueWithoutAtletaInput | AtletaEquipeOficialUpdateWithWhereUniqueWithoutAtletaInput[]
-    updateMany?: AtletaEquipeOficialUpdateManyWithWhereWithoutAtletaInput | AtletaEquipeOficialUpdateManyWithWhereWithoutAtletaInput[]
-    deleteMany?: AtletaEquipeOficialScalarWhereInput | AtletaEquipeOficialScalarWhereInput[]
-  }
-
-  export type EquipeAmadorUncheckedUpdateManyWithoutMembrosNestedInput = {
-    create?: XOR<EquipeAmadorCreateWithoutMembrosInput, EquipeAmadorUncheckedCreateWithoutMembrosInput> | EquipeAmadorCreateWithoutMembrosInput[] | EquipeAmadorUncheckedCreateWithoutMembrosInput[]
-    connectOrCreate?: EquipeAmadorCreateOrConnectWithoutMembrosInput | EquipeAmadorCreateOrConnectWithoutMembrosInput[]
-    upsert?: EquipeAmadorUpsertWithWhereUniqueWithoutMembrosInput | EquipeAmadorUpsertWithWhereUniqueWithoutMembrosInput[]
-    set?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-    disconnect?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-    delete?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-    connect?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-    update?: EquipeAmadorUpdateWithWhereUniqueWithoutMembrosInput | EquipeAmadorUpdateWithWhereUniqueWithoutMembrosInput[]
-    updateMany?: EquipeAmadorUpdateManyWithWhereWithoutMembrosInput | EquipeAmadorUpdateManyWithWhereWithoutMembrosInput[]
-    deleteMany?: EquipeAmadorScalarWhereInput | EquipeAmadorScalarWhereInput[]
-  }
-
-  export type UsuarioCreateNestedOneWithoutTorneioInput = {
-    create?: XOR<UsuarioCreateWithoutTorneioInput, UsuarioUncheckedCreateWithoutTorneioInput>
-    connectOrCreate?: UsuarioCreateOrConnectWithoutTorneioInput
+  export type UsuarioCreateNestedOneWithoutTorneiosInput = {
+    create?: XOR<UsuarioCreateWithoutTorneiosInput, UsuarioUncheckedCreateWithoutTorneiosInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutTorneiosInput
     connect?: UsuarioWhereUniqueInput
+  }
+
+  export type ParticipacaoCreateNestedManyWithoutTorneioInput = {
+    create?: XOR<ParticipacaoCreateWithoutTorneioInput, ParticipacaoUncheckedCreateWithoutTorneioInput> | ParticipacaoCreateWithoutTorneioInput[] | ParticipacaoUncheckedCreateWithoutTorneioInput[]
+    connectOrCreate?: ParticipacaoCreateOrConnectWithoutTorneioInput | ParticipacaoCreateOrConnectWithoutTorneioInput[]
+    createMany?: ParticipacaoCreateManyTorneioInputEnvelope
+    connect?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
+  }
+
+  export type EquipeCreateNestedManyWithoutTorneioInput = {
+    create?: XOR<EquipeCreateWithoutTorneioInput, EquipeUncheckedCreateWithoutTorneioInput> | EquipeCreateWithoutTorneioInput[] | EquipeUncheckedCreateWithoutTorneioInput[]
+    connectOrCreate?: EquipeCreateOrConnectWithoutTorneioInput | EquipeCreateOrConnectWithoutTorneioInput[]
+    createMany?: EquipeCreateManyTorneioInputEnvelope
+    connect?: EquipeWhereUniqueInput | EquipeWhereUniqueInput[]
   }
 
   export type PartidaCreateNestedManyWithoutTorneioInput = {
@@ -14655,25 +11430,18 @@ export namespace Prisma {
     connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
   }
 
-  export type EquipeAmadorCreateNestedManyWithoutTorneioInput = {
-    create?: XOR<EquipeAmadorCreateWithoutTorneioInput, EquipeAmadorUncheckedCreateWithoutTorneioInput> | EquipeAmadorCreateWithoutTorneioInput[] | EquipeAmadorUncheckedCreateWithoutTorneioInput[]
-    connectOrCreate?: EquipeAmadorCreateOrConnectWithoutTorneioInput | EquipeAmadorCreateOrConnectWithoutTorneioInput[]
-    createMany?: EquipeAmadorCreateManyTorneioInputEnvelope
-    connect?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
+  export type ParticipacaoUncheckedCreateNestedManyWithoutTorneioInput = {
+    create?: XOR<ParticipacaoCreateWithoutTorneioInput, ParticipacaoUncheckedCreateWithoutTorneioInput> | ParticipacaoCreateWithoutTorneioInput[] | ParticipacaoUncheckedCreateWithoutTorneioInput[]
+    connectOrCreate?: ParticipacaoCreateOrConnectWithoutTorneioInput | ParticipacaoCreateOrConnectWithoutTorneioInput[]
+    createMany?: ParticipacaoCreateManyTorneioInputEnvelope
+    connect?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
   }
 
-  export type EquipeOficialCreateNestedManyWithoutTorneioInput = {
-    create?: XOR<EquipeOficialCreateWithoutTorneioInput, EquipeOficialUncheckedCreateWithoutTorneioInput> | EquipeOficialCreateWithoutTorneioInput[] | EquipeOficialUncheckedCreateWithoutTorneioInput[]
-    connectOrCreate?: EquipeOficialCreateOrConnectWithoutTorneioInput | EquipeOficialCreateOrConnectWithoutTorneioInput[]
-    createMany?: EquipeOficialCreateManyTorneioInputEnvelope
-    connect?: EquipeOficialWhereUniqueInput | EquipeOficialWhereUniqueInput[]
-  }
-
-  export type ParticipacaoAmadorCreateNestedManyWithoutTorneioInput = {
-    create?: XOR<ParticipacaoAmadorCreateWithoutTorneioInput, ParticipacaoAmadorUncheckedCreateWithoutTorneioInput> | ParticipacaoAmadorCreateWithoutTorneioInput[] | ParticipacaoAmadorUncheckedCreateWithoutTorneioInput[]
-    connectOrCreate?: ParticipacaoAmadorCreateOrConnectWithoutTorneioInput | ParticipacaoAmadorCreateOrConnectWithoutTorneioInput[]
-    createMany?: ParticipacaoAmadorCreateManyTorneioInputEnvelope
-    connect?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
+  export type EquipeUncheckedCreateNestedManyWithoutTorneioInput = {
+    create?: XOR<EquipeCreateWithoutTorneioInput, EquipeUncheckedCreateWithoutTorneioInput> | EquipeCreateWithoutTorneioInput[] | EquipeUncheckedCreateWithoutTorneioInput[]
+    connectOrCreate?: EquipeCreateOrConnectWithoutTorneioInput | EquipeCreateOrConnectWithoutTorneioInput[]
+    createMany?: EquipeCreateManyTorneioInputEnvelope
+    connect?: EquipeWhereUniqueInput | EquipeWhereUniqueInput[]
   }
 
   export type PartidaUncheckedCreateNestedManyWithoutTorneioInput = {
@@ -14683,41 +11451,44 @@ export namespace Prisma {
     connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
   }
 
-  export type EquipeAmadorUncheckedCreateNestedManyWithoutTorneioInput = {
-    create?: XOR<EquipeAmadorCreateWithoutTorneioInput, EquipeAmadorUncheckedCreateWithoutTorneioInput> | EquipeAmadorCreateWithoutTorneioInput[] | EquipeAmadorUncheckedCreateWithoutTorneioInput[]
-    connectOrCreate?: EquipeAmadorCreateOrConnectWithoutTorneioInput | EquipeAmadorCreateOrConnectWithoutTorneioInput[]
-    createMany?: EquipeAmadorCreateManyTorneioInputEnvelope
-    connect?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-  }
-
-  export type EquipeOficialUncheckedCreateNestedManyWithoutTorneioInput = {
-    create?: XOR<EquipeOficialCreateWithoutTorneioInput, EquipeOficialUncheckedCreateWithoutTorneioInput> | EquipeOficialCreateWithoutTorneioInput[] | EquipeOficialUncheckedCreateWithoutTorneioInput[]
-    connectOrCreate?: EquipeOficialCreateOrConnectWithoutTorneioInput | EquipeOficialCreateOrConnectWithoutTorneioInput[]
-    createMany?: EquipeOficialCreateManyTorneioInputEnvelope
-    connect?: EquipeOficialWhereUniqueInput | EquipeOficialWhereUniqueInput[]
-  }
-
-  export type ParticipacaoAmadorUncheckedCreateNestedManyWithoutTorneioInput = {
-    create?: XOR<ParticipacaoAmadorCreateWithoutTorneioInput, ParticipacaoAmadorUncheckedCreateWithoutTorneioInput> | ParticipacaoAmadorCreateWithoutTorneioInput[] | ParticipacaoAmadorUncheckedCreateWithoutTorneioInput[]
-    connectOrCreate?: ParticipacaoAmadorCreateOrConnectWithoutTorneioInput | ParticipacaoAmadorCreateOrConnectWithoutTorneioInput[]
-    createMany?: ParticipacaoAmadorCreateManyTorneioInputEnvelope
-    connect?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-  }
-
-  export type EnumTipoTorneioFieldUpdateOperationsInput = {
-    set?: $Enums.TipoTorneio
-  }
-
   export type EnumStatusTorneioFieldUpdateOperationsInput = {
     set?: $Enums.StatusTorneio
   }
 
-  export type UsuarioUpdateOneRequiredWithoutTorneioNestedInput = {
-    create?: XOR<UsuarioCreateWithoutTorneioInput, UsuarioUncheckedCreateWithoutTorneioInput>
-    connectOrCreate?: UsuarioCreateOrConnectWithoutTorneioInput
-    upsert?: UsuarioUpsertWithoutTorneioInput
+  export type UsuarioUpdateOneRequiredWithoutTorneiosNestedInput = {
+    create?: XOR<UsuarioCreateWithoutTorneiosInput, UsuarioUncheckedCreateWithoutTorneiosInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutTorneiosInput
+    upsert?: UsuarioUpsertWithoutTorneiosInput
     connect?: UsuarioWhereUniqueInput
-    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutTorneioInput, UsuarioUpdateWithoutTorneioInput>, UsuarioUncheckedUpdateWithoutTorneioInput>
+    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutTorneiosInput, UsuarioUpdateWithoutTorneiosInput>, UsuarioUncheckedUpdateWithoutTorneiosInput>
+  }
+
+  export type ParticipacaoUpdateManyWithoutTorneioNestedInput = {
+    create?: XOR<ParticipacaoCreateWithoutTorneioInput, ParticipacaoUncheckedCreateWithoutTorneioInput> | ParticipacaoCreateWithoutTorneioInput[] | ParticipacaoUncheckedCreateWithoutTorneioInput[]
+    connectOrCreate?: ParticipacaoCreateOrConnectWithoutTorneioInput | ParticipacaoCreateOrConnectWithoutTorneioInput[]
+    upsert?: ParticipacaoUpsertWithWhereUniqueWithoutTorneioInput | ParticipacaoUpsertWithWhereUniqueWithoutTorneioInput[]
+    createMany?: ParticipacaoCreateManyTorneioInputEnvelope
+    set?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
+    disconnect?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
+    delete?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
+    connect?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
+    update?: ParticipacaoUpdateWithWhereUniqueWithoutTorneioInput | ParticipacaoUpdateWithWhereUniqueWithoutTorneioInput[]
+    updateMany?: ParticipacaoUpdateManyWithWhereWithoutTorneioInput | ParticipacaoUpdateManyWithWhereWithoutTorneioInput[]
+    deleteMany?: ParticipacaoScalarWhereInput | ParticipacaoScalarWhereInput[]
+  }
+
+  export type EquipeUpdateManyWithoutTorneioNestedInput = {
+    create?: XOR<EquipeCreateWithoutTorneioInput, EquipeUncheckedCreateWithoutTorneioInput> | EquipeCreateWithoutTorneioInput[] | EquipeUncheckedCreateWithoutTorneioInput[]
+    connectOrCreate?: EquipeCreateOrConnectWithoutTorneioInput | EquipeCreateOrConnectWithoutTorneioInput[]
+    upsert?: EquipeUpsertWithWhereUniqueWithoutTorneioInput | EquipeUpsertWithWhereUniqueWithoutTorneioInput[]
+    createMany?: EquipeCreateManyTorneioInputEnvelope
+    set?: EquipeWhereUniqueInput | EquipeWhereUniqueInput[]
+    disconnect?: EquipeWhereUniqueInput | EquipeWhereUniqueInput[]
+    delete?: EquipeWhereUniqueInput | EquipeWhereUniqueInput[]
+    connect?: EquipeWhereUniqueInput | EquipeWhereUniqueInput[]
+    update?: EquipeUpdateWithWhereUniqueWithoutTorneioInput | EquipeUpdateWithWhereUniqueWithoutTorneioInput[]
+    updateMany?: EquipeUpdateManyWithWhereWithoutTorneioInput | EquipeUpdateManyWithWhereWithoutTorneioInput[]
+    deleteMany?: EquipeScalarWhereInput | EquipeScalarWhereInput[]
   }
 
   export type PartidaUpdateManyWithoutTorneioNestedInput = {
@@ -14734,46 +11505,32 @@ export namespace Prisma {
     deleteMany?: PartidaScalarWhereInput | PartidaScalarWhereInput[]
   }
 
-  export type EquipeAmadorUpdateManyWithoutTorneioNestedInput = {
-    create?: XOR<EquipeAmadorCreateWithoutTorneioInput, EquipeAmadorUncheckedCreateWithoutTorneioInput> | EquipeAmadorCreateWithoutTorneioInput[] | EquipeAmadorUncheckedCreateWithoutTorneioInput[]
-    connectOrCreate?: EquipeAmadorCreateOrConnectWithoutTorneioInput | EquipeAmadorCreateOrConnectWithoutTorneioInput[]
-    upsert?: EquipeAmadorUpsertWithWhereUniqueWithoutTorneioInput | EquipeAmadorUpsertWithWhereUniqueWithoutTorneioInput[]
-    createMany?: EquipeAmadorCreateManyTorneioInputEnvelope
-    set?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-    disconnect?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-    delete?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-    connect?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-    update?: EquipeAmadorUpdateWithWhereUniqueWithoutTorneioInput | EquipeAmadorUpdateWithWhereUniqueWithoutTorneioInput[]
-    updateMany?: EquipeAmadorUpdateManyWithWhereWithoutTorneioInput | EquipeAmadorUpdateManyWithWhereWithoutTorneioInput[]
-    deleteMany?: EquipeAmadorScalarWhereInput | EquipeAmadorScalarWhereInput[]
+  export type ParticipacaoUncheckedUpdateManyWithoutTorneioNestedInput = {
+    create?: XOR<ParticipacaoCreateWithoutTorneioInput, ParticipacaoUncheckedCreateWithoutTorneioInput> | ParticipacaoCreateWithoutTorneioInput[] | ParticipacaoUncheckedCreateWithoutTorneioInput[]
+    connectOrCreate?: ParticipacaoCreateOrConnectWithoutTorneioInput | ParticipacaoCreateOrConnectWithoutTorneioInput[]
+    upsert?: ParticipacaoUpsertWithWhereUniqueWithoutTorneioInput | ParticipacaoUpsertWithWhereUniqueWithoutTorneioInput[]
+    createMany?: ParticipacaoCreateManyTorneioInputEnvelope
+    set?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
+    disconnect?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
+    delete?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
+    connect?: ParticipacaoWhereUniqueInput | ParticipacaoWhereUniqueInput[]
+    update?: ParticipacaoUpdateWithWhereUniqueWithoutTorneioInput | ParticipacaoUpdateWithWhereUniqueWithoutTorneioInput[]
+    updateMany?: ParticipacaoUpdateManyWithWhereWithoutTorneioInput | ParticipacaoUpdateManyWithWhereWithoutTorneioInput[]
+    deleteMany?: ParticipacaoScalarWhereInput | ParticipacaoScalarWhereInput[]
   }
 
-  export type EquipeOficialUpdateManyWithoutTorneioNestedInput = {
-    create?: XOR<EquipeOficialCreateWithoutTorneioInput, EquipeOficialUncheckedCreateWithoutTorneioInput> | EquipeOficialCreateWithoutTorneioInput[] | EquipeOficialUncheckedCreateWithoutTorneioInput[]
-    connectOrCreate?: EquipeOficialCreateOrConnectWithoutTorneioInput | EquipeOficialCreateOrConnectWithoutTorneioInput[]
-    upsert?: EquipeOficialUpsertWithWhereUniqueWithoutTorneioInput | EquipeOficialUpsertWithWhereUniqueWithoutTorneioInput[]
-    createMany?: EquipeOficialCreateManyTorneioInputEnvelope
-    set?: EquipeOficialWhereUniqueInput | EquipeOficialWhereUniqueInput[]
-    disconnect?: EquipeOficialWhereUniqueInput | EquipeOficialWhereUniqueInput[]
-    delete?: EquipeOficialWhereUniqueInput | EquipeOficialWhereUniqueInput[]
-    connect?: EquipeOficialWhereUniqueInput | EquipeOficialWhereUniqueInput[]
-    update?: EquipeOficialUpdateWithWhereUniqueWithoutTorneioInput | EquipeOficialUpdateWithWhereUniqueWithoutTorneioInput[]
-    updateMany?: EquipeOficialUpdateManyWithWhereWithoutTorneioInput | EquipeOficialUpdateManyWithWhereWithoutTorneioInput[]
-    deleteMany?: EquipeOficialScalarWhereInput | EquipeOficialScalarWhereInput[]
-  }
-
-  export type ParticipacaoAmadorUpdateManyWithoutTorneioNestedInput = {
-    create?: XOR<ParticipacaoAmadorCreateWithoutTorneioInput, ParticipacaoAmadorUncheckedCreateWithoutTorneioInput> | ParticipacaoAmadorCreateWithoutTorneioInput[] | ParticipacaoAmadorUncheckedCreateWithoutTorneioInput[]
-    connectOrCreate?: ParticipacaoAmadorCreateOrConnectWithoutTorneioInput | ParticipacaoAmadorCreateOrConnectWithoutTorneioInput[]
-    upsert?: ParticipacaoAmadorUpsertWithWhereUniqueWithoutTorneioInput | ParticipacaoAmadorUpsertWithWhereUniqueWithoutTorneioInput[]
-    createMany?: ParticipacaoAmadorCreateManyTorneioInputEnvelope
-    set?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-    disconnect?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-    delete?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-    connect?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-    update?: ParticipacaoAmadorUpdateWithWhereUniqueWithoutTorneioInput | ParticipacaoAmadorUpdateWithWhereUniqueWithoutTorneioInput[]
-    updateMany?: ParticipacaoAmadorUpdateManyWithWhereWithoutTorneioInput | ParticipacaoAmadorUpdateManyWithWhereWithoutTorneioInput[]
-    deleteMany?: ParticipacaoAmadorScalarWhereInput | ParticipacaoAmadorScalarWhereInput[]
+  export type EquipeUncheckedUpdateManyWithoutTorneioNestedInput = {
+    create?: XOR<EquipeCreateWithoutTorneioInput, EquipeUncheckedCreateWithoutTorneioInput> | EquipeCreateWithoutTorneioInput[] | EquipeUncheckedCreateWithoutTorneioInput[]
+    connectOrCreate?: EquipeCreateOrConnectWithoutTorneioInput | EquipeCreateOrConnectWithoutTorneioInput[]
+    upsert?: EquipeUpsertWithWhereUniqueWithoutTorneioInput | EquipeUpsertWithWhereUniqueWithoutTorneioInput[]
+    createMany?: EquipeCreateManyTorneioInputEnvelope
+    set?: EquipeWhereUniqueInput | EquipeWhereUniqueInput[]
+    disconnect?: EquipeWhereUniqueInput | EquipeWhereUniqueInput[]
+    delete?: EquipeWhereUniqueInput | EquipeWhereUniqueInput[]
+    connect?: EquipeWhereUniqueInput | EquipeWhereUniqueInput[]
+    update?: EquipeUpdateWithWhereUniqueWithoutTorneioInput | EquipeUpdateWithWhereUniqueWithoutTorneioInput[]
+    updateMany?: EquipeUpdateManyWithWhereWithoutTorneioInput | EquipeUpdateManyWithWhereWithoutTorneioInput[]
+    deleteMany?: EquipeScalarWhereInput | EquipeScalarWhereInput[]
   }
 
   export type PartidaUncheckedUpdateManyWithoutTorneioNestedInput = {
@@ -14790,408 +11547,222 @@ export namespace Prisma {
     deleteMany?: PartidaScalarWhereInput | PartidaScalarWhereInput[]
   }
 
-  export type EquipeAmadorUncheckedUpdateManyWithoutTorneioNestedInput = {
-    create?: XOR<EquipeAmadorCreateWithoutTorneioInput, EquipeAmadorUncheckedCreateWithoutTorneioInput> | EquipeAmadorCreateWithoutTorneioInput[] | EquipeAmadorUncheckedCreateWithoutTorneioInput[]
-    connectOrCreate?: EquipeAmadorCreateOrConnectWithoutTorneioInput | EquipeAmadorCreateOrConnectWithoutTorneioInput[]
-    upsert?: EquipeAmadorUpsertWithWhereUniqueWithoutTorneioInput | EquipeAmadorUpsertWithWhereUniqueWithoutTorneioInput[]
-    createMany?: EquipeAmadorCreateManyTorneioInputEnvelope
-    set?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-    disconnect?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-    delete?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-    connect?: EquipeAmadorWhereUniqueInput | EquipeAmadorWhereUniqueInput[]
-    update?: EquipeAmadorUpdateWithWhereUniqueWithoutTorneioInput | EquipeAmadorUpdateWithWhereUniqueWithoutTorneioInput[]
-    updateMany?: EquipeAmadorUpdateManyWithWhereWithoutTorneioInput | EquipeAmadorUpdateManyWithWhereWithoutTorneioInput[]
-    deleteMany?: EquipeAmadorScalarWhereInput | EquipeAmadorScalarWhereInput[]
-  }
-
-  export type EquipeOficialUncheckedUpdateManyWithoutTorneioNestedInput = {
-    create?: XOR<EquipeOficialCreateWithoutTorneioInput, EquipeOficialUncheckedCreateWithoutTorneioInput> | EquipeOficialCreateWithoutTorneioInput[] | EquipeOficialUncheckedCreateWithoutTorneioInput[]
-    connectOrCreate?: EquipeOficialCreateOrConnectWithoutTorneioInput | EquipeOficialCreateOrConnectWithoutTorneioInput[]
-    upsert?: EquipeOficialUpsertWithWhereUniqueWithoutTorneioInput | EquipeOficialUpsertWithWhereUniqueWithoutTorneioInput[]
-    createMany?: EquipeOficialCreateManyTorneioInputEnvelope
-    set?: EquipeOficialWhereUniqueInput | EquipeOficialWhereUniqueInput[]
-    disconnect?: EquipeOficialWhereUniqueInput | EquipeOficialWhereUniqueInput[]
-    delete?: EquipeOficialWhereUniqueInput | EquipeOficialWhereUniqueInput[]
-    connect?: EquipeOficialWhereUniqueInput | EquipeOficialWhereUniqueInput[]
-    update?: EquipeOficialUpdateWithWhereUniqueWithoutTorneioInput | EquipeOficialUpdateWithWhereUniqueWithoutTorneioInput[]
-    updateMany?: EquipeOficialUpdateManyWithWhereWithoutTorneioInput | EquipeOficialUpdateManyWithWhereWithoutTorneioInput[]
-    deleteMany?: EquipeOficialScalarWhereInput | EquipeOficialScalarWhereInput[]
-  }
-
-  export type ParticipacaoAmadorUncheckedUpdateManyWithoutTorneioNestedInput = {
-    create?: XOR<ParticipacaoAmadorCreateWithoutTorneioInput, ParticipacaoAmadorUncheckedCreateWithoutTorneioInput> | ParticipacaoAmadorCreateWithoutTorneioInput[] | ParticipacaoAmadorUncheckedCreateWithoutTorneioInput[]
-    connectOrCreate?: ParticipacaoAmadorCreateOrConnectWithoutTorneioInput | ParticipacaoAmadorCreateOrConnectWithoutTorneioInput[]
-    upsert?: ParticipacaoAmadorUpsertWithWhereUniqueWithoutTorneioInput | ParticipacaoAmadorUpsertWithWhereUniqueWithoutTorneioInput[]
-    createMany?: ParticipacaoAmadorCreateManyTorneioInputEnvelope
-    set?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-    disconnect?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-    delete?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-    connect?: ParticipacaoAmadorWhereUniqueInput | ParticipacaoAmadorWhereUniqueInput[]
-    update?: ParticipacaoAmadorUpdateWithWhereUniqueWithoutTorneioInput | ParticipacaoAmadorUpdateWithWhereUniqueWithoutTorneioInput[]
-    updateMany?: ParticipacaoAmadorUpdateManyWithWhereWithoutTorneioInput | ParticipacaoAmadorUpdateManyWithWhereWithoutTorneioInput[]
-    deleteMany?: ParticipacaoAmadorScalarWhereInput | ParticipacaoAmadorScalarWhereInput[]
-  }
-
-  export type AtletaCreateNestedOneWithoutParticipacoesAmadorInput = {
-    create?: XOR<AtletaCreateWithoutParticipacoesAmadorInput, AtletaUncheckedCreateWithoutParticipacoesAmadorInput>
-    connectOrCreate?: AtletaCreateOrConnectWithoutParticipacoesAmadorInput
+  export type AtletaCreateNestedOneWithoutParticipacoesInput = {
+    create?: XOR<AtletaCreateWithoutParticipacoesInput, AtletaUncheckedCreateWithoutParticipacoesInput>
+    connectOrCreate?: AtletaCreateOrConnectWithoutParticipacoesInput
     connect?: AtletaWhereUniqueInput
   }
 
-  export type TorneioCreateNestedOneWithoutParticipacaoAmadorInput = {
-    create?: XOR<TorneioCreateWithoutParticipacaoAmadorInput, TorneioUncheckedCreateWithoutParticipacaoAmadorInput>
-    connectOrCreate?: TorneioCreateOrConnectWithoutParticipacaoAmadorInput
+  export type TorneioCreateNestedOneWithoutParticipacoesInput = {
+    create?: XOR<TorneioCreateWithoutParticipacoesInput, TorneioUncheckedCreateWithoutParticipacoesInput>
+    connectOrCreate?: TorneioCreateOrConnectWithoutParticipacoesInput
     connect?: TorneioWhereUniqueInput
   }
 
-  export type AtletaUpdateOneRequiredWithoutParticipacoesAmadorNestedInput = {
-    create?: XOR<AtletaCreateWithoutParticipacoesAmadorInput, AtletaUncheckedCreateWithoutParticipacoesAmadorInput>
-    connectOrCreate?: AtletaCreateOrConnectWithoutParticipacoesAmadorInput
-    upsert?: AtletaUpsertWithoutParticipacoesAmadorInput
+  export type AtletaUpdateOneRequiredWithoutParticipacoesNestedInput = {
+    create?: XOR<AtletaCreateWithoutParticipacoesInput, AtletaUncheckedCreateWithoutParticipacoesInput>
+    connectOrCreate?: AtletaCreateOrConnectWithoutParticipacoesInput
+    upsert?: AtletaUpsertWithoutParticipacoesInput
     connect?: AtletaWhereUniqueInput
-    update?: XOR<XOR<AtletaUpdateToOneWithWhereWithoutParticipacoesAmadorInput, AtletaUpdateWithoutParticipacoesAmadorInput>, AtletaUncheckedUpdateWithoutParticipacoesAmadorInput>
+    update?: XOR<XOR<AtletaUpdateToOneWithWhereWithoutParticipacoesInput, AtletaUpdateWithoutParticipacoesInput>, AtletaUncheckedUpdateWithoutParticipacoesInput>
   }
 
-  export type TorneioUpdateOneRequiredWithoutParticipacaoAmadorNestedInput = {
-    create?: XOR<TorneioCreateWithoutParticipacaoAmadorInput, TorneioUncheckedCreateWithoutParticipacaoAmadorInput>
-    connectOrCreate?: TorneioCreateOrConnectWithoutParticipacaoAmadorInput
-    upsert?: TorneioUpsertWithoutParticipacaoAmadorInput
+  export type TorneioUpdateOneRequiredWithoutParticipacoesNestedInput = {
+    create?: XOR<TorneioCreateWithoutParticipacoesInput, TorneioUncheckedCreateWithoutParticipacoesInput>
+    connectOrCreate?: TorneioCreateOrConnectWithoutParticipacoesInput
+    upsert?: TorneioUpsertWithoutParticipacoesInput
     connect?: TorneioWhereUniqueInput
-    update?: XOR<XOR<TorneioUpdateToOneWithWhereWithoutParticipacaoAmadorInput, TorneioUpdateWithoutParticipacaoAmadorInput>, TorneioUncheckedUpdateWithoutParticipacaoAmadorInput>
+    update?: XOR<XOR<TorneioUpdateToOneWithWhereWithoutParticipacoesInput, TorneioUpdateWithoutParticipacoesInput>, TorneioUncheckedUpdateWithoutParticipacoesInput>
   }
 
-  export type TorneioCreateNestedOneWithoutEquipesAmadorInput = {
-    create?: XOR<TorneioCreateWithoutEquipesAmadorInput, TorneioUncheckedCreateWithoutEquipesAmadorInput>
-    connectOrCreate?: TorneioCreateOrConnectWithoutEquipesAmadorInput
-    connect?: TorneioWhereUniqueInput
-  }
-
-  export type AtletaCreateNestedManyWithoutEquipeAmadorInput = {
-    create?: XOR<AtletaCreateWithoutEquipeAmadorInput, AtletaUncheckedCreateWithoutEquipeAmadorInput> | AtletaCreateWithoutEquipeAmadorInput[] | AtletaUncheckedCreateWithoutEquipeAmadorInput[]
-    connectOrCreate?: AtletaCreateOrConnectWithoutEquipeAmadorInput | AtletaCreateOrConnectWithoutEquipeAmadorInput[]
-    connect?: AtletaWhereUniqueInput | AtletaWhereUniqueInput[]
-  }
-
-  export type PartidaCreateNestedManyWithoutEquipeAmador1Input = {
-    create?: XOR<PartidaCreateWithoutEquipeAmador1Input, PartidaUncheckedCreateWithoutEquipeAmador1Input> | PartidaCreateWithoutEquipeAmador1Input[] | PartidaUncheckedCreateWithoutEquipeAmador1Input[]
-    connectOrCreate?: PartidaCreateOrConnectWithoutEquipeAmador1Input | PartidaCreateOrConnectWithoutEquipeAmador1Input[]
-    createMany?: PartidaCreateManyEquipeAmador1InputEnvelope
-    connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-  }
-
-  export type PartidaCreateNestedManyWithoutEquipeAmador2Input = {
-    create?: XOR<PartidaCreateWithoutEquipeAmador2Input, PartidaUncheckedCreateWithoutEquipeAmador2Input> | PartidaCreateWithoutEquipeAmador2Input[] | PartidaUncheckedCreateWithoutEquipeAmador2Input[]
-    connectOrCreate?: PartidaCreateOrConnectWithoutEquipeAmador2Input | PartidaCreateOrConnectWithoutEquipeAmador2Input[]
-    createMany?: PartidaCreateManyEquipeAmador2InputEnvelope
-    connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-  }
-
-  export type AtletaUncheckedCreateNestedManyWithoutEquipeAmadorInput = {
-    create?: XOR<AtletaCreateWithoutEquipeAmadorInput, AtletaUncheckedCreateWithoutEquipeAmadorInput> | AtletaCreateWithoutEquipeAmadorInput[] | AtletaUncheckedCreateWithoutEquipeAmadorInput[]
-    connectOrCreate?: AtletaCreateOrConnectWithoutEquipeAmadorInput | AtletaCreateOrConnectWithoutEquipeAmadorInput[]
-    connect?: AtletaWhereUniqueInput | AtletaWhereUniqueInput[]
-  }
-
-  export type PartidaUncheckedCreateNestedManyWithoutEquipeAmador1Input = {
-    create?: XOR<PartidaCreateWithoutEquipeAmador1Input, PartidaUncheckedCreateWithoutEquipeAmador1Input> | PartidaCreateWithoutEquipeAmador1Input[] | PartidaUncheckedCreateWithoutEquipeAmador1Input[]
-    connectOrCreate?: PartidaCreateOrConnectWithoutEquipeAmador1Input | PartidaCreateOrConnectWithoutEquipeAmador1Input[]
-    createMany?: PartidaCreateManyEquipeAmador1InputEnvelope
-    connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-  }
-
-  export type PartidaUncheckedCreateNestedManyWithoutEquipeAmador2Input = {
-    create?: XOR<PartidaCreateWithoutEquipeAmador2Input, PartidaUncheckedCreateWithoutEquipeAmador2Input> | PartidaCreateWithoutEquipeAmador2Input[] | PartidaUncheckedCreateWithoutEquipeAmador2Input[]
-    connectOrCreate?: PartidaCreateOrConnectWithoutEquipeAmador2Input | PartidaCreateOrConnectWithoutEquipeAmador2Input[]
-    createMany?: PartidaCreateManyEquipeAmador2InputEnvelope
-    connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-  }
-
-  export type TorneioUpdateOneRequiredWithoutEquipesAmadorNestedInput = {
-    create?: XOR<TorneioCreateWithoutEquipesAmadorInput, TorneioUncheckedCreateWithoutEquipesAmadorInput>
-    connectOrCreate?: TorneioCreateOrConnectWithoutEquipesAmadorInput
-    upsert?: TorneioUpsertWithoutEquipesAmadorInput
-    connect?: TorneioWhereUniqueInput
-    update?: XOR<XOR<TorneioUpdateToOneWithWhereWithoutEquipesAmadorInput, TorneioUpdateWithoutEquipesAmadorInput>, TorneioUncheckedUpdateWithoutEquipesAmadorInput>
-  }
-
-  export type AtletaUpdateManyWithoutEquipeAmadorNestedInput = {
-    create?: XOR<AtletaCreateWithoutEquipeAmadorInput, AtletaUncheckedCreateWithoutEquipeAmadorInput> | AtletaCreateWithoutEquipeAmadorInput[] | AtletaUncheckedCreateWithoutEquipeAmadorInput[]
-    connectOrCreate?: AtletaCreateOrConnectWithoutEquipeAmadorInput | AtletaCreateOrConnectWithoutEquipeAmadorInput[]
-    upsert?: AtletaUpsertWithWhereUniqueWithoutEquipeAmadorInput | AtletaUpsertWithWhereUniqueWithoutEquipeAmadorInput[]
-    set?: AtletaWhereUniqueInput | AtletaWhereUniqueInput[]
-    disconnect?: AtletaWhereUniqueInput | AtletaWhereUniqueInput[]
-    delete?: AtletaWhereUniqueInput | AtletaWhereUniqueInput[]
-    connect?: AtletaWhereUniqueInput | AtletaWhereUniqueInput[]
-    update?: AtletaUpdateWithWhereUniqueWithoutEquipeAmadorInput | AtletaUpdateWithWhereUniqueWithoutEquipeAmadorInput[]
-    updateMany?: AtletaUpdateManyWithWhereWithoutEquipeAmadorInput | AtletaUpdateManyWithWhereWithoutEquipeAmadorInput[]
-    deleteMany?: AtletaScalarWhereInput | AtletaScalarWhereInput[]
-  }
-
-  export type PartidaUpdateManyWithoutEquipeAmador1NestedInput = {
-    create?: XOR<PartidaCreateWithoutEquipeAmador1Input, PartidaUncheckedCreateWithoutEquipeAmador1Input> | PartidaCreateWithoutEquipeAmador1Input[] | PartidaUncheckedCreateWithoutEquipeAmador1Input[]
-    connectOrCreate?: PartidaCreateOrConnectWithoutEquipeAmador1Input | PartidaCreateOrConnectWithoutEquipeAmador1Input[]
-    upsert?: PartidaUpsertWithWhereUniqueWithoutEquipeAmador1Input | PartidaUpsertWithWhereUniqueWithoutEquipeAmador1Input[]
-    createMany?: PartidaCreateManyEquipeAmador1InputEnvelope
-    set?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    disconnect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    delete?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    update?: PartidaUpdateWithWhereUniqueWithoutEquipeAmador1Input | PartidaUpdateWithWhereUniqueWithoutEquipeAmador1Input[]
-    updateMany?: PartidaUpdateManyWithWhereWithoutEquipeAmador1Input | PartidaUpdateManyWithWhereWithoutEquipeAmador1Input[]
-    deleteMany?: PartidaScalarWhereInput | PartidaScalarWhereInput[]
-  }
-
-  export type PartidaUpdateManyWithoutEquipeAmador2NestedInput = {
-    create?: XOR<PartidaCreateWithoutEquipeAmador2Input, PartidaUncheckedCreateWithoutEquipeAmador2Input> | PartidaCreateWithoutEquipeAmador2Input[] | PartidaUncheckedCreateWithoutEquipeAmador2Input[]
-    connectOrCreate?: PartidaCreateOrConnectWithoutEquipeAmador2Input | PartidaCreateOrConnectWithoutEquipeAmador2Input[]
-    upsert?: PartidaUpsertWithWhereUniqueWithoutEquipeAmador2Input | PartidaUpsertWithWhereUniqueWithoutEquipeAmador2Input[]
-    createMany?: PartidaCreateManyEquipeAmador2InputEnvelope
-    set?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    disconnect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    delete?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    update?: PartidaUpdateWithWhereUniqueWithoutEquipeAmador2Input | PartidaUpdateWithWhereUniqueWithoutEquipeAmador2Input[]
-    updateMany?: PartidaUpdateManyWithWhereWithoutEquipeAmador2Input | PartidaUpdateManyWithWhereWithoutEquipeAmador2Input[]
-    deleteMany?: PartidaScalarWhereInput | PartidaScalarWhereInput[]
-  }
-
-  export type AtletaUncheckedUpdateManyWithoutEquipeAmadorNestedInput = {
-    create?: XOR<AtletaCreateWithoutEquipeAmadorInput, AtletaUncheckedCreateWithoutEquipeAmadorInput> | AtletaCreateWithoutEquipeAmadorInput[] | AtletaUncheckedCreateWithoutEquipeAmadorInput[]
-    connectOrCreate?: AtletaCreateOrConnectWithoutEquipeAmadorInput | AtletaCreateOrConnectWithoutEquipeAmadorInput[]
-    upsert?: AtletaUpsertWithWhereUniqueWithoutEquipeAmadorInput | AtletaUpsertWithWhereUniqueWithoutEquipeAmadorInput[]
-    set?: AtletaWhereUniqueInput | AtletaWhereUniqueInput[]
-    disconnect?: AtletaWhereUniqueInput | AtletaWhereUniqueInput[]
-    delete?: AtletaWhereUniqueInput | AtletaWhereUniqueInput[]
-    connect?: AtletaWhereUniqueInput | AtletaWhereUniqueInput[]
-    update?: AtletaUpdateWithWhereUniqueWithoutEquipeAmadorInput | AtletaUpdateWithWhereUniqueWithoutEquipeAmadorInput[]
-    updateMany?: AtletaUpdateManyWithWhereWithoutEquipeAmadorInput | AtletaUpdateManyWithWhereWithoutEquipeAmadorInput[]
-    deleteMany?: AtletaScalarWhereInput | AtletaScalarWhereInput[]
-  }
-
-  export type PartidaUncheckedUpdateManyWithoutEquipeAmador1NestedInput = {
-    create?: XOR<PartidaCreateWithoutEquipeAmador1Input, PartidaUncheckedCreateWithoutEquipeAmador1Input> | PartidaCreateWithoutEquipeAmador1Input[] | PartidaUncheckedCreateWithoutEquipeAmador1Input[]
-    connectOrCreate?: PartidaCreateOrConnectWithoutEquipeAmador1Input | PartidaCreateOrConnectWithoutEquipeAmador1Input[]
-    upsert?: PartidaUpsertWithWhereUniqueWithoutEquipeAmador1Input | PartidaUpsertWithWhereUniqueWithoutEquipeAmador1Input[]
-    createMany?: PartidaCreateManyEquipeAmador1InputEnvelope
-    set?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    disconnect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    delete?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    update?: PartidaUpdateWithWhereUniqueWithoutEquipeAmador1Input | PartidaUpdateWithWhereUniqueWithoutEquipeAmador1Input[]
-    updateMany?: PartidaUpdateManyWithWhereWithoutEquipeAmador1Input | PartidaUpdateManyWithWhereWithoutEquipeAmador1Input[]
-    deleteMany?: PartidaScalarWhereInput | PartidaScalarWhereInput[]
-  }
-
-  export type PartidaUncheckedUpdateManyWithoutEquipeAmador2NestedInput = {
-    create?: XOR<PartidaCreateWithoutEquipeAmador2Input, PartidaUncheckedCreateWithoutEquipeAmador2Input> | PartidaCreateWithoutEquipeAmador2Input[] | PartidaUncheckedCreateWithoutEquipeAmador2Input[]
-    connectOrCreate?: PartidaCreateOrConnectWithoutEquipeAmador2Input | PartidaCreateOrConnectWithoutEquipeAmador2Input[]
-    upsert?: PartidaUpsertWithWhereUniqueWithoutEquipeAmador2Input | PartidaUpsertWithWhereUniqueWithoutEquipeAmador2Input[]
-    createMany?: PartidaCreateManyEquipeAmador2InputEnvelope
-    set?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    disconnect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    delete?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    update?: PartidaUpdateWithWhereUniqueWithoutEquipeAmador2Input | PartidaUpdateWithWhereUniqueWithoutEquipeAmador2Input[]
-    updateMany?: PartidaUpdateManyWithWhereWithoutEquipeAmador2Input | PartidaUpdateManyWithWhereWithoutEquipeAmador2Input[]
-    deleteMany?: PartidaScalarWhereInput | PartidaScalarWhereInput[]
-  }
-
-  export type TorneioCreateNestedOneWithoutEquipesOficialInput = {
-    create?: XOR<TorneioCreateWithoutEquipesOficialInput, TorneioUncheckedCreateWithoutEquipesOficialInput>
-    connectOrCreate?: TorneioCreateOrConnectWithoutEquipesOficialInput
+  export type TorneioCreateNestedOneWithoutEquipesInput = {
+    create?: XOR<TorneioCreateWithoutEquipesInput, TorneioUncheckedCreateWithoutEquipesInput>
+    connectOrCreate?: TorneioCreateOrConnectWithoutEquipesInput
     connect?: TorneioWhereUniqueInput
   }
 
-  export type AtletaEquipeOficialCreateNestedManyWithoutEquipeOficialInput = {
-    create?: XOR<AtletaEquipeOficialCreateWithoutEquipeOficialInput, AtletaEquipeOficialUncheckedCreateWithoutEquipeOficialInput> | AtletaEquipeOficialCreateWithoutEquipeOficialInput[] | AtletaEquipeOficialUncheckedCreateWithoutEquipeOficialInput[]
-    connectOrCreate?: AtletaEquipeOficialCreateOrConnectWithoutEquipeOficialInput | AtletaEquipeOficialCreateOrConnectWithoutEquipeOficialInput[]
-    createMany?: AtletaEquipeOficialCreateManyEquipeOficialInputEnvelope
-    connect?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
+  export type EquipeAtletaCreateNestedManyWithoutEquipeInput = {
+    create?: XOR<EquipeAtletaCreateWithoutEquipeInput, EquipeAtletaUncheckedCreateWithoutEquipeInput> | EquipeAtletaCreateWithoutEquipeInput[] | EquipeAtletaUncheckedCreateWithoutEquipeInput[]
+    connectOrCreate?: EquipeAtletaCreateOrConnectWithoutEquipeInput | EquipeAtletaCreateOrConnectWithoutEquipeInput[]
+    createMany?: EquipeAtletaCreateManyEquipeInputEnvelope
+    connect?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
   }
 
-  export type PartidaCreateNestedManyWithoutEquipeOficial1Input = {
-    create?: XOR<PartidaCreateWithoutEquipeOficial1Input, PartidaUncheckedCreateWithoutEquipeOficial1Input> | PartidaCreateWithoutEquipeOficial1Input[] | PartidaUncheckedCreateWithoutEquipeOficial1Input[]
-    connectOrCreate?: PartidaCreateOrConnectWithoutEquipeOficial1Input | PartidaCreateOrConnectWithoutEquipeOficial1Input[]
-    createMany?: PartidaCreateManyEquipeOficial1InputEnvelope
+  export type PartidaCreateNestedManyWithoutEquipe1Input = {
+    create?: XOR<PartidaCreateWithoutEquipe1Input, PartidaUncheckedCreateWithoutEquipe1Input> | PartidaCreateWithoutEquipe1Input[] | PartidaUncheckedCreateWithoutEquipe1Input[]
+    connectOrCreate?: PartidaCreateOrConnectWithoutEquipe1Input | PartidaCreateOrConnectWithoutEquipe1Input[]
+    createMany?: PartidaCreateManyEquipe1InputEnvelope
     connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
   }
 
-  export type PartidaCreateNestedManyWithoutEquipeOficial2Input = {
-    create?: XOR<PartidaCreateWithoutEquipeOficial2Input, PartidaUncheckedCreateWithoutEquipeOficial2Input> | PartidaCreateWithoutEquipeOficial2Input[] | PartidaUncheckedCreateWithoutEquipeOficial2Input[]
-    connectOrCreate?: PartidaCreateOrConnectWithoutEquipeOficial2Input | PartidaCreateOrConnectWithoutEquipeOficial2Input[]
-    createMany?: PartidaCreateManyEquipeOficial2InputEnvelope
+  export type PartidaCreateNestedManyWithoutEquipe2Input = {
+    create?: XOR<PartidaCreateWithoutEquipe2Input, PartidaUncheckedCreateWithoutEquipe2Input> | PartidaCreateWithoutEquipe2Input[] | PartidaUncheckedCreateWithoutEquipe2Input[]
+    connectOrCreate?: PartidaCreateOrConnectWithoutEquipe2Input | PartidaCreateOrConnectWithoutEquipe2Input[]
+    createMany?: PartidaCreateManyEquipe2InputEnvelope
     connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
   }
 
-  export type AtletaEquipeOficialUncheckedCreateNestedManyWithoutEquipeOficialInput = {
-    create?: XOR<AtletaEquipeOficialCreateWithoutEquipeOficialInput, AtletaEquipeOficialUncheckedCreateWithoutEquipeOficialInput> | AtletaEquipeOficialCreateWithoutEquipeOficialInput[] | AtletaEquipeOficialUncheckedCreateWithoutEquipeOficialInput[]
-    connectOrCreate?: AtletaEquipeOficialCreateOrConnectWithoutEquipeOficialInput | AtletaEquipeOficialCreateOrConnectWithoutEquipeOficialInput[]
-    createMany?: AtletaEquipeOficialCreateManyEquipeOficialInputEnvelope
-    connect?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
+  export type EquipeAtletaUncheckedCreateNestedManyWithoutEquipeInput = {
+    create?: XOR<EquipeAtletaCreateWithoutEquipeInput, EquipeAtletaUncheckedCreateWithoutEquipeInput> | EquipeAtletaCreateWithoutEquipeInput[] | EquipeAtletaUncheckedCreateWithoutEquipeInput[]
+    connectOrCreate?: EquipeAtletaCreateOrConnectWithoutEquipeInput | EquipeAtletaCreateOrConnectWithoutEquipeInput[]
+    createMany?: EquipeAtletaCreateManyEquipeInputEnvelope
+    connect?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
   }
 
-  export type PartidaUncheckedCreateNestedManyWithoutEquipeOficial1Input = {
-    create?: XOR<PartidaCreateWithoutEquipeOficial1Input, PartidaUncheckedCreateWithoutEquipeOficial1Input> | PartidaCreateWithoutEquipeOficial1Input[] | PartidaUncheckedCreateWithoutEquipeOficial1Input[]
-    connectOrCreate?: PartidaCreateOrConnectWithoutEquipeOficial1Input | PartidaCreateOrConnectWithoutEquipeOficial1Input[]
-    createMany?: PartidaCreateManyEquipeOficial1InputEnvelope
+  export type PartidaUncheckedCreateNestedManyWithoutEquipe1Input = {
+    create?: XOR<PartidaCreateWithoutEquipe1Input, PartidaUncheckedCreateWithoutEquipe1Input> | PartidaCreateWithoutEquipe1Input[] | PartidaUncheckedCreateWithoutEquipe1Input[]
+    connectOrCreate?: PartidaCreateOrConnectWithoutEquipe1Input | PartidaCreateOrConnectWithoutEquipe1Input[]
+    createMany?: PartidaCreateManyEquipe1InputEnvelope
     connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
   }
 
-  export type PartidaUncheckedCreateNestedManyWithoutEquipeOficial2Input = {
-    create?: XOR<PartidaCreateWithoutEquipeOficial2Input, PartidaUncheckedCreateWithoutEquipeOficial2Input> | PartidaCreateWithoutEquipeOficial2Input[] | PartidaUncheckedCreateWithoutEquipeOficial2Input[]
-    connectOrCreate?: PartidaCreateOrConnectWithoutEquipeOficial2Input | PartidaCreateOrConnectWithoutEquipeOficial2Input[]
-    createMany?: PartidaCreateManyEquipeOficial2InputEnvelope
+  export type PartidaUncheckedCreateNestedManyWithoutEquipe2Input = {
+    create?: XOR<PartidaCreateWithoutEquipe2Input, PartidaUncheckedCreateWithoutEquipe2Input> | PartidaCreateWithoutEquipe2Input[] | PartidaUncheckedCreateWithoutEquipe2Input[]
+    connectOrCreate?: PartidaCreateOrConnectWithoutEquipe2Input | PartidaCreateOrConnectWithoutEquipe2Input[]
+    createMany?: PartidaCreateManyEquipe2InputEnvelope
     connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
   }
 
-  export type TorneioUpdateOneRequiredWithoutEquipesOficialNestedInput = {
-    create?: XOR<TorneioCreateWithoutEquipesOficialInput, TorneioUncheckedCreateWithoutEquipesOficialInput>
-    connectOrCreate?: TorneioCreateOrConnectWithoutEquipesOficialInput
-    upsert?: TorneioUpsertWithoutEquipesOficialInput
+  export type EnumTipoEquipeFieldUpdateOperationsInput = {
+    set?: $Enums.TipoEquipe
+  }
+
+  export type TorneioUpdateOneRequiredWithoutEquipesNestedInput = {
+    create?: XOR<TorneioCreateWithoutEquipesInput, TorneioUncheckedCreateWithoutEquipesInput>
+    connectOrCreate?: TorneioCreateOrConnectWithoutEquipesInput
+    upsert?: TorneioUpsertWithoutEquipesInput
     connect?: TorneioWhereUniqueInput
-    update?: XOR<XOR<TorneioUpdateToOneWithWhereWithoutEquipesOficialInput, TorneioUpdateWithoutEquipesOficialInput>, TorneioUncheckedUpdateWithoutEquipesOficialInput>
+    update?: XOR<XOR<TorneioUpdateToOneWithWhereWithoutEquipesInput, TorneioUpdateWithoutEquipesInput>, TorneioUncheckedUpdateWithoutEquipesInput>
   }
 
-  export type AtletaEquipeOficialUpdateManyWithoutEquipeOficialNestedInput = {
-    create?: XOR<AtletaEquipeOficialCreateWithoutEquipeOficialInput, AtletaEquipeOficialUncheckedCreateWithoutEquipeOficialInput> | AtletaEquipeOficialCreateWithoutEquipeOficialInput[] | AtletaEquipeOficialUncheckedCreateWithoutEquipeOficialInput[]
-    connectOrCreate?: AtletaEquipeOficialCreateOrConnectWithoutEquipeOficialInput | AtletaEquipeOficialCreateOrConnectWithoutEquipeOficialInput[]
-    upsert?: AtletaEquipeOficialUpsertWithWhereUniqueWithoutEquipeOficialInput | AtletaEquipeOficialUpsertWithWhereUniqueWithoutEquipeOficialInput[]
-    createMany?: AtletaEquipeOficialCreateManyEquipeOficialInputEnvelope
-    set?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-    disconnect?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-    delete?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-    connect?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-    update?: AtletaEquipeOficialUpdateWithWhereUniqueWithoutEquipeOficialInput | AtletaEquipeOficialUpdateWithWhereUniqueWithoutEquipeOficialInput[]
-    updateMany?: AtletaEquipeOficialUpdateManyWithWhereWithoutEquipeOficialInput | AtletaEquipeOficialUpdateManyWithWhereWithoutEquipeOficialInput[]
-    deleteMany?: AtletaEquipeOficialScalarWhereInput | AtletaEquipeOficialScalarWhereInput[]
+  export type EquipeAtletaUpdateManyWithoutEquipeNestedInput = {
+    create?: XOR<EquipeAtletaCreateWithoutEquipeInput, EquipeAtletaUncheckedCreateWithoutEquipeInput> | EquipeAtletaCreateWithoutEquipeInput[] | EquipeAtletaUncheckedCreateWithoutEquipeInput[]
+    connectOrCreate?: EquipeAtletaCreateOrConnectWithoutEquipeInput | EquipeAtletaCreateOrConnectWithoutEquipeInput[]
+    upsert?: EquipeAtletaUpsertWithWhereUniqueWithoutEquipeInput | EquipeAtletaUpsertWithWhereUniqueWithoutEquipeInput[]
+    createMany?: EquipeAtletaCreateManyEquipeInputEnvelope
+    set?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
+    disconnect?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
+    delete?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
+    connect?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
+    update?: EquipeAtletaUpdateWithWhereUniqueWithoutEquipeInput | EquipeAtletaUpdateWithWhereUniqueWithoutEquipeInput[]
+    updateMany?: EquipeAtletaUpdateManyWithWhereWithoutEquipeInput | EquipeAtletaUpdateManyWithWhereWithoutEquipeInput[]
+    deleteMany?: EquipeAtletaScalarWhereInput | EquipeAtletaScalarWhereInput[]
   }
 
-  export type PartidaUpdateManyWithoutEquipeOficial1NestedInput = {
-    create?: XOR<PartidaCreateWithoutEquipeOficial1Input, PartidaUncheckedCreateWithoutEquipeOficial1Input> | PartidaCreateWithoutEquipeOficial1Input[] | PartidaUncheckedCreateWithoutEquipeOficial1Input[]
-    connectOrCreate?: PartidaCreateOrConnectWithoutEquipeOficial1Input | PartidaCreateOrConnectWithoutEquipeOficial1Input[]
-    upsert?: PartidaUpsertWithWhereUniqueWithoutEquipeOficial1Input | PartidaUpsertWithWhereUniqueWithoutEquipeOficial1Input[]
-    createMany?: PartidaCreateManyEquipeOficial1InputEnvelope
+  export type PartidaUpdateManyWithoutEquipe1NestedInput = {
+    create?: XOR<PartidaCreateWithoutEquipe1Input, PartidaUncheckedCreateWithoutEquipe1Input> | PartidaCreateWithoutEquipe1Input[] | PartidaUncheckedCreateWithoutEquipe1Input[]
+    connectOrCreate?: PartidaCreateOrConnectWithoutEquipe1Input | PartidaCreateOrConnectWithoutEquipe1Input[]
+    upsert?: PartidaUpsertWithWhereUniqueWithoutEquipe1Input | PartidaUpsertWithWhereUniqueWithoutEquipe1Input[]
+    createMany?: PartidaCreateManyEquipe1InputEnvelope
     set?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
     disconnect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
     delete?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
     connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    update?: PartidaUpdateWithWhereUniqueWithoutEquipeOficial1Input | PartidaUpdateWithWhereUniqueWithoutEquipeOficial1Input[]
-    updateMany?: PartidaUpdateManyWithWhereWithoutEquipeOficial1Input | PartidaUpdateManyWithWhereWithoutEquipeOficial1Input[]
+    update?: PartidaUpdateWithWhereUniqueWithoutEquipe1Input | PartidaUpdateWithWhereUniqueWithoutEquipe1Input[]
+    updateMany?: PartidaUpdateManyWithWhereWithoutEquipe1Input | PartidaUpdateManyWithWhereWithoutEquipe1Input[]
     deleteMany?: PartidaScalarWhereInput | PartidaScalarWhereInput[]
   }
 
-  export type PartidaUpdateManyWithoutEquipeOficial2NestedInput = {
-    create?: XOR<PartidaCreateWithoutEquipeOficial2Input, PartidaUncheckedCreateWithoutEquipeOficial2Input> | PartidaCreateWithoutEquipeOficial2Input[] | PartidaUncheckedCreateWithoutEquipeOficial2Input[]
-    connectOrCreate?: PartidaCreateOrConnectWithoutEquipeOficial2Input | PartidaCreateOrConnectWithoutEquipeOficial2Input[]
-    upsert?: PartidaUpsertWithWhereUniqueWithoutEquipeOficial2Input | PartidaUpsertWithWhereUniqueWithoutEquipeOficial2Input[]
-    createMany?: PartidaCreateManyEquipeOficial2InputEnvelope
+  export type PartidaUpdateManyWithoutEquipe2NestedInput = {
+    create?: XOR<PartidaCreateWithoutEquipe2Input, PartidaUncheckedCreateWithoutEquipe2Input> | PartidaCreateWithoutEquipe2Input[] | PartidaUncheckedCreateWithoutEquipe2Input[]
+    connectOrCreate?: PartidaCreateOrConnectWithoutEquipe2Input | PartidaCreateOrConnectWithoutEquipe2Input[]
+    upsert?: PartidaUpsertWithWhereUniqueWithoutEquipe2Input | PartidaUpsertWithWhereUniqueWithoutEquipe2Input[]
+    createMany?: PartidaCreateManyEquipe2InputEnvelope
     set?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
     disconnect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
     delete?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
     connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    update?: PartidaUpdateWithWhereUniqueWithoutEquipeOficial2Input | PartidaUpdateWithWhereUniqueWithoutEquipeOficial2Input[]
-    updateMany?: PartidaUpdateManyWithWhereWithoutEquipeOficial2Input | PartidaUpdateManyWithWhereWithoutEquipeOficial2Input[]
+    update?: PartidaUpdateWithWhereUniqueWithoutEquipe2Input | PartidaUpdateWithWhereUniqueWithoutEquipe2Input[]
+    updateMany?: PartidaUpdateManyWithWhereWithoutEquipe2Input | PartidaUpdateManyWithWhereWithoutEquipe2Input[]
     deleteMany?: PartidaScalarWhereInput | PartidaScalarWhereInput[]
   }
 
-  export type AtletaEquipeOficialUncheckedUpdateManyWithoutEquipeOficialNestedInput = {
-    create?: XOR<AtletaEquipeOficialCreateWithoutEquipeOficialInput, AtletaEquipeOficialUncheckedCreateWithoutEquipeOficialInput> | AtletaEquipeOficialCreateWithoutEquipeOficialInput[] | AtletaEquipeOficialUncheckedCreateWithoutEquipeOficialInput[]
-    connectOrCreate?: AtletaEquipeOficialCreateOrConnectWithoutEquipeOficialInput | AtletaEquipeOficialCreateOrConnectWithoutEquipeOficialInput[]
-    upsert?: AtletaEquipeOficialUpsertWithWhereUniqueWithoutEquipeOficialInput | AtletaEquipeOficialUpsertWithWhereUniqueWithoutEquipeOficialInput[]
-    createMany?: AtletaEquipeOficialCreateManyEquipeOficialInputEnvelope
-    set?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-    disconnect?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-    delete?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-    connect?: AtletaEquipeOficialWhereUniqueInput | AtletaEquipeOficialWhereUniqueInput[]
-    update?: AtletaEquipeOficialUpdateWithWhereUniqueWithoutEquipeOficialInput | AtletaEquipeOficialUpdateWithWhereUniqueWithoutEquipeOficialInput[]
-    updateMany?: AtletaEquipeOficialUpdateManyWithWhereWithoutEquipeOficialInput | AtletaEquipeOficialUpdateManyWithWhereWithoutEquipeOficialInput[]
-    deleteMany?: AtletaEquipeOficialScalarWhereInput | AtletaEquipeOficialScalarWhereInput[]
+  export type EquipeAtletaUncheckedUpdateManyWithoutEquipeNestedInput = {
+    create?: XOR<EquipeAtletaCreateWithoutEquipeInput, EquipeAtletaUncheckedCreateWithoutEquipeInput> | EquipeAtletaCreateWithoutEquipeInput[] | EquipeAtletaUncheckedCreateWithoutEquipeInput[]
+    connectOrCreate?: EquipeAtletaCreateOrConnectWithoutEquipeInput | EquipeAtletaCreateOrConnectWithoutEquipeInput[]
+    upsert?: EquipeAtletaUpsertWithWhereUniqueWithoutEquipeInput | EquipeAtletaUpsertWithWhereUniqueWithoutEquipeInput[]
+    createMany?: EquipeAtletaCreateManyEquipeInputEnvelope
+    set?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
+    disconnect?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
+    delete?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
+    connect?: EquipeAtletaWhereUniqueInput | EquipeAtletaWhereUniqueInput[]
+    update?: EquipeAtletaUpdateWithWhereUniqueWithoutEquipeInput | EquipeAtletaUpdateWithWhereUniqueWithoutEquipeInput[]
+    updateMany?: EquipeAtletaUpdateManyWithWhereWithoutEquipeInput | EquipeAtletaUpdateManyWithWhereWithoutEquipeInput[]
+    deleteMany?: EquipeAtletaScalarWhereInput | EquipeAtletaScalarWhereInput[]
   }
 
-  export type PartidaUncheckedUpdateManyWithoutEquipeOficial1NestedInput = {
-    create?: XOR<PartidaCreateWithoutEquipeOficial1Input, PartidaUncheckedCreateWithoutEquipeOficial1Input> | PartidaCreateWithoutEquipeOficial1Input[] | PartidaUncheckedCreateWithoutEquipeOficial1Input[]
-    connectOrCreate?: PartidaCreateOrConnectWithoutEquipeOficial1Input | PartidaCreateOrConnectWithoutEquipeOficial1Input[]
-    upsert?: PartidaUpsertWithWhereUniqueWithoutEquipeOficial1Input | PartidaUpsertWithWhereUniqueWithoutEquipeOficial1Input[]
-    createMany?: PartidaCreateManyEquipeOficial1InputEnvelope
+  export type PartidaUncheckedUpdateManyWithoutEquipe1NestedInput = {
+    create?: XOR<PartidaCreateWithoutEquipe1Input, PartidaUncheckedCreateWithoutEquipe1Input> | PartidaCreateWithoutEquipe1Input[] | PartidaUncheckedCreateWithoutEquipe1Input[]
+    connectOrCreate?: PartidaCreateOrConnectWithoutEquipe1Input | PartidaCreateOrConnectWithoutEquipe1Input[]
+    upsert?: PartidaUpsertWithWhereUniqueWithoutEquipe1Input | PartidaUpsertWithWhereUniqueWithoutEquipe1Input[]
+    createMany?: PartidaCreateManyEquipe1InputEnvelope
     set?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
     disconnect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
     delete?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
     connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    update?: PartidaUpdateWithWhereUniqueWithoutEquipeOficial1Input | PartidaUpdateWithWhereUniqueWithoutEquipeOficial1Input[]
-    updateMany?: PartidaUpdateManyWithWhereWithoutEquipeOficial1Input | PartidaUpdateManyWithWhereWithoutEquipeOficial1Input[]
+    update?: PartidaUpdateWithWhereUniqueWithoutEquipe1Input | PartidaUpdateWithWhereUniqueWithoutEquipe1Input[]
+    updateMany?: PartidaUpdateManyWithWhereWithoutEquipe1Input | PartidaUpdateManyWithWhereWithoutEquipe1Input[]
     deleteMany?: PartidaScalarWhereInput | PartidaScalarWhereInput[]
   }
 
-  export type PartidaUncheckedUpdateManyWithoutEquipeOficial2NestedInput = {
-    create?: XOR<PartidaCreateWithoutEquipeOficial2Input, PartidaUncheckedCreateWithoutEquipeOficial2Input> | PartidaCreateWithoutEquipeOficial2Input[] | PartidaUncheckedCreateWithoutEquipeOficial2Input[]
-    connectOrCreate?: PartidaCreateOrConnectWithoutEquipeOficial2Input | PartidaCreateOrConnectWithoutEquipeOficial2Input[]
-    upsert?: PartidaUpsertWithWhereUniqueWithoutEquipeOficial2Input | PartidaUpsertWithWhereUniqueWithoutEquipeOficial2Input[]
-    createMany?: PartidaCreateManyEquipeOficial2InputEnvelope
+  export type PartidaUncheckedUpdateManyWithoutEquipe2NestedInput = {
+    create?: XOR<PartidaCreateWithoutEquipe2Input, PartidaUncheckedCreateWithoutEquipe2Input> | PartidaCreateWithoutEquipe2Input[] | PartidaUncheckedCreateWithoutEquipe2Input[]
+    connectOrCreate?: PartidaCreateOrConnectWithoutEquipe2Input | PartidaCreateOrConnectWithoutEquipe2Input[]
+    upsert?: PartidaUpsertWithWhereUniqueWithoutEquipe2Input | PartidaUpsertWithWhereUniqueWithoutEquipe2Input[]
+    createMany?: PartidaCreateManyEquipe2InputEnvelope
     set?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
     disconnect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
     delete?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
     connect?: PartidaWhereUniqueInput | PartidaWhereUniqueInput[]
-    update?: PartidaUpdateWithWhereUniqueWithoutEquipeOficial2Input | PartidaUpdateWithWhereUniqueWithoutEquipeOficial2Input[]
-    updateMany?: PartidaUpdateManyWithWhereWithoutEquipeOficial2Input | PartidaUpdateManyWithWhereWithoutEquipeOficial2Input[]
+    update?: PartidaUpdateWithWhereUniqueWithoutEquipe2Input | PartidaUpdateWithWhereUniqueWithoutEquipe2Input[]
+    updateMany?: PartidaUpdateManyWithWhereWithoutEquipe2Input | PartidaUpdateManyWithWhereWithoutEquipe2Input[]
     deleteMany?: PartidaScalarWhereInput | PartidaScalarWhereInput[]
   }
 
-  export type AtletaCreateNestedOneWithoutEquipesOficiaisInput = {
-    create?: XOR<AtletaCreateWithoutEquipesOficiaisInput, AtletaUncheckedCreateWithoutEquipesOficiaisInput>
-    connectOrCreate?: AtletaCreateOrConnectWithoutEquipesOficiaisInput
+  export type AtletaCreateNestedOneWithoutEquipesInput = {
+    create?: XOR<AtletaCreateWithoutEquipesInput, AtletaUncheckedCreateWithoutEquipesInput>
+    connectOrCreate?: AtletaCreateOrConnectWithoutEquipesInput
     connect?: AtletaWhereUniqueInput
   }
 
-  export type EquipeOficialCreateNestedOneWithoutMembrosInput = {
-    create?: XOR<EquipeOficialCreateWithoutMembrosInput, EquipeOficialUncheckedCreateWithoutMembrosInput>
-    connectOrCreate?: EquipeOficialCreateOrConnectWithoutMembrosInput
-    connect?: EquipeOficialWhereUniqueInput
+  export type EquipeCreateNestedOneWithoutAtletasInput = {
+    create?: XOR<EquipeCreateWithoutAtletasInput, EquipeUncheckedCreateWithoutAtletasInput>
+    connectOrCreate?: EquipeCreateOrConnectWithoutAtletasInput
+    connect?: EquipeWhereUniqueInput
   }
 
-  export type AtletaUpdateOneRequiredWithoutEquipesOficiaisNestedInput = {
-    create?: XOR<AtletaCreateWithoutEquipesOficiaisInput, AtletaUncheckedCreateWithoutEquipesOficiaisInput>
-    connectOrCreate?: AtletaCreateOrConnectWithoutEquipesOficiaisInput
-    upsert?: AtletaUpsertWithoutEquipesOficiaisInput
+  export type AtletaUpdateOneRequiredWithoutEquipesNestedInput = {
+    create?: XOR<AtletaCreateWithoutEquipesInput, AtletaUncheckedCreateWithoutEquipesInput>
+    connectOrCreate?: AtletaCreateOrConnectWithoutEquipesInput
+    upsert?: AtletaUpsertWithoutEquipesInput
     connect?: AtletaWhereUniqueInput
-    update?: XOR<XOR<AtletaUpdateToOneWithWhereWithoutEquipesOficiaisInput, AtletaUpdateWithoutEquipesOficiaisInput>, AtletaUncheckedUpdateWithoutEquipesOficiaisInput>
+    update?: XOR<XOR<AtletaUpdateToOneWithWhereWithoutEquipesInput, AtletaUpdateWithoutEquipesInput>, AtletaUncheckedUpdateWithoutEquipesInput>
   }
 
-  export type EquipeOficialUpdateOneRequiredWithoutMembrosNestedInput = {
-    create?: XOR<EquipeOficialCreateWithoutMembrosInput, EquipeOficialUncheckedCreateWithoutMembrosInput>
-    connectOrCreate?: EquipeOficialCreateOrConnectWithoutMembrosInput
-    upsert?: EquipeOficialUpsertWithoutMembrosInput
-    connect?: EquipeOficialWhereUniqueInput
-    update?: XOR<XOR<EquipeOficialUpdateToOneWithWhereWithoutMembrosInput, EquipeOficialUpdateWithoutMembrosInput>, EquipeOficialUncheckedUpdateWithoutMembrosInput>
+  export type EquipeUpdateOneRequiredWithoutAtletasNestedInput = {
+    create?: XOR<EquipeCreateWithoutAtletasInput, EquipeUncheckedCreateWithoutAtletasInput>
+    connectOrCreate?: EquipeCreateOrConnectWithoutAtletasInput
+    upsert?: EquipeUpsertWithoutAtletasInput
+    connect?: EquipeWhereUniqueInput
+    update?: XOR<XOR<EquipeUpdateToOneWithWhereWithoutAtletasInput, EquipeUpdateWithoutAtletasInput>, EquipeUncheckedUpdateWithoutAtletasInput>
   }
 
-  export type TorneioCreateNestedOneWithoutPartidaInput = {
-    create?: XOR<TorneioCreateWithoutPartidaInput, TorneioUncheckedCreateWithoutPartidaInput>
-    connectOrCreate?: TorneioCreateOrConnectWithoutPartidaInput
+  export type TorneioCreateNestedOneWithoutPartidasInput = {
+    create?: XOR<TorneioCreateWithoutPartidasInput, TorneioUncheckedCreateWithoutPartidasInput>
+    connectOrCreate?: TorneioCreateOrConnectWithoutPartidasInput
     connect?: TorneioWhereUniqueInput
   }
 
-  export type EquipeAmadorCreateNestedOneWithoutPartidasComoEquipe1Input = {
-    create?: XOR<EquipeAmadorCreateWithoutPartidasComoEquipe1Input, EquipeAmadorUncheckedCreateWithoutPartidasComoEquipe1Input>
-    connectOrCreate?: EquipeAmadorCreateOrConnectWithoutPartidasComoEquipe1Input
-    connect?: EquipeAmadorWhereUniqueInput
+  export type EquipeCreateNestedOneWithoutPartidasComoEquipe1Input = {
+    create?: XOR<EquipeCreateWithoutPartidasComoEquipe1Input, EquipeUncheckedCreateWithoutPartidasComoEquipe1Input>
+    connectOrCreate?: EquipeCreateOrConnectWithoutPartidasComoEquipe1Input
+    connect?: EquipeWhereUniqueInput
   }
 
-  export type EquipeAmadorCreateNestedOneWithoutPartidasComoEquipe2Input = {
-    create?: XOR<EquipeAmadorCreateWithoutPartidasComoEquipe2Input, EquipeAmadorUncheckedCreateWithoutPartidasComoEquipe2Input>
-    connectOrCreate?: EquipeAmadorCreateOrConnectWithoutPartidasComoEquipe2Input
-    connect?: EquipeAmadorWhereUniqueInput
-  }
-
-  export type EquipeOficialCreateNestedOneWithoutPartidasComoEquipeOficial1Input = {
-    create?: XOR<EquipeOficialCreateWithoutPartidasComoEquipeOficial1Input, EquipeOficialUncheckedCreateWithoutPartidasComoEquipeOficial1Input>
-    connectOrCreate?: EquipeOficialCreateOrConnectWithoutPartidasComoEquipeOficial1Input
-    connect?: EquipeOficialWhereUniqueInput
-  }
-
-  export type EquipeOficialCreateNestedOneWithoutPartidasComoEquipeOficial2Input = {
-    create?: XOR<EquipeOficialCreateWithoutPartidasComoEquipeOficial2Input, EquipeOficialUncheckedCreateWithoutPartidasComoEquipeOficial2Input>
-    connectOrCreate?: EquipeOficialCreateOrConnectWithoutPartidasComoEquipeOficial2Input
-    connect?: EquipeOficialWhereUniqueInput
+  export type EquipeCreateNestedOneWithoutPartidasComoEquipe2Input = {
+    create?: XOR<EquipeCreateWithoutPartidasComoEquipe2Input, EquipeUncheckedCreateWithoutPartidasComoEquipe2Input>
+    connectOrCreate?: EquipeCreateOrConnectWithoutPartidasComoEquipe2Input
+    connect?: EquipeWhereUniqueInput
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -15202,52 +11773,28 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type TorneioUpdateOneRequiredWithoutPartidaNestedInput = {
-    create?: XOR<TorneioCreateWithoutPartidaInput, TorneioUncheckedCreateWithoutPartidaInput>
-    connectOrCreate?: TorneioCreateOrConnectWithoutPartidaInput
-    upsert?: TorneioUpsertWithoutPartidaInput
+  export type TorneioUpdateOneRequiredWithoutPartidasNestedInput = {
+    create?: XOR<TorneioCreateWithoutPartidasInput, TorneioUncheckedCreateWithoutPartidasInput>
+    connectOrCreate?: TorneioCreateOrConnectWithoutPartidasInput
+    upsert?: TorneioUpsertWithoutPartidasInput
     connect?: TorneioWhereUniqueInput
-    update?: XOR<XOR<TorneioUpdateToOneWithWhereWithoutPartidaInput, TorneioUpdateWithoutPartidaInput>, TorneioUncheckedUpdateWithoutPartidaInput>
+    update?: XOR<XOR<TorneioUpdateToOneWithWhereWithoutPartidasInput, TorneioUpdateWithoutPartidasInput>, TorneioUncheckedUpdateWithoutPartidasInput>
   }
 
-  export type EquipeAmadorUpdateOneWithoutPartidasComoEquipe1NestedInput = {
-    create?: XOR<EquipeAmadorCreateWithoutPartidasComoEquipe1Input, EquipeAmadorUncheckedCreateWithoutPartidasComoEquipe1Input>
-    connectOrCreate?: EquipeAmadorCreateOrConnectWithoutPartidasComoEquipe1Input
-    upsert?: EquipeAmadorUpsertWithoutPartidasComoEquipe1Input
-    disconnect?: EquipeAmadorWhereInput | boolean
-    delete?: EquipeAmadorWhereInput | boolean
-    connect?: EquipeAmadorWhereUniqueInput
-    update?: XOR<XOR<EquipeAmadorUpdateToOneWithWhereWithoutPartidasComoEquipe1Input, EquipeAmadorUpdateWithoutPartidasComoEquipe1Input>, EquipeAmadorUncheckedUpdateWithoutPartidasComoEquipe1Input>
+  export type EquipeUpdateOneRequiredWithoutPartidasComoEquipe1NestedInput = {
+    create?: XOR<EquipeCreateWithoutPartidasComoEquipe1Input, EquipeUncheckedCreateWithoutPartidasComoEquipe1Input>
+    connectOrCreate?: EquipeCreateOrConnectWithoutPartidasComoEquipe1Input
+    upsert?: EquipeUpsertWithoutPartidasComoEquipe1Input
+    connect?: EquipeWhereUniqueInput
+    update?: XOR<XOR<EquipeUpdateToOneWithWhereWithoutPartidasComoEquipe1Input, EquipeUpdateWithoutPartidasComoEquipe1Input>, EquipeUncheckedUpdateWithoutPartidasComoEquipe1Input>
   }
 
-  export type EquipeAmadorUpdateOneWithoutPartidasComoEquipe2NestedInput = {
-    create?: XOR<EquipeAmadorCreateWithoutPartidasComoEquipe2Input, EquipeAmadorUncheckedCreateWithoutPartidasComoEquipe2Input>
-    connectOrCreate?: EquipeAmadorCreateOrConnectWithoutPartidasComoEquipe2Input
-    upsert?: EquipeAmadorUpsertWithoutPartidasComoEquipe2Input
-    disconnect?: EquipeAmadorWhereInput | boolean
-    delete?: EquipeAmadorWhereInput | boolean
-    connect?: EquipeAmadorWhereUniqueInput
-    update?: XOR<XOR<EquipeAmadorUpdateToOneWithWhereWithoutPartidasComoEquipe2Input, EquipeAmadorUpdateWithoutPartidasComoEquipe2Input>, EquipeAmadorUncheckedUpdateWithoutPartidasComoEquipe2Input>
-  }
-
-  export type EquipeOficialUpdateOneWithoutPartidasComoEquipeOficial1NestedInput = {
-    create?: XOR<EquipeOficialCreateWithoutPartidasComoEquipeOficial1Input, EquipeOficialUncheckedCreateWithoutPartidasComoEquipeOficial1Input>
-    connectOrCreate?: EquipeOficialCreateOrConnectWithoutPartidasComoEquipeOficial1Input
-    upsert?: EquipeOficialUpsertWithoutPartidasComoEquipeOficial1Input
-    disconnect?: EquipeOficialWhereInput | boolean
-    delete?: EquipeOficialWhereInput | boolean
-    connect?: EquipeOficialWhereUniqueInput
-    update?: XOR<XOR<EquipeOficialUpdateToOneWithWhereWithoutPartidasComoEquipeOficial1Input, EquipeOficialUpdateWithoutPartidasComoEquipeOficial1Input>, EquipeOficialUncheckedUpdateWithoutPartidasComoEquipeOficial1Input>
-  }
-
-  export type EquipeOficialUpdateOneWithoutPartidasComoEquipeOficial2NestedInput = {
-    create?: XOR<EquipeOficialCreateWithoutPartidasComoEquipeOficial2Input, EquipeOficialUncheckedCreateWithoutPartidasComoEquipeOficial2Input>
-    connectOrCreate?: EquipeOficialCreateOrConnectWithoutPartidasComoEquipeOficial2Input
-    upsert?: EquipeOficialUpsertWithoutPartidasComoEquipeOficial2Input
-    disconnect?: EquipeOficialWhereInput | boolean
-    delete?: EquipeOficialWhereInput | boolean
-    connect?: EquipeOficialWhereUniqueInput
-    update?: XOR<XOR<EquipeOficialUpdateToOneWithWhereWithoutPartidasComoEquipeOficial2Input, EquipeOficialUpdateWithoutPartidasComoEquipeOficial2Input>, EquipeOficialUncheckedUpdateWithoutPartidasComoEquipeOficial2Input>
+  export type EquipeUpdateOneRequiredWithoutPartidasComoEquipe2NestedInput = {
+    create?: XOR<EquipeCreateWithoutPartidasComoEquipe2Input, EquipeUncheckedCreateWithoutPartidasComoEquipe2Input>
+    connectOrCreate?: EquipeCreateOrConnectWithoutPartidasComoEquipe2Input
+    upsert?: EquipeUpsertWithoutPartidasComoEquipe2Input
+    connect?: EquipeWhereUniqueInput
+    update?: XOR<XOR<EquipeUpdateToOneWithWhereWithoutPartidasComoEquipe2Input, EquipeUpdateWithoutPartidasComoEquipe2Input>, EquipeUncheckedUpdateWithoutPartidasComoEquipe2Input>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -15386,28 +11933,11 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedEnumTipoTorneioFilter<$PrismaModel = never> = {
-    equals?: $Enums.TipoTorneio | EnumTipoTorneioFieldRefInput<$PrismaModel>
-    in?: $Enums.TipoTorneio[] | ListEnumTipoTorneioFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TipoTorneio[] | ListEnumTipoTorneioFieldRefInput<$PrismaModel>
-    not?: NestedEnumTipoTorneioFilter<$PrismaModel> | $Enums.TipoTorneio
-  }
-
   export type NestedEnumStatusTorneioFilter<$PrismaModel = never> = {
     equals?: $Enums.StatusTorneio | EnumStatusTorneioFieldRefInput<$PrismaModel>
     in?: $Enums.StatusTorneio[] | ListEnumStatusTorneioFieldRefInput<$PrismaModel>
     notIn?: $Enums.StatusTorneio[] | ListEnumStatusTorneioFieldRefInput<$PrismaModel>
     not?: NestedEnumStatusTorneioFilter<$PrismaModel> | $Enums.StatusTorneio
-  }
-
-  export type NestedEnumTipoTorneioWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.TipoTorneio | EnumTipoTorneioFieldRefInput<$PrismaModel>
-    in?: $Enums.TipoTorneio[] | ListEnumTipoTorneioFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TipoTorneio[] | ListEnumTipoTorneioFieldRefInput<$PrismaModel>
-    not?: NestedEnumTipoTorneioWithAggregatesFilter<$PrismaModel> | $Enums.TipoTorneio
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumTipoTorneioFilter<$PrismaModel>
-    _max?: NestedEnumTipoTorneioFilter<$PrismaModel>
   }
 
   export type NestedEnumStatusTorneioWithAggregatesFilter<$PrismaModel = never> = {
@@ -15418,6 +11948,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumStatusTorneioFilter<$PrismaModel>
     _max?: NestedEnumStatusTorneioFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTipoEquipeFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoEquipe | EnumTipoEquipeFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoEquipe[] | ListEnumTipoEquipeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoEquipe[] | ListEnumTipoEquipeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoEquipeFilter<$PrismaModel> | $Enums.TipoEquipe
+  }
+
+  export type NestedEnumTipoEquipeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TipoEquipe | EnumTipoEquipeFieldRefInput<$PrismaModel>
+    in?: $Enums.TipoEquipe[] | ListEnumTipoEquipeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TipoEquipe[] | ListEnumTipoEquipeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTipoEquipeWithAggregatesFilter<$PrismaModel> | $Enums.TipoEquipe
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTipoEquipeFilter<$PrismaModel>
+    _max?: NestedEnumTipoEquipeFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -15449,31 +11996,27 @@ export namespace Prisma {
 
   export type TorneioCreateWithoutCriadoPorInput = {
     nome: string
-    tipo: $Enums.TipoTorneio
     data: Date | string
     local?: string | null
     status?: $Enums.StatusTorneio
     createdAt?: Date | string
     updatedAt?: Date | string
-    Partida?: PartidaCreateNestedManyWithoutTorneioInput
-    equipesAmador?: EquipeAmadorCreateNestedManyWithoutTorneioInput
-    equipesOficial?: EquipeOficialCreateNestedManyWithoutTorneioInput
-    ParticipacaoAmador?: ParticipacaoAmadorCreateNestedManyWithoutTorneioInput
+    participacoes?: ParticipacaoCreateNestedManyWithoutTorneioInput
+    equipes?: EquipeCreateNestedManyWithoutTorneioInput
+    partidas?: PartidaCreateNestedManyWithoutTorneioInput
   }
 
   export type TorneioUncheckedCreateWithoutCriadoPorInput = {
     id?: number
     nome: string
-    tipo: $Enums.TipoTorneio
     data: Date | string
     local?: string | null
     status?: $Enums.StatusTorneio
     createdAt?: Date | string
     updatedAt?: Date | string
-    Partida?: PartidaUncheckedCreateNestedManyWithoutTorneioInput
-    equipesAmador?: EquipeAmadorUncheckedCreateNestedManyWithoutTorneioInput
-    equipesOficial?: EquipeOficialUncheckedCreateNestedManyWithoutTorneioInput
-    ParticipacaoAmador?: ParticipacaoAmadorUncheckedCreateNestedManyWithoutTorneioInput
+    participacoes?: ParticipacaoUncheckedCreateNestedManyWithoutTorneioInput
+    equipes?: EquipeUncheckedCreateNestedManyWithoutTorneioInput
+    partidas?: PartidaUncheckedCreateNestedManyWithoutTorneioInput
   }
 
   export type TorneioCreateOrConnectWithoutCriadoPorInput = {
@@ -15483,27 +12026,6 @@ export namespace Prisma {
 
   export type TorneioCreateManyCriadoPorInputEnvelope = {
     data: TorneioCreateManyCriadoPorInput | TorneioCreateManyCriadoPorInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type TreinadorCreateWithoutUsuarioInput = {
-    nome: string
-    email: string
-  }
-
-  export type TreinadorUncheckedCreateWithoutUsuarioInput = {
-    id?: number
-    nome: string
-    email: string
-  }
-
-  export type TreinadorCreateOrConnectWithoutUsuarioInput = {
-    where: TreinadorWhereUniqueInput
-    create: XOR<TreinadorCreateWithoutUsuarioInput, TreinadorUncheckedCreateWithoutUsuarioInput>
-  }
-
-  export type TreinadorCreateManyUsuarioInputEnvelope = {
-    data: TreinadorCreateManyUsuarioInput | TreinadorCreateManyUsuarioInput[]
     skipDuplicates?: boolean
   }
 
@@ -15529,7 +12051,6 @@ export namespace Prisma {
     NOT?: TorneioScalarWhereInput | TorneioScalarWhereInput[]
     id?: IntFilter<"Torneio"> | number
     nome?: StringFilter<"Torneio"> | string
-    tipo?: EnumTipoTorneioFilter<"Torneio"> | $Enums.TipoTorneio
     data?: DateTimeFilter<"Torneio"> | Date | string
     local?: StringNullableFilter<"Torneio"> | string | null
     status?: EnumStatusTorneioFilter<"Torneio"> | $Enums.StatusTorneio
@@ -15538,245 +12059,165 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Torneio"> | Date | string
   }
 
-  export type TreinadorUpsertWithWhereUniqueWithoutUsuarioInput = {
-    where: TreinadorWhereUniqueInput
-    update: XOR<TreinadorUpdateWithoutUsuarioInput, TreinadorUncheckedUpdateWithoutUsuarioInput>
-    create: XOR<TreinadorCreateWithoutUsuarioInput, TreinadorUncheckedCreateWithoutUsuarioInput>
-  }
-
-  export type TreinadorUpdateWithWhereUniqueWithoutUsuarioInput = {
-    where: TreinadorWhereUniqueInput
-    data: XOR<TreinadorUpdateWithoutUsuarioInput, TreinadorUncheckedUpdateWithoutUsuarioInput>
-  }
-
-  export type TreinadorUpdateManyWithWhereWithoutUsuarioInput = {
-    where: TreinadorScalarWhereInput
-    data: XOR<TreinadorUpdateManyMutationInput, TreinadorUncheckedUpdateManyWithoutUsuarioInput>
-  }
-
-  export type TreinadorScalarWhereInput = {
-    AND?: TreinadorScalarWhereInput | TreinadorScalarWhereInput[]
-    OR?: TreinadorScalarWhereInput[]
-    NOT?: TreinadorScalarWhereInput | TreinadorScalarWhereInput[]
-    id?: IntFilter<"Treinador"> | number
-    nome?: StringFilter<"Treinador"> | string
-    email?: StringFilter<"Treinador"> | string
-    usuarioId?: IntFilter<"Treinador"> | number
-  }
-
-  export type UsuarioCreateWithoutTreinadorInput = {
-    nome: string
-    email: string
-    senha: string
-    perfil: string
+  export type ParticipacaoCreateWithoutAtletaInput = {
     criadoEm?: Date | string
-    Torneio?: TorneioCreateNestedManyWithoutCriadoPorInput
+    torneio: TorneioCreateNestedOneWithoutParticipacoesInput
   }
 
-  export type UsuarioUncheckedCreateWithoutTreinadorInput = {
-    id?: number
-    nome: string
-    email: string
-    senha: string
-    perfil: string
-    criadoEm?: Date | string
-    Torneio?: TorneioUncheckedCreateNestedManyWithoutCriadoPorInput
-  }
-
-  export type UsuarioCreateOrConnectWithoutTreinadorInput = {
-    where: UsuarioWhereUniqueInput
-    create: XOR<UsuarioCreateWithoutTreinadorInput, UsuarioUncheckedCreateWithoutTreinadorInput>
-  }
-
-  export type UsuarioUpsertWithoutTreinadorInput = {
-    update: XOR<UsuarioUpdateWithoutTreinadorInput, UsuarioUncheckedUpdateWithoutTreinadorInput>
-    create: XOR<UsuarioCreateWithoutTreinadorInput, UsuarioUncheckedCreateWithoutTreinadorInput>
-    where?: UsuarioWhereInput
-  }
-
-  export type UsuarioUpdateToOneWithWhereWithoutTreinadorInput = {
-    where?: UsuarioWhereInput
-    data: XOR<UsuarioUpdateWithoutTreinadorInput, UsuarioUncheckedUpdateWithoutTreinadorInput>
-  }
-
-  export type UsuarioUpdateWithoutTreinadorInput = {
-    nome?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    senha?: StringFieldUpdateOperationsInput | string
-    perfil?: StringFieldUpdateOperationsInput | string
-    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
-    Torneio?: TorneioUpdateManyWithoutCriadoPorNestedInput
-  }
-
-  export type UsuarioUncheckedUpdateWithoutTreinadorInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    senha?: StringFieldUpdateOperationsInput | string
-    perfil?: StringFieldUpdateOperationsInput | string
-    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
-    Torneio?: TorneioUncheckedUpdateManyWithoutCriadoPorNestedInput
-  }
-
-  export type ParticipacaoAmadorCreateWithoutAtletaInput = {
-    criadoEm?: Date | string
-    torneio: TorneioCreateNestedOneWithoutParticipacaoAmadorInput
-  }
-
-  export type ParticipacaoAmadorUncheckedCreateWithoutAtletaInput = {
+  export type ParticipacaoUncheckedCreateWithoutAtletaInput = {
     id?: number
     torneioId: number
     criadoEm?: Date | string
   }
 
-  export type ParticipacaoAmadorCreateOrConnectWithoutAtletaInput = {
-    where: ParticipacaoAmadorWhereUniqueInput
-    create: XOR<ParticipacaoAmadorCreateWithoutAtletaInput, ParticipacaoAmadorUncheckedCreateWithoutAtletaInput>
+  export type ParticipacaoCreateOrConnectWithoutAtletaInput = {
+    where: ParticipacaoWhereUniqueInput
+    create: XOR<ParticipacaoCreateWithoutAtletaInput, ParticipacaoUncheckedCreateWithoutAtletaInput>
   }
 
-  export type ParticipacaoAmadorCreateManyAtletaInputEnvelope = {
-    data: ParticipacaoAmadorCreateManyAtletaInput | ParticipacaoAmadorCreateManyAtletaInput[]
+  export type ParticipacaoCreateManyAtletaInputEnvelope = {
+    data: ParticipacaoCreateManyAtletaInput | ParticipacaoCreateManyAtletaInput[]
     skipDuplicates?: boolean
   }
 
-  export type AtletaEquipeOficialCreateWithoutAtletaInput = {
-    equipeOficial: EquipeOficialCreateNestedOneWithoutMembrosInput
+  export type EquipeAtletaCreateWithoutAtletaInput = {
+    equipe: EquipeCreateNestedOneWithoutAtletasInput
   }
 
-  export type AtletaEquipeOficialUncheckedCreateWithoutAtletaInput = {
-    equipeOficialId: number
+  export type EquipeAtletaUncheckedCreateWithoutAtletaInput = {
+    equipeId: number
   }
 
-  export type AtletaEquipeOficialCreateOrConnectWithoutAtletaInput = {
-    where: AtletaEquipeOficialWhereUniqueInput
-    create: XOR<AtletaEquipeOficialCreateWithoutAtletaInput, AtletaEquipeOficialUncheckedCreateWithoutAtletaInput>
+  export type EquipeAtletaCreateOrConnectWithoutAtletaInput = {
+    where: EquipeAtletaWhereUniqueInput
+    create: XOR<EquipeAtletaCreateWithoutAtletaInput, EquipeAtletaUncheckedCreateWithoutAtletaInput>
   }
 
-  export type AtletaEquipeOficialCreateManyAtletaInputEnvelope = {
-    data: AtletaEquipeOficialCreateManyAtletaInput | AtletaEquipeOficialCreateManyAtletaInput[]
+  export type EquipeAtletaCreateManyAtletaInputEnvelope = {
+    data: EquipeAtletaCreateManyAtletaInput | EquipeAtletaCreateManyAtletaInput[]
     skipDuplicates?: boolean
   }
 
-  export type EquipeAmadorCreateWithoutMembrosInput = {
-    nome: string
-    tipo: string
-    torneio: TorneioCreateNestedOneWithoutEquipesAmadorInput
-    partidasComoEquipe1?: PartidaCreateNestedManyWithoutEquipeAmador1Input
-    partidasComoEquipe2?: PartidaCreateNestedManyWithoutEquipeAmador2Input
+  export type ParticipacaoUpsertWithWhereUniqueWithoutAtletaInput = {
+    where: ParticipacaoWhereUniqueInput
+    update: XOR<ParticipacaoUpdateWithoutAtletaInput, ParticipacaoUncheckedUpdateWithoutAtletaInput>
+    create: XOR<ParticipacaoCreateWithoutAtletaInput, ParticipacaoUncheckedCreateWithoutAtletaInput>
   }
 
-  export type EquipeAmadorUncheckedCreateWithoutMembrosInput = {
-    id?: number
-    nome: string
-    tipo: string
-    torneioId: number
-    partidasComoEquipe1?: PartidaUncheckedCreateNestedManyWithoutEquipeAmador1Input
-    partidasComoEquipe2?: PartidaUncheckedCreateNestedManyWithoutEquipeAmador2Input
+  export type ParticipacaoUpdateWithWhereUniqueWithoutAtletaInput = {
+    where: ParticipacaoWhereUniqueInput
+    data: XOR<ParticipacaoUpdateWithoutAtletaInput, ParticipacaoUncheckedUpdateWithoutAtletaInput>
   }
 
-  export type EquipeAmadorCreateOrConnectWithoutMembrosInput = {
-    where: EquipeAmadorWhereUniqueInput
-    create: XOR<EquipeAmadorCreateWithoutMembrosInput, EquipeAmadorUncheckedCreateWithoutMembrosInput>
+  export type ParticipacaoUpdateManyWithWhereWithoutAtletaInput = {
+    where: ParticipacaoScalarWhereInput
+    data: XOR<ParticipacaoUpdateManyMutationInput, ParticipacaoUncheckedUpdateManyWithoutAtletaInput>
   }
 
-  export type ParticipacaoAmadorUpsertWithWhereUniqueWithoutAtletaInput = {
-    where: ParticipacaoAmadorWhereUniqueInput
-    update: XOR<ParticipacaoAmadorUpdateWithoutAtletaInput, ParticipacaoAmadorUncheckedUpdateWithoutAtletaInput>
-    create: XOR<ParticipacaoAmadorCreateWithoutAtletaInput, ParticipacaoAmadorUncheckedCreateWithoutAtletaInput>
+  export type ParticipacaoScalarWhereInput = {
+    AND?: ParticipacaoScalarWhereInput | ParticipacaoScalarWhereInput[]
+    OR?: ParticipacaoScalarWhereInput[]
+    NOT?: ParticipacaoScalarWhereInput | ParticipacaoScalarWhereInput[]
+    id?: IntFilter<"Participacao"> | number
+    atletaId?: IntFilter<"Participacao"> | number
+    torneioId?: IntFilter<"Participacao"> | number
+    criadoEm?: DateTimeFilter<"Participacao"> | Date | string
   }
 
-  export type ParticipacaoAmadorUpdateWithWhereUniqueWithoutAtletaInput = {
-    where: ParticipacaoAmadorWhereUniqueInput
-    data: XOR<ParticipacaoAmadorUpdateWithoutAtletaInput, ParticipacaoAmadorUncheckedUpdateWithoutAtletaInput>
+  export type EquipeAtletaUpsertWithWhereUniqueWithoutAtletaInput = {
+    where: EquipeAtletaWhereUniqueInput
+    update: XOR<EquipeAtletaUpdateWithoutAtletaInput, EquipeAtletaUncheckedUpdateWithoutAtletaInput>
+    create: XOR<EquipeAtletaCreateWithoutAtletaInput, EquipeAtletaUncheckedCreateWithoutAtletaInput>
   }
 
-  export type ParticipacaoAmadorUpdateManyWithWhereWithoutAtletaInput = {
-    where: ParticipacaoAmadorScalarWhereInput
-    data: XOR<ParticipacaoAmadorUpdateManyMutationInput, ParticipacaoAmadorUncheckedUpdateManyWithoutAtletaInput>
+  export type EquipeAtletaUpdateWithWhereUniqueWithoutAtletaInput = {
+    where: EquipeAtletaWhereUniqueInput
+    data: XOR<EquipeAtletaUpdateWithoutAtletaInput, EquipeAtletaUncheckedUpdateWithoutAtletaInput>
   }
 
-  export type ParticipacaoAmadorScalarWhereInput = {
-    AND?: ParticipacaoAmadorScalarWhereInput | ParticipacaoAmadorScalarWhereInput[]
-    OR?: ParticipacaoAmadorScalarWhereInput[]
-    NOT?: ParticipacaoAmadorScalarWhereInput | ParticipacaoAmadorScalarWhereInput[]
-    id?: IntFilter<"ParticipacaoAmador"> | number
-    atletaId?: IntFilter<"ParticipacaoAmador"> | number
-    torneioId?: IntFilter<"ParticipacaoAmador"> | number
-    criadoEm?: DateTimeFilter<"ParticipacaoAmador"> | Date | string
+  export type EquipeAtletaUpdateManyWithWhereWithoutAtletaInput = {
+    where: EquipeAtletaScalarWhereInput
+    data: XOR<EquipeAtletaUpdateManyMutationInput, EquipeAtletaUncheckedUpdateManyWithoutAtletaInput>
   }
 
-  export type AtletaEquipeOficialUpsertWithWhereUniqueWithoutAtletaInput = {
-    where: AtletaEquipeOficialWhereUniqueInput
-    update: XOR<AtletaEquipeOficialUpdateWithoutAtletaInput, AtletaEquipeOficialUncheckedUpdateWithoutAtletaInput>
-    create: XOR<AtletaEquipeOficialCreateWithoutAtletaInput, AtletaEquipeOficialUncheckedCreateWithoutAtletaInput>
+  export type EquipeAtletaScalarWhereInput = {
+    AND?: EquipeAtletaScalarWhereInput | EquipeAtletaScalarWhereInput[]
+    OR?: EquipeAtletaScalarWhereInput[]
+    NOT?: EquipeAtletaScalarWhereInput | EquipeAtletaScalarWhereInput[]
+    atletaId?: IntFilter<"EquipeAtleta"> | number
+    equipeId?: IntFilter<"EquipeAtleta"> | number
   }
 
-  export type AtletaEquipeOficialUpdateWithWhereUniqueWithoutAtletaInput = {
-    where: AtletaEquipeOficialWhereUniqueInput
-    data: XOR<AtletaEquipeOficialUpdateWithoutAtletaInput, AtletaEquipeOficialUncheckedUpdateWithoutAtletaInput>
-  }
-
-  export type AtletaEquipeOficialUpdateManyWithWhereWithoutAtletaInput = {
-    where: AtletaEquipeOficialScalarWhereInput
-    data: XOR<AtletaEquipeOficialUpdateManyMutationInput, AtletaEquipeOficialUncheckedUpdateManyWithoutAtletaInput>
-  }
-
-  export type AtletaEquipeOficialScalarWhereInput = {
-    AND?: AtletaEquipeOficialScalarWhereInput | AtletaEquipeOficialScalarWhereInput[]
-    OR?: AtletaEquipeOficialScalarWhereInput[]
-    NOT?: AtletaEquipeOficialScalarWhereInput | AtletaEquipeOficialScalarWhereInput[]
-    atletaId?: IntFilter<"AtletaEquipeOficial"> | number
-    equipeOficialId?: IntFilter<"AtletaEquipeOficial"> | number
-  }
-
-  export type EquipeAmadorUpsertWithWhereUniqueWithoutMembrosInput = {
-    where: EquipeAmadorWhereUniqueInput
-    update: XOR<EquipeAmadorUpdateWithoutMembrosInput, EquipeAmadorUncheckedUpdateWithoutMembrosInput>
-    create: XOR<EquipeAmadorCreateWithoutMembrosInput, EquipeAmadorUncheckedCreateWithoutMembrosInput>
-  }
-
-  export type EquipeAmadorUpdateWithWhereUniqueWithoutMembrosInput = {
-    where: EquipeAmadorWhereUniqueInput
-    data: XOR<EquipeAmadorUpdateWithoutMembrosInput, EquipeAmadorUncheckedUpdateWithoutMembrosInput>
-  }
-
-  export type EquipeAmadorUpdateManyWithWhereWithoutMembrosInput = {
-    where: EquipeAmadorScalarWhereInput
-    data: XOR<EquipeAmadorUpdateManyMutationInput, EquipeAmadorUncheckedUpdateManyWithoutMembrosInput>
-  }
-
-  export type EquipeAmadorScalarWhereInput = {
-    AND?: EquipeAmadorScalarWhereInput | EquipeAmadorScalarWhereInput[]
-    OR?: EquipeAmadorScalarWhereInput[]
-    NOT?: EquipeAmadorScalarWhereInput | EquipeAmadorScalarWhereInput[]
-    id?: IntFilter<"EquipeAmador"> | number
-    nome?: StringFilter<"EquipeAmador"> | string
-    tipo?: StringFilter<"EquipeAmador"> | string
-    torneioId?: IntFilter<"EquipeAmador"> | number
-  }
-
-  export type UsuarioCreateWithoutTorneioInput = {
+  export type UsuarioCreateWithoutTorneiosInput = {
     nome: string
     email: string
     senha: string
     perfil: string
     criadoEm?: Date | string
-    Treinador?: TreinadorCreateNestedManyWithoutUsuarioInput
   }
 
-  export type UsuarioUncheckedCreateWithoutTorneioInput = {
+  export type UsuarioUncheckedCreateWithoutTorneiosInput = {
     id?: number
     nome: string
     email: string
     senha: string
     perfil: string
     criadoEm?: Date | string
-    Treinador?: TreinadorUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
-  export type UsuarioCreateOrConnectWithoutTorneioInput = {
+  export type UsuarioCreateOrConnectWithoutTorneiosInput = {
     where: UsuarioWhereUniqueInput
-    create: XOR<UsuarioCreateWithoutTorneioInput, UsuarioUncheckedCreateWithoutTorneioInput>
+    create: XOR<UsuarioCreateWithoutTorneiosInput, UsuarioUncheckedCreateWithoutTorneiosInput>
+  }
+
+  export type ParticipacaoCreateWithoutTorneioInput = {
+    criadoEm?: Date | string
+    atleta: AtletaCreateNestedOneWithoutParticipacoesInput
+  }
+
+  export type ParticipacaoUncheckedCreateWithoutTorneioInput = {
+    id?: number
+    atletaId: number
+    criadoEm?: Date | string
+  }
+
+  export type ParticipacaoCreateOrConnectWithoutTorneioInput = {
+    where: ParticipacaoWhereUniqueInput
+    create: XOR<ParticipacaoCreateWithoutTorneioInput, ParticipacaoUncheckedCreateWithoutTorneioInput>
+  }
+
+  export type ParticipacaoCreateManyTorneioInputEnvelope = {
+    data: ParticipacaoCreateManyTorneioInput | ParticipacaoCreateManyTorneioInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EquipeCreateWithoutTorneioInput = {
+    nome: string
+    tipo: $Enums.TipoEquipe
+    createdAt?: Date | string
+    atletas?: EquipeAtletaCreateNestedManyWithoutEquipeInput
+    partidasComoEquipe1?: PartidaCreateNestedManyWithoutEquipe1Input
+    partidasComoEquipe2?: PartidaCreateNestedManyWithoutEquipe2Input
+  }
+
+  export type EquipeUncheckedCreateWithoutTorneioInput = {
+    id?: number
+    nome: string
+    tipo: $Enums.TipoEquipe
+    createdAt?: Date | string
+    atletas?: EquipeAtletaUncheckedCreateNestedManyWithoutEquipeInput
+    partidasComoEquipe1?: PartidaUncheckedCreateNestedManyWithoutEquipe1Input
+    partidasComoEquipe2?: PartidaUncheckedCreateNestedManyWithoutEquipe2Input
+  }
+
+  export type EquipeCreateOrConnectWithoutTorneioInput = {
+    where: EquipeWhereUniqueInput
+    create: XOR<EquipeCreateWithoutTorneioInput, EquipeUncheckedCreateWithoutTorneioInput>
+  }
+
+  export type EquipeCreateManyTorneioInputEnvelope = {
+    data: EquipeCreateManyTorneioInput | EquipeCreateManyTorneioInput[]
+    skipDuplicates?: boolean
   }
 
   export type PartidaCreateWithoutTorneioInput = {
@@ -15786,10 +12227,8 @@ export namespace Prisma {
     vencedorId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    equipeAmador1?: EquipeAmadorCreateNestedOneWithoutPartidasComoEquipe1Input
-    equipeAmador2?: EquipeAmadorCreateNestedOneWithoutPartidasComoEquipe2Input
-    equipeOficial1?: EquipeOficialCreateNestedOneWithoutPartidasComoEquipeOficial1Input
-    equipeOficial2?: EquipeOficialCreateNestedOneWithoutPartidasComoEquipeOficial2Input
+    equipe1: EquipeCreateNestedOneWithoutPartidasComoEquipe1Input
+    equipe2: EquipeCreateNestedOneWithoutPartidasComoEquipe2Input
   }
 
   export type PartidaUncheckedCreateWithoutTorneioInput = {
@@ -15800,10 +12239,8 @@ export namespace Prisma {
     vencedorId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    equipeAmador1Id?: number | null
-    equipeAmador2Id?: number | null
-    equipeOficial1Id?: number | null
-    equipeOficial2Id?: number | null
+    equipe1Id: number
+    equipe2Id: number
   }
 
   export type PartidaCreateOrConnectWithoutTorneioInput = {
@@ -15816,111 +12253,75 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type EquipeAmadorCreateWithoutTorneioInput = {
-    nome: string
-    tipo: string
-    membros?: AtletaCreateNestedManyWithoutEquipeAmadorInput
-    partidasComoEquipe1?: PartidaCreateNestedManyWithoutEquipeAmador1Input
-    partidasComoEquipe2?: PartidaCreateNestedManyWithoutEquipeAmador2Input
-  }
-
-  export type EquipeAmadorUncheckedCreateWithoutTorneioInput = {
-    id?: number
-    nome: string
-    tipo: string
-    membros?: AtletaUncheckedCreateNestedManyWithoutEquipeAmadorInput
-    partidasComoEquipe1?: PartidaUncheckedCreateNestedManyWithoutEquipeAmador1Input
-    partidasComoEquipe2?: PartidaUncheckedCreateNestedManyWithoutEquipeAmador2Input
-  }
-
-  export type EquipeAmadorCreateOrConnectWithoutTorneioInput = {
-    where: EquipeAmadorWhereUniqueInput
-    create: XOR<EquipeAmadorCreateWithoutTorneioInput, EquipeAmadorUncheckedCreateWithoutTorneioInput>
-  }
-
-  export type EquipeAmadorCreateManyTorneioInputEnvelope = {
-    data: EquipeAmadorCreateManyTorneioInput | EquipeAmadorCreateManyTorneioInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type EquipeOficialCreateWithoutTorneioInput = {
-    nome: string
-    tipo: string
-    createdAt?: Date | string
-    membros?: AtletaEquipeOficialCreateNestedManyWithoutEquipeOficialInput
-    partidasComoEquipeOficial1?: PartidaCreateNestedManyWithoutEquipeOficial1Input
-    partidasComoEquipeOficial2?: PartidaCreateNestedManyWithoutEquipeOficial2Input
-  }
-
-  export type EquipeOficialUncheckedCreateWithoutTorneioInput = {
-    id?: number
-    nome: string
-    tipo: string
-    createdAt?: Date | string
-    membros?: AtletaEquipeOficialUncheckedCreateNestedManyWithoutEquipeOficialInput
-    partidasComoEquipeOficial1?: PartidaUncheckedCreateNestedManyWithoutEquipeOficial1Input
-    partidasComoEquipeOficial2?: PartidaUncheckedCreateNestedManyWithoutEquipeOficial2Input
-  }
-
-  export type EquipeOficialCreateOrConnectWithoutTorneioInput = {
-    where: EquipeOficialWhereUniqueInput
-    create: XOR<EquipeOficialCreateWithoutTorneioInput, EquipeOficialUncheckedCreateWithoutTorneioInput>
-  }
-
-  export type EquipeOficialCreateManyTorneioInputEnvelope = {
-    data: EquipeOficialCreateManyTorneioInput | EquipeOficialCreateManyTorneioInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ParticipacaoAmadorCreateWithoutTorneioInput = {
-    criadoEm?: Date | string
-    atleta: AtletaCreateNestedOneWithoutParticipacoesAmadorInput
-  }
-
-  export type ParticipacaoAmadorUncheckedCreateWithoutTorneioInput = {
-    id?: number
-    atletaId: number
-    criadoEm?: Date | string
-  }
-
-  export type ParticipacaoAmadorCreateOrConnectWithoutTorneioInput = {
-    where: ParticipacaoAmadorWhereUniqueInput
-    create: XOR<ParticipacaoAmadorCreateWithoutTorneioInput, ParticipacaoAmadorUncheckedCreateWithoutTorneioInput>
-  }
-
-  export type ParticipacaoAmadorCreateManyTorneioInputEnvelope = {
-    data: ParticipacaoAmadorCreateManyTorneioInput | ParticipacaoAmadorCreateManyTorneioInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UsuarioUpsertWithoutTorneioInput = {
-    update: XOR<UsuarioUpdateWithoutTorneioInput, UsuarioUncheckedUpdateWithoutTorneioInput>
-    create: XOR<UsuarioCreateWithoutTorneioInput, UsuarioUncheckedCreateWithoutTorneioInput>
+  export type UsuarioUpsertWithoutTorneiosInput = {
+    update: XOR<UsuarioUpdateWithoutTorneiosInput, UsuarioUncheckedUpdateWithoutTorneiosInput>
+    create: XOR<UsuarioCreateWithoutTorneiosInput, UsuarioUncheckedCreateWithoutTorneiosInput>
     where?: UsuarioWhereInput
   }
 
-  export type UsuarioUpdateToOneWithWhereWithoutTorneioInput = {
+  export type UsuarioUpdateToOneWithWhereWithoutTorneiosInput = {
     where?: UsuarioWhereInput
-    data: XOR<UsuarioUpdateWithoutTorneioInput, UsuarioUncheckedUpdateWithoutTorneioInput>
+    data: XOR<UsuarioUpdateWithoutTorneiosInput, UsuarioUncheckedUpdateWithoutTorneiosInput>
   }
 
-  export type UsuarioUpdateWithoutTorneioInput = {
+  export type UsuarioUpdateWithoutTorneiosInput = {
     nome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     senha?: StringFieldUpdateOperationsInput | string
     perfil?: StringFieldUpdateOperationsInput | string
     criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
-    Treinador?: TreinadorUpdateManyWithoutUsuarioNestedInput
   }
 
-  export type UsuarioUncheckedUpdateWithoutTorneioInput = {
+  export type UsuarioUncheckedUpdateWithoutTorneiosInput = {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     senha?: StringFieldUpdateOperationsInput | string
     perfil?: StringFieldUpdateOperationsInput | string
     criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
-    Treinador?: TreinadorUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type ParticipacaoUpsertWithWhereUniqueWithoutTorneioInput = {
+    where: ParticipacaoWhereUniqueInput
+    update: XOR<ParticipacaoUpdateWithoutTorneioInput, ParticipacaoUncheckedUpdateWithoutTorneioInput>
+    create: XOR<ParticipacaoCreateWithoutTorneioInput, ParticipacaoUncheckedCreateWithoutTorneioInput>
+  }
+
+  export type ParticipacaoUpdateWithWhereUniqueWithoutTorneioInput = {
+    where: ParticipacaoWhereUniqueInput
+    data: XOR<ParticipacaoUpdateWithoutTorneioInput, ParticipacaoUncheckedUpdateWithoutTorneioInput>
+  }
+
+  export type ParticipacaoUpdateManyWithWhereWithoutTorneioInput = {
+    where: ParticipacaoScalarWhereInput
+    data: XOR<ParticipacaoUpdateManyMutationInput, ParticipacaoUncheckedUpdateManyWithoutTorneioInput>
+  }
+
+  export type EquipeUpsertWithWhereUniqueWithoutTorneioInput = {
+    where: EquipeWhereUniqueInput
+    update: XOR<EquipeUpdateWithoutTorneioInput, EquipeUncheckedUpdateWithoutTorneioInput>
+    create: XOR<EquipeCreateWithoutTorneioInput, EquipeUncheckedCreateWithoutTorneioInput>
+  }
+
+  export type EquipeUpdateWithWhereUniqueWithoutTorneioInput = {
+    where: EquipeWhereUniqueInput
+    data: XOR<EquipeUpdateWithoutTorneioInput, EquipeUncheckedUpdateWithoutTorneioInput>
+  }
+
+  export type EquipeUpdateManyWithWhereWithoutTorneioInput = {
+    where: EquipeScalarWhereInput
+    data: XOR<EquipeUpdateManyMutationInput, EquipeUncheckedUpdateManyWithoutTorneioInput>
+  }
+
+  export type EquipeScalarWhereInput = {
+    AND?: EquipeScalarWhereInput | EquipeScalarWhereInput[]
+    OR?: EquipeScalarWhereInput[]
+    NOT?: EquipeScalarWhereInput | EquipeScalarWhereInput[]
+    id?: IntFilter<"Equipe"> | number
+    nome?: StringFilter<"Equipe"> | string
+    tipo?: EnumTipoEquipeFilter<"Equipe"> | $Enums.TipoEquipe
+    torneioId?: IntFilter<"Equipe"> | number
+    createdAt?: DateTimeFilter<"Equipe"> | Date | string
   }
 
   export type PartidaUpsertWithWhereUniqueWithoutTorneioInput = {
@@ -15951,496 +12352,186 @@ export namespace Prisma {
     vencedorId?: IntNullableFilter<"Partida"> | number | null
     createdAt?: DateTimeFilter<"Partida"> | Date | string
     updatedAt?: DateTimeFilter<"Partida"> | Date | string
-    equipeAmador1Id?: IntNullableFilter<"Partida"> | number | null
-    equipeAmador2Id?: IntNullableFilter<"Partida"> | number | null
-    equipeOficial1Id?: IntNullableFilter<"Partida"> | number | null
-    equipeOficial2Id?: IntNullableFilter<"Partida"> | number | null
+    equipe1Id?: IntFilter<"Partida"> | number
+    equipe2Id?: IntFilter<"Partida"> | number
   }
 
-  export type EquipeAmadorUpsertWithWhereUniqueWithoutTorneioInput = {
-    where: EquipeAmadorWhereUniqueInput
-    update: XOR<EquipeAmadorUpdateWithoutTorneioInput, EquipeAmadorUncheckedUpdateWithoutTorneioInput>
-    create: XOR<EquipeAmadorCreateWithoutTorneioInput, EquipeAmadorUncheckedCreateWithoutTorneioInput>
-  }
-
-  export type EquipeAmadorUpdateWithWhereUniqueWithoutTorneioInput = {
-    where: EquipeAmadorWhereUniqueInput
-    data: XOR<EquipeAmadorUpdateWithoutTorneioInput, EquipeAmadorUncheckedUpdateWithoutTorneioInput>
-  }
-
-  export type EquipeAmadorUpdateManyWithWhereWithoutTorneioInput = {
-    where: EquipeAmadorScalarWhereInput
-    data: XOR<EquipeAmadorUpdateManyMutationInput, EquipeAmadorUncheckedUpdateManyWithoutTorneioInput>
-  }
-
-  export type EquipeOficialUpsertWithWhereUniqueWithoutTorneioInput = {
-    where: EquipeOficialWhereUniqueInput
-    update: XOR<EquipeOficialUpdateWithoutTorneioInput, EquipeOficialUncheckedUpdateWithoutTorneioInput>
-    create: XOR<EquipeOficialCreateWithoutTorneioInput, EquipeOficialUncheckedCreateWithoutTorneioInput>
-  }
-
-  export type EquipeOficialUpdateWithWhereUniqueWithoutTorneioInput = {
-    where: EquipeOficialWhereUniqueInput
-    data: XOR<EquipeOficialUpdateWithoutTorneioInput, EquipeOficialUncheckedUpdateWithoutTorneioInput>
-  }
-
-  export type EquipeOficialUpdateManyWithWhereWithoutTorneioInput = {
-    where: EquipeOficialScalarWhereInput
-    data: XOR<EquipeOficialUpdateManyMutationInput, EquipeOficialUncheckedUpdateManyWithoutTorneioInput>
-  }
-
-  export type EquipeOficialScalarWhereInput = {
-    AND?: EquipeOficialScalarWhereInput | EquipeOficialScalarWhereInput[]
-    OR?: EquipeOficialScalarWhereInput[]
-    NOT?: EquipeOficialScalarWhereInput | EquipeOficialScalarWhereInput[]
-    id?: IntFilter<"EquipeOficial"> | number
-    nome?: StringFilter<"EquipeOficial"> | string
-    tipo?: StringFilter<"EquipeOficial"> | string
-    createdAt?: DateTimeFilter<"EquipeOficial"> | Date | string
-    torneioId?: IntFilter<"EquipeOficial"> | number
-  }
-
-  export type ParticipacaoAmadorUpsertWithWhereUniqueWithoutTorneioInput = {
-    where: ParticipacaoAmadorWhereUniqueInput
-    update: XOR<ParticipacaoAmadorUpdateWithoutTorneioInput, ParticipacaoAmadorUncheckedUpdateWithoutTorneioInput>
-    create: XOR<ParticipacaoAmadorCreateWithoutTorneioInput, ParticipacaoAmadorUncheckedCreateWithoutTorneioInput>
-  }
-
-  export type ParticipacaoAmadorUpdateWithWhereUniqueWithoutTorneioInput = {
-    where: ParticipacaoAmadorWhereUniqueInput
-    data: XOR<ParticipacaoAmadorUpdateWithoutTorneioInput, ParticipacaoAmadorUncheckedUpdateWithoutTorneioInput>
-  }
-
-  export type ParticipacaoAmadorUpdateManyWithWhereWithoutTorneioInput = {
-    where: ParticipacaoAmadorScalarWhereInput
-    data: XOR<ParticipacaoAmadorUpdateManyMutationInput, ParticipacaoAmadorUncheckedUpdateManyWithoutTorneioInput>
-  }
-
-  export type AtletaCreateWithoutParticipacoesAmadorInput = {
+  export type AtletaCreateWithoutParticipacoesInput = {
     nome: string
     email: string
     genero: string
     nivel?: string | null
-    equipesOficiais?: AtletaEquipeOficialCreateNestedManyWithoutAtletaInput
-    EquipeAmador?: EquipeAmadorCreateNestedManyWithoutMembrosInput
+    equipes?: EquipeAtletaCreateNestedManyWithoutAtletaInput
   }
 
-  export type AtletaUncheckedCreateWithoutParticipacoesAmadorInput = {
+  export type AtletaUncheckedCreateWithoutParticipacoesInput = {
     id?: number
     nome: string
     email: string
     genero: string
     nivel?: string | null
-    equipesOficiais?: AtletaEquipeOficialUncheckedCreateNestedManyWithoutAtletaInput
-    EquipeAmador?: EquipeAmadorUncheckedCreateNestedManyWithoutMembrosInput
+    equipes?: EquipeAtletaUncheckedCreateNestedManyWithoutAtletaInput
   }
 
-  export type AtletaCreateOrConnectWithoutParticipacoesAmadorInput = {
+  export type AtletaCreateOrConnectWithoutParticipacoesInput = {
     where: AtletaWhereUniqueInput
-    create: XOR<AtletaCreateWithoutParticipacoesAmadorInput, AtletaUncheckedCreateWithoutParticipacoesAmadorInput>
+    create: XOR<AtletaCreateWithoutParticipacoesInput, AtletaUncheckedCreateWithoutParticipacoesInput>
   }
 
-  export type TorneioCreateWithoutParticipacaoAmadorInput = {
+  export type TorneioCreateWithoutParticipacoesInput = {
     nome: string
-    tipo: $Enums.TipoTorneio
     data: Date | string
     local?: string | null
     status?: $Enums.StatusTorneio
     createdAt?: Date | string
     updatedAt?: Date | string
-    criadoPor: UsuarioCreateNestedOneWithoutTorneioInput
-    Partida?: PartidaCreateNestedManyWithoutTorneioInput
-    equipesAmador?: EquipeAmadorCreateNestedManyWithoutTorneioInput
-    equipesOficial?: EquipeOficialCreateNestedManyWithoutTorneioInput
+    criadoPor: UsuarioCreateNestedOneWithoutTorneiosInput
+    equipes?: EquipeCreateNestedManyWithoutTorneioInput
+    partidas?: PartidaCreateNestedManyWithoutTorneioInput
   }
 
-  export type TorneioUncheckedCreateWithoutParticipacaoAmadorInput = {
+  export type TorneioUncheckedCreateWithoutParticipacoesInput = {
     id?: number
     nome: string
-    tipo: $Enums.TipoTorneio
     data: Date | string
     local?: string | null
     status?: $Enums.StatusTorneio
     criadoPorId: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    Partida?: PartidaUncheckedCreateNestedManyWithoutTorneioInput
-    equipesAmador?: EquipeAmadorUncheckedCreateNestedManyWithoutTorneioInput
-    equipesOficial?: EquipeOficialUncheckedCreateNestedManyWithoutTorneioInput
+    equipes?: EquipeUncheckedCreateNestedManyWithoutTorneioInput
+    partidas?: PartidaUncheckedCreateNestedManyWithoutTorneioInput
   }
 
-  export type TorneioCreateOrConnectWithoutParticipacaoAmadorInput = {
+  export type TorneioCreateOrConnectWithoutParticipacoesInput = {
     where: TorneioWhereUniqueInput
-    create: XOR<TorneioCreateWithoutParticipacaoAmadorInput, TorneioUncheckedCreateWithoutParticipacaoAmadorInput>
+    create: XOR<TorneioCreateWithoutParticipacoesInput, TorneioUncheckedCreateWithoutParticipacoesInput>
   }
 
-  export type AtletaUpsertWithoutParticipacoesAmadorInput = {
-    update: XOR<AtletaUpdateWithoutParticipacoesAmadorInput, AtletaUncheckedUpdateWithoutParticipacoesAmadorInput>
-    create: XOR<AtletaCreateWithoutParticipacoesAmadorInput, AtletaUncheckedCreateWithoutParticipacoesAmadorInput>
+  export type AtletaUpsertWithoutParticipacoesInput = {
+    update: XOR<AtletaUpdateWithoutParticipacoesInput, AtletaUncheckedUpdateWithoutParticipacoesInput>
+    create: XOR<AtletaCreateWithoutParticipacoesInput, AtletaUncheckedCreateWithoutParticipacoesInput>
     where?: AtletaWhereInput
   }
 
-  export type AtletaUpdateToOneWithWhereWithoutParticipacoesAmadorInput = {
+  export type AtletaUpdateToOneWithWhereWithoutParticipacoesInput = {
     where?: AtletaWhereInput
-    data: XOR<AtletaUpdateWithoutParticipacoesAmadorInput, AtletaUncheckedUpdateWithoutParticipacoesAmadorInput>
+    data: XOR<AtletaUpdateWithoutParticipacoesInput, AtletaUncheckedUpdateWithoutParticipacoesInput>
   }
 
-  export type AtletaUpdateWithoutParticipacoesAmadorInput = {
+  export type AtletaUpdateWithoutParticipacoesInput = {
     nome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     genero?: StringFieldUpdateOperationsInput | string
     nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    equipesOficiais?: AtletaEquipeOficialUpdateManyWithoutAtletaNestedInput
-    EquipeAmador?: EquipeAmadorUpdateManyWithoutMembrosNestedInput
+    equipes?: EquipeAtletaUpdateManyWithoutAtletaNestedInput
   }
 
-  export type AtletaUncheckedUpdateWithoutParticipacoesAmadorInput = {
+  export type AtletaUncheckedUpdateWithoutParticipacoesInput = {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     genero?: StringFieldUpdateOperationsInput | string
     nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    equipesOficiais?: AtletaEquipeOficialUncheckedUpdateManyWithoutAtletaNestedInput
-    EquipeAmador?: EquipeAmadorUncheckedUpdateManyWithoutMembrosNestedInput
+    equipes?: EquipeAtletaUncheckedUpdateManyWithoutAtletaNestedInput
   }
 
-  export type TorneioUpsertWithoutParticipacaoAmadorInput = {
-    update: XOR<TorneioUpdateWithoutParticipacaoAmadorInput, TorneioUncheckedUpdateWithoutParticipacaoAmadorInput>
-    create: XOR<TorneioCreateWithoutParticipacaoAmadorInput, TorneioUncheckedCreateWithoutParticipacaoAmadorInput>
+  export type TorneioUpsertWithoutParticipacoesInput = {
+    update: XOR<TorneioUpdateWithoutParticipacoesInput, TorneioUncheckedUpdateWithoutParticipacoesInput>
+    create: XOR<TorneioCreateWithoutParticipacoesInput, TorneioUncheckedCreateWithoutParticipacoesInput>
     where?: TorneioWhereInput
   }
 
-  export type TorneioUpdateToOneWithWhereWithoutParticipacaoAmadorInput = {
+  export type TorneioUpdateToOneWithWhereWithoutParticipacoesInput = {
     where?: TorneioWhereInput
-    data: XOR<TorneioUpdateWithoutParticipacaoAmadorInput, TorneioUncheckedUpdateWithoutParticipacaoAmadorInput>
+    data: XOR<TorneioUpdateWithoutParticipacoesInput, TorneioUncheckedUpdateWithoutParticipacoesInput>
   }
 
-  export type TorneioUpdateWithoutParticipacaoAmadorInput = {
+  export type TorneioUpdateWithoutParticipacoesInput = {
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
     data?: DateTimeFieldUpdateOperationsInput | Date | string
     local?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    criadoPor?: UsuarioUpdateOneRequiredWithoutTorneioNestedInput
-    Partida?: PartidaUpdateManyWithoutTorneioNestedInput
-    equipesAmador?: EquipeAmadorUpdateManyWithoutTorneioNestedInput
-    equipesOficial?: EquipeOficialUpdateManyWithoutTorneioNestedInput
+    criadoPor?: UsuarioUpdateOneRequiredWithoutTorneiosNestedInput
+    equipes?: EquipeUpdateManyWithoutTorneioNestedInput
+    partidas?: PartidaUpdateManyWithoutTorneioNestedInput
   }
 
-  export type TorneioUncheckedUpdateWithoutParticipacaoAmadorInput = {
+  export type TorneioUncheckedUpdateWithoutParticipacoesInput = {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
     data?: DateTimeFieldUpdateOperationsInput | Date | string
     local?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
     criadoPorId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Partida?: PartidaUncheckedUpdateManyWithoutTorneioNestedInput
-    equipesAmador?: EquipeAmadorUncheckedUpdateManyWithoutTorneioNestedInput
-    equipesOficial?: EquipeOficialUncheckedUpdateManyWithoutTorneioNestedInput
+    equipes?: EquipeUncheckedUpdateManyWithoutTorneioNestedInput
+    partidas?: PartidaUncheckedUpdateManyWithoutTorneioNestedInput
   }
 
-  export type TorneioCreateWithoutEquipesAmadorInput = {
+  export type TorneioCreateWithoutEquipesInput = {
     nome: string
-    tipo: $Enums.TipoTorneio
     data: Date | string
     local?: string | null
     status?: $Enums.StatusTorneio
     createdAt?: Date | string
     updatedAt?: Date | string
-    criadoPor: UsuarioCreateNestedOneWithoutTorneioInput
-    Partida?: PartidaCreateNestedManyWithoutTorneioInput
-    equipesOficial?: EquipeOficialCreateNestedManyWithoutTorneioInput
-    ParticipacaoAmador?: ParticipacaoAmadorCreateNestedManyWithoutTorneioInput
+    criadoPor: UsuarioCreateNestedOneWithoutTorneiosInput
+    participacoes?: ParticipacaoCreateNestedManyWithoutTorneioInput
+    partidas?: PartidaCreateNestedManyWithoutTorneioInput
   }
 
-  export type TorneioUncheckedCreateWithoutEquipesAmadorInput = {
+  export type TorneioUncheckedCreateWithoutEquipesInput = {
     id?: number
     nome: string
-    tipo: $Enums.TipoTorneio
     data: Date | string
     local?: string | null
     status?: $Enums.StatusTorneio
     criadoPorId: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    Partida?: PartidaUncheckedCreateNestedManyWithoutTorneioInput
-    equipesOficial?: EquipeOficialUncheckedCreateNestedManyWithoutTorneioInput
-    ParticipacaoAmador?: ParticipacaoAmadorUncheckedCreateNestedManyWithoutTorneioInput
+    participacoes?: ParticipacaoUncheckedCreateNestedManyWithoutTorneioInput
+    partidas?: PartidaUncheckedCreateNestedManyWithoutTorneioInput
   }
 
-  export type TorneioCreateOrConnectWithoutEquipesAmadorInput = {
+  export type TorneioCreateOrConnectWithoutEquipesInput = {
     where: TorneioWhereUniqueInput
-    create: XOR<TorneioCreateWithoutEquipesAmadorInput, TorneioUncheckedCreateWithoutEquipesAmadorInput>
+    create: XOR<TorneioCreateWithoutEquipesInput, TorneioUncheckedCreateWithoutEquipesInput>
   }
 
-  export type AtletaCreateWithoutEquipeAmadorInput = {
-    nome: string
-    email: string
-    genero: string
-    nivel?: string | null
-    participacoesAmador?: ParticipacaoAmadorCreateNestedManyWithoutAtletaInput
-    equipesOficiais?: AtletaEquipeOficialCreateNestedManyWithoutAtletaInput
+  export type EquipeAtletaCreateWithoutEquipeInput = {
+    atleta: AtletaCreateNestedOneWithoutEquipesInput
   }
 
-  export type AtletaUncheckedCreateWithoutEquipeAmadorInput = {
-    id?: number
-    nome: string
-    email: string
-    genero: string
-    nivel?: string | null
-    participacoesAmador?: ParticipacaoAmadorUncheckedCreateNestedManyWithoutAtletaInput
-    equipesOficiais?: AtletaEquipeOficialUncheckedCreateNestedManyWithoutAtletaInput
-  }
-
-  export type AtletaCreateOrConnectWithoutEquipeAmadorInput = {
-    where: AtletaWhereUniqueInput
-    create: XOR<AtletaCreateWithoutEquipeAmadorInput, AtletaUncheckedCreateWithoutEquipeAmadorInput>
-  }
-
-  export type PartidaCreateWithoutEquipeAmador1Input = {
-    fase: string
-    pontosEquipe1?: number | null
-    pontosEquipe2?: number | null
-    vencedorId?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    torneio: TorneioCreateNestedOneWithoutPartidaInput
-    equipeAmador2?: EquipeAmadorCreateNestedOneWithoutPartidasComoEquipe2Input
-    equipeOficial1?: EquipeOficialCreateNestedOneWithoutPartidasComoEquipeOficial1Input
-    equipeOficial2?: EquipeOficialCreateNestedOneWithoutPartidasComoEquipeOficial2Input
-  }
-
-  export type PartidaUncheckedCreateWithoutEquipeAmador1Input = {
-    id?: number
-    torneioId: number
-    fase: string
-    pontosEquipe1?: number | null
-    pontosEquipe2?: number | null
-    vencedorId?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    equipeAmador2Id?: number | null
-    equipeOficial1Id?: number | null
-    equipeOficial2Id?: number | null
-  }
-
-  export type PartidaCreateOrConnectWithoutEquipeAmador1Input = {
-    where: PartidaWhereUniqueInput
-    create: XOR<PartidaCreateWithoutEquipeAmador1Input, PartidaUncheckedCreateWithoutEquipeAmador1Input>
-  }
-
-  export type PartidaCreateManyEquipeAmador1InputEnvelope = {
-    data: PartidaCreateManyEquipeAmador1Input | PartidaCreateManyEquipeAmador1Input[]
-    skipDuplicates?: boolean
-  }
-
-  export type PartidaCreateWithoutEquipeAmador2Input = {
-    fase: string
-    pontosEquipe1?: number | null
-    pontosEquipe2?: number | null
-    vencedorId?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    torneio: TorneioCreateNestedOneWithoutPartidaInput
-    equipeAmador1?: EquipeAmadorCreateNestedOneWithoutPartidasComoEquipe1Input
-    equipeOficial1?: EquipeOficialCreateNestedOneWithoutPartidasComoEquipeOficial1Input
-    equipeOficial2?: EquipeOficialCreateNestedOneWithoutPartidasComoEquipeOficial2Input
-  }
-
-  export type PartidaUncheckedCreateWithoutEquipeAmador2Input = {
-    id?: number
-    torneioId: number
-    fase: string
-    pontosEquipe1?: number | null
-    pontosEquipe2?: number | null
-    vencedorId?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    equipeAmador1Id?: number | null
-    equipeOficial1Id?: number | null
-    equipeOficial2Id?: number | null
-  }
-
-  export type PartidaCreateOrConnectWithoutEquipeAmador2Input = {
-    where: PartidaWhereUniqueInput
-    create: XOR<PartidaCreateWithoutEquipeAmador2Input, PartidaUncheckedCreateWithoutEquipeAmador2Input>
-  }
-
-  export type PartidaCreateManyEquipeAmador2InputEnvelope = {
-    data: PartidaCreateManyEquipeAmador2Input | PartidaCreateManyEquipeAmador2Input[]
-    skipDuplicates?: boolean
-  }
-
-  export type TorneioUpsertWithoutEquipesAmadorInput = {
-    update: XOR<TorneioUpdateWithoutEquipesAmadorInput, TorneioUncheckedUpdateWithoutEquipesAmadorInput>
-    create: XOR<TorneioCreateWithoutEquipesAmadorInput, TorneioUncheckedCreateWithoutEquipesAmadorInput>
-    where?: TorneioWhereInput
-  }
-
-  export type TorneioUpdateToOneWithWhereWithoutEquipesAmadorInput = {
-    where?: TorneioWhereInput
-    data: XOR<TorneioUpdateWithoutEquipesAmadorInput, TorneioUncheckedUpdateWithoutEquipesAmadorInput>
-  }
-
-  export type TorneioUpdateWithoutEquipesAmadorInput = {
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
-    data?: DateTimeFieldUpdateOperationsInput | Date | string
-    local?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    criadoPor?: UsuarioUpdateOneRequiredWithoutTorneioNestedInput
-    Partida?: PartidaUpdateManyWithoutTorneioNestedInput
-    equipesOficial?: EquipeOficialUpdateManyWithoutTorneioNestedInput
-    ParticipacaoAmador?: ParticipacaoAmadorUpdateManyWithoutTorneioNestedInput
-  }
-
-  export type TorneioUncheckedUpdateWithoutEquipesAmadorInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
-    data?: DateTimeFieldUpdateOperationsInput | Date | string
-    local?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
-    criadoPorId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Partida?: PartidaUncheckedUpdateManyWithoutTorneioNestedInput
-    equipesOficial?: EquipeOficialUncheckedUpdateManyWithoutTorneioNestedInput
-    ParticipacaoAmador?: ParticipacaoAmadorUncheckedUpdateManyWithoutTorneioNestedInput
-  }
-
-  export type AtletaUpsertWithWhereUniqueWithoutEquipeAmadorInput = {
-    where: AtletaWhereUniqueInput
-    update: XOR<AtletaUpdateWithoutEquipeAmadorInput, AtletaUncheckedUpdateWithoutEquipeAmadorInput>
-    create: XOR<AtletaCreateWithoutEquipeAmadorInput, AtletaUncheckedCreateWithoutEquipeAmadorInput>
-  }
-
-  export type AtletaUpdateWithWhereUniqueWithoutEquipeAmadorInput = {
-    where: AtletaWhereUniqueInput
-    data: XOR<AtletaUpdateWithoutEquipeAmadorInput, AtletaUncheckedUpdateWithoutEquipeAmadorInput>
-  }
-
-  export type AtletaUpdateManyWithWhereWithoutEquipeAmadorInput = {
-    where: AtletaScalarWhereInput
-    data: XOR<AtletaUpdateManyMutationInput, AtletaUncheckedUpdateManyWithoutEquipeAmadorInput>
-  }
-
-  export type AtletaScalarWhereInput = {
-    AND?: AtletaScalarWhereInput | AtletaScalarWhereInput[]
-    OR?: AtletaScalarWhereInput[]
-    NOT?: AtletaScalarWhereInput | AtletaScalarWhereInput[]
-    id?: IntFilter<"Atleta"> | number
-    nome?: StringFilter<"Atleta"> | string
-    email?: StringFilter<"Atleta"> | string
-    genero?: StringFilter<"Atleta"> | string
-    nivel?: StringNullableFilter<"Atleta"> | string | null
-  }
-
-  export type PartidaUpsertWithWhereUniqueWithoutEquipeAmador1Input = {
-    where: PartidaWhereUniqueInput
-    update: XOR<PartidaUpdateWithoutEquipeAmador1Input, PartidaUncheckedUpdateWithoutEquipeAmador1Input>
-    create: XOR<PartidaCreateWithoutEquipeAmador1Input, PartidaUncheckedCreateWithoutEquipeAmador1Input>
-  }
-
-  export type PartidaUpdateWithWhereUniqueWithoutEquipeAmador1Input = {
-    where: PartidaWhereUniqueInput
-    data: XOR<PartidaUpdateWithoutEquipeAmador1Input, PartidaUncheckedUpdateWithoutEquipeAmador1Input>
-  }
-
-  export type PartidaUpdateManyWithWhereWithoutEquipeAmador1Input = {
-    where: PartidaScalarWhereInput
-    data: XOR<PartidaUpdateManyMutationInput, PartidaUncheckedUpdateManyWithoutEquipeAmador1Input>
-  }
-
-  export type PartidaUpsertWithWhereUniqueWithoutEquipeAmador2Input = {
-    where: PartidaWhereUniqueInput
-    update: XOR<PartidaUpdateWithoutEquipeAmador2Input, PartidaUncheckedUpdateWithoutEquipeAmador2Input>
-    create: XOR<PartidaCreateWithoutEquipeAmador2Input, PartidaUncheckedCreateWithoutEquipeAmador2Input>
-  }
-
-  export type PartidaUpdateWithWhereUniqueWithoutEquipeAmador2Input = {
-    where: PartidaWhereUniqueInput
-    data: XOR<PartidaUpdateWithoutEquipeAmador2Input, PartidaUncheckedUpdateWithoutEquipeAmador2Input>
-  }
-
-  export type PartidaUpdateManyWithWhereWithoutEquipeAmador2Input = {
-    where: PartidaScalarWhereInput
-    data: XOR<PartidaUpdateManyMutationInput, PartidaUncheckedUpdateManyWithoutEquipeAmador2Input>
-  }
-
-  export type TorneioCreateWithoutEquipesOficialInput = {
-    nome: string
-    tipo: $Enums.TipoTorneio
-    data: Date | string
-    local?: string | null
-    status?: $Enums.StatusTorneio
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    criadoPor: UsuarioCreateNestedOneWithoutTorneioInput
-    Partida?: PartidaCreateNestedManyWithoutTorneioInput
-    equipesAmador?: EquipeAmadorCreateNestedManyWithoutTorneioInput
-    ParticipacaoAmador?: ParticipacaoAmadorCreateNestedManyWithoutTorneioInput
-  }
-
-  export type TorneioUncheckedCreateWithoutEquipesOficialInput = {
-    id?: number
-    nome: string
-    tipo: $Enums.TipoTorneio
-    data: Date | string
-    local?: string | null
-    status?: $Enums.StatusTorneio
-    criadoPorId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    Partida?: PartidaUncheckedCreateNestedManyWithoutTorneioInput
-    equipesAmador?: EquipeAmadorUncheckedCreateNestedManyWithoutTorneioInput
-    ParticipacaoAmador?: ParticipacaoAmadorUncheckedCreateNestedManyWithoutTorneioInput
-  }
-
-  export type TorneioCreateOrConnectWithoutEquipesOficialInput = {
-    where: TorneioWhereUniqueInput
-    create: XOR<TorneioCreateWithoutEquipesOficialInput, TorneioUncheckedCreateWithoutEquipesOficialInput>
-  }
-
-  export type AtletaEquipeOficialCreateWithoutEquipeOficialInput = {
-    atleta: AtletaCreateNestedOneWithoutEquipesOficiaisInput
-  }
-
-  export type AtletaEquipeOficialUncheckedCreateWithoutEquipeOficialInput = {
+  export type EquipeAtletaUncheckedCreateWithoutEquipeInput = {
     atletaId: number
   }
 
-  export type AtletaEquipeOficialCreateOrConnectWithoutEquipeOficialInput = {
-    where: AtletaEquipeOficialWhereUniqueInput
-    create: XOR<AtletaEquipeOficialCreateWithoutEquipeOficialInput, AtletaEquipeOficialUncheckedCreateWithoutEquipeOficialInput>
+  export type EquipeAtletaCreateOrConnectWithoutEquipeInput = {
+    where: EquipeAtletaWhereUniqueInput
+    create: XOR<EquipeAtletaCreateWithoutEquipeInput, EquipeAtletaUncheckedCreateWithoutEquipeInput>
   }
 
-  export type AtletaEquipeOficialCreateManyEquipeOficialInputEnvelope = {
-    data: AtletaEquipeOficialCreateManyEquipeOficialInput | AtletaEquipeOficialCreateManyEquipeOficialInput[]
+  export type EquipeAtletaCreateManyEquipeInputEnvelope = {
+    data: EquipeAtletaCreateManyEquipeInput | EquipeAtletaCreateManyEquipeInput[]
     skipDuplicates?: boolean
   }
 
-  export type PartidaCreateWithoutEquipeOficial1Input = {
+  export type PartidaCreateWithoutEquipe1Input = {
     fase: string
     pontosEquipe1?: number | null
     pontosEquipe2?: number | null
     vencedorId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    torneio: TorneioCreateNestedOneWithoutPartidaInput
-    equipeAmador1?: EquipeAmadorCreateNestedOneWithoutPartidasComoEquipe1Input
-    equipeAmador2?: EquipeAmadorCreateNestedOneWithoutPartidasComoEquipe2Input
-    equipeOficial2?: EquipeOficialCreateNestedOneWithoutPartidasComoEquipeOficial2Input
+    torneio: TorneioCreateNestedOneWithoutPartidasInput
+    equipe2: EquipeCreateNestedOneWithoutPartidasComoEquipe2Input
   }
 
-  export type PartidaUncheckedCreateWithoutEquipeOficial1Input = {
+  export type PartidaUncheckedCreateWithoutEquipe1Input = {
     id?: number
     torneioId: number
     fase: string
@@ -16449,35 +12540,31 @@ export namespace Prisma {
     vencedorId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    equipeAmador1Id?: number | null
-    equipeAmador2Id?: number | null
-    equipeOficial2Id?: number | null
+    equipe2Id: number
   }
 
-  export type PartidaCreateOrConnectWithoutEquipeOficial1Input = {
+  export type PartidaCreateOrConnectWithoutEquipe1Input = {
     where: PartidaWhereUniqueInput
-    create: XOR<PartidaCreateWithoutEquipeOficial1Input, PartidaUncheckedCreateWithoutEquipeOficial1Input>
+    create: XOR<PartidaCreateWithoutEquipe1Input, PartidaUncheckedCreateWithoutEquipe1Input>
   }
 
-  export type PartidaCreateManyEquipeOficial1InputEnvelope = {
-    data: PartidaCreateManyEquipeOficial1Input | PartidaCreateManyEquipeOficial1Input[]
+  export type PartidaCreateManyEquipe1InputEnvelope = {
+    data: PartidaCreateManyEquipe1Input | PartidaCreateManyEquipe1Input[]
     skipDuplicates?: boolean
   }
 
-  export type PartidaCreateWithoutEquipeOficial2Input = {
+  export type PartidaCreateWithoutEquipe2Input = {
     fase: string
     pontosEquipe1?: number | null
     pontosEquipe2?: number | null
     vencedorId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    torneio: TorneioCreateNestedOneWithoutPartidaInput
-    equipeAmador1?: EquipeAmadorCreateNestedOneWithoutPartidasComoEquipe1Input
-    equipeAmador2?: EquipeAmadorCreateNestedOneWithoutPartidasComoEquipe2Input
-    equipeOficial1?: EquipeOficialCreateNestedOneWithoutPartidasComoEquipeOficial1Input
+    torneio: TorneioCreateNestedOneWithoutPartidasInput
+    equipe1: EquipeCreateNestedOneWithoutPartidasComoEquipe1Input
   }
 
-  export type PartidaUncheckedCreateWithoutEquipeOficial2Input = {
+  export type PartidaUncheckedCreateWithoutEquipe2Input = {
     id?: number
     torneioId: number
     fase: string
@@ -16486,503 +12573,384 @@ export namespace Prisma {
     vencedorId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    equipeAmador1Id?: number | null
-    equipeAmador2Id?: number | null
-    equipeOficial1Id?: number | null
+    equipe1Id: number
   }
 
-  export type PartidaCreateOrConnectWithoutEquipeOficial2Input = {
+  export type PartidaCreateOrConnectWithoutEquipe2Input = {
     where: PartidaWhereUniqueInput
-    create: XOR<PartidaCreateWithoutEquipeOficial2Input, PartidaUncheckedCreateWithoutEquipeOficial2Input>
+    create: XOR<PartidaCreateWithoutEquipe2Input, PartidaUncheckedCreateWithoutEquipe2Input>
   }
 
-  export type PartidaCreateManyEquipeOficial2InputEnvelope = {
-    data: PartidaCreateManyEquipeOficial2Input | PartidaCreateManyEquipeOficial2Input[]
+  export type PartidaCreateManyEquipe2InputEnvelope = {
+    data: PartidaCreateManyEquipe2Input | PartidaCreateManyEquipe2Input[]
     skipDuplicates?: boolean
   }
 
-  export type TorneioUpsertWithoutEquipesOficialInput = {
-    update: XOR<TorneioUpdateWithoutEquipesOficialInput, TorneioUncheckedUpdateWithoutEquipesOficialInput>
-    create: XOR<TorneioCreateWithoutEquipesOficialInput, TorneioUncheckedCreateWithoutEquipesOficialInput>
+  export type TorneioUpsertWithoutEquipesInput = {
+    update: XOR<TorneioUpdateWithoutEquipesInput, TorneioUncheckedUpdateWithoutEquipesInput>
+    create: XOR<TorneioCreateWithoutEquipesInput, TorneioUncheckedCreateWithoutEquipesInput>
     where?: TorneioWhereInput
   }
 
-  export type TorneioUpdateToOneWithWhereWithoutEquipesOficialInput = {
+  export type TorneioUpdateToOneWithWhereWithoutEquipesInput = {
     where?: TorneioWhereInput
-    data: XOR<TorneioUpdateWithoutEquipesOficialInput, TorneioUncheckedUpdateWithoutEquipesOficialInput>
+    data: XOR<TorneioUpdateWithoutEquipesInput, TorneioUncheckedUpdateWithoutEquipesInput>
   }
 
-  export type TorneioUpdateWithoutEquipesOficialInput = {
+  export type TorneioUpdateWithoutEquipesInput = {
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
     data?: DateTimeFieldUpdateOperationsInput | Date | string
     local?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    criadoPor?: UsuarioUpdateOneRequiredWithoutTorneioNestedInput
-    Partida?: PartidaUpdateManyWithoutTorneioNestedInput
-    equipesAmador?: EquipeAmadorUpdateManyWithoutTorneioNestedInput
-    ParticipacaoAmador?: ParticipacaoAmadorUpdateManyWithoutTorneioNestedInput
+    criadoPor?: UsuarioUpdateOneRequiredWithoutTorneiosNestedInput
+    participacoes?: ParticipacaoUpdateManyWithoutTorneioNestedInput
+    partidas?: PartidaUpdateManyWithoutTorneioNestedInput
   }
 
-  export type TorneioUncheckedUpdateWithoutEquipesOficialInput = {
+  export type TorneioUncheckedUpdateWithoutEquipesInput = {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
     data?: DateTimeFieldUpdateOperationsInput | Date | string
     local?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
     criadoPorId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Partida?: PartidaUncheckedUpdateManyWithoutTorneioNestedInput
-    equipesAmador?: EquipeAmadorUncheckedUpdateManyWithoutTorneioNestedInput
-    ParticipacaoAmador?: ParticipacaoAmadorUncheckedUpdateManyWithoutTorneioNestedInput
+    participacoes?: ParticipacaoUncheckedUpdateManyWithoutTorneioNestedInput
+    partidas?: PartidaUncheckedUpdateManyWithoutTorneioNestedInput
   }
 
-  export type AtletaEquipeOficialUpsertWithWhereUniqueWithoutEquipeOficialInput = {
-    where: AtletaEquipeOficialWhereUniqueInput
-    update: XOR<AtletaEquipeOficialUpdateWithoutEquipeOficialInput, AtletaEquipeOficialUncheckedUpdateWithoutEquipeOficialInput>
-    create: XOR<AtletaEquipeOficialCreateWithoutEquipeOficialInput, AtletaEquipeOficialUncheckedCreateWithoutEquipeOficialInput>
+  export type EquipeAtletaUpsertWithWhereUniqueWithoutEquipeInput = {
+    where: EquipeAtletaWhereUniqueInput
+    update: XOR<EquipeAtletaUpdateWithoutEquipeInput, EquipeAtletaUncheckedUpdateWithoutEquipeInput>
+    create: XOR<EquipeAtletaCreateWithoutEquipeInput, EquipeAtletaUncheckedCreateWithoutEquipeInput>
   }
 
-  export type AtletaEquipeOficialUpdateWithWhereUniqueWithoutEquipeOficialInput = {
-    where: AtletaEquipeOficialWhereUniqueInput
-    data: XOR<AtletaEquipeOficialUpdateWithoutEquipeOficialInput, AtletaEquipeOficialUncheckedUpdateWithoutEquipeOficialInput>
+  export type EquipeAtletaUpdateWithWhereUniqueWithoutEquipeInput = {
+    where: EquipeAtletaWhereUniqueInput
+    data: XOR<EquipeAtletaUpdateWithoutEquipeInput, EquipeAtletaUncheckedUpdateWithoutEquipeInput>
   }
 
-  export type AtletaEquipeOficialUpdateManyWithWhereWithoutEquipeOficialInput = {
-    where: AtletaEquipeOficialScalarWhereInput
-    data: XOR<AtletaEquipeOficialUpdateManyMutationInput, AtletaEquipeOficialUncheckedUpdateManyWithoutEquipeOficialInput>
+  export type EquipeAtletaUpdateManyWithWhereWithoutEquipeInput = {
+    where: EquipeAtletaScalarWhereInput
+    data: XOR<EquipeAtletaUpdateManyMutationInput, EquipeAtletaUncheckedUpdateManyWithoutEquipeInput>
   }
 
-  export type PartidaUpsertWithWhereUniqueWithoutEquipeOficial1Input = {
+  export type PartidaUpsertWithWhereUniqueWithoutEquipe1Input = {
     where: PartidaWhereUniqueInput
-    update: XOR<PartidaUpdateWithoutEquipeOficial1Input, PartidaUncheckedUpdateWithoutEquipeOficial1Input>
-    create: XOR<PartidaCreateWithoutEquipeOficial1Input, PartidaUncheckedCreateWithoutEquipeOficial1Input>
+    update: XOR<PartidaUpdateWithoutEquipe1Input, PartidaUncheckedUpdateWithoutEquipe1Input>
+    create: XOR<PartidaCreateWithoutEquipe1Input, PartidaUncheckedCreateWithoutEquipe1Input>
   }
 
-  export type PartidaUpdateWithWhereUniqueWithoutEquipeOficial1Input = {
+  export type PartidaUpdateWithWhereUniqueWithoutEquipe1Input = {
     where: PartidaWhereUniqueInput
-    data: XOR<PartidaUpdateWithoutEquipeOficial1Input, PartidaUncheckedUpdateWithoutEquipeOficial1Input>
+    data: XOR<PartidaUpdateWithoutEquipe1Input, PartidaUncheckedUpdateWithoutEquipe1Input>
   }
 
-  export type PartidaUpdateManyWithWhereWithoutEquipeOficial1Input = {
+  export type PartidaUpdateManyWithWhereWithoutEquipe1Input = {
     where: PartidaScalarWhereInput
-    data: XOR<PartidaUpdateManyMutationInput, PartidaUncheckedUpdateManyWithoutEquipeOficial1Input>
+    data: XOR<PartidaUpdateManyMutationInput, PartidaUncheckedUpdateManyWithoutEquipe1Input>
   }
 
-  export type PartidaUpsertWithWhereUniqueWithoutEquipeOficial2Input = {
+  export type PartidaUpsertWithWhereUniqueWithoutEquipe2Input = {
     where: PartidaWhereUniqueInput
-    update: XOR<PartidaUpdateWithoutEquipeOficial2Input, PartidaUncheckedUpdateWithoutEquipeOficial2Input>
-    create: XOR<PartidaCreateWithoutEquipeOficial2Input, PartidaUncheckedCreateWithoutEquipeOficial2Input>
+    update: XOR<PartidaUpdateWithoutEquipe2Input, PartidaUncheckedUpdateWithoutEquipe2Input>
+    create: XOR<PartidaCreateWithoutEquipe2Input, PartidaUncheckedCreateWithoutEquipe2Input>
   }
 
-  export type PartidaUpdateWithWhereUniqueWithoutEquipeOficial2Input = {
+  export type PartidaUpdateWithWhereUniqueWithoutEquipe2Input = {
     where: PartidaWhereUniqueInput
-    data: XOR<PartidaUpdateWithoutEquipeOficial2Input, PartidaUncheckedUpdateWithoutEquipeOficial2Input>
+    data: XOR<PartidaUpdateWithoutEquipe2Input, PartidaUncheckedUpdateWithoutEquipe2Input>
   }
 
-  export type PartidaUpdateManyWithWhereWithoutEquipeOficial2Input = {
+  export type PartidaUpdateManyWithWhereWithoutEquipe2Input = {
     where: PartidaScalarWhereInput
-    data: XOR<PartidaUpdateManyMutationInput, PartidaUncheckedUpdateManyWithoutEquipeOficial2Input>
+    data: XOR<PartidaUpdateManyMutationInput, PartidaUncheckedUpdateManyWithoutEquipe2Input>
   }
 
-  export type AtletaCreateWithoutEquipesOficiaisInput = {
+  export type AtletaCreateWithoutEquipesInput = {
     nome: string
     email: string
     genero: string
     nivel?: string | null
-    participacoesAmador?: ParticipacaoAmadorCreateNestedManyWithoutAtletaInput
-    EquipeAmador?: EquipeAmadorCreateNestedManyWithoutMembrosInput
+    participacoes?: ParticipacaoCreateNestedManyWithoutAtletaInput
   }
 
-  export type AtletaUncheckedCreateWithoutEquipesOficiaisInput = {
+  export type AtletaUncheckedCreateWithoutEquipesInput = {
     id?: number
     nome: string
     email: string
     genero: string
     nivel?: string | null
-    participacoesAmador?: ParticipacaoAmadorUncheckedCreateNestedManyWithoutAtletaInput
-    EquipeAmador?: EquipeAmadorUncheckedCreateNestedManyWithoutMembrosInput
+    participacoes?: ParticipacaoUncheckedCreateNestedManyWithoutAtletaInput
   }
 
-  export type AtletaCreateOrConnectWithoutEquipesOficiaisInput = {
+  export type AtletaCreateOrConnectWithoutEquipesInput = {
     where: AtletaWhereUniqueInput
-    create: XOR<AtletaCreateWithoutEquipesOficiaisInput, AtletaUncheckedCreateWithoutEquipesOficiaisInput>
+    create: XOR<AtletaCreateWithoutEquipesInput, AtletaUncheckedCreateWithoutEquipesInput>
   }
 
-  export type EquipeOficialCreateWithoutMembrosInput = {
+  export type EquipeCreateWithoutAtletasInput = {
     nome: string
-    tipo: string
+    tipo: $Enums.TipoEquipe
     createdAt?: Date | string
-    torneio: TorneioCreateNestedOneWithoutEquipesOficialInput
-    partidasComoEquipeOficial1?: PartidaCreateNestedManyWithoutEquipeOficial1Input
-    partidasComoEquipeOficial2?: PartidaCreateNestedManyWithoutEquipeOficial2Input
+    torneio: TorneioCreateNestedOneWithoutEquipesInput
+    partidasComoEquipe1?: PartidaCreateNestedManyWithoutEquipe1Input
+    partidasComoEquipe2?: PartidaCreateNestedManyWithoutEquipe2Input
   }
 
-  export type EquipeOficialUncheckedCreateWithoutMembrosInput = {
+  export type EquipeUncheckedCreateWithoutAtletasInput = {
     id?: number
     nome: string
-    tipo: string
-    createdAt?: Date | string
+    tipo: $Enums.TipoEquipe
     torneioId: number
-    partidasComoEquipeOficial1?: PartidaUncheckedCreateNestedManyWithoutEquipeOficial1Input
-    partidasComoEquipeOficial2?: PartidaUncheckedCreateNestedManyWithoutEquipeOficial2Input
+    createdAt?: Date | string
+    partidasComoEquipe1?: PartidaUncheckedCreateNestedManyWithoutEquipe1Input
+    partidasComoEquipe2?: PartidaUncheckedCreateNestedManyWithoutEquipe2Input
   }
 
-  export type EquipeOficialCreateOrConnectWithoutMembrosInput = {
-    where: EquipeOficialWhereUniqueInput
-    create: XOR<EquipeOficialCreateWithoutMembrosInput, EquipeOficialUncheckedCreateWithoutMembrosInput>
+  export type EquipeCreateOrConnectWithoutAtletasInput = {
+    where: EquipeWhereUniqueInput
+    create: XOR<EquipeCreateWithoutAtletasInput, EquipeUncheckedCreateWithoutAtletasInput>
   }
 
-  export type AtletaUpsertWithoutEquipesOficiaisInput = {
-    update: XOR<AtletaUpdateWithoutEquipesOficiaisInput, AtletaUncheckedUpdateWithoutEquipesOficiaisInput>
-    create: XOR<AtletaCreateWithoutEquipesOficiaisInput, AtletaUncheckedCreateWithoutEquipesOficiaisInput>
+  export type AtletaUpsertWithoutEquipesInput = {
+    update: XOR<AtletaUpdateWithoutEquipesInput, AtletaUncheckedUpdateWithoutEquipesInput>
+    create: XOR<AtletaCreateWithoutEquipesInput, AtletaUncheckedCreateWithoutEquipesInput>
     where?: AtletaWhereInput
   }
 
-  export type AtletaUpdateToOneWithWhereWithoutEquipesOficiaisInput = {
+  export type AtletaUpdateToOneWithWhereWithoutEquipesInput = {
     where?: AtletaWhereInput
-    data: XOR<AtletaUpdateWithoutEquipesOficiaisInput, AtletaUncheckedUpdateWithoutEquipesOficiaisInput>
+    data: XOR<AtletaUpdateWithoutEquipesInput, AtletaUncheckedUpdateWithoutEquipesInput>
   }
 
-  export type AtletaUpdateWithoutEquipesOficiaisInput = {
+  export type AtletaUpdateWithoutEquipesInput = {
     nome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     genero?: StringFieldUpdateOperationsInput | string
     nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    participacoesAmador?: ParticipacaoAmadorUpdateManyWithoutAtletaNestedInput
-    EquipeAmador?: EquipeAmadorUpdateManyWithoutMembrosNestedInput
+    participacoes?: ParticipacaoUpdateManyWithoutAtletaNestedInput
   }
 
-  export type AtletaUncheckedUpdateWithoutEquipesOficiaisInput = {
+  export type AtletaUncheckedUpdateWithoutEquipesInput = {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     genero?: StringFieldUpdateOperationsInput | string
     nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    participacoesAmador?: ParticipacaoAmadorUncheckedUpdateManyWithoutAtletaNestedInput
-    EquipeAmador?: EquipeAmadorUncheckedUpdateManyWithoutMembrosNestedInput
+    participacoes?: ParticipacaoUncheckedUpdateManyWithoutAtletaNestedInput
   }
 
-  export type EquipeOficialUpsertWithoutMembrosInput = {
-    update: XOR<EquipeOficialUpdateWithoutMembrosInput, EquipeOficialUncheckedUpdateWithoutMembrosInput>
-    create: XOR<EquipeOficialCreateWithoutMembrosInput, EquipeOficialUncheckedCreateWithoutMembrosInput>
-    where?: EquipeOficialWhereInput
+  export type EquipeUpsertWithoutAtletasInput = {
+    update: XOR<EquipeUpdateWithoutAtletasInput, EquipeUncheckedUpdateWithoutAtletasInput>
+    create: XOR<EquipeCreateWithoutAtletasInput, EquipeUncheckedCreateWithoutAtletasInput>
+    where?: EquipeWhereInput
   }
 
-  export type EquipeOficialUpdateToOneWithWhereWithoutMembrosInput = {
-    where?: EquipeOficialWhereInput
-    data: XOR<EquipeOficialUpdateWithoutMembrosInput, EquipeOficialUncheckedUpdateWithoutMembrosInput>
+  export type EquipeUpdateToOneWithWhereWithoutAtletasInput = {
+    where?: EquipeWhereInput
+    data: XOR<EquipeUpdateWithoutAtletasInput, EquipeUncheckedUpdateWithoutAtletasInput>
   }
 
-  export type EquipeOficialUpdateWithoutMembrosInput = {
+  export type EquipeUpdateWithoutAtletasInput = {
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoEquipeFieldUpdateOperationsInput | $Enums.TipoEquipe
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    torneio?: TorneioUpdateOneRequiredWithoutEquipesOficialNestedInput
-    partidasComoEquipeOficial1?: PartidaUpdateManyWithoutEquipeOficial1NestedInput
-    partidasComoEquipeOficial2?: PartidaUpdateManyWithoutEquipeOficial2NestedInput
+    torneio?: TorneioUpdateOneRequiredWithoutEquipesNestedInput
+    partidasComoEquipe1?: PartidaUpdateManyWithoutEquipe1NestedInput
+    partidasComoEquipe2?: PartidaUpdateManyWithoutEquipe2NestedInput
   }
 
-  export type EquipeOficialUncheckedUpdateWithoutMembrosInput = {
+  export type EquipeUncheckedUpdateWithoutAtletasInput = {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tipo?: EnumTipoEquipeFieldUpdateOperationsInput | $Enums.TipoEquipe
     torneioId?: IntFieldUpdateOperationsInput | number
-    partidasComoEquipeOficial1?: PartidaUncheckedUpdateManyWithoutEquipeOficial1NestedInput
-    partidasComoEquipeOficial2?: PartidaUncheckedUpdateManyWithoutEquipeOficial2NestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    partidasComoEquipe1?: PartidaUncheckedUpdateManyWithoutEquipe1NestedInput
+    partidasComoEquipe2?: PartidaUncheckedUpdateManyWithoutEquipe2NestedInput
   }
 
-  export type TorneioCreateWithoutPartidaInput = {
+  export type TorneioCreateWithoutPartidasInput = {
     nome: string
-    tipo: $Enums.TipoTorneio
     data: Date | string
     local?: string | null
     status?: $Enums.StatusTorneio
     createdAt?: Date | string
     updatedAt?: Date | string
-    criadoPor: UsuarioCreateNestedOneWithoutTorneioInput
-    equipesAmador?: EquipeAmadorCreateNestedManyWithoutTorneioInput
-    equipesOficial?: EquipeOficialCreateNestedManyWithoutTorneioInput
-    ParticipacaoAmador?: ParticipacaoAmadorCreateNestedManyWithoutTorneioInput
+    criadoPor: UsuarioCreateNestedOneWithoutTorneiosInput
+    participacoes?: ParticipacaoCreateNestedManyWithoutTorneioInput
+    equipes?: EquipeCreateNestedManyWithoutTorneioInput
   }
 
-  export type TorneioUncheckedCreateWithoutPartidaInput = {
+  export type TorneioUncheckedCreateWithoutPartidasInput = {
     id?: number
     nome: string
-    tipo: $Enums.TipoTorneio
     data: Date | string
     local?: string | null
     status?: $Enums.StatusTorneio
     criadoPorId: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    equipesAmador?: EquipeAmadorUncheckedCreateNestedManyWithoutTorneioInput
-    equipesOficial?: EquipeOficialUncheckedCreateNestedManyWithoutTorneioInput
-    ParticipacaoAmador?: ParticipacaoAmadorUncheckedCreateNestedManyWithoutTorneioInput
+    participacoes?: ParticipacaoUncheckedCreateNestedManyWithoutTorneioInput
+    equipes?: EquipeUncheckedCreateNestedManyWithoutTorneioInput
   }
 
-  export type TorneioCreateOrConnectWithoutPartidaInput = {
+  export type TorneioCreateOrConnectWithoutPartidasInput = {
     where: TorneioWhereUniqueInput
-    create: XOR<TorneioCreateWithoutPartidaInput, TorneioUncheckedCreateWithoutPartidaInput>
+    create: XOR<TorneioCreateWithoutPartidasInput, TorneioUncheckedCreateWithoutPartidasInput>
   }
 
-  export type EquipeAmadorCreateWithoutPartidasComoEquipe1Input = {
+  export type EquipeCreateWithoutPartidasComoEquipe1Input = {
     nome: string
-    tipo: string
-    torneio: TorneioCreateNestedOneWithoutEquipesAmadorInput
-    membros?: AtletaCreateNestedManyWithoutEquipeAmadorInput
-    partidasComoEquipe2?: PartidaCreateNestedManyWithoutEquipeAmador2Input
+    tipo: $Enums.TipoEquipe
+    createdAt?: Date | string
+    torneio: TorneioCreateNestedOneWithoutEquipesInput
+    atletas?: EquipeAtletaCreateNestedManyWithoutEquipeInput
+    partidasComoEquipe2?: PartidaCreateNestedManyWithoutEquipe2Input
   }
 
-  export type EquipeAmadorUncheckedCreateWithoutPartidasComoEquipe1Input = {
+  export type EquipeUncheckedCreateWithoutPartidasComoEquipe1Input = {
     id?: number
     nome: string
-    tipo: string
+    tipo: $Enums.TipoEquipe
     torneioId: number
-    membros?: AtletaUncheckedCreateNestedManyWithoutEquipeAmadorInput
-    partidasComoEquipe2?: PartidaUncheckedCreateNestedManyWithoutEquipeAmador2Input
+    createdAt?: Date | string
+    atletas?: EquipeAtletaUncheckedCreateNestedManyWithoutEquipeInput
+    partidasComoEquipe2?: PartidaUncheckedCreateNestedManyWithoutEquipe2Input
   }
 
-  export type EquipeAmadorCreateOrConnectWithoutPartidasComoEquipe1Input = {
-    where: EquipeAmadorWhereUniqueInput
-    create: XOR<EquipeAmadorCreateWithoutPartidasComoEquipe1Input, EquipeAmadorUncheckedCreateWithoutPartidasComoEquipe1Input>
+  export type EquipeCreateOrConnectWithoutPartidasComoEquipe1Input = {
+    where: EquipeWhereUniqueInput
+    create: XOR<EquipeCreateWithoutPartidasComoEquipe1Input, EquipeUncheckedCreateWithoutPartidasComoEquipe1Input>
   }
 
-  export type EquipeAmadorCreateWithoutPartidasComoEquipe2Input = {
+  export type EquipeCreateWithoutPartidasComoEquipe2Input = {
     nome: string
-    tipo: string
-    torneio: TorneioCreateNestedOneWithoutEquipesAmadorInput
-    membros?: AtletaCreateNestedManyWithoutEquipeAmadorInput
-    partidasComoEquipe1?: PartidaCreateNestedManyWithoutEquipeAmador1Input
+    tipo: $Enums.TipoEquipe
+    createdAt?: Date | string
+    torneio: TorneioCreateNestedOneWithoutEquipesInput
+    atletas?: EquipeAtletaCreateNestedManyWithoutEquipeInput
+    partidasComoEquipe1?: PartidaCreateNestedManyWithoutEquipe1Input
   }
 
-  export type EquipeAmadorUncheckedCreateWithoutPartidasComoEquipe2Input = {
+  export type EquipeUncheckedCreateWithoutPartidasComoEquipe2Input = {
     id?: number
     nome: string
-    tipo: string
+    tipo: $Enums.TipoEquipe
     torneioId: number
-    membros?: AtletaUncheckedCreateNestedManyWithoutEquipeAmadorInput
-    partidasComoEquipe1?: PartidaUncheckedCreateNestedManyWithoutEquipeAmador1Input
-  }
-
-  export type EquipeAmadorCreateOrConnectWithoutPartidasComoEquipe2Input = {
-    where: EquipeAmadorWhereUniqueInput
-    create: XOR<EquipeAmadorCreateWithoutPartidasComoEquipe2Input, EquipeAmadorUncheckedCreateWithoutPartidasComoEquipe2Input>
-  }
-
-  export type EquipeOficialCreateWithoutPartidasComoEquipeOficial1Input = {
-    nome: string
-    tipo: string
     createdAt?: Date | string
-    torneio: TorneioCreateNestedOneWithoutEquipesOficialInput
-    membros?: AtletaEquipeOficialCreateNestedManyWithoutEquipeOficialInput
-    partidasComoEquipeOficial2?: PartidaCreateNestedManyWithoutEquipeOficial2Input
+    atletas?: EquipeAtletaUncheckedCreateNestedManyWithoutEquipeInput
+    partidasComoEquipe1?: PartidaUncheckedCreateNestedManyWithoutEquipe1Input
   }
 
-  export type EquipeOficialUncheckedCreateWithoutPartidasComoEquipeOficial1Input = {
-    id?: number
-    nome: string
-    tipo: string
-    createdAt?: Date | string
-    torneioId: number
-    membros?: AtletaEquipeOficialUncheckedCreateNestedManyWithoutEquipeOficialInput
-    partidasComoEquipeOficial2?: PartidaUncheckedCreateNestedManyWithoutEquipeOficial2Input
+  export type EquipeCreateOrConnectWithoutPartidasComoEquipe2Input = {
+    where: EquipeWhereUniqueInput
+    create: XOR<EquipeCreateWithoutPartidasComoEquipe2Input, EquipeUncheckedCreateWithoutPartidasComoEquipe2Input>
   }
 
-  export type EquipeOficialCreateOrConnectWithoutPartidasComoEquipeOficial1Input = {
-    where: EquipeOficialWhereUniqueInput
-    create: XOR<EquipeOficialCreateWithoutPartidasComoEquipeOficial1Input, EquipeOficialUncheckedCreateWithoutPartidasComoEquipeOficial1Input>
-  }
-
-  export type EquipeOficialCreateWithoutPartidasComoEquipeOficial2Input = {
-    nome: string
-    tipo: string
-    createdAt?: Date | string
-    torneio: TorneioCreateNestedOneWithoutEquipesOficialInput
-    membros?: AtletaEquipeOficialCreateNestedManyWithoutEquipeOficialInput
-    partidasComoEquipeOficial1?: PartidaCreateNestedManyWithoutEquipeOficial1Input
-  }
-
-  export type EquipeOficialUncheckedCreateWithoutPartidasComoEquipeOficial2Input = {
-    id?: number
-    nome: string
-    tipo: string
-    createdAt?: Date | string
-    torneioId: number
-    membros?: AtletaEquipeOficialUncheckedCreateNestedManyWithoutEquipeOficialInput
-    partidasComoEquipeOficial1?: PartidaUncheckedCreateNestedManyWithoutEquipeOficial1Input
-  }
-
-  export type EquipeOficialCreateOrConnectWithoutPartidasComoEquipeOficial2Input = {
-    where: EquipeOficialWhereUniqueInput
-    create: XOR<EquipeOficialCreateWithoutPartidasComoEquipeOficial2Input, EquipeOficialUncheckedCreateWithoutPartidasComoEquipeOficial2Input>
-  }
-
-  export type TorneioUpsertWithoutPartidaInput = {
-    update: XOR<TorneioUpdateWithoutPartidaInput, TorneioUncheckedUpdateWithoutPartidaInput>
-    create: XOR<TorneioCreateWithoutPartidaInput, TorneioUncheckedCreateWithoutPartidaInput>
+  export type TorneioUpsertWithoutPartidasInput = {
+    update: XOR<TorneioUpdateWithoutPartidasInput, TorneioUncheckedUpdateWithoutPartidasInput>
+    create: XOR<TorneioCreateWithoutPartidasInput, TorneioUncheckedCreateWithoutPartidasInput>
     where?: TorneioWhereInput
   }
 
-  export type TorneioUpdateToOneWithWhereWithoutPartidaInput = {
+  export type TorneioUpdateToOneWithWhereWithoutPartidasInput = {
     where?: TorneioWhereInput
-    data: XOR<TorneioUpdateWithoutPartidaInput, TorneioUncheckedUpdateWithoutPartidaInput>
+    data: XOR<TorneioUpdateWithoutPartidasInput, TorneioUncheckedUpdateWithoutPartidasInput>
   }
 
-  export type TorneioUpdateWithoutPartidaInput = {
+  export type TorneioUpdateWithoutPartidasInput = {
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
     data?: DateTimeFieldUpdateOperationsInput | Date | string
     local?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    criadoPor?: UsuarioUpdateOneRequiredWithoutTorneioNestedInput
-    equipesAmador?: EquipeAmadorUpdateManyWithoutTorneioNestedInput
-    equipesOficial?: EquipeOficialUpdateManyWithoutTorneioNestedInput
-    ParticipacaoAmador?: ParticipacaoAmadorUpdateManyWithoutTorneioNestedInput
+    criadoPor?: UsuarioUpdateOneRequiredWithoutTorneiosNestedInput
+    participacoes?: ParticipacaoUpdateManyWithoutTorneioNestedInput
+    equipes?: EquipeUpdateManyWithoutTorneioNestedInput
   }
 
-  export type TorneioUncheckedUpdateWithoutPartidaInput = {
+  export type TorneioUncheckedUpdateWithoutPartidasInput = {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
     data?: DateTimeFieldUpdateOperationsInput | Date | string
     local?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
     criadoPorId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    equipesAmador?: EquipeAmadorUncheckedUpdateManyWithoutTorneioNestedInput
-    equipesOficial?: EquipeOficialUncheckedUpdateManyWithoutTorneioNestedInput
-    ParticipacaoAmador?: ParticipacaoAmadorUncheckedUpdateManyWithoutTorneioNestedInput
+    participacoes?: ParticipacaoUncheckedUpdateManyWithoutTorneioNestedInput
+    equipes?: EquipeUncheckedUpdateManyWithoutTorneioNestedInput
   }
 
-  export type EquipeAmadorUpsertWithoutPartidasComoEquipe1Input = {
-    update: XOR<EquipeAmadorUpdateWithoutPartidasComoEquipe1Input, EquipeAmadorUncheckedUpdateWithoutPartidasComoEquipe1Input>
-    create: XOR<EquipeAmadorCreateWithoutPartidasComoEquipe1Input, EquipeAmadorUncheckedCreateWithoutPartidasComoEquipe1Input>
-    where?: EquipeAmadorWhereInput
+  export type EquipeUpsertWithoutPartidasComoEquipe1Input = {
+    update: XOR<EquipeUpdateWithoutPartidasComoEquipe1Input, EquipeUncheckedUpdateWithoutPartidasComoEquipe1Input>
+    create: XOR<EquipeCreateWithoutPartidasComoEquipe1Input, EquipeUncheckedCreateWithoutPartidasComoEquipe1Input>
+    where?: EquipeWhereInput
   }
 
-  export type EquipeAmadorUpdateToOneWithWhereWithoutPartidasComoEquipe1Input = {
-    where?: EquipeAmadorWhereInput
-    data: XOR<EquipeAmadorUpdateWithoutPartidasComoEquipe1Input, EquipeAmadorUncheckedUpdateWithoutPartidasComoEquipe1Input>
+  export type EquipeUpdateToOneWithWhereWithoutPartidasComoEquipe1Input = {
+    where?: EquipeWhereInput
+    data: XOR<EquipeUpdateWithoutPartidasComoEquipe1Input, EquipeUncheckedUpdateWithoutPartidasComoEquipe1Input>
   }
 
-  export type EquipeAmadorUpdateWithoutPartidasComoEquipe1Input = {
+  export type EquipeUpdateWithoutPartidasComoEquipe1Input = {
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    torneio?: TorneioUpdateOneRequiredWithoutEquipesAmadorNestedInput
-    membros?: AtletaUpdateManyWithoutEquipeAmadorNestedInput
-    partidasComoEquipe2?: PartidaUpdateManyWithoutEquipeAmador2NestedInput
+    tipo?: EnumTipoEquipeFieldUpdateOperationsInput | $Enums.TipoEquipe
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    torneio?: TorneioUpdateOneRequiredWithoutEquipesNestedInput
+    atletas?: EquipeAtletaUpdateManyWithoutEquipeNestedInput
+    partidasComoEquipe2?: PartidaUpdateManyWithoutEquipe2NestedInput
   }
 
-  export type EquipeAmadorUncheckedUpdateWithoutPartidasComoEquipe1Input = {
+  export type EquipeUncheckedUpdateWithoutPartidasComoEquipe1Input = {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoEquipeFieldUpdateOperationsInput | $Enums.TipoEquipe
     torneioId?: IntFieldUpdateOperationsInput | number
-    membros?: AtletaUncheckedUpdateManyWithoutEquipeAmadorNestedInput
-    partidasComoEquipe2?: PartidaUncheckedUpdateManyWithoutEquipeAmador2NestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    atletas?: EquipeAtletaUncheckedUpdateManyWithoutEquipeNestedInput
+    partidasComoEquipe2?: PartidaUncheckedUpdateManyWithoutEquipe2NestedInput
   }
 
-  export type EquipeAmadorUpsertWithoutPartidasComoEquipe2Input = {
-    update: XOR<EquipeAmadorUpdateWithoutPartidasComoEquipe2Input, EquipeAmadorUncheckedUpdateWithoutPartidasComoEquipe2Input>
-    create: XOR<EquipeAmadorCreateWithoutPartidasComoEquipe2Input, EquipeAmadorUncheckedCreateWithoutPartidasComoEquipe2Input>
-    where?: EquipeAmadorWhereInput
+  export type EquipeUpsertWithoutPartidasComoEquipe2Input = {
+    update: XOR<EquipeUpdateWithoutPartidasComoEquipe2Input, EquipeUncheckedUpdateWithoutPartidasComoEquipe2Input>
+    create: XOR<EquipeCreateWithoutPartidasComoEquipe2Input, EquipeUncheckedCreateWithoutPartidasComoEquipe2Input>
+    where?: EquipeWhereInput
   }
 
-  export type EquipeAmadorUpdateToOneWithWhereWithoutPartidasComoEquipe2Input = {
-    where?: EquipeAmadorWhereInput
-    data: XOR<EquipeAmadorUpdateWithoutPartidasComoEquipe2Input, EquipeAmadorUncheckedUpdateWithoutPartidasComoEquipe2Input>
+  export type EquipeUpdateToOneWithWhereWithoutPartidasComoEquipe2Input = {
+    where?: EquipeWhereInput
+    data: XOR<EquipeUpdateWithoutPartidasComoEquipe2Input, EquipeUncheckedUpdateWithoutPartidasComoEquipe2Input>
   }
 
-  export type EquipeAmadorUpdateWithoutPartidasComoEquipe2Input = {
+  export type EquipeUpdateWithoutPartidasComoEquipe2Input = {
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    torneio?: TorneioUpdateOneRequiredWithoutEquipesAmadorNestedInput
-    membros?: AtletaUpdateManyWithoutEquipeAmadorNestedInput
-    partidasComoEquipe1?: PartidaUpdateManyWithoutEquipeAmador1NestedInput
+    tipo?: EnumTipoEquipeFieldUpdateOperationsInput | $Enums.TipoEquipe
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    torneio?: TorneioUpdateOneRequiredWithoutEquipesNestedInput
+    atletas?: EquipeAtletaUpdateManyWithoutEquipeNestedInput
+    partidasComoEquipe1?: PartidaUpdateManyWithoutEquipe1NestedInput
   }
 
-  export type EquipeAmadorUncheckedUpdateWithoutPartidasComoEquipe2Input = {
+  export type EquipeUncheckedUpdateWithoutPartidasComoEquipe2Input = {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoEquipeFieldUpdateOperationsInput | $Enums.TipoEquipe
     torneioId?: IntFieldUpdateOperationsInput | number
-    membros?: AtletaUncheckedUpdateManyWithoutEquipeAmadorNestedInput
-    partidasComoEquipe1?: PartidaUncheckedUpdateManyWithoutEquipeAmador1NestedInput
-  }
-
-  export type EquipeOficialUpsertWithoutPartidasComoEquipeOficial1Input = {
-    update: XOR<EquipeOficialUpdateWithoutPartidasComoEquipeOficial1Input, EquipeOficialUncheckedUpdateWithoutPartidasComoEquipeOficial1Input>
-    create: XOR<EquipeOficialCreateWithoutPartidasComoEquipeOficial1Input, EquipeOficialUncheckedCreateWithoutPartidasComoEquipeOficial1Input>
-    where?: EquipeOficialWhereInput
-  }
-
-  export type EquipeOficialUpdateToOneWithWhereWithoutPartidasComoEquipeOficial1Input = {
-    where?: EquipeOficialWhereInput
-    data: XOR<EquipeOficialUpdateWithoutPartidasComoEquipeOficial1Input, EquipeOficialUncheckedUpdateWithoutPartidasComoEquipeOficial1Input>
-  }
-
-  export type EquipeOficialUpdateWithoutPartidasComoEquipeOficial1Input = {
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    torneio?: TorneioUpdateOneRequiredWithoutEquipesOficialNestedInput
-    membros?: AtletaEquipeOficialUpdateManyWithoutEquipeOficialNestedInput
-    partidasComoEquipeOficial2?: PartidaUpdateManyWithoutEquipeOficial2NestedInput
-  }
-
-  export type EquipeOficialUncheckedUpdateWithoutPartidasComoEquipeOficial1Input = {
-    id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    torneioId?: IntFieldUpdateOperationsInput | number
-    membros?: AtletaEquipeOficialUncheckedUpdateManyWithoutEquipeOficialNestedInput
-    partidasComoEquipeOficial2?: PartidaUncheckedUpdateManyWithoutEquipeOficial2NestedInput
-  }
-
-  export type EquipeOficialUpsertWithoutPartidasComoEquipeOficial2Input = {
-    update: XOR<EquipeOficialUpdateWithoutPartidasComoEquipeOficial2Input, EquipeOficialUncheckedUpdateWithoutPartidasComoEquipeOficial2Input>
-    create: XOR<EquipeOficialCreateWithoutPartidasComoEquipeOficial2Input, EquipeOficialUncheckedCreateWithoutPartidasComoEquipeOficial2Input>
-    where?: EquipeOficialWhereInput
-  }
-
-  export type EquipeOficialUpdateToOneWithWhereWithoutPartidasComoEquipeOficial2Input = {
-    where?: EquipeOficialWhereInput
-    data: XOR<EquipeOficialUpdateWithoutPartidasComoEquipeOficial2Input, EquipeOficialUncheckedUpdateWithoutPartidasComoEquipeOficial2Input>
-  }
-
-  export type EquipeOficialUpdateWithoutPartidasComoEquipeOficial2Input = {
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    torneio?: TorneioUpdateOneRequiredWithoutEquipesOficialNestedInput
-    membros?: AtletaEquipeOficialUpdateManyWithoutEquipeOficialNestedInput
-    partidasComoEquipeOficial1?: PartidaUpdateManyWithoutEquipeOficial1NestedInput
-  }
-
-  export type EquipeOficialUncheckedUpdateWithoutPartidasComoEquipeOficial2Input = {
-    id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    torneioId?: IntFieldUpdateOperationsInput | number
-    membros?: AtletaEquipeOficialUncheckedUpdateManyWithoutEquipeOficialNestedInput
-    partidasComoEquipeOficial1?: PartidaUncheckedUpdateManyWithoutEquipeOficial1NestedInput
+    atletas?: EquipeAtletaUncheckedUpdateManyWithoutEquipeNestedInput
+    partidasComoEquipe1?: PartidaUncheckedUpdateManyWithoutEquipe1NestedInput
   }
 
   export type TorneioCreateManyCriadoPorInput = {
     id?: number
     nome: string
-    tipo: $Enums.TipoTorneio
     data: Date | string
     local?: string | null
     status?: $Enums.StatusTorneio
@@ -16990,45 +12958,34 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type TreinadorCreateManyUsuarioInput = {
-    id?: number
-    nome: string
-    email: string
-  }
-
   export type TorneioUpdateWithoutCriadoPorInput = {
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
     data?: DateTimeFieldUpdateOperationsInput | Date | string
     local?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Partida?: PartidaUpdateManyWithoutTorneioNestedInput
-    equipesAmador?: EquipeAmadorUpdateManyWithoutTorneioNestedInput
-    equipesOficial?: EquipeOficialUpdateManyWithoutTorneioNestedInput
-    ParticipacaoAmador?: ParticipacaoAmadorUpdateManyWithoutTorneioNestedInput
+    participacoes?: ParticipacaoUpdateManyWithoutTorneioNestedInput
+    equipes?: EquipeUpdateManyWithoutTorneioNestedInput
+    partidas?: PartidaUpdateManyWithoutTorneioNestedInput
   }
 
   export type TorneioUncheckedUpdateWithoutCriadoPorInput = {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
     data?: DateTimeFieldUpdateOperationsInput | Date | string
     local?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Partida?: PartidaUncheckedUpdateManyWithoutTorneioNestedInput
-    equipesAmador?: EquipeAmadorUncheckedUpdateManyWithoutTorneioNestedInput
-    equipesOficial?: EquipeOficialUncheckedUpdateManyWithoutTorneioNestedInput
-    ParticipacaoAmador?: ParticipacaoAmadorUncheckedUpdateManyWithoutTorneioNestedInput
+    participacoes?: ParticipacaoUncheckedUpdateManyWithoutTorneioNestedInput
+    equipes?: EquipeUncheckedUpdateManyWithoutTorneioNestedInput
+    partidas?: PartidaUncheckedUpdateManyWithoutTorneioNestedInput
   }
 
   export type TorneioUncheckedUpdateManyWithoutCriadoPorInput = {
     id?: IntFieldUpdateOperationsInput | number
     nome?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoTorneioFieldUpdateOperationsInput | $Enums.TipoTorneio
     data?: DateTimeFieldUpdateOperationsInput | Date | string
     local?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusTorneioFieldUpdateOperationsInput | $Enums.StatusTorneio
@@ -17036,84 +12993,56 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type TreinadorUpdateWithoutUsuarioInput = {
-    nome?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type TreinadorUncheckedUpdateWithoutUsuarioInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type TreinadorUncheckedUpdateManyWithoutUsuarioInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ParticipacaoAmadorCreateManyAtletaInput = {
+  export type ParticipacaoCreateManyAtletaInput = {
     id?: number
     torneioId: number
     criadoEm?: Date | string
   }
 
-  export type AtletaEquipeOficialCreateManyAtletaInput = {
-    equipeOficialId: number
+  export type EquipeAtletaCreateManyAtletaInput = {
+    equipeId: number
   }
 
-  export type ParticipacaoAmadorUpdateWithoutAtletaInput = {
+  export type ParticipacaoUpdateWithoutAtletaInput = {
     criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
-    torneio?: TorneioUpdateOneRequiredWithoutParticipacaoAmadorNestedInput
+    torneio?: TorneioUpdateOneRequiredWithoutParticipacoesNestedInput
   }
 
-  export type ParticipacaoAmadorUncheckedUpdateWithoutAtletaInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    torneioId?: IntFieldUpdateOperationsInput | number
-    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ParticipacaoAmadorUncheckedUpdateManyWithoutAtletaInput = {
+  export type ParticipacaoUncheckedUpdateWithoutAtletaInput = {
     id?: IntFieldUpdateOperationsInput | number
     torneioId?: IntFieldUpdateOperationsInput | number
     criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AtletaEquipeOficialUpdateWithoutAtletaInput = {
-    equipeOficial?: EquipeOficialUpdateOneRequiredWithoutMembrosNestedInput
-  }
-
-  export type AtletaEquipeOficialUncheckedUpdateWithoutAtletaInput = {
-    equipeOficialId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type AtletaEquipeOficialUncheckedUpdateManyWithoutAtletaInput = {
-    equipeOficialId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type EquipeAmadorUpdateWithoutMembrosInput = {
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    torneio?: TorneioUpdateOneRequiredWithoutEquipesAmadorNestedInput
-    partidasComoEquipe1?: PartidaUpdateManyWithoutEquipeAmador1NestedInput
-    partidasComoEquipe2?: PartidaUpdateManyWithoutEquipeAmador2NestedInput
-  }
-
-  export type EquipeAmadorUncheckedUpdateWithoutMembrosInput = {
+  export type ParticipacaoUncheckedUpdateManyWithoutAtletaInput = {
     id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
     torneioId?: IntFieldUpdateOperationsInput | number
-    partidasComoEquipe1?: PartidaUncheckedUpdateManyWithoutEquipeAmador1NestedInput
-    partidasComoEquipe2?: PartidaUncheckedUpdateManyWithoutEquipeAmador2NestedInput
+    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type EquipeAmadorUncheckedUpdateManyWithoutMembrosInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    torneioId?: IntFieldUpdateOperationsInput | number
+  export type EquipeAtletaUpdateWithoutAtletaInput = {
+    equipe?: EquipeUpdateOneRequiredWithoutAtletasNestedInput
+  }
+
+  export type EquipeAtletaUncheckedUpdateWithoutAtletaInput = {
+    equipeId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type EquipeAtletaUncheckedUpdateManyWithoutAtletaInput = {
+    equipeId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ParticipacaoCreateManyTorneioInput = {
+    id?: number
+    atletaId: number
+    criadoEm?: Date | string
+  }
+
+  export type EquipeCreateManyTorneioInput = {
+    id?: number
+    nome: string
+    tipo: $Enums.TipoEquipe
+    createdAt?: Date | string
   }
 
   export type PartidaCreateManyTorneioInput = {
@@ -17124,29 +13053,51 @@ export namespace Prisma {
     vencedorId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    equipeAmador1Id?: number | null
-    equipeAmador2Id?: number | null
-    equipeOficial1Id?: number | null
-    equipeOficial2Id?: number | null
+    equipe1Id: number
+    equipe2Id: number
   }
 
-  export type EquipeAmadorCreateManyTorneioInput = {
-    id?: number
-    nome: string
-    tipo: string
+  export type ParticipacaoUpdateWithoutTorneioInput = {
+    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+    atleta?: AtletaUpdateOneRequiredWithoutParticipacoesNestedInput
   }
 
-  export type EquipeOficialCreateManyTorneioInput = {
-    id?: number
-    nome: string
-    tipo: string
-    createdAt?: Date | string
+  export type ParticipacaoUncheckedUpdateWithoutTorneioInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    atletaId?: IntFieldUpdateOperationsInput | number
+    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ParticipacaoAmadorCreateManyTorneioInput = {
-    id?: number
-    atletaId: number
-    criadoEm?: Date | string
+  export type ParticipacaoUncheckedUpdateManyWithoutTorneioInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    atletaId?: IntFieldUpdateOperationsInput | number
+    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EquipeUpdateWithoutTorneioInput = {
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoEquipeFieldUpdateOperationsInput | $Enums.TipoEquipe
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    atletas?: EquipeAtletaUpdateManyWithoutEquipeNestedInput
+    partidasComoEquipe1?: PartidaUpdateManyWithoutEquipe1NestedInput
+    partidasComoEquipe2?: PartidaUpdateManyWithoutEquipe2NestedInput
+  }
+
+  export type EquipeUncheckedUpdateWithoutTorneioInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoEquipeFieldUpdateOperationsInput | $Enums.TipoEquipe
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    atletas?: EquipeAtletaUncheckedUpdateManyWithoutEquipeNestedInput
+    partidasComoEquipe1?: PartidaUncheckedUpdateManyWithoutEquipe1NestedInput
+    partidasComoEquipe2?: PartidaUncheckedUpdateManyWithoutEquipe2NestedInput
+  }
+
+  export type EquipeUncheckedUpdateManyWithoutTorneioInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoEquipeFieldUpdateOperationsInput | $Enums.TipoEquipe
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PartidaUpdateWithoutTorneioInput = {
@@ -17156,10 +13107,8 @@ export namespace Prisma {
     vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    equipeAmador1?: EquipeAmadorUpdateOneWithoutPartidasComoEquipe1NestedInput
-    equipeAmador2?: EquipeAmadorUpdateOneWithoutPartidasComoEquipe2NestedInput
-    equipeOficial1?: EquipeOficialUpdateOneWithoutPartidasComoEquipeOficial1NestedInput
-    equipeOficial2?: EquipeOficialUpdateOneWithoutPartidasComoEquipeOficial2NestedInput
+    equipe1?: EquipeUpdateOneRequiredWithoutPartidasComoEquipe1NestedInput
+    equipe2?: EquipeUpdateOneRequiredWithoutPartidasComoEquipe2NestedInput
   }
 
   export type PartidaUncheckedUpdateWithoutTorneioInput = {
@@ -17170,10 +13119,8 @@ export namespace Prisma {
     vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    equipeAmador1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeAmador2Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial2Id?: NullableIntFieldUpdateOperationsInput | number | null
+    equipe1Id?: IntFieldUpdateOperationsInput | number
+    equipe2Id?: IntFieldUpdateOperationsInput | number
   }
 
   export type PartidaUncheckedUpdateManyWithoutTorneioInput = {
@@ -17184,220 +13131,15 @@ export namespace Prisma {
     vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    equipeAmador1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeAmador2Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial2Id?: NullableIntFieldUpdateOperationsInput | number | null
+    equipe1Id?: IntFieldUpdateOperationsInput | number
+    equipe2Id?: IntFieldUpdateOperationsInput | number
   }
 
-  export type EquipeAmadorUpdateWithoutTorneioInput = {
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    membros?: AtletaUpdateManyWithoutEquipeAmadorNestedInput
-    partidasComoEquipe1?: PartidaUpdateManyWithoutEquipeAmador1NestedInput
-    partidasComoEquipe2?: PartidaUpdateManyWithoutEquipeAmador2NestedInput
-  }
-
-  export type EquipeAmadorUncheckedUpdateWithoutTorneioInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    membros?: AtletaUncheckedUpdateManyWithoutEquipeAmadorNestedInput
-    partidasComoEquipe1?: PartidaUncheckedUpdateManyWithoutEquipeAmador1NestedInput
-    partidasComoEquipe2?: PartidaUncheckedUpdateManyWithoutEquipeAmador2NestedInput
-  }
-
-  export type EquipeAmadorUncheckedUpdateManyWithoutTorneioInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type EquipeOficialUpdateWithoutTorneioInput = {
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    membros?: AtletaEquipeOficialUpdateManyWithoutEquipeOficialNestedInput
-    partidasComoEquipeOficial1?: PartidaUpdateManyWithoutEquipeOficial1NestedInput
-    partidasComoEquipeOficial2?: PartidaUpdateManyWithoutEquipeOficial2NestedInput
-  }
-
-  export type EquipeOficialUncheckedUpdateWithoutTorneioInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    membros?: AtletaEquipeOficialUncheckedUpdateManyWithoutEquipeOficialNestedInput
-    partidasComoEquipeOficial1?: PartidaUncheckedUpdateManyWithoutEquipeOficial1NestedInput
-    partidasComoEquipeOficial2?: PartidaUncheckedUpdateManyWithoutEquipeOficial2NestedInput
-  }
-
-  export type EquipeOficialUncheckedUpdateManyWithoutTorneioInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ParticipacaoAmadorUpdateWithoutTorneioInput = {
-    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
-    atleta?: AtletaUpdateOneRequiredWithoutParticipacoesAmadorNestedInput
-  }
-
-  export type ParticipacaoAmadorUncheckedUpdateWithoutTorneioInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    atletaId?: IntFieldUpdateOperationsInput | number
-    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ParticipacaoAmadorUncheckedUpdateManyWithoutTorneioInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    atletaId?: IntFieldUpdateOperationsInput | number
-    criadoEm?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type PartidaCreateManyEquipeAmador1Input = {
-    id?: number
-    torneioId: number
-    fase: string
-    pontosEquipe1?: number | null
-    pontosEquipe2?: number | null
-    vencedorId?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    equipeAmador2Id?: number | null
-    equipeOficial1Id?: number | null
-    equipeOficial2Id?: number | null
-  }
-
-  export type PartidaCreateManyEquipeAmador2Input = {
-    id?: number
-    torneioId: number
-    fase: string
-    pontosEquipe1?: number | null
-    pontosEquipe2?: number | null
-    vencedorId?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    equipeAmador1Id?: number | null
-    equipeOficial1Id?: number | null
-    equipeOficial2Id?: number | null
-  }
-
-  export type AtletaUpdateWithoutEquipeAmadorInput = {
-    nome?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    genero?: StringFieldUpdateOperationsInput | string
-    nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    participacoesAmador?: ParticipacaoAmadorUpdateManyWithoutAtletaNestedInput
-    equipesOficiais?: AtletaEquipeOficialUpdateManyWithoutAtletaNestedInput
-  }
-
-  export type AtletaUncheckedUpdateWithoutEquipeAmadorInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    genero?: StringFieldUpdateOperationsInput | string
-    nivel?: NullableStringFieldUpdateOperationsInput | string | null
-    participacoesAmador?: ParticipacaoAmadorUncheckedUpdateManyWithoutAtletaNestedInput
-    equipesOficiais?: AtletaEquipeOficialUncheckedUpdateManyWithoutAtletaNestedInput
-  }
-
-  export type AtletaUncheckedUpdateManyWithoutEquipeAmadorInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nome?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    genero?: StringFieldUpdateOperationsInput | string
-    nivel?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type PartidaUpdateWithoutEquipeAmador1Input = {
-    fase?: StringFieldUpdateOperationsInput | string
-    pontosEquipe1?: NullableIntFieldUpdateOperationsInput | number | null
-    pontosEquipe2?: NullableIntFieldUpdateOperationsInput | number | null
-    vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    torneio?: TorneioUpdateOneRequiredWithoutPartidaNestedInput
-    equipeAmador2?: EquipeAmadorUpdateOneWithoutPartidasComoEquipe2NestedInput
-    equipeOficial1?: EquipeOficialUpdateOneWithoutPartidasComoEquipeOficial1NestedInput
-    equipeOficial2?: EquipeOficialUpdateOneWithoutPartidasComoEquipeOficial2NestedInput
-  }
-
-  export type PartidaUncheckedUpdateWithoutEquipeAmador1Input = {
-    id?: IntFieldUpdateOperationsInput | number
-    torneioId?: IntFieldUpdateOperationsInput | number
-    fase?: StringFieldUpdateOperationsInput | string
-    pontosEquipe1?: NullableIntFieldUpdateOperationsInput | number | null
-    pontosEquipe2?: NullableIntFieldUpdateOperationsInput | number | null
-    vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    equipeAmador2Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial2Id?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type PartidaUncheckedUpdateManyWithoutEquipeAmador1Input = {
-    id?: IntFieldUpdateOperationsInput | number
-    torneioId?: IntFieldUpdateOperationsInput | number
-    fase?: StringFieldUpdateOperationsInput | string
-    pontosEquipe1?: NullableIntFieldUpdateOperationsInput | number | null
-    pontosEquipe2?: NullableIntFieldUpdateOperationsInput | number | null
-    vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    equipeAmador2Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial2Id?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type PartidaUpdateWithoutEquipeAmador2Input = {
-    fase?: StringFieldUpdateOperationsInput | string
-    pontosEquipe1?: NullableIntFieldUpdateOperationsInput | number | null
-    pontosEquipe2?: NullableIntFieldUpdateOperationsInput | number | null
-    vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    torneio?: TorneioUpdateOneRequiredWithoutPartidaNestedInput
-    equipeAmador1?: EquipeAmadorUpdateOneWithoutPartidasComoEquipe1NestedInput
-    equipeOficial1?: EquipeOficialUpdateOneWithoutPartidasComoEquipeOficial1NestedInput
-    equipeOficial2?: EquipeOficialUpdateOneWithoutPartidasComoEquipeOficial2NestedInput
-  }
-
-  export type PartidaUncheckedUpdateWithoutEquipeAmador2Input = {
-    id?: IntFieldUpdateOperationsInput | number
-    torneioId?: IntFieldUpdateOperationsInput | number
-    fase?: StringFieldUpdateOperationsInput | string
-    pontosEquipe1?: NullableIntFieldUpdateOperationsInput | number | null
-    pontosEquipe2?: NullableIntFieldUpdateOperationsInput | number | null
-    vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    equipeAmador1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial2Id?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type PartidaUncheckedUpdateManyWithoutEquipeAmador2Input = {
-    id?: IntFieldUpdateOperationsInput | number
-    torneioId?: IntFieldUpdateOperationsInput | number
-    fase?: StringFieldUpdateOperationsInput | string
-    pontosEquipe1?: NullableIntFieldUpdateOperationsInput | number | null
-    pontosEquipe2?: NullableIntFieldUpdateOperationsInput | number | null
-    vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    equipeAmador1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial2Id?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type AtletaEquipeOficialCreateManyEquipeOficialInput = {
+  export type EquipeAtletaCreateManyEquipeInput = {
     atletaId: number
   }
 
-  export type PartidaCreateManyEquipeOficial1Input = {
+  export type PartidaCreateManyEquipe1Input = {
     id?: number
     torneioId: number
     fase: string
@@ -17406,12 +13148,10 @@ export namespace Prisma {
     vencedorId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    equipeAmador1Id?: number | null
-    equipeAmador2Id?: number | null
-    equipeOficial2Id?: number | null
+    equipe2Id: number
   }
 
-  export type PartidaCreateManyEquipeOficial2Input = {
+  export type PartidaCreateManyEquipe2Input = {
     id?: number
     torneioId: number
     fase: string
@@ -17420,37 +13160,33 @@ export namespace Prisma {
     vencedorId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    equipeAmador1Id?: number | null
-    equipeAmador2Id?: number | null
-    equipeOficial1Id?: number | null
+    equipe1Id: number
   }
 
-  export type AtletaEquipeOficialUpdateWithoutEquipeOficialInput = {
-    atleta?: AtletaUpdateOneRequiredWithoutEquipesOficiaisNestedInput
+  export type EquipeAtletaUpdateWithoutEquipeInput = {
+    atleta?: AtletaUpdateOneRequiredWithoutEquipesNestedInput
   }
 
-  export type AtletaEquipeOficialUncheckedUpdateWithoutEquipeOficialInput = {
+  export type EquipeAtletaUncheckedUpdateWithoutEquipeInput = {
     atletaId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type AtletaEquipeOficialUncheckedUpdateManyWithoutEquipeOficialInput = {
+  export type EquipeAtletaUncheckedUpdateManyWithoutEquipeInput = {
     atletaId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type PartidaUpdateWithoutEquipeOficial1Input = {
+  export type PartidaUpdateWithoutEquipe1Input = {
     fase?: StringFieldUpdateOperationsInput | string
     pontosEquipe1?: NullableIntFieldUpdateOperationsInput | number | null
     pontosEquipe2?: NullableIntFieldUpdateOperationsInput | number | null
     vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    torneio?: TorneioUpdateOneRequiredWithoutPartidaNestedInput
-    equipeAmador1?: EquipeAmadorUpdateOneWithoutPartidasComoEquipe1NestedInput
-    equipeAmador2?: EquipeAmadorUpdateOneWithoutPartidasComoEquipe2NestedInput
-    equipeOficial2?: EquipeOficialUpdateOneWithoutPartidasComoEquipeOficial2NestedInput
+    torneio?: TorneioUpdateOneRequiredWithoutPartidasNestedInput
+    equipe2?: EquipeUpdateOneRequiredWithoutPartidasComoEquipe2NestedInput
   }
 
-  export type PartidaUncheckedUpdateWithoutEquipeOficial1Input = {
+  export type PartidaUncheckedUpdateWithoutEquipe1Input = {
     id?: IntFieldUpdateOperationsInput | number
     torneioId?: IntFieldUpdateOperationsInput | number
     fase?: StringFieldUpdateOperationsInput | string
@@ -17459,12 +13195,10 @@ export namespace Prisma {
     vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    equipeAmador1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeAmador2Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial2Id?: NullableIntFieldUpdateOperationsInput | number | null
+    equipe2Id?: IntFieldUpdateOperationsInput | number
   }
 
-  export type PartidaUncheckedUpdateManyWithoutEquipeOficial1Input = {
+  export type PartidaUncheckedUpdateManyWithoutEquipe1Input = {
     id?: IntFieldUpdateOperationsInput | number
     torneioId?: IntFieldUpdateOperationsInput | number
     fase?: StringFieldUpdateOperationsInput | string
@@ -17473,25 +13207,21 @@ export namespace Prisma {
     vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    equipeAmador1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeAmador2Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial2Id?: NullableIntFieldUpdateOperationsInput | number | null
+    equipe2Id?: IntFieldUpdateOperationsInput | number
   }
 
-  export type PartidaUpdateWithoutEquipeOficial2Input = {
+  export type PartidaUpdateWithoutEquipe2Input = {
     fase?: StringFieldUpdateOperationsInput | string
     pontosEquipe1?: NullableIntFieldUpdateOperationsInput | number | null
     pontosEquipe2?: NullableIntFieldUpdateOperationsInput | number | null
     vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    torneio?: TorneioUpdateOneRequiredWithoutPartidaNestedInput
-    equipeAmador1?: EquipeAmadorUpdateOneWithoutPartidasComoEquipe1NestedInput
-    equipeAmador2?: EquipeAmadorUpdateOneWithoutPartidasComoEquipe2NestedInput
-    equipeOficial1?: EquipeOficialUpdateOneWithoutPartidasComoEquipeOficial1NestedInput
+    torneio?: TorneioUpdateOneRequiredWithoutPartidasNestedInput
+    equipe1?: EquipeUpdateOneRequiredWithoutPartidasComoEquipe1NestedInput
   }
 
-  export type PartidaUncheckedUpdateWithoutEquipeOficial2Input = {
+  export type PartidaUncheckedUpdateWithoutEquipe2Input = {
     id?: IntFieldUpdateOperationsInput | number
     torneioId?: IntFieldUpdateOperationsInput | number
     fase?: StringFieldUpdateOperationsInput | string
@@ -17500,12 +13230,10 @@ export namespace Prisma {
     vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    equipeAmador1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeAmador2Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial1Id?: NullableIntFieldUpdateOperationsInput | number | null
+    equipe1Id?: IntFieldUpdateOperationsInput | number
   }
 
-  export type PartidaUncheckedUpdateManyWithoutEquipeOficial2Input = {
+  export type PartidaUncheckedUpdateManyWithoutEquipe2Input = {
     id?: IntFieldUpdateOperationsInput | number
     torneioId?: IntFieldUpdateOperationsInput | number
     fase?: StringFieldUpdateOperationsInput | string
@@ -17514,9 +13242,7 @@ export namespace Prisma {
     vencedorId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    equipeAmador1Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeAmador2Id?: NullableIntFieldUpdateOperationsInput | number | null
-    equipeOficial1Id?: NullableIntFieldUpdateOperationsInput | number | null
+    equipe1Id?: IntFieldUpdateOperationsInput | number
   }
 
 

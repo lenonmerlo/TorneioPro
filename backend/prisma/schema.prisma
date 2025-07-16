@@ -1,3 +1,4 @@
+
 generator client {
   provider        = "prisma-client-js"
   output          = "../src/generated/prisma"
@@ -9,61 +10,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Usuários autenticáveis (ex: treinadores)
 model Usuario {
   id        Int       @id @default(autoincrement())
   nome      String
   email     String    @unique
   senha     String
-  perfil    String    // 'treinador'
+  perfil    String
   criadoEm  DateTime  @default(now())
 
-  Torneio   Torneio[] // Torneios criados por este usuário
-  Treinador Treinador[]
+  torneios  Torneio[]
 }
 
-model Treinador {
-  id        Int      @id @default(autoincrement())
-  nome      String
-  email     String   @unique
-  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
-  usuarioId Int      @unique
-}
-
-// Atleta é independente de usuário autenticado
 model Atleta {
-  id                  Int                    @id @default(autoincrement())
-  nome                String
-  email               String                 @unique
-  genero              String
-  nivel               String?                // 'iniciante' ou 'intermediario'
+  id         Int      @id @default(autoincrement())
+  nome       String
+  email      String   @unique
+  genero     String
+  nivel      String?
 
-  participacoesAmador ParticipacaoAmador[]
-  equipesOficiais     AtletaEquipeOficial[]
-  EquipeAmador        EquipeAmador[] @relation("MembrosEquipeAmador")
+  participacoes Participacao[]
+  equipes       EquipeAtleta[]
 }
 
-// Torneio Amador ou Oficial
 model Torneio {
-  id          Int            @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   nome        String
-  tipo        TipoTorneio
   data        DateTime
   local       String?
-  status      StatusTorneio  @default(aberto)
+  status      StatusTorneio @default(aberto)
   criadoPorId Int
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  criadoPor   Usuario        @relation(fields: [criadoPorId], references: [id])
-  Partida     Partida[]
-  equipesAmador     EquipeAmador[]
-  equipesOficial    EquipeOficial[]
-  ParticipacaoAmador ParticipacaoAmador[]
+  criadoPor   Usuario   @relation(fields: [criadoPorId], references: [id])
+  participacoes Participacao[]
+  equipes     Equipe[]
+  partidas    Partida[]
 }
 
-// Participação individual no torneio amador
-model ParticipacaoAmador {
+model Participacao {
   id         Int      @id @default(autoincrement())
   atletaId   Int
   torneioId  Int
@@ -75,74 +60,56 @@ model ParticipacaoAmador {
   @@unique([atletaId, torneioId])
 }
 
-// Equipes sorteadas no torneio amador
-model EquipeAmador {
-  id                  Int          @id @default(autoincrement())
-  nome                String
-  tipo                String       // "Quarteto", "Reserva"
-  torneioId           Int
-  torneio             Torneio      @relation(fields: [torneioId], references: [id])
+model Equipe {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  tipo      TipoEquipe
+  torneioId Int
+  createdAt DateTime @default(now())
 
-  membros             Atleta[]     @relation("MembrosEquipeAmador")
-  partidasComoEquipe1 Partida[]    @relation("EquipeAmador1")
-  partidasComoEquipe2 Partida[]    @relation("EquipeAmador2")
+  torneio   Torneio  @relation(fields: [torneioId], references: [id])
+  atletas   EquipeAtleta[]
+  partidasComoEquipe1 Partida[] @relation("Equipe1")
+  partidasComoEquipe2 Partida[] @relation("Equipe2")
 }
 
-// Equipes do torneio oficial
-model EquipeOficial {
-  id                        Int                   @id @default(autoincrement())
-  nome                      String
-  tipo                      String                // "Dupla", "Trio", "Quarteto"
-  createdAt                 DateTime              @default(now())
-  torneioId                 Int
-  torneio                   Torneio               @relation(fields: [torneioId], references: [id])
-  membros                   AtletaEquipeOficial[]
-  partidasComoEquipeOficial1 Partida[] @relation("EquipeOficialPartida1")
-  partidasComoEquipeOficial2 Partida[] @relation("EquipeOficialPartida2")
+model EquipeAtleta {
+  atletaId Int
+  equipeId Int
+
+  atleta   Atleta @relation(fields: [atletaId], references: [id])
+  equipe   Equipe @relation(fields: [equipeId], references: [id])
+
+  @@id([atletaId, equipeId])
 }
 
-// Junção N:M entre atletas e equipes oficiais
-model AtletaEquipeOficial {
-  atletaId        Int
-  equipeOficialId Int
-  atleta          Atleta        @relation(fields: [atletaId], references: [id])
-  equipeOficial   EquipeOficial @relation(fields: [equipeOficialId], references: [id])
-
-  @@id([atletaId, equipeOficialId])
-}
-
-// Partida genérica (amador e oficial)
 model Partida {
-  id                Int       @id @default(autoincrement())
-  torneioId         Int
-  fase              String
-  pontosEquipe1     Int?
-  pontosEquipe2     Int?
-  vencedorId        Int?
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  id             Int      @id @default(autoincrement())
+  torneioId      Int
+  fase           String
+  pontosEquipe1  Int?
+  pontosEquipe2  Int?
+  vencedorId     Int?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  torneio           Torneio   @relation(fields: [torneioId], references: [id])
+  torneio        Torneio @relation(fields: [torneioId], references: [id])
 
-  equipeAmador1Id   Int?
-  equipeAmador2Id   Int?
-  equipeAmador1     EquipeAmador? @relation("EquipeAmador1", fields: [equipeAmador1Id], references: [id])
-  equipeAmador2     EquipeAmador? @relation("EquipeAmador2", fields: [equipeAmador2Id], references: [id])
-
-  equipeOficial1Id  Int?
-  equipeOficial2Id  Int?
-  equipeOficial1    EquipeOficial? @relation("EquipeOficialPartida1", fields: [equipeOficial1Id], references: [id])
-  equipeOficial2    EquipeOficial? @relation("EquipeOficialPartida2", fields: [equipeOficial2Id], references: [id])
+  equipe1Id      Int
+  equipe2Id      Int
+  equipe1        Equipe   @relation("Equipe1", fields: [equipe1Id], references: [id])
+  equipe2        Equipe   @relation("Equipe2", fields: [equipe2Id], references: [id])
 }
 
-// Enums
 enum StatusTorneio {
   aberto
   fechado
   encerrado
 }
 
-enum TipoTorneio {
-  amador
-  oficial
+enum TipoEquipe {
+  individual
+  dupla
+  trio
+  quarteto
 }
