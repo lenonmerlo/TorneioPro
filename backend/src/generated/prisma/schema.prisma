@@ -70,6 +70,8 @@ model Equipe {
   atletas             EquipeAtleta[]
   partidasComoEquipe1 Partida[]      @relation("Equipe1")
   partidasComoEquipe2 Partida[]      @relation("Equipe2")
+
+  Partida Partida[] @relation("Vencedor")
 }
 
 model EquipeAtleta {
@@ -96,8 +98,9 @@ model Partida {
 
   equipe1Id Int
   equipe2Id Int
-  equipe1   Equipe @relation("Equipe1", fields: [equipe1Id], references: [id])
-  equipe2   Equipe @relation("Equipe2", fields: [equipe2Id], references: [id])
+  equipe1   Equipe  @relation("Equipe1", fields: [equipe1Id], references: [id])
+  equipe2   Equipe  @relation("Equipe2", fields: [equipe2Id], references: [id])
+  vencedor  Equipe? @relation("Vencedor", fields: [vencedorId], references: [id])
 }
 
 enum StatusTorneio {

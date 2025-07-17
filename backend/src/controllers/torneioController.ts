@@ -1,11 +1,14 @@
-import { Request, Response } from 'express';
-import prisma from '../../lib/prismaClient';
+// 📁 backend/src/controllers/torneioController.ts
 
-// Listar torneios
+import { Request, Response } from 'express';
+import prisma from '../lib/prismaClient';
+
+// [GET] Listar todos os torneios
 export const getTorneios = async (req: Request, res: Response): Promise<void> => {
   try {
     const torneios = await prisma.torneio.findMany({
       include: { criadoPor: true },
+      orderBy: { createdAt: 'desc' },
     });
     res.json(torneios);
   } catch (error: any) {
@@ -14,7 +17,7 @@ export const getTorneios = async (req: Request, res: Response): Promise<void> =>
 };
 
 // [GET] Buscar torneio com status "aberto"
-export const getTorneioAtivo = async (req: Request, res: Response) => {
+export const getTorneioAtivo = async (_req: Request, res: Response) => {
   try {
     const torneio = await prisma.torneio.findFirst({
       where: { status: 'aberto' },
@@ -32,27 +35,23 @@ export const getTorneioAtivo = async (req: Request, res: Response) => {
   }
 };
 
-
-// Criar torneio
+// [POST] Criar torneio
 export const createTorneio = async (req: Request, res: Response): Promise<void> => {
-  console.log('BODY:', req.body);
-  console.log('USER:', req.user);
-
   try {
-    const { nome, tipo, data, local } = req.body;
+    const { nome, data, local } = req.body;
     const criadoPorId = req.user?.id;
 
-    if (!nome || !tipo || !data || !criadoPorId) {
-      res.status(400).json({ erro: 'Campos obrigatórios: nome, tipo, data' });
+    if (!nome || !data || !criadoPorId) {
+      res.status(400).json({ erro: 'Campos obrigatórios: nome, data' });
       return;
     }
 
     const novoTorneio = await prisma.torneio.create({
       data: {
         nome,
-        tipo,
         data: new Date(data),
         local,
+        status: 'aberto',
         criadoPorId,
       },
     });
@@ -63,19 +62,16 @@ export const createTorneio = async (req: Request, res: Response): Promise<void> 
   }
 };
 
-
-
-// Atualizar torneio
-export const updateTorneio = async (req: Request, res: Response): Promise<void> => { // <-- Mudei aqui
+// [PUT] Atualizar torneio
+export const updateTorneio = async (req: Request, res: Response): Promise<void> => {
   const id = Number(req.params.id);
-  const { nome, tipo, data, local, status } = req.body;
+  const { nome, data, local, status } = req.body;
 
   try {
     const torneioAtualizado = await prisma.torneio.update({
       where: { id },
       data: {
         nome,
-        tipo,
         data: data ? new Date(data) : undefined,
         local,
         status,
@@ -88,8 +84,8 @@ export const updateTorneio = async (req: Request, res: Response): Promise<void> 
   }
 };
 
-// Deletar torneio
-export const deleteTorneio = async (req: Request, res: Response): Promise<void> => { // <-- Mudei aqui
+// [DELETE] Deletar torneio
+export const deleteTorneio = async (req: Request, res: Response): Promise<void> => {
   const id = Number(req.params.id);
   try {
     await prisma.torneio.delete({ where: { id } });

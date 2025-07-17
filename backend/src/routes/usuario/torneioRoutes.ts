@@ -1,11 +1,11 @@
 import express, { RequestHandler } from 'express';
 import {
-  getTorneios,
-  createTorneio,
-  updateTorneio,
-  deleteTorneio,
-  getTorneioAtivo,
-} from '../../controllers/usuario/torneioController';
+    createTorneio,
+    deleteTorneio,
+    getTorneioAtivo,
+    getTorneios,
+    updateTorneio,
+} from '../../controllers/torneioController';
 import { authMiddleware } from '../../middlewares/authMiddleware';
 
 const router = express.Router();

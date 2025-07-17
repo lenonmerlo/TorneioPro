@@ -1,9 +1,9 @@
-// 📁 backend/src/controllers/amador/atletaController.ts
+// 📁 backend/src/controllers/atletaController.ts
 
 import { Request, Response } from 'express';
-import prisma from '../../lib/prismaClient';
+import prisma from '../lib/prismaClient';
 
-// [POST] Criar novo atleta (inscrição pública em torneio amador)
+// [POST] Criar novo atleta e inscrever em torneio (público)
 export const createAtleta = async (req: Request, res: Response) => {
   const { nome, email, genero, nivel } = req.body;
 
@@ -14,34 +14,32 @@ export const createAtleta = async (req: Request, res: Response) => {
   try {
     let atleta = await prisma.atleta.findUnique({ where: { email } });
 
+    const torneio = await prisma.torneio.findFirst({
+      where: { status: 'aberto' },
+    });
+
+    if (!torneio) {
+      return res.status(400).json({ message: 'Nenhum torneio ativo disponível.' });
+    }
+
     if (atleta) {
-      const participacaoExistente = await prisma.participacaoAmador.findFirst({
+      const participacaoExistente = await prisma.participacao.findFirst({
         where: {
           atletaId: atleta.id,
-          torneio: { tipo: 'amador', status: 'aberto' },
+          torneioId: torneio.id,
         },
       });
 
       if (participacaoExistente) {
-        return res.status(409).json({ message: 'Você já está inscrito no torneio atual.' });
+        return res.status(409).json({ message: 'Você já está inscrito neste torneio.' });
       }
-    }
-
-    const torneio = await prisma.torneio.findFirst({
-      where: { tipo: 'amador', status: 'aberto' },
-    });
-
-    if (!torneio) {
-      return res.status(400).json({ message: 'Nenhum torneio amador ativo disponível.' });
-    }
-
-    if (!atleta) {
+    } else {
       atleta = await prisma.atleta.create({
         data: { nome, email, genero, nivel },
       });
     }
 
-    const participacao = await prisma.participacaoAmador.create({
+    const participacao = await prisma.participacao.create({
       data: {
         atletaId: atleta.id,
         torneioId: torneio.id,
@@ -59,51 +57,43 @@ export const createAtleta = async (req: Request, res: Response) => {
   }
 };
 
-// [GET] Listar todos os atletas com participação no torneio amador
-// [GET] Listar todos os atletas com participação no torneio amador
+// [GET] Listar todos os atletas com participação (pode filtrar por torneio)
 export const getAllAtletas = async (req: Request, res: Response) => {
   try {
     const torneioId = req.params.id;
 
-    let whereClause: any;
-
-    if (torneioId) {
-      whereClause = {
-        participacoesAmador: {
-          some: {
-            torneioId: Number(torneioId),
+    const whereClause = torneioId
+      ? {
+          participacoes: {
+            some: { torneioId: Number(torneioId) },
           },
-        },
-      };
-    } else {
-      whereClause = {
-        participacoesAmador: {
-          some: {}, // pelo menos uma participação
-        },
-      };
-    }
+        }
+      : {
+          participacoes: {
+            some: {}, // qualquer participação
+          },
+        };
 
     const atletas = await prisma.atleta.findMany({
       where: whereClause,
       include: {
-        participacoesAmador: true,
+        participacoes: true,
       },
     });
 
-    return res.status(200).json(atletas); 
+    return res.status(200).json(atletas);
   } catch (error: any) {
     console.error('Erro ao listar atletas:', error);
     return res.status(500).json({ message: 'Erro ao buscar atletas.' });
   }
 };
 
-
-// [GET] Buscar atleta por ID (admin)
+// [GET] Buscar atleta por ID
 export const getAtletaById = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   if (!id || isNaN(Number(id))) {
-    return res.status(400).json({ message: 'ID do atleta inválido ou não fornecido.' });
+    return res.status(400).json({ message: 'ID do atleta inválido.' });
   }
 
   try {
@@ -122,8 +112,7 @@ export const getAtletaById = async (req: Request, res: Response) => {
   }
 };
 
-
-// [PUT] Atualizar atleta (admin)
+// [PUT] Atualizar atleta
 export const updateAtleta = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { nome, email, genero, nivel } = req.body;
@@ -141,7 +130,7 @@ export const updateAtleta = async (req: Request, res: Response) => {
   }
 };
 
-// [DELETE] Deletar atleta (admin)
+// [DELETE] Deletar atleta
 export const deleteAtleta = async (req: Request, res: Response) => {
   const { id } = req.params;
 

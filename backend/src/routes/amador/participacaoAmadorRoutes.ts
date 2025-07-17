@@ -1,12 +1,12 @@
 // 📁 backend/src/routes/amador/participacaoAmadorRoutes.ts
 import { RequestHandler, Router } from 'express';
 import {
-  getInscritosAmador,
   createParticipacaoAmador,
-  updateInscricaoAmador,
   deleteInscricaoAmador,
+  getInscritosAmador,
   getTodosInscritosAmador,
-} from '../../controllers/amador/participacaoAmadorController';
+  updateInscricaoAmador,
+} from '../../controllers/participacaoController';
 
 const router = Router();
 

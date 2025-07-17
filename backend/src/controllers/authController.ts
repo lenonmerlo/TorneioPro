@@ -1,12 +1,13 @@
-// 📁 backend/src/controllers/usuario/authController.ts
-import { Request, Response } from 'express';
+// 📁 backend/src/controllers/authController.ts
+
 import bcrypt from 'bcrypt';
+import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import prisma from '../../lib/prismaClient';
+import prisma from '../lib/prismaClient';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 
-// POST /auth/register
+// [POST] /auth/register → Criar novo usuário (com ou sem perfil treinador)
 export const createRegister = async (req: Request, res: Response) => {
   const { nome, email, senha, perfil } = req.body;
 
@@ -26,28 +27,28 @@ export const createRegister = async (req: Request, res: Response) => {
       },
     });
 
+    // Se for treinador, cria entrada na tabela Treinador
     if (perfil === 'treinador') {
       await prisma.treinador.create({
         data: {
           nome,
           email,
           usuarioId: novoUsuario.id,
-        }
+        },
       });
     }
 
     return res.status(201).json({ message: 'Usuário criado com sucesso.' });
   } catch (error: any) {
-    console.error(error);
+    console.error('Erro ao registrar usuário:', error);
     if (error.code === 'P2002' && error.meta?.target?.includes('email')) {
-      return res.status(409).json({ message: 'Este email já está cadastrado.' });
+      return res.status(409).json({ message: 'Este e-mail já está cadastrado.' });
     }
     return res.status(500).json({ message: 'Erro ao registrar usuário.' });
   }
 };
 
-
-// POST /auth/login
+// [POST] /auth/login → Autenticar e gerar token JWT
 export const createLogin = async (req: Request, res: Response) => {
   const { email, senha } = req.body;
 
@@ -77,14 +78,13 @@ export const createLogin = async (req: Request, res: Response) => {
       { expiresIn: '2h' }
     );
 
-    res.status(200).json({
+    return res.status(200).json({
       token,
       nome: usuario.nome,
-      perfil: usuario.perfil
-      });
-
+      perfil: usuario.perfil,
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Erro ao realizar login.' });
+    console.error('Erro ao realizar login:', error);
+    return res.status(500).json({ message: 'Erro ao realizar login.' });
   }
 };
