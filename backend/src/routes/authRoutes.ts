@@ -1,6 +1,5 @@
-// 📁 backend/src/routes/usuario/authRoutes.ts
-import { RequestHandler, Router } from 'express';
-import { createLogin, createRegister } from '../../controllers/authController';
+import { Router, RequestHandler } from 'express';
+import { createLogin, createRegister } from '../controllers/authController';
 
 const router = Router();
 
