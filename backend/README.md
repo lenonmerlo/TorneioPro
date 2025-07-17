@@ -1,16 +1,18 @@
 # 🏐 TorneioPro - Backend
 
-Este é o backend oficial do sistema **TorneioPro – Seu gerenciador de torneios de Vôlei de Praia**, desenvolvido em **Node.js + Express + Prisma ORM** com banco de dados **PostgreSQL**.
+Este é o backend oficial do sistema **TorneioPro – Seu gerenciador de torneios de Vôlei de Praia**, desenvolvido com **Node.js + Express + Prisma ORM** e banco de dados **PostgreSQL**.
+
+---
 
 ## 🚀 Funcionalidades
 
-- Cadastro de atletas e treinadores
-- Criação e administração de torneios (Amador e Oficial)
+- Cadastro de usuários (atletas e treinadores)
+- Criação e administração de torneios
 - Inscrição de equipes (duplas, trios e quartetos)
-- Sorteio de chaves com regras específicas por tipo de torneio
+- Sorteio de chaves com regras específicas
 - Registro de partidas e geração de ranking
 - Autenticação via JWT
-- Documentação da API via Swagger
+- Integração futura com Swagger para documentação da API
 
 ---
 
@@ -21,7 +23,6 @@ Este é o backend oficial do sistema **TorneioPro – Seu gerenciador de torneio
 - [Prisma ORM](https://www.prisma.io/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [JWT](https://jwt.io/)
-- [Swagger UI](https://swagger.io/tools/swagger-ui/)
 
 ---
 
@@ -30,11 +31,10 @@ Este é o backend oficial do sistema **TorneioPro – Seu gerenciador de torneio
 ```
 src/
 ├── controllers/       # Lógica de negócio e CRUDs
-├── routes/            # Rotas organizadas por entidade
+├── routes/            # Rotas organizadas por domínio
 ├── middlewares/       # Autenticação JWT
 ├── utils/             # Lógicas de sorteio e JWT
 ├── lib/               # Prisma Client
-├── swagger/           # Documentação da API
 ├── server.ts          # Inicialização do servidor
 ```
 
@@ -54,7 +54,7 @@ npm install
 ```
 
 ### 3. Configure o arquivo .env
-Crie um `.env` com as seguintes variáveis:
+Crie um arquivo `.env` com o seguinte conteúdo:
 ```
 DATABASE_URL=postgresql://usuario:senha@localhost:5432/torneiopro
 JWT_SECRET=sua_chave_secreta
@@ -70,27 +70,28 @@ npx prisma migrate dev
 npx tsx src/server.ts
 ```
 
-A API estará disponível em: [http://localhost:3333/api](http://localhost:3333/api)  
-Swagger: [http://localhost:3333/api-docs](http://localhost:3333/api-docs)
+A API estará disponível em: [http://localhost:3333/api](http://localhost:3333/api)
 
 ---
 
-## 📮 Endpoints principais
+## 📮 Principais Endpoints
 
-| Método | Rota                    | Descrição                     |
-|--------|-------------------------|-------------------------------|
-| POST   | `/auth/login`           | Login e geração de token JWT |
-| GET    | `/atletas`              | Listagem de atletas          |
-| POST   | `/equipes`              | Criar equipe amadora         |
-| POST   | `/equipe-oficial`       | Criar equipe do torneio oficial |
-| POST   | `/sorteios/amador`      | Sorteio de quartetos         |
-| GET    | `/chaves-amador`        | Ver chaves do sorteio amador |
-| POST   | `/partidas`             | Registrar placar             |
-| GET    | `/partidas/ranking`     | Ranking por torneio          |
+| Método | Rota                         | Descrição                                |
+|--------|------------------------------|-------------------------------------------|
+| POST   | `/api/auth/login`           | Login e geração de token JWT             |
+| POST   | `/api/auth/register`        | Cadastro de usuário                      |
+| GET    | `/api/atletas`              | Listagem de atletas                      |
+| POST   | `/api/atletas`              | Cadastro de novo atleta                  |
+| GET    | `/api/equipes`              | Listagem de equipes                      |
+| POST   | `/api/equipes`              | Cadastro de equipe (amador ou oficial)   |
+| POST   | `/api/sorteios/amador`      | Sorteio de quarteto misto equilibrado    |
+| GET    | `/api/partidas/:torneioId`  | Listagem de partidas do torneio          |
+| POST   | `/api/partidas`             | Registro de placar da partida            |
+| GET    | `/api/partidas/ranking/:torneioId` | Ranking do torneio                     |
 
 ---
 
 ## 👨‍💻 Desenvolvido por
 
-Lenon Merlo – Full Stack Developer  
+**Lenon Merlo** – Full Stack Developer  
 FIAP | UVV
