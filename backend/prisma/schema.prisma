@@ -19,6 +19,16 @@ model Usuario {
   criadoEm  DateTime  @default(now())
 
   torneios  Torneio[]
+
+  Treinador Treinador[]
+}
+
+model Treinador {
+  id         Int      @id @default(autoincrement())
+  nome       String
+  email      String
+  usuarioId  Int      @unique
+  usuario    Usuario  @relation(fields: [usuarioId], references: [id])
 }
 
 model Atleta {

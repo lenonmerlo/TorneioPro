@@ -4,7 +4,6 @@ import { authMiddleware } from '../middlewares/authMiddleware';
 
 const router = Router();
 
-// 🔐 Rotas protegidas com token JWT (perfil treinador)
 router.get('/dashboard', authMiddleware, getDashboardResumo as unknown as RequestHandler);
 router.get('/torneios', authMiddleware, getTorneios);
 

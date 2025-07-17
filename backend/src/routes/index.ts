@@ -12,6 +12,8 @@ import sorteioRoutes from './sorteioRoutes';
 
 const router = Router();
 
+// Base da API: http://localhost:3333/api/[rotas]
+
 router.use('/admin', adminRoutes);
 router.use('/auth', authRoutes);
 router.use('/atletas', atletaRoutes);

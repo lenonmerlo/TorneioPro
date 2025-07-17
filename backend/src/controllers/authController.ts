@@ -27,7 +27,6 @@ export const createRegister = async (req: Request, res: Response) => {
       },
     });
 
-    // Se for treinador, cria entrada na tabela Treinador
     if (perfil === 'treinador') {
       await prisma.treinador.create({
         data: {
@@ -47,6 +46,8 @@ export const createRegister = async (req: Request, res: Response) => {
     return res.status(500).json({ message: 'Erro ao registrar usuário.' });
   }
 };
+
+
 
 // [POST] /auth/login → Autenticar e gerar token JWT
 export const createLogin = async (req: Request, res: Response) => {
