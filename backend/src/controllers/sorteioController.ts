@@ -3,7 +3,7 @@
 
 import { Request, Response } from 'express';
 import prisma from '../lib/prismaClient';
-import { sortearQuartetoMistoBackend } from '../utils/amador/sortearQuartetoMistoBackend';
+import { sortearQuartetoMistoBackend } from '../utils/sortearQuartetoMistoBackend';
 
 export const dispararSorteioAmador = async (req: Request, res: Response) => {
   const { torneioId } = req.params;
