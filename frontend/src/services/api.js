@@ -6,22 +6,14 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('authToken'); // aqui mudou
 
-  // Rotas que exigem token
-  const rotasProtegidas = ['/usuarios', '/auth', '/admin', '/amador/equipes'];
-
-  const url = config.url || '';
-
-  const rotaRequerToken = rotasProtegidas.some((rota) =>
-    url.startsWith(rota)
-  );
-
-  if (token && rotaRequerToken) {
+  if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
   return config;
 });
+
 
 export default api;

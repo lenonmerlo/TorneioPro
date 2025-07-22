@@ -5,17 +5,19 @@ function DashboardResumoTreinador() {
   const [dados, setDados] = useState(null);
 
   useEffect(() => {
-    const fetchDados = async () => {
-      try {
-        const response = await api.get('/admin/dashboard');
-        setDados(response.data);
-      } catch (err) {
-        console.error('Erro ao buscar dados do dashboard:', err);
-      }
-    };
+  const fetchDados = async () => {
+    try {
+      const response = await api.get('/admin/dashboard');
+      console.log('Dados do dashboard:', response.data);
+      setDados(response.data);
+    } catch (err) {
+      console.error('Erro ao buscar dados do dashboard:', err.response || err.message);
+    }
+  };
 
-    fetchDados();
-  }, []);
+  fetchDados();
+}, []);
+
 
   if (!dados) return <p className="text-center text-blue-900">Carregando dados...</p>;
 
