@@ -13,32 +13,37 @@ import api from '@/services/api';
 const LandingPage = () => {
   const navigate = useNavigate();
   const [torneios, setTorneios] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const usuario = getUsuarioLogado();
     const { token, perfil } = usuario || {};
 
-    if (token && perfil === 'treinador') {
-      navigate('/home-treinador');
+    if (token) {
+      if (perfil === 'treinador') navigate('/home-treinador');
+      else if (perfil === 'atleta') navigate('/home-atleta');
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     const carregarTorneios = async () => {
       try {
         const resposta = await api.get('/usuarios/torneios');
         const hoje = new Date();
-        hoje.setHours(0, 0, 0, 0); 
+        hoje.setHours(0, 0, 0, 0);
 
-        const futurosOuAtivos = resposta.data.filter(torneio => {
+        const futurosOuAtivos = resposta.data.filter((torneio) => {
           const dataTorneio = new Date(torneio.data);
-          dataTorneio.setHours(0, 0, 0, 0); 
+          dataTorneio.setHours(0, 0, 0, 0);
           return dataTorneio >= hoje;
         });
 
         setTorneios(futurosOuAtivos);
       } catch (error) {
         console.error('Erro ao carregar torneios:', error);
+        setTorneios([]);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -56,25 +61,26 @@ const LandingPage = () => {
       <section className="py-16 px-6 bg-gradient-to-b from-yellow-50 via-blue-50 to-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center text-blue-900 mb-10">Próximos Eventos</h2>
-          <div className="grid gap-6 md:grid-cols-3">
-            {torneios.length > 0 ? (
-              torneios.map((torneio) => (
+
+          {loading ? (
+            <p className="text-center text-gray-600">Carregando torneios...</p>
+          ) : torneios.length > 0 ? (
+            <div className="grid gap-6 md:grid-cols-3">
+              {torneios.map((torneio) => (
                 <EventoCard
                   key={torneio.id}
                   titulo={torneio.nome}
                   data={`📅 ${new Date(torneio.data).toLocaleDateString('pt-BR')}`}
                   info={`📍 ${torneio.local || 'Local a definir'}`}
-                  borderColor={
-                    torneio.tipo === 'AMADOR' ? 'border-yellow-400' : 'border-blue-500'
-                  }
+                  borderColor="border-yellow-400" // cor unificada
                 />
-              ))
-            ) : (
-              <p className="text-center text-gray-500 col-span-full">
-                Nenhum torneio futuro disponível no momento.
-              </p>
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-gray-500 col-span-full">
+              Nenhum torneio futuro disponível no momento.
+            </p>
+          )}
         </div>
       </section>
 
