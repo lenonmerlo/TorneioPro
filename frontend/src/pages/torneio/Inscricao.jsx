@@ -29,7 +29,7 @@ const Inscricao = () => {
         <button
           onClick={() => setTipoInscricao('quarteto')}
           className={`py-2 px-4 rounded-lg font-semibold transition ${
-            tipoInscricao === 'quarteto' ? 'bg-yellow-400 text-blue-900' : 'bg-gray-200 text-gray-700'
+            tipoInscricao === 'quarteto' ? 'bg-purple-700 text-white' : 'bg-gray-200 text-gray-700'
           }`}
         >
           Quarteto

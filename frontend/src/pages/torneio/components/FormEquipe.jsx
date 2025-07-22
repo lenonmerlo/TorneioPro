@@ -1,16 +1,14 @@
 import { useState } from 'react';
-import axios from 'axios';
-import { getUsuarioLogado } from '@/utils/auth';
+import api from '@/services/api';
 
 const FormEquipe = ({ tipo }) => {
-  // tipo: 'dupla' ou 'quarteto'
-  // definindo o número de atletas baseado no tipo
   const numAtletas = tipo === 'dupla' ? 2 : 4;
 
-  // cria um array de atletas no estado, com objetos vazios
-  const [atletas, setAtletas] = useState(Array(numAtletas).fill({ nome: '', email: '' }));
-
+  const [atletas, setAtletas] = useState(
+    Array(numAtletas).fill({ nome: '', email: '', genero: '', nivel: '' })
+  );
   const [mensagem, setMensagem] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (index, field, value) => {
     const novosAtletas = [...atletas];
@@ -18,27 +16,65 @@ const FormEquipe = ({ tipo }) => {
     setAtletas(novosAtletas);
   };
 
+  const validarCampos = () => {
+    return atletas.every(a => 
+      a.nome.trim() !== '' &&
+      a.email.trim() !== '' &&
+      a.genero.trim() !== '' &&
+      a.nivel.trim() !== ''
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMensagem('');
 
-    try {
-      const { token } = getUsuarioLogado();
+    if (!validarCampos()) {
+      setMensagem('❌ Por favor, preencha todos os campos de todos os atletas.');
+      return;
+    }
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/participacoes/equipe`, // endpoint para equipe
-        { tipo, atletas },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+    setLoading(true);
+
+    try {
+      // Buscar torneio ativo
+      const resTorneio = await api.get('/torneios/ativo');
+      const torneioId = resTorneio.data?.id;
+      if (!torneioId) {
+        setMensagem('❌ Nenhum torneio ativo disponível no momento.');
+        setLoading(false);
+        return;
+      }
+
+      // Criar atletas
+      const atletasCriados = await Promise.all(
+        atletas.map(async (atleta) => {
+          const res = await api.post('/atletas', atleta);
+          return res.data;
+        })
       );
 
-      setMensagem(`✅ Equipe inscrita com sucesso!`);
-      setAtletas(Array(numAtletas).fill({ nome: '', email: '' }));
+      // Extrair ids dos atletas
+      const atletasIds = atletasCriados.map(a => a.atleta.id);
+
+      // Nome da equipe
+      const nomeEquipe = `Equipe ${tipo.charAt(0).toUpperCase() + tipo.slice(1)} - ${Date.now()}`;
+
+      // Criar equipe
+      await api.post('/equipes', {
+        nome: nomeEquipe,
+        tipo,
+        torneioId,
+        atletasIds,
+      });
+
+      setMensagem('✅ Equipe inscrita com sucesso!');
+      setAtletas(Array(numAtletas).fill({ nome: '', email: '', genero: '', nivel: '' }));
     } catch (error) {
-      setMensagem(`❌ Erro: ${error.response?.data?.erro || 'Erro ao inscrever equipe'}`);
+      console.error('Erro ao inscrever equipe:', error.response?.data || error.message);
+      setMensagem(`❌ Erro: ${error.response?.data?.message || 'Erro ao inscrever equipe'}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -62,20 +98,46 @@ const FormEquipe = ({ tipo }) => {
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
             required
           />
+          <select
+            value={atleta.genero}
+            onChange={(e) => handleChange(idx, 'genero', e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
+            required
+          >
+            <option value="">Selecione o Gênero</option>
+            <option value="masculino">Masculino</option>
+            <option value="feminino">Feminino</option>
+          </select>
+          <select
+            value={atleta.nivel}
+            onChange={(e) => handleChange(idx, 'nivel', e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
+            required
+          >
+            <option value="">Selecione o Nível</option>
+            <option value="iniciante">Iniciante</option>
+            <option value="intermediario/avancado">Intermediário/Avançado</option>
+          </select>
         </div>
       ))}
 
       <button
         type="submit"
+        disabled={loading}
         className={`w-full ${
-          tipo === 'dupla' ? 'bg-yellow-400 hover:bg-yellow-300 text-blue-900' : 'bg-green-600 hover:bg-green-700 text-white'
-        } font-semibold py-3 rounded-lg transition`}
+          tipo === 'dupla'
+            ? 'bg-yellow-400 hover:bg-yellow-300 text-blue-900'
+            : 'bg-purple-600 hover:bg-purple-700 text-white'
+        } font-semibold py-3 rounded-lg transition disabled:opacity-50`}
       >
-        Inscrever Equipe
+        {loading ? 'Enviando...' : 'Inscrever Equipe'}
       </button>
 
       {mensagem && (
-        <p className="mt-4 text-center font-medium select-none" style={{ color: tipo === 'dupla' ? '#1E40AF' : '#FFFFFF' }}>
+        <p
+          className="mt-4 text-center font-medium select-none"
+          style={{ color: tipo === 'dupla' ? '#1E40AF' : '#FFFFFF' }}
+        >
           {mensagem}
         </p>
       )}
