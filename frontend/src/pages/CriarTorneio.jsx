@@ -41,56 +41,61 @@ function CriarTorneio() {
   };
 
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold text-blue-800 mb-4">Criar Novo Torneio</h1>
+    <div className="max-w-lg mx-auto p-8 mt-24 bg-white/60 backdrop-blur-md rounded-2xl shadow-lg border border-white/30">
+      <h1 className="text-3xl font-bold text-blue-900 mb-6 text-center">Criar Novo Torneio</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <input
           type="text"
           name="nome"
           value={formData.nome}
           onChange={handleChange}
           placeholder="Nome do Torneio"
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition"
           required
         />
+
         <select
           name="tipo"
           value={formData.tipo}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition"
           required
         >
           <option value="">Selecione o Tipo</option>
           <option value="amador">Amador</option>
           <option value="oficial">Oficial</option>
         </select>
+
         <input
           type="date"
           name="data"
           value={formData.data}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition"
           required
         />
+
         <input
           type="text"
           name="local"
           value={formData.local}
           onChange={handleChange}
           placeholder="Local do Torneio"
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition"
         />
 
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition"
         >
           Criar Torneio
         </button>
       </form>
 
-      {mensagem && <p className="mt-4 text-center text-blue-700">{mensagem}</p>}
+      {mensagem && (
+        <p className="mt-6 text-center text-lg font-medium text-blue-700 select-none">{mensagem}</p>
+      )}
     </div>
   );
 }
