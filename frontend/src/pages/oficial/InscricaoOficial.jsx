@@ -9,24 +9,26 @@ const InscricaoOficial = () => {
   const [mensagem, setMensagem] = useState('');
 
   const handleSubmit = async (formData) => {
-    try {
-      await api.post('/equipe-oficial', {
-        nome: formData.nomeEquipe,
-        tipo: tipoEquipe,
-        atletas: [
-          { nome: formData.atleta1, genero: formData.generoAtleta1 },
-          { nome: formData.atleta2, genero: formData.generoAtleta2 },
-          formData.atleta3 && { nome: formData.atleta3, genero: formData.generoAtleta3 },
-          formData.atleta4 && { nome: formData.atleta4, genero: formData.generoAtleta4 },
-        ].filter(Boolean),
-      });
+  try {
+    await api.post('/oficial/equipes', {
+      nome: formData.nomeEquipe,
+      tipo: tipoEquipe,
+      torneioId: formData.torneioId, // certifique-se de passar esse ID corretamente
+      atletaIds: [
+        formData.atleta1Id,
+        formData.atleta2Id,
+        formData.atleta3Id,
+        formData.atleta4Id
+      ].filter(Boolean), // remove undefined caso seja dupla/trio
+    });
 
-      setMensagem('Equipe cadastrada com sucesso!');
-    } catch (error) {
-      console.error('Erro ao cadastrar equipe:', error);
-      setMensagem('Erro ao cadastrar equipe. Tente novamente.');
-    }
-  };
+    setMensagem('Equipe cadastrada com sucesso!');
+  } catch (error) {
+    console.error('Erro ao cadastrar equipe:', error);
+    setMensagem('Erro ao cadastrar equipe. Tente novamente.');
+  }
+};
+
 
   const renderFormulario = () => {
     switch (tipoEquipe) {

@@ -7,7 +7,7 @@ function ButtonExportPDF({
   chavesQuarteto,
   titulo = 'Chaves Sorteadas - Torneio Oficial',
 }) {
-  const handleExport = () => {
+  const handleExport = async () => {
     const temChaves = chavesDupla || chavesTrio || chavesQuarteto;
 
     if (!temChaves) {
@@ -20,8 +20,9 @@ function ButtonExportPDF({
     if (chavesTrio) chaves['Trios'] = chavesTrio;
     if (chavesQuarteto) chaves['Quartetos'] = chavesQuarteto;
 
-    exportarChavesParaPDF({ titulo, chaves });
+    await exportarChavesParaPDF({ titulo, chaves });
   };
+
 
   return (
     <button

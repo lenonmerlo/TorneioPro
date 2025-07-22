@@ -1,28 +1,24 @@
 // src/components/layout/Header.jsx
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom'; // Importe useLocation
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 function Header() {
   const navigate = useNavigate();
-  const location = useLocation(); // Inicialize useLocation
+  const location = useLocation();
   const [tipoUsuario, setTipoUsuario] = useState(localStorage.getItem('perfil'));
   const [nomeUsuario, setNomeUsuario] = useState(localStorage.getItem('nomeUsuario'));
   const [showDropdown, setShowDropdown] = useState(false);
 
-  // Função para atualizar o estado de autenticação
   const updateAuthState = () => {
     setTipoUsuario(localStorage.getItem('perfil'));
     setNomeUsuario(localStorage.getItem('nomeUsuario'));
   };
 
   useEffect(() => {
-    // Chama updateAuthState na montagem do componente e sempre que a rota mudar
     updateAuthState();
 
-    // Ouve por mudanças no localStorage (para mudanças em outras abas/janelas)
     window.addEventListener('storage', updateAuthState);
 
-    // Função para fechar o dropdown ao clicar fora
     const handleClickOutside = (event) => {
       if (showDropdown && !event.target.closest('.dropdown-container')) {
         setShowDropdown(false);
@@ -31,21 +27,18 @@ function Header() {
 
     document.addEventListener('mousedown', handleClickOutside);
 
-    // Limpa os listeners quando o componente é desmontado para evitar memory leaks
     return () => {
       window.removeEventListener('storage', updateAuthState);
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showDropdown, location.pathname]); // Adicione location.pathname como dependência
+  }, [showDropdown, location.pathname]);
 
   const handleLogout = () => {
     localStorage.clear();
-    // Atualiza o estado do Header imediatamente
     updateAuthState();
     navigate('/');
   };
 
-  // Verifica se o usuário está logado
   const isLoggedIn = tipoUsuario === 'treinador';
 
   const toggleDropdown = () => {
@@ -59,7 +52,7 @@ function Header() {
 
         <ul className="flex gap-6 text-sm md:text-base items-center">
           {/* Menu do Treinador */}
-          {tipoUsuario === 'treinador' && (
+          {isLoggedIn && (
             <>
               <li>
                 <Link to="/home-treinador" className="hover:text-yellow-400 transition duration-200">
@@ -72,13 +65,8 @@ function Header() {
                 </Link>
               </li>
               <li>
-                <Link to="/torneio-amador" className="hover:text-yellow-400 transition duration-200">
-                  Torneio Amador
-                </Link>
-              </li>
-              <li>
                 <Link to="/torneio" className="hover:text-yellow-400 transition duration-200">
-                  Torneio Oficial
+                  TorneioPro
                 </Link>
               </li>
             </>
@@ -86,26 +74,26 @@ function Header() {
 
           {/* Se não estiver logado → Mostrar Dropdown */}
           {!isLoggedIn && (
-            <li className='relative dropdown-container'>
+            <li className="relative dropdown-container">
               <button
                 onClick={toggleDropdown}
-                className='bg-yellow-400 text-blue-800 font-semibold py-1 px-4 rounded hover:bg-yellow-500'
+                className="bg-yellow-400 text-blue-800 font-semibold py-1 px-4 rounded hover:bg-yellow-500"
               >
                 Acesse o Sistema
               </button>
               {showDropdown && (
-                <div className='absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md text-black z-50'>
+                <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md text-black z-50">
                   <Link
-                    to='/login-treinador'
-                    className='block px-4 py-2 hover:bg-yellow-100'
+                    to="/login-treinador"
+                    className="block px-4 py-2 hover:bg-yellow-100"
                     onClick={() => setShowDropdown(false)}
                   >
                     Login Treinador
                   </Link>
-                  <hr className='my-1' />
+                  <hr className="my-1" />
                   <Link
-                    to='/cadastro-treinador'
-                    className='block px-4 py-2 hover:bg-yellow-100'
+                    to="/cadastro-treinador"
+                    className="block px-4 py-2 hover:bg-yellow-100"
                     onClick={() => setShowDropdown(false)}
                   >
                     Cadastrar Treinador
