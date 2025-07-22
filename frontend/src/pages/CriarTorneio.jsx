@@ -5,7 +5,6 @@ import { getUsuarioLogado } from '@/utils/auth';
 function CriarTorneio() {
   const [formData, setFormData] = useState({
     nome: '',
-    tipo: '',
     data: '',
     local: '',
   });
@@ -34,7 +33,7 @@ function CriarTorneio() {
       );
 
       setMensagem(`✅ Torneio "${response.data.nome}" criado com sucesso!`);
-      setFormData({ nome: '', tipo: '', data: '', local: '' });
+      setFormData({ nome: '', data: '', local: '' });
     } catch (error) {
       setMensagem(`❌ Erro: ${error.response?.data?.erro || 'Erro ao criar torneio'}`);
     }
@@ -54,18 +53,6 @@ function CriarTorneio() {
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition"
           required
         />
-
-        <select
-          name="tipo"
-          value={formData.tipo}
-          onChange={handleChange}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition"
-          required
-        >
-          <option value="">Selecione o Tipo</option>
-          <option value="amador">Amador</option>
-          <option value="oficial">Oficial</option>
-        </select>
 
         <input
           type="date"
